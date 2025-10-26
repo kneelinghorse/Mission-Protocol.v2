@@ -1,0 +1,6 @@
+name: "product.dashboard-blueprint"
+version: "1.0.0"
+displayName: "Product Performance Dashboard Blueprint"
+description: "A mission to design a dashboard that tells a clear story about product performance to a specific audience."
+author: "Product Management / Analytics"
+schema: "schema.json"

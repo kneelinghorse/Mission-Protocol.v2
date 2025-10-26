@@ -1,0 +1,6 @@
+domains:
+  - name: test
+    description: Absolute path
+    version: 1.0.0
+    path: /absolute/path
+    schema_version: 1.0.0

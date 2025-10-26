@@ -1,0 +1,512 @@
+{
+  "naming_issues": [
+    {
+      "name": "DEFAULT_WEIGHTS",
+      "file": "src/quality/types.ts",
+      "issue": "Non alphanumeric camelCase/PascalCase name"
+    },
+    {
+      "name": "DEFAULT_CLARITY_WEIGHTS",
+      "file": "src/quality/types.ts",
+      "issue": "Non alphanumeric camelCase/PascalCase name"
+    },
+    {
+      "name": "DEFAULT_COMPLETENESS_WEIGHTS",
+      "file": "src/quality/types.ts",
+      "issue": "Non alphanumeric camelCase/PascalCase name"
+    },
+    {
+      "name": "DEFAULT_AI_READINESS_WEIGHTS",
+      "file": "src/quality/types.ts",
+      "issue": "Non alphanumeric camelCase/PascalCase name"
+    }
+  ],
+  "parameter_pattern_issues": [
+    {
+      "name": "loadDomainPack",
+      "file": "src/domains/domain-pack-loader.ts",
+      "parameter": "options?: DomainPackLoaderOptions",
+      "issue": "Parameter name deviates from camelCase"
+    },
+    {
+      "name": "emitTelemetryWarning",
+      "file": "src/intelligence/telemetry.ts",
+      "parameter": "context?: Record<string",
+      "issue": "Parameter name deviates from camelCase"
+    },
+    {
+      "name": "emitTelemetryWarning",
+      "file": "src/intelligence/telemetry.ts",
+      "parameter": "unknown>",
+      "issue": "Parameter name deviates from camelCase"
+    },
+    {
+      "name": "replaceWithPlaceholders",
+      "file": "src/intelligence/compression-rules.ts",
+      "parameter": "string>",
+      "issue": "Parameter name deviates from camelCase"
+    },
+    {
+      "name": "restorePreservedSections",
+      "file": "src/intelligence/compression-rules.ts",
+      "parameter": "string>",
+      "issue": "Parameter name deviates from camelCase"
+    },
+    {
+      "name": "combinePacks",
+      "file": "src/combination/pack-combiner.ts",
+      "parameter": "options?: CombinationOptions",
+      "issue": "Parameter name deviates from camelCase"
+    }
+  ],
+  "missing_return_annotations": [
+    {
+      "name": "getToolDefinitions",
+      "file": "src/index.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "CombinePacksToolImpl",
+      "file": "src/tools/combine-packs.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "OptimizeTokensToolImpl",
+      "file": "src/tools/optimize-tokens.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "CreateMissionToolImpl",
+      "file": "src/tools/create-mission.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "SplitMissionToolImpl",
+      "file": "src/tools/split-mission.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "ListDomainsToolImpl",
+      "file": "src/tools/list-domains.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "SuggestSplitsToolImpl",
+      "file": "src/tools/suggest-splits.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "YAMLLoaderError",
+      "file": "src/types/errors.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "PathTraversalError",
+      "file": "src/types/errors.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "SchemaValidationError",
+      "file": "src/types/errors.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "UnsafeYAMLError",
+      "file": "src/types/errors.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "DomainPackLoader",
+      "file": "src/domains/domain-pack-loader.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "ImprovementEngine",
+      "file": "src/quality/improvement-engine.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "QualityScorer",
+      "file": "src/quality/quality-scorer.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "AIReadinessAnalyzer",
+      "file": "src/quality/analyzers/ai-readiness-analyzer.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "ClarityAnalyzer",
+      "file": "src/quality/analyzers/clarity-analyzer.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "CompletenessAnalyzer",
+      "file": "src/quality/analyzers/completeness-analyzer.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "MissionMerger",
+      "file": "src/merge/deep-merge.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "MergeStrategy",
+      "file": "src/merge/deep-merge.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "MissionSplitter",
+      "file": "src/intelligence/mission-splitter.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "DependencyAnalyzer",
+      "file": "src/intelligence/dependency-analyzer.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "TokenCounter",
+      "file": "src/intelligence/token-counters.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "TokenOptimizer",
+      "file": "src/intelligence/token-optimizer.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "ContextPropagator",
+      "file": "src/intelligence/context-propagator.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "ContextStrategy",
+      "file": "src/intelligence/context-propagator.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "GraphValidator",
+      "file": "src/intelligence/graph-validator.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "SupportedModel",
+      "file": "src/intelligence/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "CompressionLevel",
+      "file": "src/intelligence/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "CompressionPassType",
+      "file": "src/intelligence/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "ModelTranspiler",
+      "file": "src/intelligence/model-transpilers.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "TelemetryEventLevel",
+      "file": "src/intelligence/telemetry.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "TelemetryHandler",
+      "file": "src/intelligence/telemetry.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "DependencyInferrer",
+      "file": "src/intelligence/dependency-inferrer.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "ComplexityScorer",
+      "file": "src/intelligence/complexity-scorer.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "PackCombiner",
+      "file": "src/combination/pack-combiner.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "DeepMergeStrategy",
+      "file": "src/combination/merge-strategies.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "OverrideStrategy",
+      "file": "src/combination/merge-strategies.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "SelectiveMergeStrategy",
+      "file": "src/combination/merge-strategies.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "MergeStrategyFactory",
+      "file": "src/combination/merge-strategies.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "PackCombinationError",
+      "file": "src/combination/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "CircularDependencyError",
+      "file": "src/combination/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "DependencyNotFoundError",
+      "file": "src/combination/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "CombinationStrategy",
+      "file": "src/combination/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "DependencyResolver",
+      "file": "src/combination/dependency-resolver.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "ImportExportError",
+      "file": "src/import-export/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "SignatureVerificationError",
+      "file": "src/import-export/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "SemanticValidationError",
+      "file": "src/import-export/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "DependencyResolutionError",
+      "file": "src/import-export/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "TemplateImporter",
+      "file": "src/import-export/template-importer.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "SecurityValidator",
+      "file": "src/import-export/security-validator.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "TemplateExporter",
+      "file": "src/import-export/template-exporter.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "RegistryParser",
+      "file": "src/registry/registry-parser.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "VersionError",
+      "file": "src/versioning/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "IncompatibleVersionError",
+      "file": "src/versioning/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "MigrationError",
+      "file": "src/versioning/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "InvalidVersionError",
+      "file": "src/versioning/types.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "VersionManager",
+      "file": "src/versioning/version-manager.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "createMigration",
+      "file": "src/versioning/migration-engine.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "MigrationEngine",
+      "file": "src/versioning/migration-engine.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "TemplateExtractor",
+      "file": "src/extraction/template-extractor.ts",
+      "issue": "Missing return type annotation"
+    },
+    {
+      "name": "SecureYAMLLoader",
+      "file": "src/loaders/yaml-loader.ts",
+      "issue": "Missing return type annotation"
+    }
+  ],
+  "error_handling_notes": [
+    {
+      "name": "getToolDefinitions",
+      "file": "src/index.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "createCombinePacksTool",
+      "file": "src/tools/combine-packs.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "generateExtractionReport",
+      "file": "src/tools/extract-template.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "createTemplateFromMission",
+      "file": "src/tools/export-template.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "formatAnalysisResult",
+      "file": "src/tools/analyze-dependencies.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "loadDomainPack",
+      "file": "src/domains/domain-pack-loader.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "getModelConfig",
+      "file": "src/intelligence/model-transpilers.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "isAlreadyFormatted",
+      "file": "src/intelligence/model-transpilers.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "registerTelemetryHandler",
+      "file": "src/intelligence/telemetry.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "emitTelemetryWarning",
+      "file": "src/intelligence/telemetry.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "getDefaultRuleset",
+      "file": "src/intelligence/compression-rules.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "applySanitization",
+      "file": "src/intelligence/compression-rules.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "convertProseToList",
+      "file": "src/intelligence/compression-rules.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "convertPassiveToActive",
+      "file": "src/intelligence/compression-rules.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "applyStructuralRefactoring",
+      "file": "src/intelligence/compression-rules.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "applyLinguisticSimplification",
+      "file": "src/intelligence/compression-rules.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "extractPreservedSections",
+      "file": "src/intelligence/compression-rules.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "replaceWithPlaceholders",
+      "file": "src/intelligence/compression-rules.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "restorePreservedSections",
+      "file": "src/intelligence/compression-rules.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "combinePacks",
+      "file": "src/combination/pack-combiner.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "isGenericMission",
+      "file": "src/schemas/generic-mission.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "isValidSemVer",
+      "file": "src/registry/semver-validator.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "parseSemVer",
+      "file": "src/registry/semver-validator.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "compareSemVer",
+      "file": "src/registry/semver-validator.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "validateSemVerOrThrow",
+      "file": "src/registry/semver-validator.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "areVersionsCompatible",
+      "file": "src/registry/semver-validator.ts",
+      "note": "Manual inspection required for error handling"
+    },
+    {
+      "name": "createMigration",
+      "file": "src/versioning/migration-engine.ts",
+      "note": "Manual inspection required for error handling"
+    }
+  ],
+  "counts": {
+    "total_exports": 116,
+    "naming_issue_count": 4,
+    "parameter_issue_count": 6,
+    "missing_return_annotations": 61
+  }
+}

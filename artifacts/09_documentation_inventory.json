@@ -1,0 +1,131 @@
+{
+  "patterns": [
+    "README.md",
+    "docs/**/*.md",
+    "*.md"
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "matched_patterns": [
+        "README.md",
+        "*.md"
+      ]
+    },
+    {
+      "path": "docs/Extension_Patterns_Cookbook.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "docs/API_Documentation.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "docs/Intelligence_Layer_Guide.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "docs/Quality_Scoring_Implementation.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "docs/Extension_System_Guide.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "docs/domain-pack-authoring.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "docs/API_Documentation_Phase4.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "docs/Token_Validation_Setup.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "cmos/research/r1.1_The_Universal_Mission_Framework.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "cmos/research/r1.2_Architectural_Design_Specification.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "cmos/research/R2.1_Token-Counting-Strategy-Analysis-and-Recommendation.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "cmos/context/MASTER_CONTEXT.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "cmos/missions/sprint-01/B1.1_completion_summary.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "cmos/docs/Phase_4_Completion_Report.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "cmos/docs/Memory Server Blueprint Fit.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "cmos/docs/roadmap.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "cmos/docs/Architectural Blueprint for a Production-Grade_Memory-Server.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "cmos/docs/CURRENT_BUILD.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    },
+    {
+      "path": "templates/README.md",
+      "matched_patterns": [
+        "*.md"
+      ]
+    }
+  ],
+  "total": 20
+}

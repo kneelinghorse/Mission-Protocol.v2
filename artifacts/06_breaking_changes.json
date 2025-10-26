@@ -1,0 +1,5 @@
+{
+  "status": "not_evaluated",
+  "reason": "previous_version reference not available in workspace",
+  "notes": "Consider providing baseline tag or commit for diff analysis"
+}

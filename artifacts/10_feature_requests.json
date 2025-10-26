@@ -1,0 +1,245 @@
+{
+  "patterns": [
+    "feature request",
+    "enhancement",
+    "idea",
+    "roadmap",
+    "future work"
+  ],
+  "matches": [
+    {
+      "source": "issues",
+      "error": "issues directory not found"
+    },
+    {
+      "source": "comments",
+      "error": "comments directory not found"
+    },
+    {
+      "source": "roadmap",
+      "error": "roadmap directory not found"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/express/Readme.md",
+      "line": 144,
+      "content": "from code for bug fixes and enhancements, to additions and fixes to documentation, additional"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/picomatch/README.md",
+      "line": 667,
+      "content": "Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new)."
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/safe-buffer/README.md",
+      "line": 309,
+      "content": "- [Node.js Enhancement Proposal: Buffer.from/Buffer.alloc/Buffer.zalloc/Buffer() soft-deprecate](https://github.com/nodejs/node-eps/pull/4)"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/fill-range/README.md",
+      "line": 177,
+      "content": "Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new)."
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/handlebars/release-notes.md",
+      "line": 682,
+      "content": "- [#792](https://github.com/wycats/handlebars.js/issues/792) - feature request: inline partial definitions"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/is-number/README.md",
+      "line": 126,
+      "content": "Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new)."
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/jest-util/node_modules/picomatch/README.md",
+      "line": 697,
+      "content": "Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new)."
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/bluebird/README.md",
+      "line": 26,
+      "content": "The [github issue tracker](https://github.com/petkaantonov/bluebird/issues) is **_only_** for bug reports and feature requests. Anything else, such as questions for help in using the library, should be posted in [StackOverflow](http://stackoverflow.com/questions/tagged/bluebird) under tags `promise` and `bluebird`."
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/espree/README.md",
+      "line": 212,
+      "content": "Yes. Since the start of ESLint, we've regularly filed bugs and feature requests with Esprima and will continue to do so. However, there are some different philosophies around how the projects work that need to be worked through. The initial goal was to have Espree track Esprima and eventually merge the two back together, but we ultimately decided that building on top of Acorn was a better choice due to Acorn's plugin support."
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/tmp/CHANGELOG.md",
+      "line": 5,
+      "content": "#### :rocket: Enhancement"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/tmp/CHANGELOG.md",
+      "line": 17,
+      "content": "#### :rocket: Enhancement"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/tmp/CHANGELOG.md",
+      "line": 42,
+      "content": "#### :rocket: Enhancement"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/tmp/CHANGELOG.md",
+      "line": 81,
+      "content": "#### :rocket: Enhancement"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/tmp/CHANGELOG.md",
+      "line": 119,
+      "content": "#### :rocket: Enhancement"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/tmp/CHANGELOG.md",
+      "line": 145,
+      "content": "#### :rocket: Enhancement"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/tmp/CHANGELOG.md",
+      "line": 206,
+      "content": "#### :rocket: Enhancement"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/tmp/CHANGELOG.md",
+      "line": 234,
+      "content": "#### :rocket: Enhancement"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/tmp/CHANGELOG.md",
+      "line": 243,
+      "content": "#### :rocket: Enhancement"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/tmp/CHANGELOG.md",
+      "line": 252,
+      "content": "#### :rocket: Enhancement"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/tmp/CHANGELOG.md",
+      "line": 270,
+      "content": "#### :rocket: Enhancement"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/protobufjs/cli/node_modules/tmp/CHANGELOG.md",
+      "line": 279,
+      "content": "#### :rocket: Enhancement"
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/cross-spawn/README.md",
+      "line": 69,
+      "content": "While `cross-spawn` adds support for `options.shell` in node `<v4.8`, all of its enhancements are disabled."
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/@xenova/transformers/README.md",
+      "line": 189,
+      "content": "to open up a feature request [here](https://github.com/xenova/transformers.js/issues/new/choose)."
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/to-regex-range/README.md",
+      "line": 238,
+      "content": "Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new)."
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/micromatch/README.md",
+      "line": 932,
+      "content": "Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new)."
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/braces/README.md",
+      "line": 532,
+      "content": "Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new)."
+    },
+    {
+      "source": "repository_docs",
+      "file": "node_modules/normalize-path/README.md",
+      "line": 66,
+      "content": "Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new)."
+    },
+    {
+      "source": "repository_docs",
+      "file": "docs/Quality_Scoring_Implementation.md",
+      "line": 164,
+      "content": "## Future Enhancements"
+    },
+    {
+      "source": "repository_docs",
+      "file": "cmos/research/r1.1_The_Universal_Mission_Framework.md",
+      "line": 411,
+      "content": "6.2 Future Enhancements"
+    },
+    {
+      "source": "repository_docs",
+      "file": "cmos/research/r1.1_The_Universal_Mission_Framework.md",
+      "line": 412,
+      "content": "The structured nature of the Universal Mission Framework opens the door to numerous powerful future enhancements that can build upon the core platform."
+    },
+    {
+      "source": "repository_docs",
+      "file": "cmos/research/r1.2_Architectural_Design_Specification.md",
+      "line": 334,
+      "content": "Phase 4: Enhancements and Future-Proofing (Priority 4)"
+    },
+    {
+      "source": "repository_docs",
+      "file": "cmos/research/R2.1_Token-Counting-Strategy-Analysis-and-Recommendation.md",
+      "line": 119,
+      "content": "Accuracy Ceiling: This method is fundamentally and irredeemably flawed. Tokenization is a complex, context-dependent process. Heuristics fail dramatically and unpredictably, especially with non-English languages (e.g., \"C\u00f3mo est\u00e1s\" is 10 characters but 5 tokens), code, punctuation, and even capitalization. One analysis comparing a character heuristic to tiktoken found an error rate of 37% for a standard English text. No amount of enhancement\u2014such as adding word-based ratios or special character handling\u2014can overcome this fundamental limitation. The method will never achieve the accuracy required for reliable quota management."
+    },
+    {
+      "source": "repository_docs",
+      "file": "cmos/context/MASTER_CONTEXT.md",
+      "line": 35,
+      "content": "| **Sprint 4 \u2013 Intelligence Layer Enhancements** | Improve splitting/dependency outputs, surface actionable telemetry. | Planned. |"
+    },
+    {
+      "source": "repository_docs",
+      "file": "cmos/docs/Phase_4_Completion_Report.md",
+      "line": 433,
+      "content": "2. **Intelligence Layer Enhancements** \u2013 Improve splitting guardrails, dependency summaries, and quality scoring outputs (Sprint 4 missions B4.1-B4.3)."
+    },
+    {
+      "source": "repository_docs",
+      "file": "cmos/docs/Phase_4_Completion_Report.md",
+      "line": 437,
+      "content": "### Future Enhancements (Phase 5?)"
+    },
+    {
+      "source": "repository_docs",
+      "file": "cmos/docs/roadmap.md",
+      "line": 396,
+      "content": "## Roadmap for Future Enhancements"
+    },
+    {
+      "source": "repository_docs",
+      "file": "cmos/docs/roadmap.md",
+      "line": 417,
+      "content": "| **Sprint 4 \u2013 Intelligence Layer Enhancements** | Improve practical usefulness of splitting, dependency, and quality tooling | \u2022 Tune heuristics, add guardrails for `split_mission`/`suggest_splits` <br> \u2022 Surface telemetry/alerts so authors see when intelligence outputs need manual review <br> \u2022 Produce dependency/quality summary outputs consumable by mission authors | Builds on mission history stored in flat files; keeps focus on core intelligence tools. |"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+type: "architectural discovery"
+researchObjectives:
+  - "Validate scalability of event-driven architecture"
+  - "Determine operational requirements for streaming infrastructure"
+technologiesUnderInvestigation:
+  - "Apache Kafka"
+  - "Managed event streaming service"
+evaluationCriteria:
+  - "Throughput benchmarks under production-like load"
+  - "Operational complexity and tooling availability"
+prototypeRequirements:
+  - "Deploy proof-of-concept pipeline processing sample events"
+  - "Document operational procedures for support"

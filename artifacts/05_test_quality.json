@@ -1,0 +1,688 @@
+{
+  "files_analyzed": 54,
+  "per_file": [
+    {
+      "path": "tests/combination/dependency-resolver.test.ts",
+      "test_count_estimate": 18,
+      "assertion_count_estimate": 52,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/combination/dependency-resolver",
+        "../../src/domains/types",
+        "../../src/combination/types"
+      ]
+    },
+    {
+      "path": "tests/combination/pack-combiner.test.ts",
+      "test_count_estimate": 22,
+      "assertion_count_estimate": 50,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/combination/pack-combiner",
+        "../../src/domains/types",
+        "../../src/combination/types"
+      ]
+    },
+    {
+      "path": "tests/domains/domain-pack-loader.test.ts",
+      "test_count_estimate": 53,
+      "assertion_count_estimate": 78,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/loaders/yaml-loader",
+        "../../src/registry/registry-parser",
+        "../../src/domains/domain-pack-loader",
+        "../../src/types/registry",
+        "../../src/domains/types"
+      ]
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "test_count_estimate": 22,
+      "assertion_count_estimate": 60,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/extraction/template-extractor",
+        "../../src/extraction/types"
+      ]
+    },
+    {
+      "path": "tests/import-export/performance.test.ts",
+      "test_count_estimate": 1,
+      "assertion_count_estimate": 2,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/import-export/template-importer"
+      ]
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "test_count_estimate": 21,
+      "assertion_count_estimate": 40,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/import-export/security-validator",
+        "../../src/import-export/types"
+      ]
+    },
+    {
+      "path": "tests/import-export/template-exporter.test.ts",
+      "test_count_estimate": 28,
+      "assertion_count_estimate": 46,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/import-export/template-exporter",
+        "../../src/import-export/types"
+      ]
+    },
+    {
+      "path": "tests/import-export/template-importer.coverage.test.ts",
+      "test_count_estimate": 2,
+      "assertion_count_estimate": 2,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": []
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "test_count_estimate": 14,
+      "assertion_count_estimate": 21,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/import-export/template-importer",
+        "../../src/import-export/security-validator",
+        "../../src/import-export/types"
+      ]
+    },
+    {
+      "path": "tests/integration/full-flow.test.ts",
+      "test_count_estimate": 1,
+      "assertion_count_estimate": 2,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/loaders/yaml-loader",
+        "../../src/registry/registry-parser",
+        "../../src/tools/list-domains",
+        "../utils/template-path"
+      ]
+    },
+    {
+      "path": "tests/integration/mcp-server.test.ts",
+      "test_count_estimate": 16,
+      "assertion_count_estimate": 58,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/loaders/yaml-loader",
+        "../../src/registry/registry-parser",
+        "../../src/tools/list-domains",
+        "../utils/template-path"
+      ]
+    },
+    {
+      "path": "tests/integration/phase2-flow.test.ts",
+      "test_count_estimate": 16,
+      "assertion_count_estimate": 88,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/loaders/yaml-loader",
+        "../../src/registry/registry-parser",
+        "../../src/domains/domain-pack-loader",
+        "../../src/merge/deep-merge",
+        "../../src/tools/create-mission",
+        "../../src/schemas/generic-mission",
+        "../../src/types/registry",
+        "../utils/template-path"
+      ]
+    },
+    {
+      "path": "tests/integration/phase3-flow.test.ts",
+      "test_count_estimate": 3,
+      "assertion_count_estimate": 15,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/extraction/template-extractor",
+        "../../src/import-export/template-importer",
+        "../../src/import-export/template-exporter",
+        "../../src/combination/pack-combiner",
+        "../../src/loaders/yaml-loader",
+        "../../src/registry/registry-parser",
+        "../../src/domains/domain-pack-loader",
+        "../../src/tools/version-template",
+        "../utils/template-path"
+      ]
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "test_count_estimate": 12,
+      "assertion_count_estimate": 39,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/tools/optimize-tokens",
+        "../../src/tools/analyze-dependencies",
+        "../../src/tools/score-quality",
+        "../../src/intelligence/mission-splitter",
+        "../../src/quality/quality-scorer"
+      ]
+    },
+    {
+      "path": "tests/integration/quality-scoring.test.ts",
+      "test_count_estimate": 10,
+      "assertion_count_estimate": 30,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/quality/quality-scorer",
+        "../../src/tools/score-quality"
+      ]
+    },
+    {
+      "path": "tests/integration/template-runtime-store.test.ts",
+      "test_count_estimate": 11,
+      "assertion_count_estimate": 41,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/loaders/yaml-loader",
+        "../../src/registry/registry-parser",
+        "../../src/domains/domain-pack-loader",
+        "../../src/schemas/generic-mission",
+        "../utils/template-path"
+      ]
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "test_count_estimate": 17,
+      "assertion_count_estimate": 38,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/intelligence/complexity-scorer",
+        "../../src/types/mission-types",
+        "../../src/intelligence/types"
+      ]
+    },
+    {
+      "path": "tests/intelligence/compression-rules.test.ts",
+      "test_count_estimate": 7,
+      "assertion_count_estimate": 16,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/intelligence/compression-rules"
+      ]
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "test_count_estimate": 14,
+      "assertion_count_estimate": 45,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/intelligence/dependency-analyzer"
+      ]
+    },
+    {
+      "path": "tests/intelligence/dependency-inferrer.test.ts",
+      "test_count_estimate": 7,
+      "assertion_count_estimate": 18,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/intelligence/dependency-inferrer",
+        "../../src/intelligence/dependency-analyzer"
+      ]
+    },
+    {
+      "path": "tests/intelligence/graph-validator.test.ts",
+      "test_count_estimate": 17,
+      "assertion_count_estimate": 35,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/intelligence/graph-validator",
+        "../../src/intelligence/dependency-analyzer"
+      ]
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "test_count_estimate": 26,
+      "assertion_count_estimate": 44,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/intelligence/mission-splitter",
+        "../../src/intelligence/complexity-scorer",
+        "../../src/types/mission-types",
+        "../../src/intelligence/types"
+      ]
+    },
+    {
+      "path": "tests/intelligence/model-transpilers.test.ts",
+      "test_count_estimate": 18,
+      "assertion_count_estimate": 35,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/intelligence/model-transpilers"
+      ]
+    },
+    {
+      "path": "tests/intelligence/telemetry.test.ts",
+      "test_count_estimate": 2,
+      "assertion_count_estimate": 3,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/intelligence/telemetry"
+      ]
+    },
+    {
+      "path": "tests/intelligence/token-counters.api.test.ts",
+      "test_count_estimate": 8,
+      "assertion_count_estimate": 17,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": []
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "test_count_estimate": 13,
+      "assertion_count_estimate": 22,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/intelligence/token-counters"
+      ]
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.extra.test.ts",
+      "test_count_estimate": 3,
+      "assertion_count_estimate": 7,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/intelligence/token-optimizer"
+      ]
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "test_count_estimate": 18,
+      "assertion_count_estimate": 31,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/intelligence/token-optimizer",
+        "../../src/intelligence/token-counters",
+        "../../src/intelligence/model-transpilers"
+      ]
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "test_count_estimate": 8,
+      "assertion_count_estimate": 23,
+      "skipped_tests": 2,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/intelligence/token-counters",
+        "../../src/intelligence/telemetry"
+      ]
+    },
+    {
+      "path": "tests/loaders/yaml-loader.test.ts",
+      "test_count_estimate": 25,
+      "assertion_count_estimate": 34,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/loaders/yaml-loader",
+        "../../src/types/errors",
+        "../../src/types/schemas"
+      ]
+    },
+    {
+      "path": "tests/merge/deep-merge.test.ts",
+      "test_count_estimate": 36,
+      "assertion_count_estimate": 43,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/merge/deep-merge"
+      ]
+    },
+    {
+      "path": "tests/quality/clarity-analyzer.test.ts",
+      "test_count_estimate": 7,
+      "assertion_count_estimate": 18,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/quality/analyzers/clarity-analyzer",
+        "../../src/quality/types"
+      ]
+    },
+    {
+      "path": "tests/quality/quality-scorer.test.ts",
+      "test_count_estimate": 9,
+      "assertion_count_estimate": 23,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/quality/quality-scorer",
+        "../../src/quality/types"
+      ]
+    },
+    {
+      "path": "tests/registry/registry-parser.test.ts",
+      "test_count_estimate": 22,
+      "assertion_count_estimate": 42,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/registry/registry-parser",
+        "../../src/loaders/yaml-loader",
+        "../../src/types/registry"
+      ]
+    },
+    {
+      "path": "tests/registry/semver-validator.test.ts",
+      "test_count_estimate": 21,
+      "assertion_count_estimate": 65,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/registry/semver-validator"
+      ]
+    },
+    {
+      "path": "tests/schemas/generic-mission.test.ts",
+      "test_count_estimate": 20,
+      "assertion_count_estimate": 33,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/schemas/generic-mission"
+      ]
+    },
+    {
+      "path": "tests/security/path-traversal.test.ts",
+      "test_count_estimate": 24,
+      "assertion_count_estimate": 24,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/loaders/yaml-loader",
+        "../../src/types/errors"
+      ]
+    },
+    {
+      "path": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "test_count_estimate": 12,
+      "assertion_count_estimate": 30,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/index"
+      ]
+    },
+    {
+      "path": "tests/smoke/template-assets-smoke.test.ts",
+      "test_count_estimate": 2,
+      "assertion_count_estimate": 7,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../utils/template-path",
+        "../../src/loaders/yaml-loader",
+        "../../src/registry/registry-parser",
+        "../../src/domains/domain-pack-loader",
+        "../../src/merge/deep-merge",
+        "../../src/tools/create-mission",
+        "../../src/schemas/generic-mission"
+      ]
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "test_count_estimate": 18,
+      "assertion_count_estimate": 42,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/tools/analyze-dependencies"
+      ]
+    },
+    {
+      "path": "tests/tools/combine-packs.test.ts",
+      "test_count_estimate": 11,
+      "assertion_count_estimate": 25,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/index",
+        "../../src/tools/combine-packs"
+      ]
+    },
+    {
+      "path": "tests/tools/create-mission.coverage.test.ts",
+      "test_count_estimate": 3,
+      "assertion_count_estimate": 3,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/loaders/yaml-loader",
+        "../../src/registry/registry-parser",
+        "../../src/domains/domain-pack-loader",
+        "../../src/merge/deep-merge",
+        "../../src/tools/create-mission",
+        "../../src/schemas/generic-mission"
+      ]
+    },
+    {
+      "path": "tests/tools/create-mission.test.ts",
+      "test_count_estimate": 32,
+      "assertion_count_estimate": 75,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/loaders/yaml-loader",
+        "../../src/registry/registry-parser",
+        "../../src/domains/domain-pack-loader",
+        "../../src/merge/deep-merge",
+        "../../src/tools/create-mission",
+        "../../src/schemas/generic-mission",
+        "../../src/types/registry"
+      ]
+    },
+    {
+      "path": "tests/tools/export-template.test.ts",
+      "test_count_estimate": 3,
+      "assertion_count_estimate": 8,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/tools/export-template"
+      ]
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "test_count_estimate": 23,
+      "assertion_count_estimate": 60,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/tools/extract-template"
+      ]
+    },
+    {
+      "path": "tests/tools/import-template.test.ts",
+      "test_count_estimate": 5,
+      "assertion_count_estimate": 14,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/tools/import-template",
+        "../../src/import-export/template-importer"
+      ]
+    },
+    {
+      "path": "tests/tools/list-domains.test.ts",
+      "test_count_estimate": 18,
+      "assertion_count_estimate": 42,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/loaders/yaml-loader",
+        "../../src/registry/registry-parser",
+        "../../src/tools/list-domains",
+        "../../src/types/tools"
+      ]
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "test_count_estimate": 14,
+      "assertion_count_estimate": 33,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/tools/optimize-tokens"
+      ]
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "test_count_estimate": 16,
+      "assertion_count_estimate": 44,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/tools/split-mission",
+        "../../src/loaders/yaml-loader",
+        "../../src/intelligence/types"
+      ]
+    },
+    {
+      "path": "tests/tools/suggest-splits.execute.test.ts",
+      "test_count_estimate": 2,
+      "assertion_count_estimate": 9,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": []
+    },
+    {
+      "path": "tests/tools/suggest-splits.format.test.ts",
+      "test_count_estimate": 3,
+      "assertion_count_estimate": 9,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/tools/suggest-splits",
+        "../../src/intelligence/token-counters"
+      ]
+    },
+    {
+      "path": "tests/tools/version-template.errors.test.ts",
+      "test_count_estimate": 5,
+      "assertion_count_estimate": 12,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": []
+    },
+    {
+      "path": "tests/versioning/migration-engine.test.ts",
+      "test_count_estimate": 25,
+      "assertion_count_estimate": 57,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/versioning/version-manager",
+        "../../src/versioning/migration-engine",
+        "../../src/versioning/types"
+      ]
+    },
+    {
+      "path": "tests/versioning/version-manager.test.ts",
+      "test_count_estimate": 37,
+      "assertion_count_estimate": 69,
+      "skipped_tests": 0,
+      "focus_only_tests": 0,
+      "relative_imports": [
+        "../../src/versioning/version-manager",
+        "../../src/versioning/types"
+      ]
+    }
+  ],
+  "module_test_counts": {
+    "src/combination/dependency-resolver": 18,
+    "src/domains/types": 93,
+    "src/combination/types": 40,
+    "src/combination/pack-combiner": 25,
+    "src/loaders/yaml-loader": 242,
+    "src/registry/registry-parser": 177,
+    "src/domains/domain-pack-loader": 120,
+    "src/types/registry": 123,
+    "src/extraction/template-extractor": 25,
+    "src/extraction/types": 22,
+    "src/import-export/template-importer": 23,
+    "src/import-export/security-validator": 35,
+    "src/import-export/types": 63,
+    "src/import-export/template-exporter": 31,
+    "src/tools/list-domains": 35,
+    "tests/utils/template-path": 49,
+    "src/merge/deep-merge": 89,
+    "src/tools/create-mission": 53,
+    "src/schemas/generic-mission": 84,
+    "src/tools/version-template": 3,
+    "src/tools/optimize-tokens": 26,
+    "src/tools/analyze-dependencies": 30,
+    "src/tools/score-quality": 22,
+    "src/intelligence/mission-splitter": 38,
+    "src/quality/quality-scorer": 31,
+    "src/intelligence/complexity-scorer": 43,
+    "src/types/mission-types": 43,
+    "src/intelligence/types": 59,
+    "src/intelligence/compression-rules": 7,
+    "src/intelligence/dependency-analyzer": 38,
+    "src/intelligence/dependency-inferrer": 7,
+    "src/intelligence/graph-validator": 17,
+    "src/intelligence/model-transpilers": 36,
+    "src/intelligence/telemetry": 10,
+    "src/intelligence/token-counters": 42,
+    "src/intelligence/token-optimizer": 21,
+    "src/types/errors": 49,
+    "src/types/schemas": 25,
+    "src/quality/analyzers/clarity-analyzer": 7,
+    "src/quality/types": 16,
+    "src/registry/semver-validator": 21,
+    "src/index": 23,
+    "src/tools/combine-packs": 11,
+    "src/tools/export-template": 3,
+    "src/tools/extract-template": 23,
+    "src/tools/import-template": 5,
+    "src/types/tools": 18,
+    "src/tools/split-mission": 16,
+    "src/tools/suggest-splits": 3,
+    "src/versioning/version-manager": 62,
+    "src/versioning/migration-engine": 25,
+    "src/versioning/types": 62
+  },
+  "totals": {
+    "tests": 801,
+    "assertions": 1779
+  },
+  "flaky_candidates": [],
+  "notes": {
+    "execution_time": "Not measured (requires instrumented test runner)",
+    "flaky_detection_heuristic": "Heuristic flag for files containing .only usage"
+  }
+}

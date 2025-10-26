@@ -1,0 +1,14 @@
+{
+  "patterns": [
+    "not implemented",
+    "TODO",
+    "coming soon",
+    "not supported"
+  ],
+  "matches": [
+    {
+      "file": "logs",
+      "error": "logs directory not found"
+    }
+  ]
+}

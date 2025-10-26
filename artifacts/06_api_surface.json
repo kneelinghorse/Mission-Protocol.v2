@@ -1,0 +1,1258 @@
+{
+  "exports": [
+    {
+      "file": "src/index.ts",
+      "name": "getToolDefinitions",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Global instances (initialized in main())"
+    },
+    {
+      "file": "src/tools/combine-packs.ts",
+      "name": "createCombinePacksTool",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "packLoader: DomainPackLoader",
+        "registry: RegistryParser",
+        "loader: SecureYAMLLoader"
+      ],
+      "parameter_count": 3,
+      "return_annotation": "CombinePacksToolImpl",
+      "doc_present": true,
+      "doc_summary": "Factory function to create tool instance"
+    },
+    {
+      "file": "src/tools/combine-packs.ts",
+      "name": "combinePacksToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "MCP Tool Definition for combine_packs"
+    },
+    {
+      "file": "src/tools/combine-packs.ts",
+      "name": "CombinePacksToolImpl",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "CombinePacksToolImpl Main implementation class for pack combination"
+    },
+    {
+      "file": "src/tools/optimize-tokens.ts",
+      "name": "optimizeTokensToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "MCP Tool Definition for optimize_tokens"
+    },
+    {
+      "file": "src/tools/optimize-tokens.ts",
+      "name": "OptimizeTokensToolImpl",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "OptimizeTokensToolImpl"
+    },
+    {
+      "file": "src/tools/import-template.ts",
+      "name": "mcpToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "MCP Tool Registration This would be called by the MCP server to register the tool"
+    },
+    {
+      "file": "src/tools/create-mission.ts",
+      "name": "createMissionToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "MCP Tool Definition for create_mission"
+    },
+    {
+      "file": "src/tools/create-mission.ts",
+      "name": "CreateMissionToolImpl",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "CreateMissionToolImpl Main implementation class for mission creation"
+    },
+    {
+      "file": "src/tools/split-mission.ts",
+      "name": "splitMissionToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "MCP Tool Definition for split_mission"
+    },
+    {
+      "file": "src/tools/split-mission.ts",
+      "name": "SplitMissionToolImpl",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "SplitMissionToolImpl Main implementation class for mission splitting"
+    },
+    {
+      "file": "src/tools/version-template.ts",
+      "name": "checkVersionCompatibilityToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": ""
+    },
+    {
+      "file": "src/tools/version-template.ts",
+      "name": "findMigrationPathToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": ""
+    },
+    {
+      "file": "src/tools/version-template.ts",
+      "name": "registerTemplateVersionToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": ""
+    },
+    {
+      "file": "src/tools/version-template.ts",
+      "name": "getLatestVersionToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": ""
+    },
+    {
+      "file": "src/tools/version-template.ts",
+      "name": "compareVersionsToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": ""
+    },
+    {
+      "file": "src/tools/version-template.ts",
+      "name": "versioningTools",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": ""
+    },
+    {
+      "file": "src/tools/list-domains.ts",
+      "name": "listDomainsToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "MCP Tool Definition Specification for the list_available_domains tool"
+    },
+    {
+      "file": "src/tools/list-domains.ts",
+      "name": "ListDomainsToolImpl",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "List Domains Tool Implementation Provides domain discovery capabilities for the MCP server. Reads from the registry and formats output for LLM consumption."
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "name": "generateExtractionReport",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "result: ExtractionResult"
+      ],
+      "parameter_count": 1,
+      "return_annotation": "string",
+      "doc_present": true,
+      "doc_summary": "Generate a human-readable extraction report"
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "name": "mcpToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "MCP Tool Registration This would be called by the MCP server to register the tool"
+    },
+    {
+      "file": "src/tools/suggest-splits.ts",
+      "name": "suggestSplitsToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "MCP Tool Definition for suggest_splits"
+    },
+    {
+      "file": "src/tools/suggest-splits.ts",
+      "name": "SuggestSplitsToolImpl",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "SuggestSplitsToolImpl Main implementation class for split suggestions"
+    },
+    {
+      "file": "src/tools/export-template.ts",
+      "name": "createTemplateFromMission",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "missionData: any",
+        "metadata: {\n    name: string;\n    version: string;\n    author: string;\n    signature: {\n      keyId: string;\n      algorithm: string;\n      value: string;\n    };\n  }"
+      ],
+      "parameter_count": 2,
+      "return_annotation": "MissionTemplate",
+      "doc_present": true,
+      "doc_summary": "Helper function to create a template from mission data Useful for converting existing mission files to templates"
+    },
+    {
+      "file": "src/tools/export-template.ts",
+      "name": "success",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Main entry point for the export_template MCP tool"
+    },
+    {
+      "file": "src/tools/export-template.ts",
+      "name": "mcpToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "MCP Tool Registration This would be called by the MCP server to register the tool"
+    },
+    {
+      "file": "src/tools/analyze-dependencies.ts",
+      "name": "formatAnalysisResult",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "result: AnalyzeDependenciesResult"
+      ],
+      "parameter_count": 1,
+      "return_annotation": "string",
+      "doc_present": true,
+      "doc_summary": "Format analysis result as readable text"
+    },
+    {
+      "file": "src/tools/analyze-dependencies.ts",
+      "name": "mcpToolDefinition",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "MCP Tool Definition for analyze_dependencies"
+    },
+    {
+      "file": "src/tools/score-quality.ts",
+      "name": "scoreQualityTool",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "MCP tool metadata for registration"
+    },
+    {
+      "file": "src/types/errors.ts",
+      "name": "YAMLLoaderError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Custom error classes for secure YAML loading"
+    },
+    {
+      "file": "src/types/errors.ts",
+      "name": "PathTraversalError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Custom error classes for secure YAML loading"
+    },
+    {
+      "file": "src/types/errors.ts",
+      "name": "SchemaValidationError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Custom error classes for secure YAML loading"
+    },
+    {
+      "file": "src/types/errors.ts",
+      "name": "UnsafeYAMLError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Custom error classes for secure YAML loading"
+    },
+    {
+      "file": "src/domains/domain-pack-loader.ts",
+      "name": "loadDomainPack",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "packName: string",
+        "loader: SecureYAMLLoader",
+        "registry: RegistryParser",
+        "registryEntries: DomainPackEntry[]",
+        "options?: DomainPackLoaderOptions"
+      ],
+      "parameter_count": 5,
+      "return_annotation": "DomainPack",
+      "doc_present": true,
+      "doc_summary": "Convenience function for loading a domain pack @param packName - Name of the pack to load @param loader - SecureYAMLLoader instance @param registry - RegistryParser instance @param registryEntries - Registry entries to search @param options - Optional loader configuration @returns Loaded DomainPack"
+    },
+    {
+      "file": "src/domains/domain-pack-loader.ts",
+      "name": "DomainPackLoader",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "DomainPackLoader Loads and validates domain packs from the filesystem"
+    },
+    {
+      "file": "src/quality/types.ts",
+      "name": "DEFAULT_WEIGHTS",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Quality Scoring System Types Based on R4.4_Mission_Quality_metrics research",
+      "const_type": "WeightsConfig"
+    },
+    {
+      "file": "src/quality/types.ts",
+      "name": "DEFAULT_CLARITY_WEIGHTS",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Quality Scoring System Types Based on R4.4_Mission_Quality_metrics research",
+      "const_type": "Record<keyof ClarityMetrics, number>"
+    },
+    {
+      "file": "src/quality/types.ts",
+      "name": "DEFAULT_COMPLETENESS_WEIGHTS",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Quality Scoring System Types Based on R4.4_Mission_Quality_metrics research",
+      "const_type": "Record<keyof CompletenessMetrics, number>"
+    },
+    {
+      "file": "src/quality/types.ts",
+      "name": "DEFAULT_AI_READINESS_WEIGHTS",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Quality Scoring System Types Based on R4.4_Mission_Quality_metrics research",
+      "const_type": "Record<keyof AIReadinessMetrics, number>"
+    },
+    {
+      "file": "src/quality/improvement-engine.ts",
+      "name": "ImprovementEngine",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Actionable Improvement Engine Maps metric scores to specific, context-aware recommendations"
+    },
+    {
+      "file": "src/quality/quality-scorer.ts",
+      "name": "QualityScorer",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Main quality scoring engine that orchestrates all dimensions"
+    },
+    {
+      "file": "src/quality/analyzers/ai-readiness-analyzer.ts",
+      "name": "AIReadinessAnalyzer",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "AI-Readiness Dimension Analyzer Implements: Syntactic Validity, Instruction Specificity, Structural Consistency"
+    },
+    {
+      "file": "src/quality/analyzers/clarity-analyzer.ts",
+      "name": "ClarityAnalyzer",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Clarity Dimension Analyzer Implements metrics: Flesch-Kincaid, Lexical Density, Ambiguity Detection, MCC"
+    },
+    {
+      "file": "src/quality/analyzers/completeness-analyzer.ts",
+      "name": "CompletenessAnalyzer",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Completeness Dimension Analyzer Implements: Structural, Informational (Breadth & Density), and Semantic Coverage"
+    },
+    {
+      "file": "src/merge/deep-merge.ts",
+      "name": "MissionMerger",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "MissionMerger class - Deterministic deep merge for template composition @example ```typescript const merger = new MissionMerger(); const generic = { objective: \"Build feature\", domainFields: {} }; const domain = { domainFields: { techStack: \"TypeScript\" } }; const result = merger.merge(generic, domain); ```"
+    },
+    {
+      "file": "src/merge/deep-merge.ts",
+      "name": "MergeStrategy",
+      "export_kind": "export\\s+type\\s+(?P<name>[A-Za-z_]\\w*)\\s*=",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Merge strategy options for handling different data types"
+    },
+    {
+      "file": "src/intelligence/mission-splitter.ts",
+      "name": "MissionSplitter",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "MissionSplitter class Autonomously decomposes missions using hybrid semantic-structural analysis"
+    },
+    {
+      "file": "src/intelligence/dependency-analyzer.ts",
+      "name": "DependencyAnalyzer",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "DependencyAnalyzer - Analyzes mission dependencies using graph-based analysis Based on research findings from R4.3_Intelligent_Mission_Sequencing"
+    },
+    {
+      "file": "src/intelligence/token-counters.ts",
+      "name": "defaultTokenCounter",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Export singleton instance for default usage No API keys required - fully offline operation"
+    },
+    {
+      "file": "src/intelligence/token-counters.ts",
+      "name": "TokenCounter",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Token counter implementation using TokenizerFactory pattern"
+    },
+    {
+      "file": "src/intelligence/token-optimizer.ts",
+      "name": "defaultOptimizer",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Export singleton instance"
+    },
+    {
+      "file": "src/intelligence/token-optimizer.ts",
+      "name": "TokenOptimizer",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Token optimizer class"
+    },
+    {
+      "file": "src/intelligence/context-propagator.ts",
+      "name": "ContextPropagator",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "ContextPropagator class Manages context across mission chains to prevent context window overflow"
+    },
+    {
+      "file": "src/intelligence/context-propagator.ts",
+      "name": "ContextStrategy",
+      "export_kind": "export\\s+type\\s+(?P<name>[A-Za-z_]\\w*)\\s*=",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Strategy for context propagation"
+    },
+    {
+      "file": "src/intelligence/graph-validator.ts",
+      "name": "GraphValidator",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "GraphValidator - Validates dependency graphs for DAG properties and cycles Based on research findings from R4.3_Intelligent_Mission_Sequencing"
+    },
+    {
+      "file": "src/intelligence/types.ts",
+      "name": "SupportedModel",
+      "export_kind": "export\\s+type\\s+(?P<name>[A-Za-z_]\\w*)\\s*=",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Supported AI models for optimization"
+    },
+    {
+      "file": "src/intelligence/types.ts",
+      "name": "CompressionLevel",
+      "export_kind": "export\\s+type\\s+(?P<name>[A-Za-z_]\\w*)\\s*=",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Compression level configuration"
+    },
+    {
+      "file": "src/intelligence/types.ts",
+      "name": "CompressionPassType",
+      "export_kind": "export\\s+type\\s+(?P<name>[A-Za-z_]\\w*)\\s*=",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Compression pass types"
+    },
+    {
+      "file": "src/intelligence/model-transpilers.ts",
+      "name": "getModelConfig",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "model: SupportedModel"
+      ],
+      "parameter_count": 1,
+      "return_annotation": "ModelConfig",
+      "doc_present": true,
+      "doc_summary": "Get model configuration"
+    },
+    {
+      "file": "src/intelligence/model-transpilers.ts",
+      "name": "isAlreadyFormatted",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "content: string",
+        "targetModel: SupportedModel"
+      ],
+      "parameter_count": 2,
+      "return_annotation": "boolean",
+      "doc_present": true,
+      "doc_summary": "Check if content is already formatted for target model"
+    },
+    {
+      "file": "src/intelligence/model-transpilers.ts",
+      "name": "defaultTranspiler",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Export singleton instance"
+    },
+    {
+      "file": "src/intelligence/model-transpilers.ts",
+      "name": "ModelTranspiler",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Model transpiler implementation"
+    },
+    {
+      "file": "src/intelligence/telemetry.ts",
+      "name": "registerTelemetryHandler",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "nextHandler: TelemetryHandler | null"
+      ],
+      "parameter_count": 1,
+      "return_annotation": "void",
+      "doc_present": true,
+      "doc_summary": "Register a telemetry handler. Downstream integrations can inject their own collector without requiring us to ship a concrete analytics dependency."
+    },
+    {
+      "file": "src/intelligence/telemetry.ts",
+      "name": "emitTelemetryWarning",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "source: string",
+        "message: string",
+        "context?: Record<string",
+        "unknown>"
+      ],
+      "parameter_count": 4,
+      "return_annotation": "void",
+      "doc_present": true,
+      "doc_summary": "Emit a warning-level telemetry event. Falls back to console.warn so we still surface actionable signals during local development."
+    },
+    {
+      "file": "src/intelligence/telemetry.ts",
+      "name": "TelemetryEventLevel",
+      "export_kind": "export\\s+type\\s+(?P<name>[A-Za-z_]\\w*)\\s*=",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Telemetry utilities for intelligence services. Provides a lightweight hook that downstream missions can replace with structured telemetry collectors once they are available."
+    },
+    {
+      "file": "src/intelligence/telemetry.ts",
+      "name": "TelemetryHandler",
+      "export_kind": "export\\s+type\\s+(?P<name>[A-Za-z_]\\w*)\\s*=",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Telemetry utilities for intelligence services. Provides a lightweight hook that downstream missions can replace with structured telemetry collectors once they are available."
+    },
+    {
+      "file": "src/intelligence/compression-rules.ts",
+      "name": "getDefaultRuleset",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "level: CompressionLevel"
+      ],
+      "parameter_count": 1,
+      "return_annotation": "CompressionRuleset",
+      "doc_present": true,
+      "doc_summary": "Get default ruleset for a compression level"
+    },
+    {
+      "file": "src/intelligence/compression-rules.ts",
+      "name": "applySanitization",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "text: string",
+        "rules: CompressionRule[]"
+      ],
+      "parameter_count": 2,
+      "return_annotation": "string",
+      "doc_present": true,
+      "doc_summary": "Apply sanitization rules to text"
+    },
+    {
+      "file": "src/intelligence/compression-rules.ts",
+      "name": "convertProseToList",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "text: string",
+        "delimiters: string[]"
+      ],
+      "parameter_count": 2,
+      "return_annotation": "string",
+      "doc_present": true,
+      "doc_summary": "Convert prose to list format"
+    },
+    {
+      "file": "src/intelligence/compression-rules.ts",
+      "name": "convertPassiveToActive",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "text: string"
+      ],
+      "parameter_count": 1,
+      "return_annotation": "string",
+      "doc_present": true,
+      "doc_summary": "Convert passive voice to active (simplified heuristic)"
+    },
+    {
+      "file": "src/intelligence/compression-rules.ts",
+      "name": "applyStructuralRefactoring",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "text: string",
+        "rules: CompressionRule[]"
+      ],
+      "parameter_count": 2,
+      "return_annotation": "string",
+      "doc_present": true,
+      "doc_summary": "Apply structural refactoring rules"
+    },
+    {
+      "file": "src/intelligence/compression-rules.ts",
+      "name": "applyLinguisticSimplification",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "text: string",
+        "rules: CompressionRule[]"
+      ],
+      "parameter_count": 2,
+      "return_annotation": "string",
+      "doc_present": true,
+      "doc_summary": "Apply linguistic simplification rules"
+    },
+    {
+      "file": "src/intelligence/compression-rules.ts",
+      "name": "extractPreservedSections",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "text: string",
+        "patterns: RegExp[]"
+      ],
+      "parameter_count": 2,
+      "return_annotation": "Map<string, string>",
+      "doc_present": true,
+      "doc_summary": "Extract preserved sections from text"
+    },
+    {
+      "file": "src/intelligence/compression-rules.ts",
+      "name": "replaceWithPlaceholders",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "text: string",
+        "preserved: Map<string",
+        "string>"
+      ],
+      "parameter_count": 3,
+      "return_annotation": "string",
+      "doc_present": true,
+      "doc_summary": "Replace preserved sections with placeholders"
+    },
+    {
+      "file": "src/intelligence/compression-rules.ts",
+      "name": "restorePreservedSections",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "text: string",
+        "preserved: Map<string",
+        "string>"
+      ],
+      "parameter_count": 3,
+      "return_annotation": "string",
+      "doc_present": true,
+      "doc_summary": "Restore preserved sections from placeholders"
+    },
+    {
+      "file": "src/intelligence/compression-rules.ts",
+      "name": "sanitizationRules",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Default compression rules for sanitization pass",
+      "const_type": "CompressionRule[]"
+    },
+    {
+      "file": "src/intelligence/compression-rules.ts",
+      "name": "structuralRules",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Default structural refactoring rules",
+      "const_type": "CompressionRule[]"
+    },
+    {
+      "file": "src/intelligence/compression-rules.ts",
+      "name": "linguisticRules",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Default linguistic simplification rules",
+      "const_type": "CompressionRule[]"
+    },
+    {
+      "file": "src/intelligence/compression-rules.ts",
+      "name": "defaultPreservePatterns",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Preserve patterns - content matching these should not be compressed",
+      "const_type": "RegExp[]"
+    },
+    {
+      "file": "src/intelligence/dependency-inferrer.ts",
+      "name": "DependencyInferrer",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "DependencyInferrer - Infers implicit dependencies from text and structure Based on research findings from R4.3_Intelligent_Mission_Sequencing Uses NLP-based techniques: keyword matching, relationship extraction"
+    },
+    {
+      "file": "src/intelligence/complexity-scorer.ts",
+      "name": "ComplexityScorer",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "ComplexityScorer class Calculates the Composite Complexity Score (CCS) for missions"
+    },
+    {
+      "file": "src/combination/pack-combiner.ts",
+      "name": "combinePacks",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "packs: DomainPack[]",
+        "availablePacks: DomainPack[]",
+        "options?: CombinationOptions"
+      ],
+      "parameter_count": 3,
+      "return_annotation": "CombinationResult",
+      "doc_present": true,
+      "doc_summary": "Convenience function for combining packs @param packs - Packs to combine @param availablePacks - Available packs for dependency resolution @param options - Combination options @returns Combination result"
+    },
+    {
+      "file": "src/combination/pack-combiner.ts",
+      "name": "PackCombiner",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "PackCombiner Combines multiple domain packs with dependency resolution and merge strategies"
+    },
+    {
+      "file": "src/combination/merge-strategies.ts",
+      "name": "DeepMergeStrategy",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Deep Merge Strategy Recursively merges objects and concatenates arrays. Later templates override/extend earlier ones."
+    },
+    {
+      "file": "src/combination/merge-strategies.ts",
+      "name": "OverrideStrategy",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Override Strategy Each subsequent template completely replaces the previous one. Only the last template's values are used."
+    },
+    {
+      "file": "src/combination/merge-strategies.ts",
+      "name": "SelectiveMergeStrategy",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Selective Merge Strategy Allows fine-grained control over which fields are merged vs overridden. Uses path patterns to determine behavior."
+    },
+    {
+      "file": "src/combination/merge-strategies.ts",
+      "name": "MergeStrategyFactory",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Strategy Factory Creates the appropriate merge strategy based on configuration"
+    },
+    {
+      "file": "src/combination/types.ts",
+      "name": "PackCombinationError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Error classes for pack combination"
+    },
+    {
+      "file": "src/combination/types.ts",
+      "name": "CircularDependencyError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Error classes for pack combination"
+    },
+    {
+      "file": "src/combination/types.ts",
+      "name": "DependencyNotFoundError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Error classes for pack combination"
+    },
+    {
+      "file": "src/combination/types.ts",
+      "name": "CombinationStrategy",
+      "export_kind": "export\\s+type\\s+(?P<name>[A-Za-z_]\\w*)\\s*=",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Merge strategy for combining domain packs"
+    },
+    {
+      "file": "src/combination/dependency-resolver.ts",
+      "name": "DependencyResolver",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "DependencyResolver Resolves pack dependencies and determines load order"
+    },
+    {
+      "file": "src/schemas/generic-mission.ts",
+      "name": "isGenericMission",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "obj: unknown"
+      ],
+      "parameter_count": 1,
+      "return_annotation": "obj is GenericMission",
+      "doc_present": true,
+      "doc_summary": "Type guard to check if an object is a valid GenericMission"
+    },
+    {
+      "file": "src/schemas/generic-mission.ts",
+      "name": "genericMissionSchema",
+      "export_kind": "export\\s+const\\s+(?P<name>[A-Za-z_]\\w*)\\s*(?::\\s*(?P<const_type>[^=;]+))?\\s*=\\s*",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "JSON Schema definition for validating GenericMission objects"
+    },
+    {
+      "file": "src/import-export/types.ts",
+      "name": "ImportExportError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Error types for import/export operations"
+    },
+    {
+      "file": "src/import-export/types.ts",
+      "name": "SignatureVerificationError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Error types for import/export operations"
+    },
+    {
+      "file": "src/import-export/types.ts",
+      "name": "SemanticValidationError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Error types for import/export operations"
+    },
+    {
+      "file": "src/import-export/types.ts",
+      "name": "DependencyResolutionError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Error types for import/export operations"
+    },
+    {
+      "file": "src/import-export/template-importer.ts",
+      "name": "TemplateImporter",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "TemplateImporter handles secure import of mission templates"
+    },
+    {
+      "file": "src/import-export/security-validator.ts",
+      "name": "SecurityValidator",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "SecurityValidator implements the 6-layer validation pipeline"
+    },
+    {
+      "file": "src/import-export/template-exporter.ts",
+      "name": "TemplateExporter",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "TemplateExporter handles secure export of mission templates"
+    },
+    {
+      "file": "src/registry/semver-validator.ts",
+      "name": "isValidSemVer",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "version: string"
+      ],
+      "parameter_count": 1,
+      "return_annotation": "boolean",
+      "doc_present": true,
+      "doc_summary": "Validates if a string is a valid SemVer version @param version - Version string to validate @returns true if valid SemVer, false otherwise"
+    },
+    {
+      "file": "src/registry/semver-validator.ts",
+      "name": "parseSemVer",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "version: string"
+      ],
+      "parameter_count": 1,
+      "return_annotation": "SemVerComponents | null",
+      "doc_present": true,
+      "doc_summary": "Parses a SemVer string into its components @param version - Version string to parse @returns SemVer components or null if invalid"
+    },
+    {
+      "file": "src/registry/semver-validator.ts",
+      "name": "compareSemVer",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "v1: string",
+        "v2: string"
+      ],
+      "parameter_count": 2,
+      "return_annotation": "number | null",
+      "doc_present": true,
+      "doc_summary": "Compares two SemVer versions @param v1 - First version string @param v2 - Second version string @returns -1 if v1 < v2, 0 if equal, 1 if v1 > v2, null if either is invalid"
+    },
+    {
+      "file": "src/registry/semver-validator.ts",
+      "name": "validateSemVerOrThrow",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "version: string",
+        "fieldName: string = 'version'"
+      ],
+      "parameter_count": 2,
+      "return_annotation": "void",
+      "doc_present": true,
+      "doc_summary": "Validates that a version string is valid SemVer and throws if not @param version - Version string to validate @param fieldName - Name of field for error message (default: \"version\") @throws Error if version is invalid"
+    },
+    {
+      "file": "src/registry/semver-validator.ts",
+      "name": "areVersionsCompatible",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "v1: string",
+        "v2: string"
+      ],
+      "parameter_count": 2,
+      "return_annotation": "boolean",
+      "doc_present": true,
+      "doc_summary": "Checks if two versions are compatible (same major version) @param v1 - First version string @param v2 - Second version string @returns true if compatible, false otherwise or if invalid"
+    },
+    {
+      "file": "src/registry/registry-parser.ts",
+      "name": "RegistryParser",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "RegistryParser Loads and validates domain pack registry files"
+    },
+    {
+      "file": "src/versioning/types.ts",
+      "name": "VersionError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Error types for versioning operations"
+    },
+    {
+      "file": "src/versioning/types.ts",
+      "name": "IncompatibleVersionError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Error types for versioning operations"
+    },
+    {
+      "file": "src/versioning/types.ts",
+      "name": "MigrationError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Error types for versioning operations"
+    },
+    {
+      "file": "src/versioning/types.ts",
+      "name": "InvalidVersionError",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Error types for versioning operations"
+    },
+    {
+      "file": "src/versioning/version-manager.ts",
+      "name": "VersionManager",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Manages semantic versioning for mission templates"
+    },
+    {
+      "file": "src/versioning/migration-engine.ts",
+      "name": "createMigration",
+      "export_kind": "export\\s+function\\s+(?P<name>[A-Za-z_]\\w*)\\s*\\((?P<params>[^)]*)\\)\\s*(?::\\s*(?P<ret>[^{;]+))?",
+      "parameters": [
+        "id: string",
+        "fromVersion: SemanticVersion",
+        "toVersion: SemanticVersion",
+        "description: string",
+        "migrateFn: (template: any"
+      ],
+      "parameter_count": 5,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Helper to create a simple migration script"
+    },
+    {
+      "file": "src/versioning/migration-engine.ts",
+      "name": "MigrationEngine",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Manages migration between template versions"
+    },
+    {
+      "file": "src/extraction/template-extractor.ts",
+      "name": "TemplateExtractor",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "Template Extractor - Three-Stage Hybrid Extraction Algorithm Implements the algorithm defined in research mission R3.1: 1. Stage 1: Automated Candidate Identification 2. Stage 2: Automated Parameterization & Logic Inference 3. Stage 3: Human-in-the-Loop Refinement (handled by separate UI/tool)"
+    },
+    {
+      "file": "src/loaders/yaml-loader.ts",
+      "name": "SecureYAMLLoader",
+      "export_kind": "export\\s+class\\s+(?P<name>[A-Za-z_]\\w*)",
+      "parameters": [],
+      "parameter_count": 0,
+      "return_annotation": null,
+      "doc_present": true,
+      "doc_summary": "SecureYAMLLoader provides defense-in-depth for loading YAML files"
+    }
+  ],
+  "counts": {
+    "total": 116,
+    "documented": 116,
+    "undocumented": 0
+  }
+}

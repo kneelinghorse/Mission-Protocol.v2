@@ -1,0 +1,103 @@
+{
+  "usage": [
+    {
+      "function": "para",
+      "defined_in": "tests/intelligence/mission-splitter.test.ts",
+      "usage_count": 3,
+      "usage_files": [
+        "tests/intelligence/mission-splitter.test.ts"
+      ]
+    },
+    {
+      "function": "isGenericMission",
+      "defined_in": "dist/schemas/generic-mission.d.ts",
+      "usage_count": 40,
+      "usage_files": [
+        "dist/schemas/generic-mission.js",
+        "dist/tools/create-mission.js",
+        "dist/tools/split-mission.js",
+        "dist/tools/suggest-splits.js",
+        "dist/types/mission-types.d.ts",
+        "dist/types/mission-types.js",
+        "src/schemas/generic-mission.ts",
+        "src/tools/create-mission.ts",
+        "src/tools/split-mission.ts",
+        "src/tools/suggest-splits.ts",
+        "src/types/mission-types.ts",
+        "tests/integration/phase2-flow.test.ts",
+        "tests/integration/template-runtime-store.test.ts",
+        "tests/schemas/generic-mission.test.ts",
+        "tests/smoke/template-assets-smoke.test.ts",
+        "tests/tools/create-mission.coverage.test.ts"
+      ]
+    },
+    {
+      "function": "isGenericMission",
+      "defined_in": "dist/schemas/generic-mission.js",
+      "usage_count": 40,
+      "usage_files": [
+        "dist/schemas/generic-mission.d.ts",
+        "dist/schemas/generic-mission.js",
+        "dist/tools/create-mission.js",
+        "dist/tools/split-mission.js",
+        "dist/tools/suggest-splits.js",
+        "dist/types/mission-types.d.ts",
+        "dist/types/mission-types.js",
+        "src/schemas/generic-mission.ts",
+        "src/tools/create-mission.ts",
+        "src/tools/split-mission.ts",
+        "src/tools/suggest-splits.ts",
+        "src/types/mission-types.ts",
+        "tests/integration/phase2-flow.test.ts",
+        "tests/integration/template-runtime-store.test.ts",
+        "tests/schemas/generic-mission.test.ts",
+        "tests/smoke/template-assets-smoke.test.ts",
+        "tests/tools/create-mission.coverage.test.ts"
+      ]
+    },
+    {
+      "function": "isGenericMission",
+      "defined_in": "src/schemas/generic-mission.ts",
+      "usage_count": 40,
+      "usage_files": [
+        "dist/schemas/generic-mission.d.ts",
+        "dist/schemas/generic-mission.js",
+        "dist/tools/create-mission.js",
+        "dist/tools/split-mission.js",
+        "dist/tools/suggest-splits.js",
+        "dist/types/mission-types.d.ts",
+        "dist/types/mission-types.js",
+        "src/tools/create-mission.ts",
+        "src/tools/split-mission.ts",
+        "src/tools/suggest-splits.ts",
+        "src/types/mission-types.ts",
+        "tests/integration/phase2-flow.test.ts",
+        "tests/integration/template-runtime-store.test.ts",
+        "tests/schemas/generic-mission.test.ts",
+        "tests/smoke/template-assets-smoke.test.ts",
+        "tests/tools/create-mission.coverage.test.ts"
+      ]
+    },
+    {
+      "function": "example",
+      "defined_in": "tests/intelligence/mission-splitter.test.ts",
+      "usage_count": 74,
+      "usage_files": [
+        "dist/import-export/security-validator.js",
+        "dist/intelligence/model-transpilers.js",
+        "dist/merge/deep-merge.d.ts",
+        "dist/merge/deep-merge.js",
+        "src/import-export/security-validator.ts",
+        "src/intelligence/model-transpilers.ts",
+        "src/merge/deep-merge.ts",
+        "tests/extraction/template-extractor.test.ts",
+        "tests/import-export/security-validator.test.ts",
+        "tests/import-export/template-exporter.test.ts",
+        "tests/import-export/template-importer.test.ts",
+        "tests/intelligence/model-transpilers.test.ts",
+        "tests/loaders/yaml-loader.test.ts",
+        "tests/tools/extract-template.test.ts"
+      ]
+    }
+  ]
+}

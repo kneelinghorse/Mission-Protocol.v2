@@ -1,0 +1,17 @@
+domains:
+  - name: domain-one
+    description: First domain
+    version: 1.0.0
+    path: domains/one
+    schema_version: 1.0.0
+  - name: domain-two
+    description: Second domain
+    version: 2.0.0
+    author: Test Author
+    path: domains/two
+    schema_version: 1.0.0
+  - name: domain-three
+    description: Third domain
+    version: 0.5.0
+    path: domains/three
+    schema_version: 1.0.0

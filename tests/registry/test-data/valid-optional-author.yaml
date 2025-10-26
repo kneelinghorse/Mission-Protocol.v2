@@ -1,0 +1,12 @@
+domains:
+  - name: with-author
+    description: Has author
+    version: 1.0.0
+    author: John Doe
+    path: domains/with-author
+    schema_version: 1.0.0
+  - name: without-author
+    description: No author
+    version: 1.0.0
+    path: domains/without-author
+    schema_version: 1.0.0

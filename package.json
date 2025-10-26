@@ -1,0 +1,47 @@
+{
+  "name": "mission-protocol-mcp",
+  "version": "2.0.0",
+  "description": "MCP server for Mission Protocol v2 - domain-specific mission template management",
+  "main": "dist/index.js",
+  "bin": {
+    "mission-protocol": "./dist/index.js"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:performance": "jest --coverage=false tests/import-export/performance.test.ts",
+    "build": "tsc",
+    "clean": "rm -rf dist coverage",
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "mission-protocol",
+    "claude",
+    "templates"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^24.6.2",
+    "ajv": "^8.17.1",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.4",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.19.1",
+    "@xenova/transformers": "^2.17.2",
+    "gpt-tokenizer": "^3.2.0",
+    "yaml": "^2.8.1",
+    "zod": "^3.25.76"
+  }
+}

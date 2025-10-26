@@ -1,0 +1,2197 @@
+{
+  "file_system_operations": [
+    {
+      "file": "dist/tools/suggest-splits.js",
+      "line": 160,
+      "context": "            throw new Error('missionFile is required');\n        }\n        if (!fs.existsSync(params.missionFile)) {\n            throw new Error(`Mission file not found: ${params.missionFile}`);\n        }",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/suggest-splits.js",
+      "line": 169,
+      "context": "    loadMissionFile(filePath) {\n        try {\n            const content = fs.readFileSync(filePath, 'utf-8');\n            try {\n                const parsed = YAML.parse(content);",
+      "sanitized": true
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 114,
+      "context": "        throw new Error('Parameter \"author\" is required');\n    }\n    if (!fs.existsSync(params.missionFile)) {\n        throw new Error(`Mission file does not exist: ${params.missionFile}`);\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 136,
+      "context": "    const { template } = result;\n    // Create template directory\n    fs.mkdirSync(templateDir, { recursive: true });\n    // Write template files\n    for (const file of template.fileStructure) {",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 142,
+      "context": "        const fileDir = path.dirname(filePath);\n        // Create directory if it doesn't exist\n        fs.mkdirSync(fileDir, { recursive: true });\n        // Write file content\n        fs.writeFileSync(filePath, file.content, 'utf-8');",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 144,
+      "context": "        fs.mkdirSync(fileDir, { recursive: true });\n        // Write file content\n        fs.writeFileSync(filePath, file.content, 'utf-8');\n    }\n    // Write metadata file",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 148,
+      "context": "    // Write metadata file\n    const metadataPath = path.join(templateDir, 'template-metadata.json');\n    fs.writeFileSync(metadataPath, JSON.stringify(template.metadata, null, 2), 'utf-8');\n    // Write extraction report\n    const reportPath = path.join(templateDir, 'EXTRACTION_REPORT.md');",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 152,
+      "context": "    const reportPath = path.join(templateDir, 'EXTRACTION_REPORT.md');\n    const report = generateExtractionReport(result);\n    fs.writeFileSync(reportPath, report, 'utf-8');\n    // Write hooks if present\n    if (template.hooks?.preGenerate) {",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 156,
+      "context": "    if (template.hooks?.preGenerate) {\n        const preHookPath = path.join(templateDir, 'hooks', 'pre_gen_project.sh');\n        fs.mkdirSync(path.dirname(preHookPath), { recursive: true });\n        fs.writeFileSync(preHookPath, template.hooks.preGenerate, 'utf-8');\n        fs.chmodSync(preHookPath, 0o755);",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 157,
+      "context": "        const preHookPath = path.join(templateDir, 'hooks', 'pre_gen_project.sh');\n        fs.mkdirSync(path.dirname(preHookPath), { recursive: true });\n        fs.writeFileSync(preHookPath, template.hooks.preGenerate, 'utf-8');\n        fs.chmodSync(preHookPath, 0o755);\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 162,
+      "context": "    if (template.hooks?.postGenerate) {\n        const postHookPath = path.join(templateDir, 'hooks', 'post_gen_project.sh');\n        fs.mkdirSync(path.dirname(postHookPath), { recursive: true });\n        fs.writeFileSync(postHookPath, template.hooks.postGenerate, 'utf-8');\n        fs.chmodSync(postHookPath, 0o755);",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 163,
+      "context": "        const postHookPath = path.join(templateDir, 'hooks', 'post_gen_project.sh');\n        fs.mkdirSync(path.dirname(postHookPath), { recursive: true });\n        fs.writeFileSync(postHookPath, template.hooks.postGenerate, 'utf-8');\n        fs.chmodSync(postHookPath, 0o755);\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/analyze-dependencies.js",
+      "line": 57,
+      "context": "            throw new Error('missionDirectory is required');\n        }\n        if (!fs.existsSync(args.missionDirectory)) {\n            throw new Error(`Mission directory does not exist: ${args.missionDirectory}`);\n        }",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/optimize-tokens.js",
+      "line": 116,
+      "context": "            }\n            // Read mission content\n            const content = await fs.readFile(absolutePath, 'utf-8');\n            // Optimize\n            const result = await this.optimizer.optimize(content, {",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/optimize-tokens.js",
+      "line": 128,
+      "context": "                const backupPath = `${absolutePath}.backup`;\n                await fs.copyFile(absolutePath, backupPath);\n                await fs.writeFile(absolutePath, result.optimized, 'utf-8');\n            }\n            return {",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/split-mission.js",
+      "line": 169,
+      "context": "            throw new Error('missionFile is required');\n        }\n        if (!fs.existsSync(params.missionFile)) {\n            throw new Error(`Mission file not found: ${params.missionFile}`);\n        }",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/split-mission.js",
+      "line": 175,
+      "context": "            throw new Error('maxSubMissions must be at least 2');\n        }\n        if (params.outputDir && !fs.existsSync(params.outputDir)) {\n            throw new Error(`Output directory not found: ${params.outputDir}`);\n        }",
+      "sanitized": false
+    },
+    {
+      "file": "dist/tools/split-mission.js",
+      "line": 199,
+      "context": "        try {\n            // Try to load as YAML\n            const content = fs.readFileSync(filePath, 'utf-8');\n            try {\n                const parsed = YAML.parse(content);",
+      "sanitized": true
+    },
+    {
+      "file": "dist/tools/split-mission.js",
+      "line": 232,
+      "context": "            const missionYaml = this.subMissionToYAML(subMission, splitResult.preservedContext);\n            // Write file\n            fs.writeFileSync(filePath, missionYaml, 'utf-8');\n            files.push(filePath);\n        }",
+      "sanitized": false
+    },
+    {
+      "file": "dist/intelligence/token-optimizer.js",
+      "line": 149,
+      "context": "    async optimizeFile(filePath, config) {\n        const fs = await Promise.resolve().then(() => __importStar(require('fs/promises')));\n        const content = await fs.readFile(filePath, 'utf-8');\n        return this.optimize(content, config);\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "dist/import-export/template-importer.js",
+      "line": 187,
+      "context": "                const filePath = url.pathname;\n                const sanitizedPath = this.yamlLoader.sanitizePath(filePath);\n                return fs.readFileSync(sanitizedPath, 'utf-8');\n            }\n            throw new types_1.DependencyResolutionError(`Unsupported protocol: ${url.protocol}. Only file:// is supported in Phase 1.`, { dependency });",
+      "sanitized": true
+    },
+    {
+      "file": "dist/import-export/template-importer.js",
+      "line": 220,
+      "context": "        const tempFile = path.join(this.baseDir, `.temp-${Date.now()}.yaml`);\n        try {\n            fs.writeFileSync(tempFile, yamlContent);\n            return await this.import(path.basename(tempFile), options);\n        }",
+      "sanitized": true
+    },
+    {
+      "file": "dist/import-export/template-importer.js",
+      "line": 225,
+      "context": "        finally {\n            // Clean up temp file\n            if (fs.existsSync(tempFile)) {\n                fs.unlinkSync(tempFile);\n            }",
+      "sanitized": false
+    },
+    {
+      "file": "dist/import-export/template-exporter.js",
+      "line": 88,
+      "context": "            // Ensure output directory exists\n            const outputDir = path.dirname(resolvedPath);\n            if (!fs.existsSync(outputDir)) {\n                fs.mkdirSync(outputDir, { recursive: true });\n            }",
+      "sanitized": false
+    },
+    {
+      "file": "dist/import-export/template-exporter.js",
+      "line": 89,
+      "context": "            const outputDir = path.dirname(resolvedPath);\n            if (!fs.existsSync(outputDir)) {\n                fs.mkdirSync(outputDir, { recursive: true });\n            }\n            // Write file",
+      "sanitized": false
+    },
+    {
+      "file": "dist/import-export/template-exporter.js",
+      "line": 92,
+      "context": "            }\n            // Write file\n            fs.writeFileSync(resolvedPath, content, 'utf-8');\n            return true;\n        }",
+      "sanitized": false
+    },
+    {
+      "file": "dist/versioning/migration-engine.js",
+      "line": 183,
+      "context": "    async rollback(templateId, backupPath) {\n        try {\n            const backupContent = await fs.readFile(backupPath, 'utf-8');\n            const template = JSON.parse(backupContent);\n            return {",
+      "sanitized": true
+    },
+    {
+      "file": "dist/versioning/migration-engine.js",
+      "line": 205,
+      "context": "        const backupPath = path.join(backupDir, backupFileName);\n        // Ensure backup directory exists\n        await fs.mkdir(backupDir, { recursive: true });\n        // Write backup\n        await fs.writeFile(backupPath, JSON.stringify(template, null, 2), 'utf-8');",
+      "sanitized": false
+    },
+    {
+      "file": "dist/versioning/migration-engine.js",
+      "line": 207,
+      "context": "        await fs.mkdir(backupDir, { recursive: true });\n        // Write backup\n        await fs.writeFile(backupPath, JSON.stringify(template, null, 2), 'utf-8');\n        return backupPath;\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "dist/extraction/template-extractor.js",
+      "line": 67,
+      "context": "        try {\n            // Validate source mission exists\n            if (!fs.existsSync(this.config.sourceMissionPath)) {\n                throw new Error(`Source mission path does not exist: ${this.config.sourceMissionPath}`);\n            }",
+      "sanitized": true
+    },
+    {
+      "file": "dist/extraction/template-extractor.js",
+      "line": 112,
+      "context": "                continue;\n            filesAnalyzed++;\n            const content = fs.readFileSync(filePath, 'utf-8');\n            const relativePath = path.relative(missionPath, filePath);\n            // Analyze different aspects based on file type",
+      "sanitized": false
+    },
+    {
+      "file": "dist/extraction/template-extractor.js",
+      "line": 189,
+      "context": "                continue;\n            const relativePath = path.relative(this.config.sourceMissionPath, filePath);\n            let content = fs.readFileSync(filePath, 'utf-8');\n            let templatePath = relativePath;\n            // Apply parameterization to file path",
+      "sanitized": false
+    },
+    {
+      "file": "dist/extraction/template-extractor.js",
+      "line": 253,
+      "context": "    // === Private Helper Methods ===\n    getAllFiles(dir, fileList = []) {\n        const files = fs.readdirSync(dir);\n        for (const file of files) {\n            const filePath = path.join(dir, file);",
+      "sanitized": false
+    },
+    {
+      "file": "dist/loaders/yaml-loader.js",
+      "line": 159,
+      "context": "        const sanitizedPath = this.sanitizePath(filePath);\n        // Check file exists and get stats\n        if (!fs.existsSync(sanitizedPath)) {\n            throw new Error(`File not found: ${filePath}`);\n        }",
+      "sanitized": true
+    },
+    {
+      "file": "dist/loaders/yaml-loader.js",
+      "line": 173,
+      "context": "        }\n        // Read file content\n        const content = fs.readFileSync(sanitizedPath, 'utf-8');\n        // Layer 2: Safe parse\n        const parsed = this.safeParse(content);",
+      "sanitized": true
+    },
+    {
+      "file": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 53,
+      "context": "    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mission-protocol-intel-'));\n    missionFile = path.join(tempDir, 'mission.yaml');\n    fs.writeFileSync(missionFile, SAMPLE_MISSION, 'utf-8');\n  });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 57,
+      "context": "\n  afterAll(() => {\n    fs.rmSync(tempDir, { recursive: true, force: true });\n  });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/smoke/template-assets-smoke.test.ts",
+      "line": 32,
+      "context": "    const genericTemplatePath = path.join(templatesDir, 'generic_mission.yaml');\n\n    if (!fs.existsSync(registryPath)) {\n      throw new Error(`Registry not found at ${registryPath}. Restore template assets before running smoke tests.`);\n    }",
+      "sanitized": true
+    },
+    {
+      "file": "tests/smoke/template-assets-smoke.test.ts",
+      "line": 36,
+      "context": "    }\n\n    if (!fs.existsSync(genericTemplatePath)) {\n      throw new Error(\n        `Generic mission template missing at ${genericTemplatePath}. Restore generic_mission.yaml to unblock mission creation.`",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 36,
+      "context": "  beforeAll(() => {\n    // Create test data directory\n    if (!fs.existsSync(testDataDir)) {\n      fs.mkdirSync(testDataDir, { recursive: true });\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 37,
+      "context": "    // Create test data directory\n    if (!fs.existsSync(testDataDir)) {\n      fs.mkdirSync(testDataDir, { recursive: true });\n    }\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 64,
+      "context": "domainFields: {}\n`;\n    fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), genericTemplate);\n  });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 69,
+      "context": "  afterEach(() => {\n    // Clean up test files\n    const files = fs.readdirSync(testDataDir);\n    files.forEach(file => {\n      const filePath = path.join(testDataDir, file);",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 76,
+      "context": "        fs.unlinkSync(filePath);\n      } else if (stat.isDirectory()) {\n        fs.rmSync(filePath, { recursive: true, force: true });\n      }\n    });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 173,
+      "context": "      // Create test domain pack\n      const webDevDir = path.join(testDataDir, 'domains', 'web-dev');\n      fs.mkdirSync(webDevDir, { recursive: true });\n\n      // Create pack manifest",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 183,
+      "context": "schema: schema.yaml\n`;\n      fs.writeFileSync(path.join(webDevDir, 'pack.yaml'), manifest);\n\n      // Create schema",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 198,
+      "context": "    type: string\n`;\n      fs.writeFileSync(path.join(webDevDir, 'schema.yaml'), schema);\n\n      // Create template",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 208,
+      "context": "testingStrategy: Jest + React Testing Library\n`;\n      fs.writeFileSync(path.join(webDevDir, 'template.yaml'), template);\n\n      // Create registry",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 219,
+      "context": "    schema_version: 2.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'registry.yaml'), registry);\n\n      registryEntries = parser.loadRegistry('registry.yaml');",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 444,
+      "context": "    schema_version: 2.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'broken-registry.yaml'), registry);\n\n      const registryEntries = parser.loadRegistry('broken-registry.yaml');",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 466,
+      "context": "objective: \"test\"\n`;\n      fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), invalidTemplate);\n\n      const params = { objective: 'Test invalid template' };",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 25,
+      "context": "    // Clean up temp directory\n    try {\n      await fs.rm(tempDir, { recursive: true, force: true });\n    } catch {\n      // Ignore cleanup errors",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 37,
+      "context": "successCriteria: It is important to note that all tests must pass`;\n\n      await fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 55,
+      "context": "    test('should create backup file when optimizing', async () => {\n      const missionContent = 'objective: Test mission';\n      await fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 75,
+      "context": "    test('should not modify file in dry run mode', async () => {\n      const originalContent = 'objective: Test mission content';\n      await fs.writeFile(testFilePath, originalContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 85,
+      "context": "      const result = await tool.execute(params);\n\n      const fileContent = await fs.readFile(testFilePath, 'utf-8');\n\n      expect(result.success).toBe(true);",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 107,
+      "context": "    test('should handle different compression levels', async () => {\n      const missionContent = 'objective: Test mission';\n      await fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const levels: Array<'conservative' | 'balanced' | 'aggressive'> = [",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 130,
+      "context": "    test('should handle different target models', async () => {\n      const missionContent = 'objective: Test mission';\n      await fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const models: Array<'claude' | 'gpt' | 'gemini'> = ['claude', 'gpt', 'gemini'];",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 151,
+      "context": "other: Content to compress`;\n\n      await fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 168,
+      "context": "    test('should include warnings when compression outside target', async () => {\n      const shortContent = 'abc';\n      await fs.writeFile(testFilePath, shortContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 189,
+      "context": "    test('should return compression statistics', async () => {\n      const missionContent = 'objective: Could you please test this verbose content';\n      await fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 210,
+      "context": "    test('should handle file write errors gracefully', async () => {\n      const missionContent = 'objective: Test';\n      await fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      // Make file read-only to trigger write error",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/create-mission.coverage.test.ts",
+      "line": 26,
+      "context": "\n  beforeAll(() => {\n    if (!fs.existsSync(testDataDir)) {\n      fs.mkdirSync(testDataDir, { recursive: true });\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/create-mission.coverage.test.ts",
+      "line": 27,
+      "context": "  beforeAll(() => {\n    if (!fs.existsSync(testDataDir)) {\n      fs.mkdirSync(testDataDir, { recursive: true });\n    }\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/create-mission.coverage.test.ts",
+      "line": 54,
+      "context": "domainFields: {}\n`;\n    fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), genericTemplate);\n  });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/create-mission.coverage.test.ts",
+      "line": 58,
+      "context": "\n  afterEach(() => {\n    if (!fs.existsSync(testDataDir)) return;\n    for (const entry of fs.readdirSync(testDataDir)) {\n      const p = path.join(testDataDir, entry);",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/create-mission.coverage.test.ts",
+      "line": 59,
+      "context": "  afterEach(() => {\n    if (!fs.existsSync(testDataDir)) return;\n    for (const entry of fs.readdirSync(testDataDir)) {\n      const p = path.join(testDataDir, entry);\n      const stat = fs.statSync(p);",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/create-mission.coverage.test.ts",
+      "line": 62,
+      "context": "      const p = path.join(testDataDir, entry);\n      const stat = fs.statSync(p);\n      if (stat.isDirectory()) fs.rmSync(p, { recursive: true, force: true });\n      else fs.unlinkSync(p);\n    }",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 26,
+      "context": "  beforeAll(() => {\n    // Create test data directory\n    if (!fs.existsSync(testDataDir)) {\n      fs.mkdirSync(testDataDir, { recursive: true });\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 27,
+      "context": "    // Create test data directory\n    if (!fs.existsSync(testDataDir)) {\n      fs.mkdirSync(testDataDir, { recursive: true });\n    }\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 39,
+      "context": "  afterEach(() => {\n    // Clean up test files\n    const files = fs.readdirSync(testDataDir);\n    files.forEach(file => {\n      fs.unlinkSync(path.join(testDataDir, file));",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 61,
+      "context": "    schema_version: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'single.yaml'), registryContent);\n\n      const result = tool.execute('single.yaml');",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 94,
+      "context": "    schema_version: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'multiple.yaml'), registryContent);\n\n      const result = tool.execute('multiple.yaml');",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 113,
+      "context": "    schema_version: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'no-author.yaml'), registryContent);\n\n      const result = tool.execute('no-author.yaml');",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 133,
+      "context": "    version: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'invalid.yaml'), registryContent);\n\n      expect(() => tool.execute('invalid.yaml')).toThrow();",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 145,
+      "context": "    version: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'corrupted.yaml'), registryContent);\n\n      expect(() => tool.execute('corrupted.yaml')).toThrow();",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 159,
+      "context": "    schema_version: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'registry.yaml'), registryContent);\n\n      const result = tool.execute(); // No path argument",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 303,
+      "context": "    schema_version: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'full.yaml'), registryContent);\n\n      const domains = tool.execute('full.yaml');",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 321,
+      "context": "  - name: test\n`;\n      fs.writeFileSync(path.join(testDataDir, 'no-array.yaml'), registryContent);\n\n      expect(() => tool.execute('no-array.yaml')).toThrow();",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 330,
+      "context": "domains: []\n`;\n      fs.writeFileSync(path.join(testDataDir, 'empty.yaml'), registryContent);\n\n      const result = tool.execute('empty.yaml');",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 21,
+      "context": "    outputDir = path.join(tempDir, 'templates');\n\n    fs.mkdirSync(testMissionDir, { recursive: true });\n    fs.mkdirSync(outputDir, { recursive: true });\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 22,
+      "context": "\n    fs.mkdirSync(testMissionDir, { recursive: true });\n    fs.mkdirSync(outputDir, { recursive: true });\n  });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 27,
+      "context": "  afterEach(() => {\n    // Clean up\n    if (fs.existsSync(tempDir)) {\n      fs.rmSync(tempDir, { recursive: true, force: true });\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 28,
+      "context": "    // Clean up\n    if (fs.existsSync(tempDir)) {\n      fs.rmSync(tempDir, { recursive: true, force: true });\n    }\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 84,
+      "context": "\n    it('should fail when templateName has invalid characters', async () => {\n      fs.writeFileSync(path.join(testMissionDir, 'test.js'), 'console.log(\"test\")');\n\n      const params: ExtractTemplateParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 99,
+      "context": "\n    it('should fail when confidenceThreshold is out of range', async () => {\n      fs.writeFileSync(path.join(testMissionDir, 'test.js'), 'console.log(\"test\")');\n\n      const params: ExtractTemplateParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 118,
+      "context": "    it('should extract a template from a directory', async () => {\n      // Create a simple test mission\n      fs.writeFileSync(\n        path.join(testMissionDir, 'app.js'),\n        'const express = require(\"express\");\\nconst app = express();\\napp.listen(3000);'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 123,
+      "context": "      );\n\n      fs.writeFileSync(\n        path.join(testMissionDir, 'package.json'),\n        JSON.stringify({",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 145,
+      "context": "      // Verify template was written to disk\n      const templateDir = path.join(outputDir, 'express-service');\n      expect(fs.existsSync(templateDir)).toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'template-metadata.json'))).toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'EXTRACTION_REPORT.md'))).toBe(true);",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 146,
+      "context": "      const templateDir = path.join(outputDir, 'express-service');\n      expect(fs.existsSync(templateDir)).toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'template-metadata.json'))).toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'EXTRACTION_REPORT.md'))).toBe(true);\n    });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 147,
+      "context": "      expect(fs.existsSync(templateDir)).toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'template-metadata.json'))).toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'EXTRACTION_REPORT.md'))).toBe(true);\n    });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 152,
+      "context": "    it('should extract template from a single file', async () => {\n      const missionFile = path.join(testMissionDir, 'mission.yaml');\n      fs.writeFileSync(\n        missionFile,\n        'name: test-mission\\ntype: build\\nstatus: complete'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 170,
+      "context": "      // Template should be created from the parent directory\n      const templateDir = path.join(outputDir, 'mission-template');\n      expect(fs.existsSync(templateDir)).toBe(true);\n    });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 174,
+      "context": "\n    it('should respect custom confidence threshold', async () => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'config.yaml'),\n        'name: test-app\\nversion: 1.0.0'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 194,
+      "context": "\n    it('should use default output directory when not specified', async () => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'app.js'),\n        'console.log(\"test\")'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 206,
+      "context": "\n      const templatesRoot = path.join(process.cwd(), 'templates');\n      const hadTemplatesDir = fs.existsSync(templatesRoot);\n\n      const result = await extractTemplate(params);",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 215,
+      "context": "\n      // Check that template was created in default location\n      expect(fs.existsSync(defaultTemplateDir)).toBe(true);\n\n      // Clean up the test artifact without disturbing pre-existing templates",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 218,
+      "context": "\n      // Clean up the test artifact without disturbing pre-existing templates\n      if (fs.existsSync(defaultTemplateDir)) {\n        fs.rmSync(defaultTemplateDir, { recursive: true, force: true });\n      }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 219,
+      "context": "      // Clean up the test artifact without disturbing pre-existing templates\n      if (fs.existsSync(defaultTemplateDir)) {\n        fs.rmSync(defaultTemplateDir, { recursive: true, force: true });\n      }\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 222,
+      "context": "      }\n\n      if (!hadTemplatesDir && fs.existsSync(templatesRoot)) {\n        fs.rmSync(templatesRoot, { recursive: true, force: true });\n      }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 223,
+      "context": "\n      if (!hadTemplatesDir && fs.existsSync(templatesRoot)) {\n        fs.rmSync(templatesRoot, { recursive: true, force: true });\n      }\n    });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 230,
+      "context": "  describe('Template Output', () => {\n    it('should create template-metadata.json with correct structure', async () => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'config.json'),\n        JSON.stringify({ name: 'test-service', port: 8080 }, null, 2)",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 247,
+      "context": "\n      const metadataPath = path.join(outputDir, 'test-template', 'template-metadata.json');\n      const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));\n\n      expect(metadata.templateId).toBe('test-mission');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 257,
+      "context": "    it('should create all template files', async () => {\n      const srcDir = path.join(testMissionDir, 'src');\n      fs.mkdirSync(srcDir, { recursive: true });\n\n      fs.writeFileSync(path.join(srcDir, 'index.js'), 'console.log(\"main\")');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 259,
+      "context": "      fs.mkdirSync(srcDir, { recursive: true });\n\n      fs.writeFileSync(path.join(srcDir, 'index.js'), 'console.log(\"main\")');\n      fs.writeFileSync(path.join(testMissionDir, 'README.md'), '# Test Project');\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 260,
+      "context": "\n      fs.writeFileSync(path.join(srcDir, 'index.js'), 'console.log(\"main\")');\n      fs.writeFileSync(path.join(testMissionDir, 'README.md'), '# Test Project');\n\n      const params: ExtractTemplateParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 274,
+      "context": "\n      const templateDir = path.join(outputDir, 'multi-file-template');\n      expect(fs.existsSync(path.join(templateDir, 'src'))).toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'README.md'))).toBe(true);\n    });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 275,
+      "context": "      const templateDir = path.join(outputDir, 'multi-file-template');\n      expect(fs.existsSync(path.join(templateDir, 'src'))).toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'README.md'))).toBe(true);\n    });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 279,
+      "context": "\n    it('should create EXTRACTION_REPORT.md', async () => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'app.py'),\n        'print(\"test\")'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 296,
+      "context": "\n      const reportPath = path.join(outputDir, 'test-template', 'EXTRACTION_REPORT.md');\n      expect(fs.existsSync(reportPath)).toBe(true);\n\n      const report = fs.readFileSync(reportPath, 'utf-8');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 298,
+      "context": "      expect(fs.existsSync(reportPath)).toBe(true);\n\n      const report = fs.readFileSync(reportPath, 'utf-8');\n      expect(report).toContain('# Template Extraction Report');\n      expect(report).toContain('## Summary');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 338,
+      "context": "      await writeTemplate(templateDir, result);\n\n      expect(fs.existsSync(path.join(templateDir, 'hooks', 'pre_gen_project.sh'))).toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'hooks', 'post_gen_project.sh'))).toBe(true);\n    });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 339,
+      "context": "\n      expect(fs.existsSync(path.join(templateDir, 'hooks', 'pre_gen_project.sh'))).toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'hooks', 'post_gen_project.sh'))).toBe(true);\n    });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 356,
+      "context": "    it('should exclude node_modules and other common directories', async () => {\n      const nodeModulesDir = path.join(testMissionDir, 'node_modules');\n      fs.mkdirSync(nodeModulesDir, { recursive: true });\n      fs.writeFileSync(path.join(nodeModulesDir, 'package.json'), '{}');\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 357,
+      "context": "      const nodeModulesDir = path.join(testMissionDir, 'node_modules');\n      fs.mkdirSync(nodeModulesDir, { recursive: true });\n      fs.writeFileSync(path.join(nodeModulesDir, 'package.json'), '{}');\n\n      fs.writeFileSync(path.join(testMissionDir, 'app.js'), 'console.log(\"test\")');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 359,
+      "context": "      fs.writeFileSync(path.join(nodeModulesDir, 'package.json'), '{}');\n\n      fs.writeFileSync(path.join(testMissionDir, 'app.js'), 'console.log(\"test\")');\n\n      const params: ExtractTemplateParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 373,
+      "context": "\n      const templateDir = path.join(outputDir, 'test-template');\n      expect(fs.existsSync(path.join(templateDir, 'node_modules'))).toBe(false);\n      expect(fs.existsSync(path.join(templateDir, 'app.js'))).toBe(true);\n    });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 374,
+      "context": "      const templateDir = path.join(outputDir, 'test-template');\n      expect(fs.existsSync(path.join(templateDir, 'node_modules'))).toBe(false);\n      expect(fs.existsSync(path.join(templateDir, 'app.js'))).toBe(true);\n    });\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 380,
+      "context": "  describe('Performance', () => {\n    it('should complete extraction quickly for small missions', async () => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'app.js'),\n        'console.log(\"test\")'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 401,
+      "context": "\n    it('should report accurate timing metrics', async () => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'config.yaml'),\n        'name: test\\nversion: 1.0.0'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 424,
+      "context": "  describe('Real-world Scenarios', () => {\n    it('should extract a Flask API template', async () => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'app.py'),\n        'from flask import Flask\\n\\napp = Flask(\"customer-api\")\\n\\n@app.route(\"/health\")\\ndef health():\\n    return \"OK\"\\n\\nif __name__ == \"__main__\":\\n    app.run(port=8080)'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 429,
+      "context": "      );\n\n      fs.writeFileSync(\n        path.join(testMissionDir, 'requirements.txt'),\n        'flask==2.0.0\\ngunicorn==20.1.0'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 447,
+      "context": "\n      const metadataPath = path.join(outputDir, 'flask-api', 'template-metadata.json');\n      const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));\n\n      expect(Object.keys(metadata.parameters).length).toBeGreaterThan(0);",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 453,
+      "context": "\n    it('should extract a Node.js microservice template', async () => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'package.json'),\n        JSON.stringify({",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 466,
+      "context": "      );\n\n      fs.writeFileSync(\n        path.join(testMissionDir, 'index.js'),\n        'const express = require(\"express\");\\nconst app = express();\\n\\napp.get(\"/health\", (req, res) => res.send(\"OK\"));\\n\\napp.listen(3000);'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 484,
+      "context": "\n      const reportPath = path.join(outputDir, 'node-microservice', 'EXTRACTION_REPORT.md');\n      const report = fs.readFileSync(reportPath, 'utf-8');\n\n      expect(report).toContain('order-service');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 507,
+      "context": "    it('should handle file read errors gracefully', async () => {\n      const badFile = path.join(testMissionDir, 'bad.json');\n      fs.writeFileSync(badFile, '{invalid json');\n\n      const params: ExtractTemplateParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/suggest-splits.execute.test.ts",
+      "line": 10,
+      "context": "function writeMissionFile(content: string): string {\n  const filePath = path.join(TEMP_DIR, `mission-${Date.now()}-${Math.random()}.yaml`);\n  fs.writeFileSync(filePath, content, 'utf-8');\n  return filePath;\n}",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/suggest-splits.execute.test.ts",
+      "line": 16,
+      "context": "describe('SuggestSplitsToolImpl.execute (mocked splitter)', () => {\n  afterAll(() => {\n    fs.rmSync(TEMP_DIR, { recursive: true, force: true });\n  });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 49,
+      "context": "    // Clean up temp directory\n    try {\n      await fs.rm(tempDir, { recursive: true, force: true });\n    } catch {\n      // Ignore cleanup errors",
+      "sanitized": true
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 92,
+      "context": "      };\n\n      await fs.writeFile(testMissionPath, YAML.stringify(complexMission), 'utf-8');\n\n      const params: SplitMissionParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 130,
+      "context": "      };\n\n      await fs.writeFile(testMissionPath, YAML.stringify(simpleMission), 'utf-8');\n\n      const params: SplitMissionParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 169,
+      "context": "      };\n\n      await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 181,
+      "context": "        // Read and parse each sub-mission file\n        for (const filePath of result.subMissionFiles) {\n          const content = await fs.readFile(filePath, 'utf-8');\n          const parsed = YAML.parse(content);\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 212,
+      "context": "      };\n\n      await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 257,
+      "context": "      };\n\n      await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 284,
+      "context": "      };\n\n      await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 317,
+      "context": "      `;\n\n      await fs.writeFile(testMissionPath, textMission, 'utf-8');\n\n      const params: SplitMissionParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 349,
+      "context": "\n    test('should reject invalid maxSubMissions', async () => {\n      await fs.writeFile(testMissionPath, 'objective: test', 'utf-8');\n\n      const params: SplitMissionParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 360,
+      "context": "\n    test('should reject non-existent output directory', async () => {\n      await fs.writeFile(testMissionPath, 'objective: test', 'utf-8');\n\n      const params: SplitMissionParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 374,
+      "context": "    test('should handle YAML that is not a GenericMission by treating content as text', async () => {\n      const rawYaml = 'foo: bar\\nanswer: 42';\n      await fs.writeFile(testMissionPath, rawYaml, 'utf-8');\n\n      const result = await tool.execute({ missionFile: testMissionPath });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 396,
+      "context": "      };\n\n      await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 428,
+      "context": "      };\n\n      await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 477,
+      "context": "      };\n\n      await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/export-template.test.ts",
+      "line": 42,
+      "context": "    expect(result.outputPath).toBe(fullPath);\n    expect(result.preview).toContain('smoke-template');\n    expect(fs.existsSync(fullPath)).toBe(true);\n  });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/tools/export-template.test.ts",
+      "line": 65,
+      "context": "\n    const fullPath = path.join(baseDir, outputPath);\n    const content = fs.readFileSync(fullPath, 'utf-8');\n\n    expect(result.success).toBe(true);",
+      "sanitized": false
+    },
+    {
+      "file": "tests/intelligence/token-optimizer.extra.test.ts",
+      "line": 17,
+      "context": "    const filePath = path.join(tmpDir, 'mission.yaml');\n    const content = 'objective: Minimal mission for optimizeFile test';\n    await fs.writeFile(filePath, content, 'utf-8');\n\n    const result = await optimizer.optimizeFile(filePath, { model: 'gpt', level: 'balanced' });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/intelligence/token-optimizer.extra.test.ts",
+      "line": 22,
+      "context": "    expect(result.original).toBe(content);\n    expect(result.optimized.length).toBeGreaterThan(0);\n    await fs.rm(tmpDir, { recursive: true, force: true });\n  });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 22,
+      "context": "\n    // Create a safe test file\n    fs.writeFileSync(\n      path.join(tempDir, 'safe.yaml'),\n      'key: value\\nnumber: 42'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 30,
+      "context": "  afterEach(() => {\n    // Clean up temp directory\n    fs.rmSync(tempDir, { recursive: true, force: true });\n  });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 117,
+      "context": "      // Create subdirectory and file\n      const subdir = path.join(tempDir, 'subdir');\n      fs.mkdirSync(subdir);\n      fs.writeFileSync(path.join(subdir, 'file.yaml'), 'data: test');\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 118,
+      "context": "      const subdir = path.join(tempDir, 'subdir');\n      fs.mkdirSync(subdir);\n      fs.writeFileSync(path.join(subdir, 'file.yaml'), 'data: test');\n\n      const sanitized = loader.sanitizePath('subdir/file.yaml');",
+      "sanitized": true
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 126,
+      "context": "    test('should allow nested subdirectories', () => {\n      const nested = path.join(tempDir, 'a', 'b', 'c');\n      fs.mkdirSync(nested, { recursive: true });\n      fs.writeFileSync(path.join(nested, 'file.yaml'), 'data: test');\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 127,
+      "context": "      const nested = path.join(tempDir, 'a', 'b', 'c');\n      fs.mkdirSync(nested, { recursive: true });\n      fs.writeFileSync(path.join(nested, 'file.yaml'), 'data: test');\n\n      const sanitized = loader.sanitizePath('a/b/c/file.yaml');",
+      "sanitized": true
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 151,
+      "context": "      const symlinkPath = path.join(tempDir, 'symlink.yaml');\n\n      fs.writeFileSync(targetFile, 'data: test');\n\n      try {",
+      "sanitized": true
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 161,
+      "context": "      } finally {\n        // Cleanup\n        if (fs.existsSync(symlinkPath)) {\n          fs.unlinkSync(symlinkPath);\n        }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 177,
+      "context": "      const symlinkPath = path.join(tempDir, 'link.yaml');\n\n      fs.writeFileSync(targetFile, 'data: symlink-test');\n\n      try {",
+      "sanitized": true
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 186,
+      "context": "      } finally {\n        // Cleanup\n        if (fs.existsSync(symlinkPath)) {\n          fs.unlinkSync(symlinkPath);\n        }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 202,
+      "context": "      // Create a large file\n      const largeFile = path.join(tempDir, 'large.yaml');\n      fs.writeFileSync(largeFile, 'x'.repeat(200));\n\n      expect(() => {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 229,
+      "context": "    test('should handle path with multiple slashes', () => {\n      const subdir = path.join(tempDir, 'sub');\n      fs.mkdirSync(subdir);\n      fs.writeFileSync(path.join(subdir, 'file.yaml'), 'test: data');\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 230,
+      "context": "      const subdir = path.join(tempDir, 'sub');\n      fs.mkdirSync(subdir);\n      fs.writeFileSync(path.join(subdir, 'file.yaml'), 'test: data');\n\n      const sanitized = loader.sanitizePath('sub//file.yaml');",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/mcp-server.test.ts",
+      "line": 30,
+      "context": "    const fs = require('fs');\n    const os = require('os');\n    if (!fs.existsSync(require('path').join(baseDir, 'registry.yaml'))) {\n      const tmp = fs.mkdtempSync(require('path').join(os.tmpdir(), 'mcp-fixtures-'));\n      baseDir = require('path').join(tmp, 'templates');",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/mcp-server.test.ts",
+      "line": 33,
+      "context": "      const tmp = fs.mkdtempSync(require('path').join(os.tmpdir(), 'mcp-fixtures-'));\n      baseDir = require('path').join(tmp, 'templates');\n      fs.mkdirSync(require('path').join(baseDir, 'packs', 'foundation'), { recursive: true });\n      fs.writeFileSync(require('path').join(baseDir, 'registry.yaml'),\n        `domains:\\n` +",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/mcp-server.test.ts",
+      "line": 34,
+      "context": "      baseDir = require('path').join(tmp, 'templates');\n      fs.mkdirSync(require('path').join(baseDir, 'packs', 'foundation'), { recursive: true });\n      fs.writeFileSync(require('path').join(baseDir, 'registry.yaml'),\n        `domains:\\n` +\n        `  - name: foundation\\n    description: Core infrastructure baseline\\n    version: 1.0.0\\n    author: core-team\\n    path: packs/foundation\\n    schema_version: 1.0.0\\n` +",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/mcp-server.test.ts",
+      "line": 40,
+      "context": "        `  - name: business.market-research\\n    description: Business research\\n    version: 1.0.0\\n    author: core-team\\n    path: packs/business.market-research\\n    schema_version: 1.0.0\\n` +\n        `  - name: ops.deployment-checklist\\n    description: Ops checklist\\n    version: 1.0.0\\n    author: core-team\\n    path: packs/ops.deployment-checklist\\n    schema_version: 1.0.0\\n`);\n      fs.writeFileSync(require('path').join(baseDir, 'packs', 'foundation', 'pack.yaml'),\n        `name: foundation\\nversion: 1.0.0\\ndisplayName: Foundation\\ndescription: Core\\nauthor: core-team\\nschema: schema.json\\n`);\n      fs.writeFileSync(require('path').join(baseDir, 'packs', 'foundation', 'schema.json'),",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/mcp-server.test.ts",
+      "line": 42,
+      "context": "      fs.writeFileSync(require('path').join(baseDir, 'packs', 'foundation', 'pack.yaml'),\n        `name: foundation\\nversion: 1.0.0\\ndisplayName: Foundation\\ndescription: Core\\nauthor: core-team\\nschema: schema.json\\n`);\n      fs.writeFileSync(require('path').join(baseDir, 'packs', 'foundation', 'schema.json'),\n        `{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"type\":\"object\",\"properties\":{\"governanceChecklist\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}}}`);\n      fs.writeFileSync(require('path').join(baseDir, 'packs', 'foundation', 'template.yaml'),",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/mcp-server.test.ts",
+      "line": 44,
+      "context": "      fs.writeFileSync(require('path').join(baseDir, 'packs', 'foundation', 'schema.json'),\n        `{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"type\":\"object\",\"properties\":{\"governanceChecklist\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}}}`);\n      fs.writeFileSync(require('path').join(baseDir, 'packs', 'foundation', 'template.yaml'),\n        `governanceChecklist:\\n  - \"Policy\"\\n`);\n    }",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 13,
+      "context": "    const path = require('path');\n    let baseDir = resolveTemplatesDir();\n    if (!fs.existsSync(path.join(baseDir, 'registry.yaml'))) {\n      const tmp = fs.mkdtempSync(path.join(require('os').tmpdir(), 'p1-fixtures-'));\n      baseDir = path.join(tmp, 'templates');",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 16,
+      "context": "      const tmp = fs.mkdtempSync(path.join(require('os').tmpdir(), 'p1-fixtures-'));\n      baseDir = path.join(tmp, 'templates');\n      fs.mkdirSync(path.join(baseDir, 'packs', 'foundation'), { recursive: true });\n      fs.writeFileSync(path.join(baseDir, 'registry.yaml'),\n        `domains:\\n  - name: foundation\\n    description: Core baseline\\n    version: 1.0.0\\n    author: core-team\\n    path: packs/foundation\\n    schema_version: 1.0.0\\n`);",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 17,
+      "context": "      baseDir = path.join(tmp, 'templates');\n      fs.mkdirSync(path.join(baseDir, 'packs', 'foundation'), { recursive: true });\n      fs.writeFileSync(path.join(baseDir, 'registry.yaml'),\n        `domains:\\n  - name: foundation\\n    description: Core baseline\\n    version: 1.0.0\\n    author: core-team\\n    path: packs/foundation\\n    schema_version: 1.0.0\\n`);\n      fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'pack.yaml'),",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 19,
+      "context": "      fs.writeFileSync(path.join(baseDir, 'registry.yaml'),\n        `domains:\\n  - name: foundation\\n    description: Core baseline\\n    version: 1.0.0\\n    author: core-team\\n    path: packs/foundation\\n    schema_version: 1.0.0\\n`);\n      fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'pack.yaml'),\n        `name: foundation\\nversion: 1.0.0\\ndisplayName: Foundation\\ndescription: Core\\nauthor: core-team\\nschema: schema.json\\n`);\n      fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'schema.json'),",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 21,
+      "context": "      fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'pack.yaml'),\n        `name: foundation\\nversion: 1.0.0\\ndisplayName: Foundation\\ndescription: Core\\nauthor: core-team\\nschema: schema.json\\n`);\n      fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'schema.json'),\n        `{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"type\":\"object\"}`);\n      fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'template.yaml'),",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 23,
+      "context": "      fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'schema.json'),\n        `{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"type\":\"object\"}`);\n      fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'template.yaml'),\n        `governanceChecklist: []\\n`);\n    }",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 53,
+      "context": "`;\n\n      fs.mkdirSync(FIXTURES_DIR, { recursive: true });\n      fs.writeFileSync(missionPath, complexMission);\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 54,
+      "context": "\n      fs.mkdirSync(FIXTURES_DIR, { recursive: true });\n      fs.writeFileSync(missionPath, complexMission);\n\n      // Step 1: Analyze initial quality",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 111,
+      "context": "\n      const missionPath = path.join(FIXTURES_DIR, 'quality-test.yaml');\n      fs.writeFileSync(missionPath, lowQualityMission);\n\n      // Score the mission",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 163,
+      "context": "\n      const missionPath = path.join(FIXTURES_DIR, 'high-quality.yaml');\n      fs.writeFileSync(missionPath, highQualityMission);\n\n      const qualityResult = await scoreQuality({",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 182,
+      "context": "    it('should analyze dependencies across multiple missions', async () => {\n      const missionsDir = path.join(FIXTURES_DIR, 'mission-set');\n      fs.mkdirSync(missionsDir, { recursive: true });\n\n      // Create a set of interdependent missions",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 221,
+      "context": "      for (const mission of missions) {\n        const missionPath = path.join(missionsDir, `${mission.id}.yaml`);\n        fs.writeFileSync(missionPath, mission.content);\n      }\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 238,
+      "context": "        fs.unlinkSync(path.join(missionsDir, `${mission.id}.yaml`));\n      }\n      fs.rmdirSync(missionsDir);\n    });\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 268,
+      "context": "\n      const missionPath = path.join(FIXTURES_DIR, 'verbose-mission.yaml');\n      fs.writeFileSync(missionPath, verboseMission);\n\n      // Get initial token count",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 271,
+      "context": "\n      // Get initial token count\n      const beforeContent = fs.readFileSync(missionPath, 'utf-8');\n      const beforeLength = beforeContent.length;\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 312,
+      "context": "\n      const missionPath = path.join(FIXTURES_DIR, 'dryrun-mission.yaml');\n      fs.writeFileSync(missionPath, testMission);\n\n      const beforeContent = fs.readFileSync(missionPath, 'utf-8');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 314,
+      "context": "      fs.writeFileSync(missionPath, testMission);\n\n      const beforeContent = fs.readFileSync(missionPath, 'utf-8');\n\n      // Optimize in dry run mode",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 327,
+      "context": "\n      // File should not be modified\n      const afterContent = fs.readFileSync(missionPath, 'utf-8');\n      expect(afterContent).toBe(beforeContent);\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 352,
+      "context": "\n      const missionPath = path.join(FIXTURES_DIR, 'perf-mission.yaml');\n      fs.writeFileSync(missionPath, testMission);\n\n      const start = Date.now();",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 377,
+      "context": "\n      const missionPath = path.join(FIXTURES_DIR, 'perf-opt.yaml');\n      fs.writeFileSync(missionPath, testMission);\n\n      const start = Date.now();",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 399,
+      "context": "    it('should handle malformed mission files gracefully', async () => {\n      const malformedPath = path.join(FIXTURES_DIR, 'malformed.yaml');\n      fs.writeFileSync(malformedPath, 'invalid: yaml: content: [[[');\n\n      const qualityResult = await scoreQuality({",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 426,
+      "context": "    it('should handle empty mission files', async () => {\n      const emptyPath = path.join(FIXTURES_DIR, 'empty.yaml');\n      fs.writeFileSync(emptyPath, '');\n\n      const result = await scoreQuality({",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 463,
+      "context": "\n      const missionPath = path.join(FIXTURES_DIR, 'pipeline.yaml');\n      fs.writeFileSync(missionPath, testMission);\n\n      // Step 1: Initial quality assessment",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 507,
+      "context": "  // Cleanup fixture directory after all tests\n  afterAll(() => {\n    if (fs.existsSync(FIXTURES_DIR)) {\n      try {\n        fs.rmdirSync(FIXTURES_DIR, { recursive: true });",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 509,
+      "context": "    if (fs.existsSync(FIXTURES_DIR)) {\n      try {\n        fs.rmdirSync(FIXTURES_DIR, { recursive: true });\n      } catch (err) {\n        // Ignore cleanup errors",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/quality-scoring.test.ts",
+      "line": 23,
+      "context": "\n      // Skip if file doesn't exist\n      if (!fs.existsSync(missionFile)) {\n        console.warn('Skipping test: current.yaml not found');\n        return;",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/quality-scoring.test.ts",
+      "line": 43,
+      "context": "      const missionFile = path.resolve(__dirname, '../../../missions/current.yaml');\n\n      if (!fs.existsSync(missionFile)) {\n        console.warn('Skipping test: current.yaml not found');\n        return;",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase3-flow.test.ts",
+      "line": 34,
+      "context": "  it('Extract -> Export -> Import -> Use (roundtrip)', async () => {\n    const sourceDir = path.join(tmpRoot, 'src');\n    fs.mkdirSync(sourceDir);\n    fs.writeFileSync(path.join(sourceDir, 'service.yaml'), 'name: api\\nversion: 1.0.0\\nport: 8080');\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase3-flow.test.ts",
+      "line": 35,
+      "context": "    const sourceDir = path.join(tmpRoot, 'src');\n    fs.mkdirSync(sourceDir);\n    fs.writeFileSync(path.join(sourceDir, 'service.yaml'), 'name: api\\nversion: 1.0.0\\nport: 8080');\n\n    // Identify candidates directly (Stage 1)",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 32,
+      "context": "  beforeEach(() => {\n    // If shared templates are missing (CI sandbox), create minimal fixtures in a temp dir\n    if (!fs.existsSync(path.join(templatesDir, 'registry.yaml'))) {\n      const tmp = fs.mkdtempSync(path.join(require('os').tmpdir(), 'phase2-fixtures-'));\n      const localTemplates = path.join(tmp, 'templates');",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 35,
+      "context": "      const tmp = fs.mkdtempSync(path.join(require('os').tmpdir(), 'phase2-fixtures-'));\n      const localTemplates = path.join(tmp, 'templates');\n      fs.mkdirSync(path.join(localTemplates, 'packs', 'software.technical-task'), { recursive: true });\n      fs.mkdirSync(path.join(localTemplates, 'packs', 'business.market-research'), { recursive: true });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 36,
+      "context": "      const localTemplates = path.join(tmp, 'templates');\n      fs.mkdirSync(path.join(localTemplates, 'packs', 'software.technical-task'), { recursive: true });\n      fs.mkdirSync(path.join(localTemplates, 'packs', 'business.market-research'), { recursive: true });\n\n      // Write registry",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 39,
+      "context": "\n      // Write registry\n      fs.writeFileSync(path.join(localTemplates, 'registry.yaml'),\n        `domains:\\n  - name: software.technical-task\\n    description: Software development tasks and feature implementation\\n    version: 1.0.0\\n    author: core-team\\n    path: packs/software.technical-task\\n    schema_version: 1.0.0\\n  - name: business.market-research\\n    description: Business analysis and market research missions\\n    version: 1.0.0\\n    author: core-team\\n    path: packs/business.market-research\\n    schema_version: 1.0.0\\n`);\n",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 43,
+      "context": "\n      // Write software pack\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'software.technical-task', 'pack.yaml'),\n        `name: software.technical-task\\nversion: 1.0.0\\ndisplayName: \"Software Development Task\"\\ndescription: \"Software development tasks and feature implementation\"\\nauthor: \"core-team\"\\nschema: \"schema.json\"\\n`);\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'software.technical-task', 'schema.json'),",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 45,
+      "context": "      fs.writeFileSync(path.join(localTemplates, 'packs', 'software.technical-task', 'pack.yaml'),\n        `name: software.technical-task\\nversion: 1.0.0\\ndisplayName: \"Software Development Task\"\\ndescription: \"Software development tasks and feature implementation\"\\nauthor: \"core-team\"\\nschema: \"schema.json\"\\n`);\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'software.technical-task', 'schema.json'),\n        `{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"type\":\"object\",\"properties\":{\"userStory\":{\"type\":\"string\"},\"technicalApproach\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"userStory\",\"technicalApproach\"],\"additionalProperties\":true}`);\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'software.technical-task', 'template.yaml'),",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 47,
+      "context": "      fs.writeFileSync(path.join(localTemplates, 'packs', 'software.technical-task', 'schema.json'),\n        `{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"type\":\"object\",\"properties\":{\"userStory\":{\"type\":\"string\"},\"technicalApproach\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"userStory\",\"technicalApproach\"],\"additionalProperties\":true}`);\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'software.technical-task', 'template.yaml'),\n        `userStory: \"As a user, I can log in\"\\n` +\n        `technicalApproach:\\n  - \"Implement secure password hashing\"\\n` +",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 54,
+      "context": "\n      // Write business pack\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'business.market-research', 'pack.yaml'),\n        `name: business.market-research\\nversion: 1.0.0\\ndisplayName: \"Market Research Mission\"\\ndescription: \"Business analysis and market research missions\"\\nauthor: \"core-team\"\\nschema: \"schema.json\"\\n`);\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'business.market-research', 'schema.json'),",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 56,
+      "context": "      fs.writeFileSync(path.join(localTemplates, 'packs', 'business.market-research', 'pack.yaml'),\n        `name: business.market-research\\nversion: 1.0.0\\ndisplayName: \"Market Research Mission\"\\ndescription: \"Business analysis and market research missions\"\\nauthor: \"core-team\"\\nschema: \"schema.json\"\\n`);\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'business.market-research', 'schema.json'),\n        `{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"type\":\"object\",\"properties\":{\"stakeholders\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"keyMetrics\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"dataSources\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"stakeholders\",\"keyMetrics\",\"dataSources\"],\"additionalProperties\":true}`);\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'business.market-research', 'template.yaml'),",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 58,
+      "context": "      fs.writeFileSync(path.join(localTemplates, 'packs', 'business.market-research', 'schema.json'),\n        `{\"$schema\":\"http://json-schema.org/draft-07/schema#\",\"type\":\"object\",\"properties\":{\"stakeholders\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"keyMetrics\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"dataSources\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"stakeholders\",\"keyMetrics\",\"dataSources\"],\"additionalProperties\":true}`);\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'business.market-research', 'template.yaml'),\n        `stakeholders:\\n  - \"Product\"\\nkeyMetrics:\\n  - \"CAC\"\\n  - \"LTV\"\\ndataSources:\\n  - \"Reports\"\\n`);\n",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 62,
+      "context": "\n      // Write generic mission template used by create_mission tool\n      fs.writeFileSync(path.join(localTemplates, 'generic_mission.yaml'),\n        `schemaType: \"Mission\"\\nschemaVersion: \"2.0\"\\nmissionId: \"mission-00000000-000000-000\"\\nobjective: \"Placeholder\"\\ncontext:\\n  background: \"\"\\n  dependencies: []\\n  constraints: []\\nsuccessCriteria:\\n  - \"Mission objective achieved\"\\ndeliverables:\\n  - \"Mission completion report\"\\ndomainFields: {}\\n`);\n",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 68,
+      "context": "    }\n    const genericTemplatePath = path.join(templatesDir, 'generic_mission.yaml');\n    if (!fs.existsSync(genericTemplatePath)) {\n      throw new Error(\n        `Required template missing: ${genericTemplatePath}. ` +",
+      "sanitized": false
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 434,
+      "context": "        // Verify files exist\n        const packDir = path.join(templatesDir, pack.path);\n        expect(fs.existsSync(path.join(packDir, 'pack.yaml'))).toBe(true);\n        expect(fs.existsSync(path.join(packDir, 'schema.json'))).toBe(true);\n        expect(fs.existsSync(path.join(packDir, 'template.yaml'))).toBe(true);",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 435,
+      "context": "        const packDir = path.join(templatesDir, pack.path);\n        expect(fs.existsSync(path.join(packDir, 'pack.yaml'))).toBe(true);\n        expect(fs.existsSync(path.join(packDir, 'schema.json'))).toBe(true);\n        expect(fs.existsSync(path.join(packDir, 'template.yaml'))).toBe(true);\n      }",
+      "sanitized": true
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 436,
+      "context": "        expect(fs.existsSync(path.join(packDir, 'pack.yaml'))).toBe(true);\n        expect(fs.existsSync(path.join(packDir, 'schema.json'))).toBe(true);\n        expect(fs.existsSync(path.join(packDir, 'template.yaml'))).toBe(true);\n      }\n    });",
+      "sanitized": true
+    },
+    {
+      "file": "tests/utils/template-path.ts",
+      "line": 18,
+      "context": "  for (const candidate of candidates) {\n    const registryPath = path.join(candidate, 'registry.yaml');\n    if (fs.existsSync(registryPath)) {\n      return candidate;\n    }",
+      "sanitized": true
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 23,
+      "context": "  beforeAll(() => {\n    // Create test directory\n    if (!fs.existsSync(testDir)) {\n      fs.mkdirSync(testDir, { recursive: true });\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 24,
+      "context": "    // Create test directory\n    if (!fs.existsSync(testDir)) {\n      fs.mkdirSync(testDir, { recursive: true });\n    }\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 35,
+      "context": "  afterAll(() => {\n    // Clean up test directory\n    if (fs.existsSync(testDir)) {\n      fs.rmSync(testDir, { recursive: true, force: true });\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 36,
+      "context": "    // Clean up test directory\n    if (fs.existsSync(testDir)) {\n      fs.rmSync(testDir, { recursive: true, force: true });\n    }\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 79,
+      "context": "\n      expect(success).toBe(true);\n      expect(fs.existsSync(path.join(testDir, 'test-output.yaml'))).toBe(true);\n    });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 87,
+      "context": "      exporter.export(template, 'parseable.yaml');\n\n      const content = fs.readFileSync(path.join(testDir, 'parseable.yaml'), 'utf-8');\n      const parsed = YAML.parse(content);\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 99,
+      "context": "      exporter.export(template, 'with-comments.yaml');\n\n      const content = fs.readFileSync(path.join(testDir, 'with-comments.yaml'), 'utf-8');\n\n      expect(content).toContain('# Mission Template');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 111,
+      "context": "      exporter.export(template, 'no-comments.yaml', { includeComments: false });\n\n      const content = fs.readFileSync(path.join(testDir, 'no-comments.yaml'), 'utf-8');\n\n      expect(content).not.toContain('# Mission Template');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 121,
+      "context": "      exporter.export(template, 'safe-yaml.yaml');\n\n      const content = fs.readFileSync(path.join(testDir, 'safe-yaml.yaml'), 'utf-8');\n\n      // Check for dangerous YAML tags",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 134,
+      "context": "      exporter.export(template, 'pretty.yaml', { pretty: true });\n\n      const content = fs.readFileSync(path.join(testDir, 'pretty.yaml'), 'utf-8');\n\n      // Pretty YAML should have indentation",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 150,
+      "context": "\n      expect(success).toBe(true);\n      expect(fs.existsSync(path.join(testDir, 'test-output.json'))).toBe(true);\n    });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 158,
+      "context": "      exporter.export(template, 'parseable.json', { format: 'json' });\n\n      const content = fs.readFileSync(path.join(testDir, 'parseable.json'), 'utf-8');\n      const parsed = JSON.parse(content);\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 170,
+      "context": "      exporter.export(template, 'pretty.json', { format: 'json', pretty: true });\n\n      const content = fs.readFileSync(path.join(testDir, 'pretty.json'), 'utf-8');\n\n      // Pretty JSON should have newlines and indentation",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 182,
+      "context": "      exporter.export(template, 'compact.json', { format: 'json', pretty: false });\n\n      const content = fs.readFileSync(path.join(testDir, 'compact.json'), 'utf-8');\n\n      // Compact JSON should not have pretty formatting",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 330,
+      "context": "      expect(success).toBe(true);\n      expect(\n        fs.existsSync(path.join(testDir, 'nested/dir/template.yaml'))\n      ).toBe(true);\n    });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 346,
+      "context": "\n      expect(count).toBe(2);\n      expect(fs.existsSync(path.join(testDir, 'multi-export'))).toBe(true);\n    });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 380,
+      "context": "\n      // Read back\n      const content = fs.readFileSync(path.join(testDir, 'roundtrip.yaml'), 'utf-8');\n      const parsed = YAML.parse(content);\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-importer.test.ts",
+      "line": 21,
+      "context": "  beforeAll(() => {\n    // Create test directory\n    if (!fs.existsSync(testDir)) {\n      fs.mkdirSync(testDir, { recursive: true });\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-importer.test.ts",
+      "line": 22,
+      "context": "    // Create test directory\n    if (!fs.existsSync(testDir)) {\n      fs.mkdirSync(testDir, { recursive: true });\n    }\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-importer.test.ts",
+      "line": 36,
+      "context": "  afterAll(() => {\n    // Clean up test directory\n    if (fs.existsSync(testDir)) {\n      fs.rmSync(testDir, { recursive: true, force: true });\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-importer.test.ts",
+      "line": 37,
+      "context": "    // Clean up test directory\n    if (fs.existsSync(testDir)) {\n      fs.rmSync(testDir, { recursive: true, force: true });\n    }\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-importer.test.ts",
+      "line": 43,
+      "context": "  // Helper to write a template file\n  function writeTemplateFile(filename: string, content: string): void {\n    fs.writeFileSync(path.join(testDir, filename), content, 'utf-8');\n  }\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/import-export/template-importer.test.ts",
+      "line": 302,
+      "context": "\n      // Check that no .temp- files remain\n      const files = fs.readdirSync(testDir);\n      const tempFiles = files.filter((f) => f.startsWith('.temp-'));\n      expect(tempFiles.length).toBe(0);",
+      "sanitized": false
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 21,
+      "context": "  beforeEach(() => {\n    // Ensure test data directory exists\n    if (!fs.existsSync(TEST_DATA_DIR)) {\n      fs.mkdirSync(TEST_DATA_DIR, { recursive: true });\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 22,
+      "context": "    // Ensure test data directory exists\n    if (!fs.existsSync(TEST_DATA_DIR)) {\n      fs.mkdirSync(TEST_DATA_DIR, { recursive: true });\n    }\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 32,
+      "context": "    test('should load a valid registry with single domain', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'valid-single.yaml');\n      fs.writeFileSync(\n        registryPath,\n        `",
+      "sanitized": true
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 54,
+      "context": "    test('should load a valid registry with multiple domains', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'valid-multiple.yaml');\n      fs.writeFileSync(\n        registryPath,\n        `",
+      "sanitized": true
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 88,
+      "context": "    test('should load registry with optional author field', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'valid-optional-author.yaml');\n      fs.writeFileSync(\n        registryPath,\n        `",
+      "sanitized": true
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 117,
+      "context": "    test('should reject registry missing required name field', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'invalid-missing-name.yaml');\n      fs.writeFileSync(\n        registryPath,\n        `",
+      "sanitized": true
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 133,
+      "context": "    test('should reject registry with invalid SemVer version', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'invalid-semver.yaml');\n      fs.writeFileSync(\n        registryPath,\n        `",
+      "sanitized": true
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 150,
+      "context": "    test('should reject registry with invalid schema_version', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'invalid-schema-version.yaml');\n      fs.writeFileSync(\n        registryPath,\n        `",
+      "sanitized": true
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 169,
+      "context": "    test('should reject registry with path traversal in path', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'invalid-path-traversal.yaml');\n      fs.writeFileSync(\n        registryPath,\n        `",
+      "sanitized": true
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 186,
+      "context": "    test('should reject registry with absolute path', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'invalid-absolute-path.yaml');\n      fs.writeFileSync(\n        registryPath,\n        `",
+      "sanitized": true
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 203,
+      "context": "    test('should reject registry with empty author string', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'invalid-empty-author.yaml');\n      fs.writeFileSync(\n        registryPath,\n        `",
+      "sanitized": true
+    },
+    {
+      "file": "tests/versioning/migration-engine.test.ts",
+      "line": 24,
+      "context": "  beforeAll(() => {\n    // Create test directory for backups\n    if (!fs.existsSync(testDir)) {\n      fs.mkdirSync(testDir, { recursive: true });\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/versioning/migration-engine.test.ts",
+      "line": 25,
+      "context": "    // Create test directory for backups\n    if (!fs.existsSync(testDir)) {\n      fs.mkdirSync(testDir, { recursive: true });\n    }\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/versioning/migration-engine.test.ts",
+      "line": 36,
+      "context": "  afterAll(() => {\n    // Clean up test directory\n    if (fs.existsSync(testDir)) {\n      fs.rmSync(testDir, { recursive: true, force: true });\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/versioning/migration-engine.test.ts",
+      "line": 37,
+      "context": "    // Clean up test directory\n    if (fs.existsSync(testDir)) {\n      fs.rmSync(testDir, { recursive: true, force: true });\n    }\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/versioning/migration-engine.test.ts",
+      "line": 333,
+      "context": "      expect(result.success).toBe(true);\n      expect(result.backupPath).toBeDefined();\n      expect(fs.existsSync(result.backupPath!)).toBe(true);\n\n      // Verify backup content",
+      "sanitized": false
+    },
+    {
+      "file": "tests/versioning/migration-engine.test.ts",
+      "line": 336,
+      "context": "\n      // Verify backup content\n      const backupContent = fs.readFileSync(result.backupPath!, 'utf-8');\n      expect(JSON.parse(backupContent)).toEqual(template);\n    });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/versioning/migration-engine.test.ts",
+      "line": 401,
+      "context": "      const template = { name: 'original', version: '1.0.0' };\n      const backupPath = path.join(testDir, 'test-backup.json');\n      fs.writeFileSync(backupPath, JSON.stringify(template), 'utf-8');\n\n      const result = await migrationEngine.rollback('test-template', backupPath);",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 19,
+      "context": "    tempDir = fs.mkdtempSync(path.join(require('os').tmpdir(), 'template-extractor-test-'));\n    testMissionDir = path.join(tempDir, 'test-mission');\n    fs.mkdirSync(testMissionDir, { recursive: true });\n  });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 24,
+      "context": "  afterEach(() => {\n    // Clean up temporary directory\n    if (fs.existsSync(tempDir)) {\n      fs.rmSync(tempDir, { recursive: true, force: true });\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 25,
+      "context": "    // Clean up temporary directory\n    if (fs.existsSync(tempDir)) {\n      fs.rmSync(tempDir, { recursive: true, force: true });\n    }\n  });",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 33,
+      "context": "      // Create a simple test mission\n      const appPy = path.join(testMissionDir, 'app.py');\n      fs.writeFileSync(\n        appPy,\n        `from flask import Flask\\n\\napp = Flask(\"customer-api\")\\n\\n@app.route('/customer-api/health')\\ndef health():\\n    return \"OK\"\\n`",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 53,
+      "context": "    it('should detect config values from YAML files', async () => {\n      const configYaml = path.join(testMissionDir, 'config.yaml');\n      fs.writeFileSync(\n        configYaml,\n        `name: my-service\\nversion: 1.0.0\\nport: 8080\\nauthor: test@example.com\\n`",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 80,
+      "context": "    it('should detect candidates from JSON files', async () => {\n      const packageJson = path.join(testMissionDir, 'package.json');\n      fs.writeFileSync(\n        packageJson,\n        JSON.stringify({",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 108,
+      "context": "    it('should identify path segments as candidates', async () => {\n      const projectDir = path.join(testMissionDir, 'my-custom-app');\n      fs.mkdirSync(projectDir, { recursive: true });\n\n      const file = path.join(projectDir, 'main.py');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 111,
+      "context": "\n      const file = path.join(projectDir, 'main.py');\n      fs.writeFileSync(file, 'print(\"Hello\")');\n\n      const config: ExtractionConfig = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 132,
+      "context": "      // Create a node_modules directory with files\n      const nodeModulesDir = path.join(testMissionDir, 'node_modules');\n      fs.mkdirSync(nodeModulesDir, { recursive: true });\n      fs.writeFileSync(path.join(nodeModulesDir, 'package.json'), '{}');\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 133,
+      "context": "      const nodeModulesDir = path.join(testMissionDir, 'node_modules');\n      fs.mkdirSync(nodeModulesDir, { recursive: true });\n      fs.writeFileSync(path.join(nodeModulesDir, 'package.json'), '{}');\n\n      // Create a normal file",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 136,
+      "context": "\n      // Create a normal file\n      fs.writeFileSync(path.join(testMissionDir, 'app.js'), 'console.log(\"test\")');\n\n      const config: ExtractionConfig = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 152,
+      "context": "    it('should calculate confidence scores correctly', async () => {\n      // Create files with different literal frequencies\n      fs.writeFileSync(\n        path.join(testMissionDir, 'file1.py'),\n        'PROJECT_NAME = \"unique-project\"\\nCOMMON = \"common-value\"\\n'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 156,
+      "context": "        'PROJECT_NAME = \"unique-project\"\\nCOMMON = \"common-value\"\\n'\n      );\n      fs.writeFileSync(\n        path.join(testMissionDir, 'file2.py'),\n        'NAME = \"unique-project\"\\nCOMMON = \"common-value\"\\n'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 160,
+      "context": "        'NAME = \"unique-project\"\\nCOMMON = \"common-value\"\\n'\n      );\n      fs.writeFileSync(\n        path.join(testMissionDir, 'file3.py'),\n        'COMMON = \"common-value\"\\n'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 190,
+      "context": "    it('should include fallback candidates when none pass threshold', async () => {\n      // Create a file with a unique literal that won't meet an extreme threshold\n      fs.writeFileSync(\n        path.join(testMissionDir, 'only.js'),\n        'console.log(\"unique_literal_value\")'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 212,
+      "context": "      const gitDir = path.join(testMissionDir, '.git');\n      const distDir = path.join(testMissionDir, 'dist');\n      fs.mkdirSync(gitDir, { recursive: true });\n      fs.mkdirSync(distDir, { recursive: true });\n      fs.writeFileSync(path.join(gitDir, 'config'), 'git');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 213,
+      "context": "      const distDir = path.join(testMissionDir, 'dist');\n      fs.mkdirSync(gitDir, { recursive: true });\n      fs.mkdirSync(distDir, { recursive: true });\n      fs.writeFileSync(path.join(gitDir, 'config'), 'git');\n      fs.writeFileSync(path.join(distDir, 'bundle.js'), 'dist');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 214,
+      "context": "      fs.mkdirSync(gitDir, { recursive: true });\n      fs.mkdirSync(distDir, { recursive: true });\n      fs.writeFileSync(path.join(gitDir, 'config'), 'git');\n      fs.writeFileSync(path.join(distDir, 'bundle.js'), 'dist');\n      fs.writeFileSync(path.join(testMissionDir, 'debug.log'), 'log');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 215,
+      "context": "      fs.mkdirSync(distDir, { recursive: true });\n      fs.writeFileSync(path.join(gitDir, 'config'), 'git');\n      fs.writeFileSync(path.join(distDir, 'bundle.js'), 'dist');\n      fs.writeFileSync(path.join(testMissionDir, 'debug.log'), 'log');\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 216,
+      "context": "      fs.writeFileSync(path.join(gitDir, 'config'), 'git');\n      fs.writeFileSync(path.join(distDir, 'bundle.js'), 'dist');\n      fs.writeFileSync(path.join(testMissionDir, 'debug.log'), 'log');\n\n      // Create one valid file",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 219,
+      "context": "\n      // Create one valid file\n      fs.writeFileSync(path.join(testMissionDir, 'main.js'), 'console.log(\"ok\")');\n\n      const config: ExtractionConfig = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 237,
+      "context": "    it('should generate a complete template from candidates', async () => {\n      const appPy = path.join(testMissionDir, 'app.py');\n      fs.writeFileSync(\n        appPy,\n        'from flask import Flask\\n\\napp = Flask(\"my-service\")\\n'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 259,
+      "context": "    it('should replace literals with Jinja2 placeholders', async () => {\n      const appPy = path.join(testMissionDir, 'app.py');\n      fs.writeFileSync(\n        appPy,\n        'PROJECT = \"customer-api\"\\nprint(\"Welcome to customer-api\")\\n'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 283,
+      "context": "    it('should generate metadata with correct structure', async () => {\n      const configYaml = path.join(testMissionDir, 'config.yaml');\n      fs.writeFileSync(configYaml, 'name: test-service\\nport: 3000\\n');\n\n      const config: ExtractionConfig = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 308,
+      "context": "      // Use JSON with a boolean-like string for name to exercise boolean branch\n      const configJson = path.join(testMissionDir, 'config.json');\n      fs.writeFileSync(\n        configJson,\n        JSON.stringify({ name: 'true', port: 8080 }, null, 2)",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 335,
+      "context": "    it('should handle file path parameterization', async () => {\n      const customDir = path.join(testMissionDir, 'custom-project-name');\n      fs.mkdirSync(customDir, { recursive: true });\n      fs.writeFileSync(path.join(customDir, 'index.js'), 'console.log(\"test\")');\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 336,
+      "context": "      const customDir = path.join(testMissionDir, 'custom-project-name');\n      fs.mkdirSync(customDir, { recursive: true });\n      fs.writeFileSync(path.join(customDir, 'index.js'), 'console.log(\"test\")');\n\n      // Also include a common directory to exercise skip branch",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 340,
+      "context": "      // Also include a common directory to exercise skip branch\n      const srcDir = path.join(testMissionDir, 'src');\n      fs.mkdirSync(srcDir, { recursive: true });\n      fs.writeFileSync(path.join(srcDir, 'helper.js'), 'console.log(\"helper\")');\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 341,
+      "context": "      const srcDir = path.join(testMissionDir, 'src');\n      fs.mkdirSync(srcDir, { recursive: true });\n      fs.writeFileSync(path.join(srcDir, 'helper.js'), 'console.log(\"helper\")');\n\n      const config: ExtractionConfig = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 362,
+      "context": "    it('should choose the most frequent value as default', async () => {\n      // Create multiple files with the 'name' key, where one value is more frequent\n      fs.writeFileSync(\n        path.join(testMissionDir, 'a.json'),\n        JSON.stringify({ name: 'alpha' }, null, 2)",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 366,
+      "context": "        JSON.stringify({ name: 'alpha' }, null, 2)\n      );\n      fs.writeFileSync(\n        path.join(testMissionDir, 'b.json'),\n        JSON.stringify({ name: 'alpha' }, null, 2)",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 370,
+      "context": "        JSON.stringify({ name: 'alpha' }, null, 2)\n      );\n      fs.writeFileSync(\n        path.join(testMissionDir, 'c.json'),\n        JSON.stringify({ name: 'beta' }, null, 2)",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 394,
+      "context": "    it('should complete full extraction successfully', async () => {\n      // Create a realistic test mission\n      fs.writeFileSync(\n        path.join(testMissionDir, 'package.json'),\n        JSON.stringify({",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 403,
+      "context": "      );\n\n      fs.writeFileSync(\n        path.join(testMissionDir, 'app.js'),\n        'const express = require(\"express\");\\nconst app = express();\\napp.listen(3000);'",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 441,
+      "context": "      for (let i = 0; i < 50; i++) {\n        const file = path.join(testMissionDir, `file${i}.js`);\n        fs.writeFileSync(file, `const value = \"test-${i}\";\\nconsole.log(value);`);\n      }\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 482,
+      "context": "\n    it('should generate appropriate tags based on file types', async () => {\n      fs.writeFileSync(path.join(testMissionDir, 'app.py'), 'print(\"test\")');\n      fs.writeFileSync(path.join(testMissionDir, 'index.ts'), 'console.log(\"test\")');\n      fs.writeFileSync(path.join(testMissionDir, 'Main.java'), 'class Main {}');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 483,
+      "context": "    it('should generate appropriate tags based on file types', async () => {\n      fs.writeFileSync(path.join(testMissionDir, 'app.py'), 'print(\"test\")');\n      fs.writeFileSync(path.join(testMissionDir, 'index.ts'), 'console.log(\"test\")');\n      fs.writeFileSync(path.join(testMissionDir, 'Main.java'), 'class Main {}');\n      fs.writeFileSync(path.join(testMissionDir, 'main.go'), 'package main');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 484,
+      "context": "      fs.writeFileSync(path.join(testMissionDir, 'app.py'), 'print(\"test\")');\n      fs.writeFileSync(path.join(testMissionDir, 'index.ts'), 'console.log(\"test\")');\n      fs.writeFileSync(path.join(testMissionDir, 'Main.java'), 'class Main {}');\n      fs.writeFileSync(path.join(testMissionDir, 'main.go'), 'package main');\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 485,
+      "context": "      fs.writeFileSync(path.join(testMissionDir, 'index.ts'), 'console.log(\"test\")');\n      fs.writeFileSync(path.join(testMissionDir, 'Main.java'), 'class Main {}');\n      fs.writeFileSync(path.join(testMissionDir, 'main.go'), 'package main');\n\n      const config: ExtractionConfig = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 503,
+      "context": "    it('should recurse into nested config objects to extract values', async () => {\n      const nestedJson = path.join(testMissionDir, 'nested.json');\n      fs.writeFileSync(\n        nestedJson,\n        JSON.stringify({ info: { name: 'nested-app', meta: { version: '1.2.3' } } }, null, 2)",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 527,
+      "context": "      // Create a specially named directory to influence tags\n      const specialDir = path.join(tempDir, 'api-service-web');\n      fs.mkdirSync(specialDir, { recursive: true });\n      // Put at least one file inside so getAllFiles sees it\n      fs.writeFileSync(path.join(specialDir, 'index.js'), 'console.log(\"ok\")');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 529,
+      "context": "      fs.mkdirSync(specialDir, { recursive: true });\n      // Put at least one file inside so getAllFiles sees it\n      fs.writeFileSync(path.join(specialDir, 'index.js'), 'console.log(\"ok\")');\n\n      const config: ExtractionConfig = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 545,
+      "context": "\n    it('should treat .env as config file (no parse) without errors', async () => {\n      fs.writeFileSync(path.join(testMissionDir, '.env'), 'PORT=3000');\n      fs.writeFileSync(path.join(testMissionDir, 'script.rb'), 'puts \"hi\"');\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 546,
+      "context": "    it('should treat .env as config file (no parse) without errors', async () => {\n      fs.writeFileSync(path.join(testMissionDir, '.env'), 'PORT=3000');\n      fs.writeFileSync(path.join(testMissionDir, 'script.rb'), 'puts \"hi\"');\n\n      const config: ExtractionConfig = {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 23,
+      "context": "\n  afterEach(() => {\n    fs.rmSync(tempDir, { recursive: true, force: true });\n  });\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 33,
+      "context": "enabled: true\n`;\n      fs.writeFileSync(path.join(tempDir, 'simple.yaml'), yamlContent);\n\n      const data = loader.load('simple.yaml');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 52,
+      "context": "    cert: /path/to/cert\n`;\n      fs.writeFileSync(path.join(tempDir, 'nested.yaml'), yamlContent);\n\n      const data = loader.load('nested.yaml');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 67,
+      "context": "    value: 200\n`;\n      fs.writeFileSync(path.join(tempDir, 'array.yaml'), yamlContent);\n\n      const data = loader.load('array.yaml');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 90,
+      "context": "  host: staging.example.com\n`;\n      fs.writeFileSync(path.join(tempDir, 'anchors.yaml'), yamlContent);\n\n      const data = loader.load('anchors.yaml');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 104,
+      "context": "  preserved with newlines\n`;\n      fs.writeFileSync(path.join(tempDir, 'multiline.yaml'), yamlContent);\n\n      const data = loader.load('multiline.yaml');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 116,
+      "context": "undefinedValue: ~\n`;\n      fs.writeFileSync(path.join(tempDir, 'nulls.yaml'), yamlContent);\n\n      const data = loader.load('nulls.yaml');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 130,
+      "context": "  proper: [structure\n`;\n      fs.writeFileSync(path.join(tempDir, 'invalid.yaml'), yamlContent);\n\n      expect(() => {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 145,
+      "context": "args: ['ls -la']\n`;\n      fs.writeFileSync(path.join(tempDir, 'malicious1.yaml'), maliciousYAML);\n\n      // The YAML library should reject this or our validation catches it",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 157,
+      "context": "!!js/function \"function() { require('child_process').exec('rm -rf /'); }\"\n`;\n      fs.writeFileSync(path.join(tempDir, 'malicious2.yaml'), maliciousYAML);\n\n      expect(() => {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 169,
+      "context": "  function() { this.process = require('process'); }\n`;\n      fs.writeFileSync(path.join(tempDir, 'malicious3.yaml'), maliciousYAML);\n\n      expect(() => {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 180,
+      "context": "!!js/regexp /hack/i\n`;\n      fs.writeFileSync(path.join(tempDir, 'malicious4.yaml'), maliciousYAML);\n\n      expect(() => {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 192,
+      "context": "data: attempt\n`;\n      fs.writeFileSync(path.join(tempDir, 'malicious5.yaml'), maliciousYAML);\n\n      expect(() => {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 203,
+      "context": "!!python/object/new:tuple [1, 2, 3]\n`;\n      fs.writeFileSync(path.join(tempDir, 'malicious6.yaml'), maliciousYAML);\n\n      expect(() => {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 217,
+      "context": "version: 1.0.0\n`;\n      fs.writeFileSync(path.join(tempDir, 'app.yaml'), yamlContent);\n\n      const schema: JSONSchema = {",
+      "sanitized": true
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 236,
+      "context": "name: TestApp\n`;\n      fs.writeFileSync(path.join(tempDir, 'incomplete.yaml'), yamlContent);\n\n      const schema: JSONSchema = {",
+      "sanitized": true
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 257,
+      "context": "version: 123\n`;\n      fs.writeFileSync(path.join(tempDir, 'wrongtype.yaml'), yamlContent);\n\n      const schema: JSONSchema = {",
+      "sanitized": true
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 278,
+      "context": "  port: 8080\n`;\n      fs.writeFileSync(path.join(tempDir, 'server.yaml'), yamlContent);\n\n      const schema: JSONSchema = {",
+      "sanitized": true
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 307,
+      "context": "    name: Bob\n`;\n      fs.writeFileSync(path.join(tempDir, 'users.yaml'), yamlContent);\n\n      const schema: JSONSchema = {",
+      "sanitized": true
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 334,
+      "context": "status: active\n`;\n      fs.writeFileSync(path.join(tempDir, 'enum.yaml'), yamlContent);\n\n      const schema: JSONSchema = {",
+      "sanitized": true
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 354,
+      "context": "status: invalid\n`;\n      fs.writeFileSync(path.join(tempDir, 'bad-enum.yaml'), yamlContent);\n\n      const schema: JSONSchema = {",
+      "sanitized": true
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 374,
+      "context": "  describe('Multiple File Loading', () => {\n    test('should load multiple files successfully', () => {\n      fs.writeFileSync(path.join(tempDir, 'file1.yaml'), 'value: 1');\n      fs.writeFileSync(path.join(tempDir, 'file2.yaml'), 'value: 2');\n      fs.writeFileSync(path.join(tempDir, 'file3.yaml'), 'value: 3');",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 375,
+      "context": "    test('should load multiple files successfully', () => {\n      fs.writeFileSync(path.join(tempDir, 'file1.yaml'), 'value: 1');\n      fs.writeFileSync(path.join(tempDir, 'file2.yaml'), 'value: 2');\n      fs.writeFileSync(path.join(tempDir, 'file3.yaml'), 'value: 3');\n",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 376,
+      "context": "      fs.writeFileSync(path.join(tempDir, 'file1.yaml'), 'value: 1');\n      fs.writeFileSync(path.join(tempDir, 'file2.yaml'), 'value: 2');\n      fs.writeFileSync(path.join(tempDir, 'file3.yaml'), 'value: 3');\n\n      const results = loader.loadMultiple(['file1.yaml', 'file2.yaml', 'file3.yaml']);",
+      "sanitized": false
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 385,
+      "context": "\n    test('should validate all files with schema', () => {\n      fs.writeFileSync(path.join(tempDir, 'config1.yaml'), 'name: Config1\\nversion: 1.0');\n      fs.writeFileSync(path.join(tempDir, 'config2.yaml'), 'name: Config2\\nversion: 2.0');\n",
+      "sanitized": true
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 386,
+      "context": "    test('should validate all files with schema', () => {\n      fs.writeFileSync(path.join(tempDir, 'config1.yaml'), 'name: Config1\\nversion: 1.0');\n      fs.writeFileSync(path.join(tempDir, 'config2.yaml'), 'name: Config2\\nversion: 2.0');\n\n      const schema: JSONSchema = {",
+      "sanitized": true
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 415,
+      "context": "version: abc\n`;\n      fs.writeFileSync(path.join(tempDir, 'error.yaml'), yamlContent);\n\n      const schema: JSONSchema = {",
+      "sanitized": true
+    },
+    {
+      "file": "cmos/context/src/domain_discovery.js",
+      "line": 120,
+      "context": "    const scanDirectory = (dirPath, relativePath = '') => {\n      try {\n        const items = fs.readdirSync(dirPath);\n\n        items.forEach(item => {",
+      "sanitized": true
+    },
+    {
+      "file": "cmos/context/src/domain_discovery.js",
+      "line": 158,
+      "context": "              // Extract content for analysis\n              try {\n                fileInfo.content = fs.readFileSync(fullPath, 'utf-8');\n                fileInfo.lines = fileInfo.content.split('\\n').length;\n              } catch (readError) {",
+      "sanitized": true
+    },
+    {
+      "file": "src/tools/optimize-tokens.ts",
+      "line": 132,
+      "context": "\n      // Read mission content\n      const content = await fs.readFile(absolutePath, 'utf-8');\n\n      // Optimize",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/optimize-tokens.ts",
+      "line": 146,
+      "context": "        const backupPath = `${absolutePath}.backup`;\n        await fs.copyFile(absolutePath, backupPath);\n        await fs.writeFile(absolutePath, result.optimized, 'utf-8');\n      }\n",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/split-mission.ts",
+      "line": 210,
+      "context": "    }\n\n    if (!fs.existsSync(params.missionFile)) {\n      throw new Error(`Mission file not found: ${params.missionFile}`);\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/split-mission.ts",
+      "line": 218,
+      "context": "    }\n\n    if (params.outputDir && !fs.existsSync(params.outputDir)) {\n      throw new Error(`Output directory not found: ${params.outputDir}`);\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/split-mission.ts",
+      "line": 245,
+      "context": "    try {\n      // Try to load as YAML\n      const content = fs.readFileSync(filePath, 'utf-8');\n\n      try {",
+      "sanitized": true
+    },
+    {
+      "file": "src/tools/split-mission.ts",
+      "line": 287,
+      "context": "\n      // Write file\n      fs.writeFileSync(filePath, missionYaml, 'utf-8');\n      files.push(filePath);\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 110,
+      "context": "  }\n\n  if (!fs.existsSync(params.missionFile)) {\n    throw new Error(`Mission file does not exist: ${params.missionFile}`);\n  }",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 137,
+      "context": "\n  // Create template directory\n  fs.mkdirSync(templateDir, { recursive: true });\n\n  // Write template files",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 145,
+      "context": "\n    // Create directory if it doesn't exist\n    fs.mkdirSync(fileDir, { recursive: true });\n\n    // Write file content",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 148,
+      "context": "\n    // Write file content\n    fs.writeFileSync(filePath, file.content, 'utf-8');\n  }\n",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 153,
+      "context": "  // Write metadata file\n  const metadataPath = path.join(templateDir, 'template-metadata.json');\n  fs.writeFileSync(\n    metadataPath,\n    JSON.stringify(template.metadata, null, 2),",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 162,
+      "context": "  const reportPath = path.join(templateDir, 'EXTRACTION_REPORT.md');\n  const report = generateExtractionReport(result);\n  fs.writeFileSync(reportPath, report, 'utf-8');\n\n  // Write hooks if present",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 167,
+      "context": "  if (template.hooks?.preGenerate) {\n    const preHookPath = path.join(templateDir, 'hooks', 'pre_gen_project.sh');\n    fs.mkdirSync(path.dirname(preHookPath), { recursive: true });\n    fs.writeFileSync(preHookPath, template.hooks.preGenerate, 'utf-8');\n    fs.chmodSync(preHookPath, 0o755);",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 168,
+      "context": "    const preHookPath = path.join(templateDir, 'hooks', 'pre_gen_project.sh');\n    fs.mkdirSync(path.dirname(preHookPath), { recursive: true });\n    fs.writeFileSync(preHookPath, template.hooks.preGenerate, 'utf-8');\n    fs.chmodSync(preHookPath, 0o755);\n  }",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 174,
+      "context": "  if (template.hooks?.postGenerate) {\n    const postHookPath = path.join(templateDir, 'hooks', 'post_gen_project.sh');\n    fs.mkdirSync(path.dirname(postHookPath), { recursive: true });\n    fs.writeFileSync(postHookPath, template.hooks.postGenerate, 'utf-8');\n    fs.chmodSync(postHookPath, 0o755);",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 175,
+      "context": "    const postHookPath = path.join(templateDir, 'hooks', 'post_gen_project.sh');\n    fs.mkdirSync(path.dirname(postHookPath), { recursive: true });\n    fs.writeFileSync(postHookPath, template.hooks.postGenerate, 'utf-8');\n    fs.chmodSync(postHookPath, 0o755);\n  }",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/suggest-splits.ts",
+      "line": 193,
+      "context": "    }\n\n    if (!fs.existsSync(params.missionFile)) {\n      throw new Error(`Mission file not found: ${params.missionFile}`);\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "src/tools/suggest-splits.ts",
+      "line": 203,
+      "context": "  private loadMissionFile(filePath: string): GenericMission | string {\n    try {\n      const content = fs.readFileSync(filePath, 'utf-8');\n\n      try {",
+      "sanitized": true
+    },
+    {
+      "file": "src/tools/analyze-dependencies.ts",
+      "line": 52,
+      "context": "    }\n\n    if (!fs.existsSync(args.missionDirectory)) {\n      throw new Error(`Mission directory does not exist: ${args.missionDirectory}`);\n    }",
+      "sanitized": false
+    },
+    {
+      "file": "src/intelligence/token-optimizer.ts",
+      "line": 168,
+      "context": "  ): Promise<OptimizationResult> {\n    const fs = await import('fs/promises');\n    const content = await fs.readFile(filePath, 'utf-8');\n    return this.optimize(content, config);\n  }",
+      "sanitized": false
+    },
+    {
+      "file": "src/import-export/template-importer.ts",
+      "line": 218,
+      "context": "        const filePath = url.pathname;\n        const sanitizedPath = this.yamlLoader.sanitizePath(filePath);\n        return fs.readFileSync(sanitizedPath, 'utf-8');\n      }\n",
+      "sanitized": true
+    },
+    {
+      "file": "src/import-export/template-importer.ts",
+      "line": 263,
+      "context": "    const tempFile = path.join(this.baseDir, `.temp-${Date.now()}.yaml`);\n    try {\n      fs.writeFileSync(tempFile, yamlContent);\n      return await this.import(path.basename(tempFile), options);\n    } finally {",
+      "sanitized": true
+    },
+    {
+      "file": "src/import-export/template-importer.ts",
+      "line": 267,
+      "context": "    } finally {\n      // Clean up temp file\n      if (fs.existsSync(tempFile)) {\n        fs.unlinkSync(tempFile);\n      }",
+      "sanitized": false
+    },
+    {
+      "file": "src/import-export/template-exporter.ts",
+      "line": 61,
+      "context": "      // Ensure output directory exists\n      const outputDir = path.dirname(resolvedPath);\n      if (!fs.existsSync(outputDir)) {\n        fs.mkdirSync(outputDir, { recursive: true });\n      }",
+      "sanitized": false
+    },
+    {
+      "file": "src/import-export/template-exporter.ts",
+      "line": 62,
+      "context": "      const outputDir = path.dirname(resolvedPath);\n      if (!fs.existsSync(outputDir)) {\n        fs.mkdirSync(outputDir, { recursive: true });\n      }\n",
+      "sanitized": false
+    },
+    {
+      "file": "src/import-export/template-exporter.ts",
+      "line": 66,
+      "context": "\n      // Write file\n      fs.writeFileSync(resolvedPath, content, 'utf-8');\n\n      return true;",
+      "sanitized": false
+    },
+    {
+      "file": "src/versioning/migration-engine.ts",
+      "line": 223,
+      "context": "  ): Promise<{ success: boolean; template?: any; error?: string }> {\n    try {\n      const backupContent = await fs.readFile(backupPath, 'utf-8');\n      const template = JSON.parse(backupContent);\n",
+      "sanitized": true
+    },
+    {
+      "file": "src/versioning/migration-engine.ts",
+      "line": 251,
+      "context": "\n    // Ensure backup directory exists\n    await fs.mkdir(backupDir, { recursive: true });\n\n    // Write backup",
+      "sanitized": false
+    },
+    {
+      "file": "src/versioning/migration-engine.ts",
+      "line": 254,
+      "context": "\n    // Write backup\n    await fs.writeFile(backupPath, JSON.stringify(template, null, 2), 'utf-8');\n\n    return backupPath;",
+      "sanitized": false
+    },
+    {
+      "file": "src/extraction/template-extractor.ts",
+      "line": 50,
+      "context": "    try {\n      // Validate source mission exists\n      if (!fs.existsSync(this.config.sourceMissionPath)) {\n        throw new Error(`Source mission path does not exist: ${this.config.sourceMissionPath}`);\n      }",
+      "sanitized": true
+    },
+    {
+      "file": "src/extraction/template-extractor.ts",
+      "line": 102,
+      "context": "\n      filesAnalyzed++;\n      const content = fs.readFileSync(filePath, 'utf-8');\n      const relativePath = path.relative(missionPath, filePath);\n",
+      "sanitized": false
+    },
+    {
+      "file": "src/extraction/template-extractor.ts",
+      "line": 195,
+      "context": "\n      const relativePath = path.relative(this.config.sourceMissionPath, filePath);\n      let content = fs.readFileSync(filePath, 'utf-8');\n      let templatePath = relativePath;\n",
+      "sanitized": false
+    },
+    {
+      "file": "src/extraction/template-extractor.ts",
+      "line": 279,
+      "context": "\n  private getAllFiles(dir: string, fileList: string[] = []): string[] {\n    const files = fs.readdirSync(dir);\n\n    for (const file of files) {",
+      "sanitized": false
+    },
+    {
+      "file": "src/loaders/yaml-loader.ts",
+      "line": 164,
+      "context": "\n    // Check file exists and get stats\n    if (!fs.existsSync(sanitizedPath)) {\n      throw new Error(`File not found: ${filePath}`);\n    }",
+      "sanitized": true
+    },
+    {
+      "file": "src/loaders/yaml-loader.ts",
+      "line": 182,
+      "context": "\n    // Read file content\n    const content = fs.readFileSync(sanitizedPath, 'utf-8');\n\n    // Layer 2: Safe parse",
+      "sanitized": true
+    }
+  ],
+  "user_inputs": [],
+  "external_data": [
+    {
+      "file": "tests/intelligence/token-validation.test.ts",
+      "line": 140,
+      "context": "\n      // Call Anthropic API\n      const response = await fetch('https://api.anthropic.com/v1/messages/count_tokens', {\n        method: 'POST',\n        headers: {",
+      "sanitized": false
+    },
+    {
+      "file": "tests/intelligence/token-validation.test.ts",
+      "line": 175,
+      "context": "\n      // Call Google API\n      const response = await fetch(\n        `https://generativelanguage.googleapis.com/v1/${geminiModelId}:countTokens?key=${apiKey}`,\n        {",
+      "sanitized": false
+    },
+    {
+      "file": "scripts/validate-token-counts.ts",
+      "line": 85,
+      "context": "  }\n\n  const response = await fetch('https://api.anthropic.com/v1/messages/count_tokens', {\n    method: 'POST',\n    headers: {",
+      "sanitized": false
+    },
+    {
+      "file": "scripts/validate-token-counts.ts",
+      "line": 116,
+      "context": "  }\n\n  const response = await fetch(\n    `https://generativelanguage.googleapis.com/v1/${GEMINI_MODEL_ID}:countTokens?key=${apiKey}`,\n    {",
+      "sanitized": false
+    }
+  ]
+}

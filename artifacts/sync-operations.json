@@ -1,0 +1,27 @@
+{
+  "scannedAt": "2025-10-26T01:37:47.763309+00:00",
+  "directories": {
+    "tests": 0,
+    "dist": 0,
+    "docs": 0,
+    "scripts": 0,
+    "cmos": 10
+  },
+  "occurrences": {
+    "cmos": [
+      {
+        "file": "cmos/missions/M06a-replace-synchronous-io.yaml",
+        "matches": 4
+      },
+      {
+        "file": "cmos/missions/m06_async_io.yaml",
+        "matches": 4
+      },
+      {
+        "file": "cmos/missions/sprint-backlog.yaml",
+        "matches": 2
+      }
+    ]
+  },
+  "totalOccurrences": 10
+}

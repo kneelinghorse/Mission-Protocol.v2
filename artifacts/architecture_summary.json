@@ -1,0 +1,45 @@
+{
+  "src": {
+    "exists": true,
+    "file_count": 57,
+    "languages": {
+      "no_ext": 1,
+      ".ts": 56
+    }
+  },
+  "lib": {
+    "exists": false,
+    "file_count": 0,
+    "languages": {}
+  },
+  "tools": {
+    "exists": false,
+    "file_count": 0,
+    "languages": {}
+  },
+  "templates": {
+    "exists": true,
+    "file_count": 77,
+    "languages": {
+      "no_ext": 2,
+      ".yaml": 50,
+      ".md": 1,
+      ".json": 24
+    }
+  },
+  "domains": {
+    "exists": false,
+    "file_count": 0,
+    "languages": {}
+  },
+  "tests": {
+    "exists": true,
+    "file_count": 66,
+    "languages": {
+      "no_ext": 1,
+      ".ts": 55,
+      ".bak": 1,
+      ".yaml": 9
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "threshold": 0,
+  "modules": [
+    {
+      "path": "src/index.ts",
+      "reason": "No coverage data"
+    },
+    {
+      "path": "src/tools/version-template.ts",
+      "reason": "No coverage data"
+    },
+    {
+      "path": "src/types/schemas.ts",
+      "reason": "No coverage data"
+    },
+    {
+      "path": "src/types/tools.ts",
+      "reason": "No coverage data"
+    },
+    {
+      "path": "src/types/registry.ts",
+      "reason": "No coverage data"
+    },
+    {
+      "path": "src/types/mission-types.ts",
+      "reason": "No coverage data"
+    },
+    {
+      "path": "src/domains/types.ts",
+      "reason": "No coverage data"
+    },
+    {
+      "path": "src/intelligence/context-propagator.ts",
+      "reason": "No coverage data"
+    },
+    {
+      "path": "src/intelligence/types.ts",
+      "reason": "No coverage data"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "reason": "No coverage data"
+    },
+    {
+      "path": "src/extraction/types.ts",
+      "reason": "No coverage data"
+    }
+  ]
+}

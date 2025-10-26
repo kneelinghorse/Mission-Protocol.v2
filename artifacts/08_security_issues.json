@@ -1,0 +1,1601 @@
+{
+  "eval_usage": [
+    {
+      "file": "tests/import-export/template-importer.test.ts",
+      "line": 162,
+      "snippet": "iption: \"Malicious template\"\n  script: \"eval('malicious code')\"\n`;\n      writeTemplateFile('malicious.yaml', maliciousYA"
+    },
+    {
+      "file": "tests/import-export/security-validator.test.ts",
+      "line": 148,
+      "snippet": "mplate();\n      template.spec.script = 'eval(\"malicious code\")';\n\n      const result = await validator.validate(template"
+    }
+  ],
+  "unsafe_deserialization": [
+    {
+      "file": "dist/tools/analyze-dependencies.js",
+      "line": 154,
+      "snippet": "tf-8');\n            const missionData = yaml.load(content);\n            if (missionData && typeof missionData === 'objec"
+    },
+    {
+      "file": "dist/intelligence/dependency-analyzer.js",
+      "line": 92,
+      "snippet": "'utf-8');\n                missionData = yaml.load(content);\n            }\n            else {\n                // Mission "
+    },
+    {
+      "file": "src/tools/analyze-dependencies.ts",
+      "line": 164,
+      "snippet": "th, 'utf-8');\n      const missionData = yaml.load(content);\n\n      if (missionData && typeof missionData === 'object') {"
+    },
+    {
+      "file": "src/intelligence/dependency-analyzer.ts",
+      "line": 97,
+      "snippet": "lePath, 'utf-8');\n        missionData = yaml.load(content);\n      } else {\n        // Mission is already an object\n     "
+    }
+  ],
+  "command_injection_risk": [],
+  "path_traversal_risk": [
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 83,
+      "snippet": "lates';\n            const templateDir = path.join(outputDir, params.templateName);\n            await writeTemplate(templ"
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 139,
+      "snippet": "leStructure) {\n        const filePath = path.join(templateDir, file.path);\n        const fileDir = path.dirname(filePath"
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 147,
+      "snippet": " metadata file\n    const metadataPath = path.join(templateDir, 'template-metadata.json');\n    fs.writeFileSync(metadataP"
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 150,
+      "snippet": "xtraction report\n    const reportPath = path.join(templateDir, 'EXTRACTION_REPORT.md');\n    const report = generateExtra"
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 155,
+      "snippet": "Generate) {\n        const preHookPath = path.join(templateDir, 'hooks', 'pre_gen_project.sh');\n        fs.mkdirSync(path"
+    },
+    {
+      "file": "dist/tools/extract-template.js",
+      "line": 161,
+      "snippet": "enerate) {\n        const postHookPath = path.join(templateDir, 'hooks', 'post_gen_project.sh');\n        fs.mkdirSync(pat"
+    },
+    {
+      "file": "dist/tools/analyze-dependencies.js",
+      "line": 128,
+      "snippet": "entries) {\n            const fullPath = path.join(dir, entry.name);\n            if (entry.isDirectory()) {\n             "
+    },
+    {
+      "file": "dist/tools/split-mission.js",
+      "line": 228,
+      "snippet": "er}.yaml`;\n            const filePath = path.join(outputDir, fileName);\n            // Convert SubMission to GenericMiss"
+    },
+    {
+      "file": "dist/domains/domain-pack-loader.js",
+      "line": 125,
+      "snippet": "l manifest\n        const manifestPath = path.join(registryEntry.path, 'pack.yaml');\n        const manifest = this.loadMa"
+    },
+    {
+      "file": "dist/domains/domain-pack-loader.js",
+      "line": 133,
+      "snippet": "omain schema\n        const schemaPath = path.join(registryEntry.path, manifest.schema);\n        const schema = this.load"
+    },
+    {
+      "file": "dist/domains/domain-pack-loader.js",
+      "line": 136,
+      "snippet": "n template\n        const templatePath = path.join(registryEntry.path, 'template.yaml');\n        const template = this.lo"
+    },
+    {
+      "file": "dist/import-export/template-importer.js",
+      "line": 218,
+      "snippet": "ile and import\n        const tempFile = path.join(this.baseDir, `.temp-${Date.now()}.yaml`);\n        try {\n            f"
+    },
+    {
+      "file": "dist/import-export/template-exporter.js",
+      "line": 228,
+      "snippet": "'}`;\n                const outputPath = path.join(outputDir, filename);\n                this.export(template, outputPath"
+    },
+    {
+      "file": "dist/versioning/migration-engine.js",
+      "line": 203,
+      "snippet": "ackup.json`;\n        const backupPath = path.join(backupDir, backupFileName);\n        // Ensure backup directory exists\n"
+    },
+    {
+      "file": "dist/extraction/template-extractor.js",
+      "line": 255,
+      "snippet": "f files) {\n            const filePath = path.join(dir, file);\n            const stat = fs.statSync(filePath);\n          "
+    },
+    {
+      "file": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 51,
+      "snippet": "'gpt' });\n\n    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mission-protocol-intel-'));\n    missionFile = path.join("
+    },
+    {
+      "file": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 52,
+      "snippet": "n-protocol-intel-'));\n    missionFile = path.join(tempDir, 'mission.yaml');\n    fs.writeFileSync(missionFile, SAMPLE_MIS"
+    },
+    {
+      "file": "tests/smoke/template-assets-smoke.test.ts",
+      "line": 29,
+      "snippet": "mplatesDir();\n\n    const registryPath = path.join(templatesDir, 'registry.yaml');\n    const genericTemplatePath = path.j"
+    },
+    {
+      "file": "tests/smoke/template-assets-smoke.test.ts",
+      "line": 30,
+      "snippet": "yaml');\n    const genericTemplatePath = path.join(templatesDir, 'generic_mission.yaml');\n\n    if (!fs.existsSync(registr"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 27,
+      "snippet": "oolImpl', () => {\n  const testDataDir = path.join(__dirname, '../test-data/create-mission');\n  let loader: SecureYAMLLoa"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 64,
+      "snippet": "omainFields: {}\n`;\n    fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), genericTemplate);\n  });\n\n  after"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 71,
+      "snippet": "orEach(file => {\n      const filePath = path.join(testDataDir, file);\n      const stat = fs.statSync(filePath);\n      if"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 172,
+      "snippet": "est domain pack\n      const webDevDir = path.join(testDataDir, 'domains', 'web-dev');\n      fs.mkdirSync(webDevDir, { re"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 183,
+      "snippet": ": schema.yaml\n`;\n      fs.writeFileSync(path.join(webDevDir, 'pack.yaml'), manifest);\n\n      // Create schema\n      cons"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 198,
+      "snippet": " type: string\n`;\n      fs.writeFileSync(path.join(webDevDir, 'schema.yaml'), schema);\n\n      // Create template\n      co"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 208,
+      "snippet": "sting Library\n`;\n      fs.writeFileSync(path.join(webDevDir, 'template.yaml'), template);\n\n      // Create registry\n    "
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 219,
+      "snippet": "ersion: 2.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'registry.yaml'), registry);\n\n      registryEntries = par"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 415,
+      "snippet": "te to trigger error\n      fs.unlinkSync(path.join(testDataDir, 'generic_mission.yaml'));\n\n      const params = { objecti"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 444,
+      "snippet": "ersion: 2.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'broken-registry.yaml'), registry);\n\n      const registry"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 466,
+      "snippet": "ctive: \"test\"\n`;\n      fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), invalidTemplate);\n\n      const p"
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 18,
+      "snippet": "lImpl();\n    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'token-optimizer-test-'));\n    testFilePath = path.join(t"
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 19,
+      "snippet": "-optimizer-test-'));\n    testFilePath = path.join(tempDir, 'test-mission.yaml');\n  });\n\n  afterEach(async () => {\n    //"
+    },
+    {
+      "file": "tests/tools/create-mission.coverage.test.ts",
+      "line": 18,
+      "snippet": "ranches', () => {\n  const testDataDir = path.join(__dirname, '../test-data/create-mission-cov');\n  let loader: SecureYAM"
+    },
+    {
+      "file": "tests/tools/create-mission.coverage.test.ts",
+      "line": 54,
+      "snippet": "omainFields: {}\n`;\n    fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), genericTemplate);\n  });\n\n  after"
+    },
+    {
+      "file": "tests/tools/create-mission.coverage.test.ts",
+      "line": 60,
+      "snippet": "dirSync(testDataDir)) {\n      const p = path.join(testDataDir, entry);\n      const stat = fs.statSync(p);\n      if (stat"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 19,
+      "snippet": "oolImpl', () => {\n  const testDataDir = path.join(__dirname, '../test-data/tools');\n  let loader: SecureYAMLLoader;\n  le"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 41,
+      "snippet": "s.forEach(file => {\n      fs.unlinkSync(path.join(testDataDir, file));\n    });\n  });\n\n  describe('execute', () => {\n    "
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 61,
+      "snippet": "ersion: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'single.yaml'), registryContent);\n\n      const result = t"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 94,
+      "snippet": "ersion: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'multiple.yaml'), registryContent);\n\n      const result ="
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 113,
+      "snippet": "ersion: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'no-author.yaml'), registryContent);\n\n      const result "
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 133,
+      "snippet": "ersion: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'invalid.yaml'), registryContent);\n\n      expect(() => to"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 145,
+      "snippet": "ersion: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'corrupted.yaml'), registryContent);\n\n      expect(() => "
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 159,
+      "snippet": "ersion: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'registry.yaml'), registryContent);\n\n      const result ="
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 303,
+      "snippet": "ersion: 1.0.0\n`;\n      fs.writeFileSync(path.join(testDataDir, 'full.yaml'), registryContent);\n\n      const domains = to"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 321,
+      "snippet": " - name: test\n`;\n      fs.writeFileSync(path.join(testDataDir, 'no-array.yaml'), registryContent);\n\n      expect(() => t"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 330,
+      "snippet": "`\ndomains: []\n`;\n      fs.writeFileSync(path.join(testDataDir, 'empty.yaml'), registryContent);\n\n      const result = to"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 17,
+      "snippet": "irectories\n    tempDir = fs.mkdtempSync(path.join(require('os').tmpdir(), 'extract-template-test-'));\n    testMissionDir"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 18,
+      "snippet": "template-test-'));\n    testMissionDir = path.join(tempDir, 'test-mission');\n    outputDir = path.join(tempDir, 'template"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 19,
+      "snippet": "mpDir, 'test-mission');\n    outputDir = path.join(tempDir, 'templates');\n\n    fs.mkdirSync(testMissionDir, { recursive: "
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 84,
+      "snippet": "', async () => {\n      fs.writeFileSync(path.join(testMissionDir, 'test.js'), 'console.log(\"test\")');\n\n      const param"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 99,
+      "snippet": "', async () => {\n      fs.writeFileSync(path.join(testMissionDir, 'test.js'), 'console.log(\"test\")');\n\n      const param"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 119,
+      "snippet": "mission\n      fs.writeFileSync(\n        path.join(testMissionDir, 'app.js'),\n        'const express = require(\"express\")"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 124,
+      "snippet": "    );\n\n      fs.writeFileSync(\n        path.join(testMissionDir, 'package.json'),\n        JSON.stringify({\n          na"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 144,
+      "snippet": "itten to disk\n      const templateDir = path.join(outputDir, 'express-service');\n      expect(fs.existsSync(templateDir)"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 146,
+      "snippet": ".toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'template-metadata.json'))).toBe(true);\n      expect(fs.e"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 147,
+      "snippet": ".toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'EXTRACTION_REPORT.md'))).toBe(true);\n    });\n\n    it('sh"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 151,
+      "snippet": "async () => {\n      const missionFile = path.join(testMissionDir, 'mission.yaml');\n      fs.writeFileSync(\n        missi"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 169,
+      "snippet": "ent directory\n      const templateDir = path.join(outputDir, 'mission-template');\n      expect(fs.existsSync(templateDir"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 175,
+      "snippet": "() => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'config.yaml'),\n        'name: test-app\\nversion: 1.0."
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 195,
+      "snippet": "() => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'app.js'),\n        'console.log(\"test\")'\n      );\n\n   "
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 205,
+      "snippet": "'\n      };\n\n      const templatesRoot = path.join(process.cwd(), 'templates');\n      const hadTemplatesDir = fs.existsSy"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 212,
+      "snippet": "rue);\n\n      const defaultTemplateDir = path.join(templatesRoot, 'test-template');\n\n      // Check that template was cre"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 231,
+      "snippet": "() => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'config.json'),\n        JSON.stringify({ name: 'test-s"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 246,
+      "snippet": "toBe(true);\n\n      const metadataPath = path.join(outputDir, 'test-template', 'template-metadata.json');\n      const met"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 256,
+      "snippet": "es', async () => {\n      const srcDir = path.join(testMissionDir, 'src');\n      fs.mkdirSync(srcDir, { recursive: true }"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 259,
+      "snippet": "rsive: true });\n\n      fs.writeFileSync(path.join(srcDir, 'index.js'), 'console.log(\"main\")');\n      fs.writeFileSync(pa"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 260,
+      "snippet": "e.log(\"main\")');\n      fs.writeFileSync(path.join(testMissionDir, 'README.md'), '# Test Project');\n\n      const params: "
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 273,
+      "snippet": ".toBe(true);\n\n      const templateDir = path.join(outputDir, 'multi-file-template');\n      expect(fs.existsSync(path.joi"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 274,
+      "snippet": "-template');\n      expect(fs.existsSync(path.join(templateDir, 'src'))).toBe(true);\n      expect(fs.existsSync(path.join"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 275,
+      "snippet": ".toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'README.md'))).toBe(true);\n    });\n\n    it('should create"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 280,
+      "snippet": "() => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'app.py'),\n        'print(\"test\")'\n      );\n\n      con"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 295,
+      "snippet": ").toBe(true);\n\n      const reportPath = path.join(outputDir, 'test-template', 'EXTRACTION_REPORT.md');\n      expect(fs.e"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 307,
+      "snippet": "async () => {\n      const templateDir = path.join(outputDir, 'with-hooks');\n\n      const result: any = {\n        success"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 338,
+      "snippet": "r, result);\n\n      expect(fs.existsSync(path.join(templateDir, 'hooks', 'pre_gen_project.sh'))).toBe(true);\n      expect"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 339,
+      "snippet": ".toBe(true);\n      expect(fs.existsSync(path.join(templateDir, 'hooks', 'post_gen_project.sh'))).toBe(true);\n    });\n\n  "
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 343,
+      "snippet": "async () => {\n      const templateDir = path.join(outputDir, 'no-template');\n      const badResult: any = { success: tru"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 355,
+      "snippet": "nc () => {\n      const nodeModulesDir = path.join(testMissionDir, 'node_modules');\n      fs.mkdirSync(nodeModulesDir, { "
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 357,
+      "snippet": "ursive: true });\n      fs.writeFileSync(path.join(nodeModulesDir, 'package.json'), '{}');\n\n      fs.writeFileSync(path.j"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 359,
+      "snippet": ".json'), '{}');\n\n      fs.writeFileSync(path.join(testMissionDir, 'app.js'), 'console.log(\"test\")');\n\n      const params"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 372,
+      "snippet": ".toBe(true);\n\n      const templateDir = path.join(outputDir, 'test-template');\n      expect(fs.existsSync(path.join(temp"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 373,
+      "snippet": "-template');\n      expect(fs.existsSync(path.join(templateDir, 'node_modules'))).toBe(false);\n      expect(fs.existsSync"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 374,
+      "snippet": "toBe(false);\n      expect(fs.existsSync(path.join(templateDir, 'app.js'))).toBe(true);\n    });\n  });\n\n  describe('Perfor"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 381,
+      "snippet": "() => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'app.js'),\n        'console.log(\"test\")'\n      );\n\n   "
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 402,
+      "snippet": "() => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'config.yaml'),\n        'name: test\\nversion: 1.0.0'\n "
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 425,
+      "snippet": "() => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'app.py'),\n        'from flask import Flask\\n\\napp = F"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 430,
+      "snippet": "    );\n\n      fs.writeFileSync(\n        path.join(testMissionDir, 'requirements.txt'),\n        'flask==2.0.0\\ngunicorn=="
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 446,
+      "snippet": "('python');\n\n      const metadataPath = path.join(outputDir, 'flask-api', 'template-metadata.json');\n      const metadat"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 454,
+      "snippet": "() => {\n      fs.writeFileSync(\n        path.join(testMissionDir, 'package.json'),\n        JSON.stringify({\n          na"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 467,
+      "snippet": "    );\n\n      fs.writeFileSync(\n        path.join(testMissionDir, 'index.js'),\n        'const express = require(\"express"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 483,
+      "snippet": "javascript');\n\n      const reportPath = path.join(outputDir, 'node-microservice', 'EXTRACTION_REPORT.md');\n      const r"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 506,
+      "snippet": "y', async () => {\n      const badFile = path.join(testMissionDir, 'bad.json');\n      fs.writeFileSync(badFile, '{invalid"
+    },
+    {
+      "file": "tests/tools/suggest-splits.execute.test.ts",
+      "line": 6,
+      "snippet": "path';\n\nconst TEMP_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'suggest-splits-'));\n\nfunction writeMissionFile(content: "
+    },
+    {
+      "file": "tests/tools/suggest-splits.execute.test.ts",
+      "line": 9,
+      "snippet": "t: string): string {\n  const filePath = path.join(TEMP_DIR, `mission-${Date.now()}-${Math.random()}.yaml`);\n  fs.writeFi"
+    },
+    {
+      "file": "tests/tools/analyze-dependencies.test.ts",
+      "line": 7,
+      "snippet": "ependencies', () => {\n  const testDir = path.join(__dirname, '../fixtures/test-missions');\n\n  beforeAll(async () => {\n  "
+    },
+    {
+      "file": "tests/tools/analyze-dependencies.test.ts",
+      "line": 18,
+      "snippet": " a research mission',\n        filePath: path.join(testDir, 'R4.3.yaml')\n      },\n      {\n        missionId: 'B4.3',\n    "
+    },
+    {
+      "file": "tests/tools/analyze-dependencies.test.ts",
+      "line": 29,
+      "snippet": "         ]\n        },\n        filePath: path.join(testDir, 'B4.3.yaml')\n      },\n      {\n        missionId: 'B4.4',\n    "
+    },
+    {
+      "file": "tests/tools/analyze-dependencies.test.ts",
+      "line": 40,
+      "snippet": "         }\n        },\n        filePath: path.join(testDir, 'B4.4.yaml')\n      }\n    ];\n\n    for (const mission of missio"
+    },
+    {
+      "file": "tests/tools/analyze-dependencies.test.ts",
+      "line": 81,
+      "snippet": "', async () => {\n      const emptyDir = path.join(__dirname, '../fixtures/empty-dir');\n      await fs.promises.mkdir(emp"
+    },
+    {
+      "file": "tests/tools/analyze-dependencies.test.ts",
+      "line": 164,
+      "snippet": "tection', () => {\n    const cyclicDir = path.join(__dirname, '../fixtures/cyclic-missions');\n\n    beforeAll(async () => "
+    },
+    {
+      "file": "tests/tools/analyze-dependencies.test.ts",
+      "line": 197,
+      "snippet": "of missions) {\n        const filePath = path.join(cyclicDir, `${mission.missionId}.yaml`);\n        await fs.promises.wri"
+    },
+    {
+      "file": "tests/tools/analyze-dependencies.test.ts",
+      "line": 243,
+      "snippet": "s test\n      const cyclicDirForFormat = path.join(__dirname, '../fixtures/cyclic-missions-format');\n      await fs.promi"
+    },
+    {
+      "file": "tests/tools/analyze-dependencies.test.ts",
+      "line": 266,
+      "snippet": "of missions) {\n        const filePath = path.join(cyclicDirForFormat, `${mission.missionId}.yaml`);\n        await fs.pro"
+    },
+    {
+      "file": "tests/tools/analyze-dependencies.test.ts",
+      "line": 321,
+      "snippet": "c () => {\n      const emptyMissionDir = path.join(__dirname, '../fixtures/empty-missions');\n      await fs.promises.mkdi"
+    },
+    {
+      "file": "tests/tools/analyze-dependencies.test.ts",
+      "line": 323,
+      "snippet": "e });\n      await fs.promises.writeFile(path.join(emptyMissionDir, 'empty.yaml'), '');\n\n      const result = await analy"
+    },
+    {
+      "file": "tests/tools/analyze-dependencies.test.ts",
+      "line": 336,
+      "snippet": " async () => {\n      const invalidDir = path.join(__dirname, '../fixtures/invalid-missions');\n      await fs.promises.mk"
+    },
+    {
+      "file": "tests/tools/analyze-dependencies.test.ts",
+      "line": 340,
+      "snippet": "   await fs.promises.writeFile(\n        path.join(invalidDir, 'invalid.yaml'),\n        yaml.dump({ objective: 'No missio"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 37,
+      "snippet": "oader = new SecureYAMLLoader({ baseDir: path.join(__dirname, '../../templates') });\n    mockTokenCounter = new MockToken"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 42,
+      "snippet": "st files\n    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'split-mission-test-'));\n    testMissionPath = path.join("
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 43,
+      "snippet": "mission-test-'));\n    testMissionPath = path.join(tempDir, 'test-mission.yaml');\n  });\n\n  afterEach(async () => {\n    //"
+    },
+    {
+      "file": "tests/tools/export-template.test.ts",
+      "line": 20,
+      "snippet": "=> {\n    const baseDir = fs.mkdtempSync(path.join(os.tmpdir(), 'export-template-'));\n    const outputPath = 'smoke-templ"
+    },
+    {
+      "file": "tests/tools/export-template.test.ts",
+      "line": 37,
+      "snippet": ": 'yaml',\n    });\n\n    const fullPath = path.join(baseDir, outputPath);\n\n    expect(result.success).toBe(true);\n    expe"
+    },
+    {
+      "file": "tests/tools/export-template.test.ts",
+      "line": 46,
+      "snippet": "=> {\n    const baseDir = fs.mkdtempSync(path.join(os.tmpdir(), 'export-template-json-'));\n    const outputPath = 'smoke-"
+    },
+    {
+      "file": "tests/tools/export-template.test.ts",
+      "line": 64,
+      "snippet": "y: false,\n    });\n\n    const fullPath = path.join(baseDir, outputPath);\n    const content = fs.readFileSync(fullPath, 'u"
+    },
+    {
+      "file": "tests/intelligence/token-optimizer.extra.test.ts",
+      "line": 14,
+      "snippet": "();\n    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'opt-file-'));\n    const filePath = path.join(tmpDir, 'mi"
+    },
+    {
+      "file": "tests/intelligence/token-optimizer.extra.test.ts",
+      "line": 15,
+      "snippet": "(), 'opt-file-'));\n    const filePath = path.join(tmpDir, 'mission.yaml');\n    const content = 'objective: Minimal missi"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 18,
+      "snippet": "or testing\n    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yaml-loader-test-'));\n    loader = new SecureYAMLLoader("
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 23,
+      "snippet": "e test file\n    fs.writeFileSync(\n      path.join(tempDir, 'safe.yaml'),\n      'key: value\\nnumber: 42'\n    );\n  });\n\n  "
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 111,
+      "snippet": "fe.yaml');\n      expect(sanitized).toBe(path.join(tempDir, 'safe.yaml'));\n    });\n\n    test('should allow subdirectory p"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 116,
+      "snippet": "directory and file\n      const subdir = path.join(tempDir, 'subdir');\n      fs.mkdirSync(subdir);\n      fs.writeFileSync"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 118,
+      "snippet": "dirSync(subdir);\n      fs.writeFileSync(path.join(subdir, 'file.yaml'), 'data: test');\n\n      const sanitized = loader.s"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 121,
+      "snippet": "le.yaml');\n      expect(sanitized).toBe(path.join(tempDir, 'subdir', 'file.yaml'));\n    });\n\n    test('should allow nest"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 125,
+      "snippet": "ectories', () => {\n      const nested = path.join(tempDir, 'a', 'b', 'c');\n      fs.mkdirSync(nested, { recursive: true "
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 127,
+      "snippet": "ursive: true });\n      fs.writeFileSync(path.join(nested, 'file.yaml'), 'data: test');\n\n      const sanitized = loader.s"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 130,
+      "snippet": "le.yaml');\n      expect(sanitized).toBe(path.join(tempDir, 'a', 'b', 'c', 'file.yaml'));\n    });\n\n    test('should allow"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 134,
+      "snippet": "aseDir', () => {\n      const filePath = path.join(tempDir, 'safe.yaml');\n      const sanitized = loader.sanitizePath(fil"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 141,
+      "snippet": "fe.yaml');\n      expect(sanitized).toBe(path.join(tempDir, 'safe.yaml'));\n    });\n  });\n\n  describe('Symbolic Link Secur"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 148,
+      "snippet": "internal file)\n      const targetFile = path.join(tempDir, 'target.yaml');\n      const symlinkPath = path.join(tempDir, "
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 149,
+      "snippet": "arget.yaml');\n      const symlinkPath = path.join(tempDir, 'symlink.yaml');\n\n      fs.writeFileSync(targetFile, 'data: t"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 174,
+      "snippet": "within baseDir\n      const targetFile = path.join(tempDir, 'target.yaml');\n      const symlinkPath = path.join(tempDir, "
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 175,
+      "snippet": "arget.yaml');\n      const symlinkPath = path.join(tempDir, 'link.yaml');\n\n      fs.writeFileSync(targetFile, 'data: syml"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 201,
+      "snippet": "te a large file\n      const largeFile = path.join(tempDir, 'large.yaml');\n      fs.writeFileSync(largeFile, 'x'.repeat(2"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 224,
+      "snippet": "e.yaml/');\n      expect(sanitized).toBe(path.join(tempDir, 'safe.yaml'));\n    });\n\n    test('should handle path with mul"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 228,
+      "snippet": " slashes', () => {\n      const subdir = path.join(tempDir, 'sub');\n      fs.mkdirSync(subdir);\n      fs.writeFileSync(pa"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 230,
+      "snippet": "dirSync(subdir);\n      fs.writeFileSync(path.join(subdir, 'file.yaml'), 'test: data');\n\n      const sanitized = loader.s"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 233,
+      "snippet": "le.yaml');\n      expect(sanitized).toBe(path.join(tempDir, 'sub', 'file.yaml'));\n    });\n  });\n});\n"
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 13,
+      "snippet": "eTemplatesDir();\n    if (!fs.existsSync(path.join(baseDir, 'registry.yaml'))) {\n      const tmp = fs.mkdtempSync(path.jo"
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 14,
+      "snippet": "'))) {\n      const tmp = fs.mkdtempSync(path.join(require('os').tmpdir(), 'p1-fixtures-'));\n      baseDir = path.join(tm"
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 15,
+      "snippet": "ir(), 'p1-fixtures-'));\n      baseDir = path.join(tmp, 'templates');\n      fs.mkdirSync(path.join(baseDir, 'packs', 'fou"
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 16,
+      "snippet": "n(tmp, 'templates');\n      fs.mkdirSync(path.join(baseDir, 'packs', 'foundation'), { recursive: true });\n      fs.writeF"
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 17,
+      "snippet": "ursive: true });\n      fs.writeFileSync(path.join(baseDir, 'registry.yaml'),\n        `domains:\\n  - name: foundation\\n  "
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 19,
+      "snippet": "sion: 1.0.0\\n`);\n      fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'pack.yaml'),\n        `name: foundatio"
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 21,
+      "snippet": "schema.json\\n`);\n      fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'schema.json'),\n        `{\"$schema\":\"h"
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 23,
+      "snippet": "pe\":\"object\"}`);\n      fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'template.yaml'),\n        `governanceC"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 22,
+      "snippet": "fixtures directory\nconst FIXTURES_DIR = path.join(__dirname, '../fixtures');\n\ndescribe('Phase 4: Intelligence Layer Inte"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 28,
+      "snippet": "async () => {\n      const missionPath = path.join(FIXTURES_DIR, 'complex-mission.yaml');\n\n      // Create a complex test"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 110,
+      "snippet": "- \"Tests\"\n`;\n\n      const missionPath = path.join(FIXTURES_DIR, 'quality-test.yaml');\n      fs.writeFileSync(missionPath"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 162,
+      "snippet": "entation\"\n`;\n\n      const missionPath = path.join(FIXTURES_DIR, 'high-quality.yaml');\n      fs.writeFileSync(missionPath"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 181,
+      "snippet": "async () => {\n      const missionsDir = path.join(FIXTURES_DIR, 'mission-set');\n      fs.mkdirSync(missionsDir, { recurs"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 220,
+      "snippet": "missions) {\n        const missionPath = path.join(missionsDir, `${mission.id}.yaml`);\n        fs.writeFileSync(missionPa"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 236,
+      "snippet": "on of missions) {\n        fs.unlinkSync(path.join(missionsDir, `${mission.id}.yaml`));\n      }\n      fs.rmdirSync(missio"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 267,
+      "snippet": "ll works\"\n`;\n\n      const missionPath = path.join(FIXTURES_DIR, 'verbose-mission.yaml');\n      fs.writeFileSync(missionP"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 311,
+      "snippet": "File one\"\n`;\n\n      const missionPath = path.join(FIXTURES_DIR, 'dryrun-mission.yaml');\n      fs.writeFileSync(missionPa"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 351,
+      "snippet": "ature.ts\"\n`;\n\n      const missionPath = path.join(FIXTURES_DIR, 'perf-mission.yaml');\n      fs.writeFileSync(missionPath"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 376,
+      "snippet": "- \"Files\"\n`;\n\n      const missionPath = path.join(FIXTURES_DIR, 'perf-opt.yaml');\n      fs.writeFileSync(missionPath, te"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 398,
+      "snippet": "ync () => {\n      const malformedPath = path.join(FIXTURES_DIR, 'malformed.yaml');\n      fs.writeFileSync(malformedPath,"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 413,
+      "snippet": "c () => {\n      const nonExistentPath = path.join(FIXTURES_DIR, 'does-not-exist.yaml');\n\n      const result = await scor"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 425,
+      "snippet": ", async () => {\n      const emptyPath = path.join(FIXTURES_DIR, 'empty.yaml');\n      fs.writeFileSync(emptyPath, '');\n\n "
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 462,
+      "snippet": "e system\"\n`;\n\n      const missionPath = path.join(FIXTURES_DIR, 'pipeline.yaml');\n      fs.writeFileSync(missionPath, te"
+    },
+    {
+      "file": "tests/integration/phase3-flow.test.ts",
+      "line": 30,
+      "snippet": ") => {\n  const tmpRoot = fs.mkdtempSync(path.join(require('os').tmpdir(), 'phase3-integration-'));\n\n  it('Extract -> Exp"
+    },
+    {
+      "file": "tests/integration/phase3-flow.test.ts",
+      "line": 33,
+      "snippet": ")', async () => {\n    const sourceDir = path.join(tmpRoot, 'src');\n    fs.mkdirSync(sourceDir);\n    fs.writeFileSync(pat"
+    },
+    {
+      "file": "tests/integration/phase3-flow.test.ts",
+      "line": 35,
+      "snippet": "irSync(sourceDir);\n    fs.writeFileSync(path.join(sourceDir, 'service.yaml'), 'name: api\\nversion: 1.0.0\\nport: 8080');\n"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 32,
+      "snippet": "es in a temp dir\n    if (!fs.existsSync(path.join(templatesDir, 'registry.yaml'))) {\n      const tmp = fs.mkdtempSync(pa"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 33,
+      "snippet": "'))) {\n      const tmp = fs.mkdtempSync(path.join(require('os').tmpdir(), 'phase2-fixtures-'));\n      const localTemplat"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 34,
+      "snippet": "tures-'));\n      const localTemplates = path.join(tmp, 'templates');\n      fs.mkdirSync(path.join(localTemplates, 'packs"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 35,
+      "snippet": "n(tmp, 'templates');\n      fs.mkdirSync(path.join(localTemplates, 'packs', 'software.technical-task'), { recursive: true"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 36,
+      "snippet": " recursive: true });\n      fs.mkdirSync(path.join(localTemplates, 'packs', 'business.market-research'), { recursive: tru"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 39,
+      "snippet": "/ Write registry\n      fs.writeFileSync(path.join(localTemplates, 'registry.yaml'),\n        `domains:\\n  - name: softwar"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 43,
+      "snippet": "te software pack\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'software.technical-task', 'pack.yaml'),\n    "
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 45,
+      "snippet": "chema.json\"\\n`);\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'software.technical-task', 'schema.json'),\n  "
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 47,
+      "snippet": "erties\":true}`);\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'software.technical-task', 'template.yaml'),\n"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 54,
+      "snippet": "te business pack\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'business.market-research', 'pack.yaml'),\n   "
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 56,
+      "snippet": "chema.json\"\\n`);\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'business.market-research', 'schema.json'),\n "
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 58,
+      "snippet": "erties\":true}`);\n      fs.writeFileSync(path.join(localTemplates, 'packs', 'business.market-research', 'template.yaml'),"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 62,
+      "snippet": "ate_mission tool\n      fs.writeFileSync(path.join(localTemplates, 'generic_mission.yaml'),\n        `schemaType: \"Mission"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 67,
+      "snippet": ";\n    }\n    const genericTemplatePath = path.join(templatesDir, 'generic_mission.yaml');\n    if (!fs.existsSync(genericT"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 433,
+      "snippet": "ify files exist\n        const packDir = path.join(templatesDir, pack.path);\n        expect(fs.existsSync(path.join(packD"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 434,
+      "snippet": "ack.path);\n        expect(fs.existsSync(path.join(packDir, 'pack.yaml'))).toBe(true);\n        expect(fs.existsSync(path."
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 435,
+      "snippet": "oBe(true);\n        expect(fs.existsSync(path.join(packDir, 'schema.json'))).toBe(true);\n        expect(fs.existsSync(pat"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 436,
+      "snippet": "oBe(true);\n        expect(fs.existsSync(path.join(packDir, 'template.yaml'))).toBe(true);\n      }\n    });\n  });\n});\n"
+    },
+    {
+      "file": "tests/utils/template-path.ts",
+      "line": 17,
+      "snippet": " candidates) {\n    const registryPath = path.join(candidate, 'registry.yaml');\n    if (fs.existsSync(registryPath)) {\n  "
+    },
+    {
+      "file": "tests/import-export/template-importer.coverage.test.ts",
+      "line": 4,
+      "snippet": " as path from 'path';\n\nconst BASE_DIR = path.join(process.cwd(), 'templates');\n\ndescribe('TemplateImporter coverage scen"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 18,
+      "snippet": "YAML Export', () => {\n  const testDir = path.join(__dirname, 'test-exports');\n  let exporter: TemplateExporter;\n\n  befor"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 79,
+      "snippet": ".toBe(true);\n      expect(fs.existsSync(path.join(testDir, 'test-output.yaml'))).toBe(true);\n    });\n\n    it('should pro"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 87,
+      "snippet": "\n\n      const content = fs.readFileSync(path.join(testDir, 'parseable.yaml'), 'utf-8');\n      const parsed = YAML.parse("
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 99,
+      "snippet": "\n\n      const content = fs.readFileSync(path.join(testDir, 'with-comments.yaml'), 'utf-8');\n\n      expect(content).toCon"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 111,
+      "snippet": "\n\n      const content = fs.readFileSync(path.join(testDir, 'no-comments.yaml'), 'utf-8');\n\n      expect(content).not.toC"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 121,
+      "snippet": "\n\n      const content = fs.readFileSync(path.join(testDir, 'safe-yaml.yaml'), 'utf-8');\n\n      // Check for dangerous YA"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 134,
+      "snippet": "\n\n      const content = fs.readFileSync(path.join(testDir, 'pretty.yaml'), 'utf-8');\n\n      // Pretty YAML should have i"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 150,
+      "snippet": ".toBe(true);\n      expect(fs.existsSync(path.join(testDir, 'test-output.json'))).toBe(true);\n    });\n\n    it('should pro"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 158,
+      "snippet": "\n\n      const content = fs.readFileSync(path.join(testDir, 'parseable.json'), 'utf-8');\n      const parsed = JSON.parse("
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 170,
+      "snippet": "\n\n      const content = fs.readFileSync(path.join(testDir, 'pretty.json'), 'utf-8');\n\n      // Pretty JSON should have n"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 182,
+      "snippet": "\n\n      const content = fs.readFileSync(path.join(testDir, 'compact.json'), 'utf-8');\n\n      // Compact JSON should not "
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 330,
+      "snippet": "e);\n      expect(\n        fs.existsSync(path.join(testDir, 'nested/dir/template.yaml'))\n      ).toBe(true);\n    });\n  })"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 346,
+      "snippet": "nt).toBe(2);\n      expect(fs.existsSync(path.join(testDir, 'multi-export'))).toBe(true);\n    });\n\n    it('should continu"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 380,
+      "snippet": "k\n      const content = fs.readFileSync(path.join(testDir, 'roundtrip.yaml'), 'utf-8');\n      const parsed = YAML.parse("
+    },
+    {
+      "file": "tests/import-export/template-importer.test.ts",
+      "line": 16,
+      "snippet": "te Pipeline', () => {\n  const testDir = path.join(__dirname, 'test-templates');\n  let importer: TemplateImporter;\n\n  bef"
+    },
+    {
+      "file": "tests/import-export/template-importer.test.ts",
+      "line": 43,
+      "snippet": "t: string): void {\n    fs.writeFileSync(path.join(testDir, filename), content, 'utf-8');\n  }\n\n  // Helper to create vali"
+    },
+    {
+      "file": "tests/import-export/template-importer.test.ts",
+      "line": 254,
+      "snippet": " - name: \"dep\"\n    sourceUrl: \"file://${path.join(testDir, 'dep.yaml')}\"\n    version: \"1.0.0\"\n    checksum: \"sha256:${'0"
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 13,
+      "snippet": "types/registry';\n\nconst TEST_DATA_DIR = path.join(__dirname, 'test-data');\n\ndescribe('RegistryParser', () => {\n  let par"
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 31,
+      "snippet": "in', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'valid-single.yaml');\n      fs.writeFileSync(\n        r"
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 53,
+      "snippet": "ns', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'valid-multiple.yaml');\n      fs.writeFileSync(\n       "
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 87,
+      "snippet": "ld', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'valid-optional-author.yaml');\n      fs.writeFileSync(\n"
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 116,
+      "snippet": "ld', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'invalid-missing-name.yaml');\n      fs.writeFileSync(\n "
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 132,
+      "snippet": "on', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'invalid-semver.yaml');\n      fs.writeFileSync(\n       "
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 149,
+      "snippet": "on', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'invalid-schema-version.yaml');\n      fs.writeFileSync("
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 168,
+      "snippet": "th', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'invalid-path-traversal.yaml');\n      fs.writeFileSync("
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 185,
+      "snippet": "th', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'invalid-absolute-path.yaml');\n      fs.writeFileSync(\n"
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 202,
+      "snippet": "ng', () => {\n      const registryPath = path.join(TEST_DATA_DIR, 'invalid-empty-author.yaml');\n      fs.writeFileSync(\n "
+    },
+    {
+      "file": "tests/versioning/migration-engine.test.ts",
+      "line": 20,
+      "snippet": "ine: MigrationEngine;\n  const testDir = path.join(__dirname, 'test-backups');\n\n  beforeAll(() => {\n    // Create test di"
+    },
+    {
+      "file": "tests/versioning/migration-engine.test.ts",
+      "line": 400,
+      "snippet": "on: '1.0.0' };\n      const backupPath = path.join(testDir, 'test-backup.json');\n      fs.writeFileSync(backupPath, JSON."
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 17,
+      "snippet": " directory\n    tempDir = fs.mkdtempSync(path.join(require('os').tmpdir(), 'template-extractor-test-'));\n    testMissionD"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 18,
+      "snippet": "xtractor-test-'));\n    testMissionDir = path.join(tempDir, 'test-mission');\n    fs.mkdirSync(testMissionDir, { recursive"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 32,
+      "snippet": "simple test mission\n      const appPy = path.join(testMissionDir, 'app.py');\n      fs.writeFileSync(\n        appPy,\n    "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 52,
+      "snippet": " async () => {\n      const configYaml = path.join(testMissionDir, 'config.yaml');\n      fs.writeFileSync(\n        config"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 79,
+      "snippet": "async () => {\n      const packageJson = path.join(testMissionDir, 'package.json');\n      fs.writeFileSync(\n        packa"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 107,
+      "snippet": " async () => {\n      const projectDir = path.join(testMissionDir, 'my-custom-app');\n      fs.mkdirSync(projectDir, { rec"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 110,
+      "snippet": "recursive: true });\n\n      const file = path.join(projectDir, 'main.py');\n      fs.writeFileSync(file, 'print(\"Hello\")')"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 131,
+      "snippet": "with files\n      const nodeModulesDir = path.join(testMissionDir, 'node_modules');\n      fs.mkdirSync(nodeModulesDir, { "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 133,
+      "snippet": "ursive: true });\n      fs.writeFileSync(path.join(nodeModulesDir, 'package.json'), '{}');\n\n      // Create a normal file"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 136,
+      "snippet": "te a normal file\n      fs.writeFileSync(path.join(testMissionDir, 'app.js'), 'console.log(\"test\")');\n\n      const config"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 153,
+      "snippet": "uencies\n      fs.writeFileSync(\n        path.join(testMissionDir, 'file1.py'),\n        'PROJECT_NAME = \"unique-project\"\\"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 157,
+      "snippet": "     );\n      fs.writeFileSync(\n        path.join(testMissionDir, 'file2.py'),\n        'NAME = \"unique-project\"\\nCOMMON "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 161,
+      "snippet": "     );\n      fs.writeFileSync(\n        path.join(testMissionDir, 'file3.py'),\n        'COMMON = \"common-value\"\\n'\n     "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 191,
+      "snippet": "reshold\n      fs.writeFileSync(\n        path.join(testMissionDir, 'only.js'),\n        'console.log(\"unique_literal_value"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 210,
+      "snippet": "ectories and files\n      const gitDir = path.join(testMissionDir, '.git');\n      const distDir = path.join(testMissionDi"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 211,
+      "snippet": "sionDir, '.git');\n      const distDir = path.join(testMissionDir, 'dist');\n      fs.mkdirSync(gitDir, { recursive: true "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 214,
+      "snippet": "ursive: true });\n      fs.writeFileSync(path.join(gitDir, 'config'), 'git');\n      fs.writeFileSync(path.join(distDir, '"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 215,
+      "snippet": "onfig'), 'git');\n      fs.writeFileSync(path.join(distDir, 'bundle.js'), 'dist');\n      fs.writeFileSync(path.join(testM"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 216,
+      "snippet": "e.js'), 'dist');\n      fs.writeFileSync(path.join(testMissionDir, 'debug.log'), 'log');\n\n      // Create one valid file\n"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 219,
+      "snippet": "e one valid file\n      fs.writeFileSync(path.join(testMissionDir, 'main.js'), 'console.log(\"ok\")');\n\n      const config:"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 236,
+      "snippet": "tes', async () => {\n      const appPy = path.join(testMissionDir, 'app.py');\n      fs.writeFileSync(\n        appPy,\n    "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 258,
+      "snippet": "ers', async () => {\n      const appPy = path.join(testMissionDir, 'app.py');\n      fs.writeFileSync(\n        appPy,\n    "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 282,
+      "snippet": " async () => {\n      const configYaml = path.join(testMissionDir, 'config.yaml');\n      fs.writeFileSync(configYaml, 'na"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 307,
+      "snippet": "boolean branch\n      const configJson = path.join(testMissionDir, 'config.json');\n      fs.writeFileSync(\n        config"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 334,
+      "snippet": ", async () => {\n      const customDir = path.join(testMissionDir, 'custom-project-name');\n      fs.mkdirSync(customDir, "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 336,
+      "snippet": "ursive: true });\n      fs.writeFileSync(path.join(customDir, 'index.js'), 'console.log(\"test\")');\n\n      // Also include"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 339,
+      "snippet": "ercise skip branch\n      const srcDir = path.join(testMissionDir, 'src');\n      fs.mkdirSync(srcDir, { recursive: true }"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 341,
+      "snippet": "ursive: true });\n      fs.writeFileSync(path.join(srcDir, 'helper.js'), 'console.log(\"helper\")');\n\n      const config: E"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 363,
+      "snippet": "requent\n      fs.writeFileSync(\n        path.join(testMissionDir, 'a.json'),\n        JSON.stringify({ name: 'alpha' }, n"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 367,
+      "snippet": "     );\n      fs.writeFileSync(\n        path.join(testMissionDir, 'b.json'),\n        JSON.stringify({ name: 'alpha' }, n"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 371,
+      "snippet": "     );\n      fs.writeFileSync(\n        path.join(testMissionDir, 'c.json'),\n        JSON.stringify({ name: 'beta' }, nu"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 395,
+      "snippet": "mission\n      fs.writeFileSync(\n        path.join(testMissionDir, 'package.json'),\n        JSON.stringify({\n          na"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 404,
+      "snippet": "    );\n\n      fs.writeFileSync(\n        path.join(testMissionDir, 'app.js'),\n        'const express = require(\"express\")"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 440,
+      "snippet": " 0; i < 50; i++) {\n        const file = path.join(testMissionDir, `file${i}.js`);\n        fs.writeFileSync(file, `const "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 482,
+      "snippet": "', async () => {\n      fs.writeFileSync(path.join(testMissionDir, 'app.py'), 'print(\"test\")');\n      fs.writeFileSync(pa"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 483,
+      "snippet": "print(\"test\")');\n      fs.writeFileSync(path.join(testMissionDir, 'index.ts'), 'console.log(\"test\")');\n      fs.writeFil"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 484,
+      "snippet": "e.log(\"test\")');\n      fs.writeFileSync(path.join(testMissionDir, 'Main.java'), 'class Main {}');\n      fs.writeFileSync"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 485,
+      "snippet": "class Main {}');\n      fs.writeFileSync(path.join(testMissionDir, 'main.go'), 'package main');\n\n      const config: Extr"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 502,
+      "snippet": " async () => {\n      const nestedJson = path.join(testMissionDir, 'nested.json');\n      fs.writeFileSync(\n        nested"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 526,
+      "snippet": "influence tags\n      const specialDir = path.join(tempDir, 'api-service-web');\n      fs.mkdirSync(specialDir, { recursiv"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 529,
+      "snippet": "AllFiles sees it\n      fs.writeFileSync(path.join(specialDir, 'index.js'), 'console.log(\"ok\")');\n\n      const config: Ex"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 545,
+      "snippet": "', async () => {\n      fs.writeFileSync(path.join(testMissionDir, '.env'), 'PORT=3000');\n      fs.writeFileSync(path.joi"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 546,
+      "snippet": "), 'PORT=3000');\n      fs.writeFileSync(path.join(testMissionDir, 'script.rb'), 'puts \"hi\"');\n\n      const config: Extra"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 18,
+      "snippet": "ch(() => {\n    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yaml-loader-test-'));\n    loader = new SecureYAMLLoader("
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 33,
+      "snippet": "enabled: true\n`;\n      fs.writeFileSync(path.join(tempDir, 'simple.yaml'), yamlContent);\n\n      const data = loader.load"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 52,
+      "snippet": "/path/to/cert\n`;\n      fs.writeFileSync(path.join(tempDir, 'nested.yaml'), yamlContent);\n\n      const data = loader.load"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 67,
+      "snippet": "   value: 200\n`;\n      fs.writeFileSync(path.join(tempDir, 'array.yaml'), yamlContent);\n\n      const data = loader.load("
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 90,
+      "snippet": "g.example.com\n`;\n      fs.writeFileSync(path.join(tempDir, 'anchors.yaml'), yamlContent);\n\n      const data = loader.loa"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 104,
+      "snippet": "with newlines\n`;\n      fs.writeFileSync(path.join(tempDir, 'multiline.yaml'), yamlContent);\n\n      const data = loader.l"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 116,
+      "snippet": "finedValue: ~\n`;\n      fs.writeFileSync(path.join(tempDir, 'nulls.yaml'), yamlContent);\n\n      const data = loader.load("
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 130,
+      "snippet": "r: [structure\n`;\n      fs.writeFileSync(path.join(tempDir, 'invalid.yaml'), yamlContent);\n\n      expect(() => {\n        "
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 145,
+      "snippet": "s: ['ls -la']\n`;\n      fs.writeFileSync(path.join(tempDir, 'malicious1.yaml'), maliciousYAML);\n\n      // The YAML librar"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 157,
+      "snippet": "m -rf /'); }\"\n`;\n      fs.writeFileSync(path.join(tempDir, 'malicious2.yaml'), maliciousYAML);\n\n      expect(() => {\n   "
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 169,
+      "snippet": "'process'); }\n`;\n      fs.writeFileSync(path.join(tempDir, 'malicious3.yaml'), maliciousYAML);\n\n      expect(() => {\n   "
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 180,
+      "snippet": "egexp /hack/i\n`;\n      fs.writeFileSync(path.join(tempDir, 'malicious4.yaml'), maliciousYAML);\n\n      expect(() => {\n   "
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 192,
+      "snippet": "data: attempt\n`;\n      fs.writeFileSync(path.join(tempDir, 'malicious5.yaml'), maliciousYAML);\n\n      expect(() => {\n   "
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 203,
+      "snippet": "ple [1, 2, 3]\n`;\n      fs.writeFileSync(path.join(tempDir, 'malicious6.yaml'), maliciousYAML);\n\n      expect(() => {\n   "
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 217,
+      "snippet": "ersion: 1.0.0\n`;\n      fs.writeFileSync(path.join(tempDir, 'app.yaml'), yamlContent);\n\n      const schema: JSONSchema = "
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 236,
+      "snippet": "name: TestApp\n`;\n      fs.writeFileSync(path.join(tempDir, 'incomplete.yaml'), yamlContent);\n\n      const schema: JSONSc"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 257,
+      "snippet": "\nversion: 123\n`;\n      fs.writeFileSync(path.join(tempDir, 'wrongtype.yaml'), yamlContent);\n\n      const schema: JSONSch"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 278,
+      "snippet": "\n  port: 8080\n`;\n      fs.writeFileSync(path.join(tempDir, 'server.yaml'), yamlContent);\n\n      const schema: JSONSchema"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 307,
+      "snippet": "    name: Bob\n`;\n      fs.writeFileSync(path.join(tempDir, 'users.yaml'), yamlContent);\n\n      const schema: JSONSchema "
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 334,
+      "snippet": "tatus: active\n`;\n      fs.writeFileSync(path.join(tempDir, 'enum.yaml'), yamlContent);\n\n      const schema: JSONSchema ="
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 354,
+      "snippet": "atus: invalid\n`;\n      fs.writeFileSync(path.join(tempDir, 'bad-enum.yaml'), yamlContent);\n\n      const schema: JSONSche"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 374,
+      "snippet": "sfully', () => {\n      fs.writeFileSync(path.join(tempDir, 'file1.yaml'), 'value: 1');\n      fs.writeFileSync(path.join("
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 375,
+      "snippet": "'), 'value: 1');\n      fs.writeFileSync(path.join(tempDir, 'file2.yaml'), 'value: 2');\n      fs.writeFileSync(path.join("
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 376,
+      "snippet": "'), 'value: 2');\n      fs.writeFileSync(path.join(tempDir, 'file3.yaml'), 'value: 3');\n\n      const results = loader.loa"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 385,
+      "snippet": "schema', () => {\n      fs.writeFileSync(path.join(tempDir, 'config1.yaml'), 'name: Config1\\nversion: 1.0');\n      fs.wri"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 386,
+      "snippet": "nversion: 1.0');\n      fs.writeFileSync(path.join(tempDir, 'config2.yaml'), 'name: Config2\\nversion: 2.0');\n\n      const"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 415,
+      "snippet": "\nversion: abc\n`;\n      fs.writeFileSync(path.join(tempDir, 'error.yaml'), yamlContent);\n\n      const schema: JSONSchema "
+    },
+    {
+      "file": "cmos/context/src/domain_discovery.js",
+      "line": 123,
+      "snippet": "ch(item => {\n          const fullPath = path.join(dirPath, item);\n          const relativeFullPath = path.join(relativeP"
+    },
+    {
+      "file": "cmos/context/src/domain_discovery.js",
+      "line": 124,
+      "snippet": "em);\n          const relativeFullPath = path.join(relativePath, item);\n\n          // Skip excluded patterns\n          if"
+    },
+    {
+      "file": "cmos/context/src/domain_discovery.js",
+      "line": 276,
+      "snippet": "sx',\n      resolvedPath + '.tsx',\n      path.join(resolvedPath, 'index.js'),\n      path.join(resolvedPath, 'index.ts')\n "
+    },
+    {
+      "file": "cmos/context/src/domain_discovery.js",
+      "line": 277,
+      "snippet": "h.join(resolvedPath, 'index.js'),\n      path.join(resolvedPath, 'index.ts')\n    ];\n\n    for (const possiblePath of possi"
+    },
+    {
+      "file": "src/tools/split-mission.ts",
+      "line": 281,
+      "snippet": "on.order}.yaml`;\n      const filePath = path.join(outputDir, fileName);\n\n      // Convert SubMission to GenericMission f"
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 72,
+      "snippet": "./templates';\n      const templateDir = path.join(outputDir, params.templateName);\n\n      await writeTemplate(templateDi"
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 141,
+      "snippet": "e.fileStructure) {\n    const filePath = path.join(templateDir, file.path);\n    const fileDir = path.dirname(filePath);\n\n"
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 152,
+      "snippet": "te metadata file\n  const metadataPath = path.join(templateDir, 'template-metadata.json');\n  fs.writeFileSync(\n    metada"
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 160,
+      "snippet": " extraction report\n  const reportPath = path.join(templateDir, 'EXTRACTION_REPORT.md');\n  const report = generateExtract"
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 166,
+      "snippet": ".preGenerate) {\n    const preHookPath = path.join(templateDir, 'hooks', 'pre_gen_project.sh');\n    fs.mkdirSync(path.dir"
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 173,
+      "snippet": "ostGenerate) {\n    const postHookPath = path.join(templateDir, 'hooks', 'post_gen_project.sh');\n    fs.mkdirSync(path.di"
+    },
+    {
+      "file": "src/tools/analyze-dependencies.ts",
+      "line": 135,
+      "snippet": "ry of entries) {\n      const fullPath = path.join(dir, entry.name);\n\n      if (entry.isDirectory()) {\n        // Skip no"
+    },
+    {
+      "file": "src/domains/domain-pack-loader.ts",
+      "line": 109,
+      "snippet": ".yaml manifest\n    const manifestPath = path.join(registryEntry.path, 'pack.yaml');\n    const manifest = this.loadManife"
+    },
+    {
+      "file": "src/domains/domain-pack-loader.ts",
+      "line": 121,
+      "snippet": "ad domain schema\n    const schemaPath = path.join(registryEntry.path, manifest.schema);\n    const schema = this.loadSche"
+    },
+    {
+      "file": "src/domains/domain-pack-loader.ts",
+      "line": 125,
+      "snippet": "omain template\n    const templatePath = path.join(registryEntry.path, 'template.yaml');\n    const template = this.loadTe"
+    },
+    {
+      "file": "src/import-export/template-importer.ts",
+      "line": 261,
+      "snippet": "ry file and import\n    const tempFile = path.join(this.baseDir, `.temp-${Date.now()}.yaml`);\n    try {\n      fs.writeFil"
+    },
+    {
+      "file": "src/import-export/template-exporter.ts",
+      "line": 238,
+      "snippet": "|| 'yaml'}`;\n        const outputPath = path.join(outputDir, filename);\n        this.export(template, outputPath, option"
+    },
+    {
+      "file": "src/versioning/migration-engine.ts",
+      "line": 248,
+      "snippet": "p}_backup.json`;\n    const backupPath = path.join(backupDir, backupFileName);\n\n    // Ensure backup directory exists\n   "
+    },
+    {
+      "file": "src/extraction/template-extractor.ts",
+      "line": 282,
+      "snippet": "file of files) {\n      const filePath = path.join(dir, file);\n      const stat = fs.statSync(filePath);\n\n      if (stat."
+    }
+  ],
+  "hardcoded_secrets": [
+    {
+      "file": "tests/intelligence/token-validation.test.ts",
+      "line": 133,
+      "snippet": "y) {\n        throw new Error('ANTHROPIC_API_KEY required for API validation tests');\n      }\n\n      const text = 'hello "
+    },
+    {
+      "file": "tests/intelligence/token-validation.test.ts",
+      "line": 166,
+      "snippet": "\n        throw new Error('GOOGLE_GEMINI_API_KEY required for API validation tests');\n      }\n\n      const geminiModelId "
+    },
+    {
+      "file": "scripts/validate-token-counts.ts",
+      "line": 9,
+      "snippet": "ment variables required:\n * - ANTHROPIC_API_KEY: For Claude validation\n * - GOOGLE_GEMINI_API_KEY: For Gemini validation"
+    },
+    {
+      "file": "scripts/validate-token-counts.ts",
+      "line": 10,
+      "snippet": "or Claude validation\n * - GOOGLE_GEMINI_API_KEY: For Gemini validation\n * \n * Exit codes:\n * - 0: All validations passed"
+    },
+    {
+      "file": "scripts/validate-token-counts.ts",
+      "line": 82,
+      "snippet": "piKey) {\n    throw new Error('ANTHROPIC_API_KEY not set');\n  }\n\n  const response = await fetch('https://api.anthropic.co"
+    },
+    {
+      "file": "scripts/validate-token-counts.ts",
+      "line": 113,
+      "snippet": "y) {\n    throw new Error('GOOGLE_GEMINI_API_KEY not set');\n  }\n\n  const response = await fetch(\n    `https://generativel"
+    },
+    {
+      "file": "scripts/validate-token-counts.ts",
+      "line": 184,
+      "snippet": "ror('\u274c No API keys found. Set ANTHROPIC_API_KEY and/or GOOGLE_GEMINI_API_KEY');\n    console.error('   See docs/Token_Val"
+    },
+    {
+      "file": "scripts/validate-token-counts.ts",
+      "line": 208,
+      "snippet": "  Skipping Claude validation (ANTHROPIC_API_KEY not set)\\n');\n  }\n\n  // Run Gemini validation if key is available\n  if ("
+    },
+    {
+      "file": "scripts/validate-token-counts.ts",
+      "line": 230,
+      "snippet": "ipping Gemini validation (GOOGLE_GEMINI_API_KEY not set)\\n');\n  }\n\n  // Summary\n  const failedResults = results.filter(r"
+    },
+    {
+      "file": ".github/workflows/token-validation.yml",
+      "line": 35,
+      "snippet": "dation\n        env:\n          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}\n          GOOGLE_GEMINI_API_KEY: ${{ s"
+    },
+    {
+      "file": ".github/workflows/token-validation.yml",
+      "line": 35,
+      "snippet": "NTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}\n          GOOGLE_GEMINI_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}"
+    },
+    {
+      "file": ".github/workflows/token-validation.yml",
+      "line": 36,
+      "snippet": "OPIC_API_KEY }}\n          GOOGLE_GEMINI_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}\n        run: npx ts-node scripts/v"
+    },
+    {
+      "file": ".github/workflows/token-validation.yml",
+      "line": 36,
+      "snippet": "MINI_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}\n        run: npx ts-node scripts/validate-token-counts.ts\n      \n    "
+    }
+  ]
+}

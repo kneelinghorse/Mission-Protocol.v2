@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "research.general Domain Fields",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Domain fields type identifier for traceability (e.g., 'research.general')."
+    },
+    "researchStatement": {
+      "type": "object",
+      "description": "Problem framing for the investigation.",
+      "additionalProperties": false,
+      "properties": {
+        "topic": { "type": "string", "description": "What you’re researching." },
+        "scope": { "type": "string", "description": "Boundaries: timeframe, subdomains, exclusions." },
+        "centralHypothesis": { "type": "string", "description": "Primary claim to test." }
+      },
+      "required": ["topic", "scope", "centralHypothesis"]
+    },
+    "keyQuestions": {
+      "type": "array",
+      "description": "Driving questions to investigate.",
+      "items": { "type": "string" }
+    },
+    "synthesis": {
+      "type": "object",
+      "description": "Meaning-making across findings.",
+      "additionalProperties": false,
+      "properties": {
+        "keyInsights": {
+          "type": "array",
+          "description": "Most important takeaways.",
+          "items": { "type": "string" }
+        },
+        "surprisingFindings": {
+          "type": "array",
+          "description": "Non-obvious or counterintuitive results.",
+          "items": { "type": "string" }
+        },
+        "contradictoryInformation": {
+          "type": "array",
+          "description": "Conflicts that need reconciliation or follow-up.",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["keyInsights"]
+    },
+    "evidenceCollection": {
+      "type": "array",
+      "description": "Evidence chain supporting each key finding.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Evidence source type",
+            "enum": [
+              "Academic Paper", "Industry Report", "News Article",
+              "Book", "Dataset", "Interview", "Webpage", "Other"
+            ]
+          },
+          "reference": { "type": "string", "description": "Citation or URL." },
+          "key_insight": { "type": "string", "description": "Why this evidence matters." },
+          "confidence": {
+            "type": "string",
+            "description": "Confidence in the evidence.",
+            "enum": ["High", "Medium", "Low"]
+          }
+        },
+        "required": ["type", "reference", "key_insight", "confidence"]
+      }
+    },
+    "conclusion": {
+      "type": "object",
+      "description": "So-what and next actions.",
+      "additionalProperties": false,
+      "properties": {
+        "executiveSummary": { "type": "string", "description": "One-paragraph summary." },
+        "nextSteps": {
+          "type": "array",
+          "description": "Actions or decisions derived from the research.",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["executiveSummary", "nextSteps"]
+    }
+  },
+  "required": ["researchStatement", "keyQuestions", "synthesis", "evidenceCollection", "conclusion"]
+}

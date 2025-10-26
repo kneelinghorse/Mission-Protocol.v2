@@ -1,0 +1,4933 @@
+{
+  "functions_without_error_handling": [
+    {
+      "path": "cmos/context/src/domain_dependencies.js",
+      "function": "dfs",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/block-navigation.js",
+      "function": "init",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/block-navigation.js",
+      "function": "toggleClass",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/block-navigation.js",
+      "function": "makeCurrent",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/block-navigation.js",
+      "function": "goToPrevious",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/block-navigation.js",
+      "function": "goToNext",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/block-navigation.js",
+      "function": "jump",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/block-navigation.js",
+      "function": "init",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/block-navigation.js",
+      "function": "toggleClass",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/block-navigation.js",
+      "function": "makeCurrent",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/block-navigation.js",
+      "function": "goToPrevious",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/block-navigation.js",
+      "function": "goToNext",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/block-navigation.js",
+      "function": "jump",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "ab",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "T",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "X",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "W",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "a",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "aa",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "B",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "o",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "g",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "i",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "Q",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "ae",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "ad",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "ai",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "D",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "c",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "q",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "y",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "b",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "Y",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "U",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "getTable",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "getTableHeader",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "getTableBody",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "getNthColumn",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "addSearchBox",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "loadColumns",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "loadRowData",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "loadData",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "sortByIndex",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "removeSortIndicators",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "addSortIndicators",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "enableUI",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "ithSorter",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "ab",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "T",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "X",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "W",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "a",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "aa",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "B",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "o",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "g",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "i",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "Q",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "ae",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "ad",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "ai",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "D",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "c",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "q",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "y",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "b",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "Y",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "U",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "getTable",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "getTableHeader",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "getTableBody",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "getNthColumn",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "addSearchBox",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "loadColumns",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "loadRowData",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "loadData",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "sortByIndex",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "removeSortIndicators",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "addSortIndicators",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "enableUI",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "ithSorter",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/combination/dependency-resolver.js",
+      "function": "dfs",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/combination/pack-combiner.d.ts",
+      "function": "combinePacks",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/combination/pack-combiner.js",
+      "function": "combinePacks",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/domains/domain-pack-loader.d.ts",
+      "function": "loadDomainPack",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/domains/domain-pack-loader.js",
+      "function": "loadDomainPack",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/index.d.ts",
+      "function": "getToolDefinitions",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/index.d.ts",
+      "function": "buildMissionProtocolContext",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/index.d.ts",
+      "function": "executeMissionProtocolTool",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/index.js",
+      "function": "getToolDefinitions",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/index.js",
+      "function": "buildMissionProtocolContext",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "getDefaultRuleset",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "applySanitization",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "convertProseToList",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "convertPassiveToActive",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "applyStructuralRefactoring",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "applyLinguisticSimplification",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "extractPreservedSections",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "replaceWithPlaceholders",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "restorePreservedSections",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "getDefaultRuleset",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "applySanitization",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "convertProseToList",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "convertPassiveToActive",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "applyStructuralRefactoring",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "applyLinguisticSimplification",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "extractPreservedSections",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "replaceWithPlaceholders",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "restorePreservedSections",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/dependency-analyzer.js",
+      "function": "dfs",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/graph-validator.js",
+      "function": "dfs",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/graph-validator.js",
+      "function": "strongConnect",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/model-transpilers.d.ts",
+      "function": "getModelConfig",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/model-transpilers.d.ts",
+      "function": "isAlreadyFormatted",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/model-transpilers.js",
+      "function": "getModelConfig",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/model-transpilers.js",
+      "function": "isAlreadyFormatted",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/telemetry.d.ts",
+      "function": "registerTelemetryHandler",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/telemetry.d.ts",
+      "function": "emitTelemetryWarning",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/telemetry.js",
+      "function": "registerTelemetryHandler",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/token-optimizer.d.ts",
+      "function": "optimizeMission",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/intelligence/token-optimizer.js",
+      "function": "optimizeMission",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/merge/deep-merge.js",
+      "function": "deepMerge",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/registry/semver-validator.d.ts",
+      "function": "isValidSemVer",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/registry/semver-validator.d.ts",
+      "function": "parseSemVer",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/registry/semver-validator.d.ts",
+      "function": "compareSemVer",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/registry/semver-validator.d.ts",
+      "function": "validateSemVerOrThrow",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/registry/semver-validator.d.ts",
+      "function": "areVersionsCompatible",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/registry/semver-validator.js",
+      "function": "isValidSemVer",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/registry/semver-validator.js",
+      "function": "parseSemVer",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/registry/semver-validator.js",
+      "function": "compareSemVer",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/registry/semver-validator.js",
+      "function": "areVersionsCompatible",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/schemas/generic-mission.d.ts",
+      "function": "isGenericMission",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/schemas/generic-mission.js",
+      "function": "isGenericMission",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.d.ts",
+      "function": "analyzeDependencies",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.d.ts",
+      "function": "formatAnalysisResult",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.d.ts",
+      "function": "executeAnalyzeDependenciesTool",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.js",
+      "function": "findMissionFiles",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.js",
+      "function": "traverse",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.js",
+      "function": "formatAnalysisResult",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.js",
+      "function": "executeAnalyzeDependenciesTool",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/combine-packs.d.ts",
+      "function": "createCombinePacksTool",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/combine-packs.d.ts",
+      "function": "handleCombinePacks",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/combine-packs.js",
+      "function": "createCombinePacksTool",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/export-template.d.ts",
+      "function": "exportTemplate",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/export-template.d.ts",
+      "function": "createTemplateFromMission",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/export-template.js",
+      "function": "createTemplateFromMission",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/extract-template.d.ts",
+      "function": "extractTemplate",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/extract-template.d.ts",
+      "function": "writeTemplate",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/extract-template.d.ts",
+      "function": "generateExtractionReport",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/extract-template.js",
+      "function": "generateExtractionReport",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/import-template.d.ts",
+      "function": "importTemplate",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/optimize-tokens.d.ts",
+      "function": "handleOptimizeTokens",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/optimize-tokens.js",
+      "function": "handleOptimizeTokens",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/score-quality.d.ts",
+      "function": "scoreQuality",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/score-quality.js",
+      "function": "formatQualitySummary",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/score-quality.js",
+      "function": "getQualityGrade",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/version-template.d.ts",
+      "function": "checkVersionCompatibility",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/version-template.d.ts",
+      "function": "findMigrationPath",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/version-template.d.ts",
+      "function": "registerTemplateVersion",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/version-template.d.ts",
+      "function": "getLatestVersion",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/version-template.d.ts",
+      "function": "compareVersions",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/tools/version-template.js",
+      "function": "initializeVersioning",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "dist/versioning/migration-engine.d.ts",
+      "function": "createMigration",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "scripts/validate-token-counts.ts",
+      "function": "runValidation",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/combination/pack-combiner.ts",
+      "function": "combinePacks",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/domains/domain-pack-loader.ts",
+      "function": "loadDomainPack",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/index.ts",
+      "function": "getToolDefinitions",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/index.ts",
+      "function": "buildMissionProtocolContext",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "getDefaultRuleset",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "applySanitization",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "convertProseToList",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "convertPassiveToActive",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "applyStructuralRefactoring",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "applyLinguisticSimplification",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "extractPreservedSections",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "replaceWithPlaceholders",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "restorePreservedSections",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/intelligence/model-transpilers.ts",
+      "function": "getModelConfig",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/intelligence/model-transpilers.ts",
+      "function": "isAlreadyFormatted",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/intelligence/telemetry.ts",
+      "function": "registerTelemetryHandler",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/intelligence/token-optimizer.ts",
+      "function": "optimizeMission",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/registry/semver-validator.ts",
+      "function": "isValidSemVer",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/registry/semver-validator.ts",
+      "function": "parseSemVer",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/registry/semver-validator.ts",
+      "function": "compareSemVer",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/registry/semver-validator.ts",
+      "function": "areVersionsCompatible",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/schemas/generic-mission.ts",
+      "function": "isGenericMission",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/tools/analyze-dependencies.ts",
+      "function": "findMissionFiles",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/tools/analyze-dependencies.ts",
+      "function": "traverse",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/tools/analyze-dependencies.ts",
+      "function": "formatAnalysisResult",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/tools/analyze-dependencies.ts",
+      "function": "executeAnalyzeDependenciesTool",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/tools/combine-packs.ts",
+      "function": "createCombinePacksTool",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/tools/export-template.ts",
+      "function": "createTemplateFromMission",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/tools/extract-template.ts",
+      "function": "generateExtractionReport",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/tools/optimize-tokens.ts",
+      "function": "handleOptimizeTokens",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/tools/score-quality.ts",
+      "function": "formatQualitySummary",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/tools/score-quality.ts",
+      "function": "getQualityGrade",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/tools/version-template.ts",
+      "function": "initializeVersioning",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "src/versioning/migration-engine.ts",
+      "function": "createMigration",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "tests/combination/dependency-resolver.test.ts",
+      "function": "createMockPack",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "tests/combination/pack-combiner.test.ts",
+      "function": "createMockPack",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "function": "createValidTemplate",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "tests/import-export/template-exporter.test.ts",
+      "function": "createValidTemplate",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "function": "writeTemplateFile",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "function": "createValidTemplateYAML",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "function": "para",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "function": "example",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "tests/tools/suggest-splits.execute.test.ts",
+      "function": "writeMissionFile",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "tests/tools/version-template.errors.test.ts",
+      "function": "loadTools",
+      "reason": "No try/catch/throw detected"
+    },
+    {
+      "path": "tests/utils/template-path.ts",
+      "function": "resolveTemplatesDir",
+      "reason": "No try/catch/throw detected"
+    }
+  ],
+  "missing_input_validation": [
+    {
+      "path": "coverage/block-navigation.js",
+      "function": "toggleClass",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "coverage/block-navigation.js",
+      "function": "makeCurrent",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "coverage/lcov-report/block-navigation.js",
+      "function": "toggleClass",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "coverage/lcov-report/block-navigation.js",
+      "function": "makeCurrent",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "o",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "coverage/lcov-report/prettify.js",
+      "function": "Y",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "coverage/lcov-report/sorter.js",
+      "function": "getNthColumn",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "o",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "coverage/prettify.js",
+      "function": "Y",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "coverage/sorter.js",
+      "function": "getNthColumn",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/combination/pack-combiner.d.ts",
+      "function": "combinePacks",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/combination/pack-combiner.js",
+      "function": "combinePacks",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/domains/domain-pack-loader.d.ts",
+      "function": "loadDomainPack",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/domains/domain-pack-loader.js",
+      "function": "loadDomainPack",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/index.d.ts",
+      "function": "buildMissionProtocolContext",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/index.d.ts",
+      "function": "executeMissionProtocolTool",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/index.js",
+      "function": "buildMissionProtocolContext",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "getDefaultRuleset",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "applySanitization",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "convertProseToList",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "convertPassiveToActive",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "applyStructuralRefactoring",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "applyLinguisticSimplification",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "extractPreservedSections",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "replaceWithPlaceholders",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.d.ts",
+      "function": "restorePreservedSections",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "getDefaultRuleset",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "convertPassiveToActive",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "extractPreservedSections",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "replaceWithPlaceholders",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/compression-rules.js",
+      "function": "restorePreservedSections",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/model-transpilers.d.ts",
+      "function": "getModelConfig",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/model-transpilers.d.ts",
+      "function": "isAlreadyFormatted",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/model-transpilers.js",
+      "function": "getModelConfig",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/model-transpilers.js",
+      "function": "isAlreadyFormatted",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/telemetry.d.ts",
+      "function": "registerTelemetryHandler",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/telemetry.d.ts",
+      "function": "emitTelemetryWarning",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/telemetry.js",
+      "function": "registerTelemetryHandler",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/token-optimizer.d.ts",
+      "function": "optimizeMission",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/intelligence/token-optimizer.js",
+      "function": "optimizeMission",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/merge/deep-merge.js",
+      "function": "deepMerge",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/registry/semver-validator.d.ts",
+      "function": "isValidSemVer",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/registry/semver-validator.d.ts",
+      "function": "parseSemVer",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/registry/semver-validator.d.ts",
+      "function": "compareSemVer",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/registry/semver-validator.d.ts",
+      "function": "validateSemVerOrThrow",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/registry/semver-validator.d.ts",
+      "function": "areVersionsCompatible",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/schemas/generic-mission.d.ts",
+      "function": "isGenericMission",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.d.ts",
+      "function": "analyzeDependencies",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.d.ts",
+      "function": "formatAnalysisResult",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.d.ts",
+      "function": "executeAnalyzeDependenciesTool",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.js",
+      "function": "executeAnalyzeDependenciesTool",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/combine-packs.d.ts",
+      "function": "createCombinePacksTool",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/combine-packs.d.ts",
+      "function": "handleCombinePacks",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/combine-packs.js",
+      "function": "createCombinePacksTool",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/export-template.d.ts",
+      "function": "exportTemplate",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/export-template.d.ts",
+      "function": "createTemplateFromMission",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/export-template.js",
+      "function": "createTemplateFromMission",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/extract-template.d.ts",
+      "function": "extractTemplate",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/extract-template.d.ts",
+      "function": "writeTemplate",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/extract-template.d.ts",
+      "function": "generateExtractionReport",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/import-template.d.ts",
+      "function": "importTemplate",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/import-template.js",
+      "function": "importTemplate",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/optimize-tokens.d.ts",
+      "function": "handleOptimizeTokens",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/optimize-tokens.js",
+      "function": "handleOptimizeTokens",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/score-quality.d.ts",
+      "function": "scoreQuality",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/score-quality.js",
+      "function": "scoreQuality",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/version-template.d.ts",
+      "function": "checkVersionCompatibility",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/version-template.d.ts",
+      "function": "findMigrationPath",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/version-template.d.ts",
+      "function": "registerTemplateVersion",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/version-template.d.ts",
+      "function": "getLatestVersion",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/version-template.d.ts",
+      "function": "compareVersions",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/tools/version-template.js",
+      "function": "compareVersions",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/versioning/migration-engine.d.ts",
+      "function": "createMigration",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "dist/versioning/migration-engine.js",
+      "function": "createMigration",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/combination/pack-combiner.ts",
+      "function": "combinePacks",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/domains/domain-pack-loader.ts",
+      "function": "loadDomainPack",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/index.ts",
+      "function": "buildMissionProtocolContext",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "getDefaultRuleset",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "convertPassiveToActive",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "extractPreservedSections",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "replaceWithPlaceholders",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/intelligence/compression-rules.ts",
+      "function": "restorePreservedSections",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/intelligence/model-transpilers.ts",
+      "function": "getModelConfig",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/intelligence/model-transpilers.ts",
+      "function": "isAlreadyFormatted",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/intelligence/telemetry.ts",
+      "function": "registerTelemetryHandler",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/intelligence/token-optimizer.ts",
+      "function": "optimizeMission",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/tools/analyze-dependencies.ts",
+      "function": "executeAnalyzeDependenciesTool",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/tools/combine-packs.ts",
+      "function": "createCombinePacksTool",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/tools/export-template.ts",
+      "function": "createTemplateFromMission",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/tools/import-template.ts",
+      "function": "importTemplate",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/tools/optimize-tokens.ts",
+      "function": "handleOptimizeTokens",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/tools/score-quality.ts",
+      "function": "scoreQuality",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/tools/version-template.ts",
+      "function": "compareVersions",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "src/versioning/migration-engine.ts",
+      "function": "createMigration",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "tests/combination/dependency-resolver.test.ts",
+      "function": "createMockPack",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "tests/combination/pack-combiner.test.ts",
+      "function": "createMockPack",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "function": "writeTemplateFile",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "function": "para",
+      "reason": "No conditional or validation keywords for parameters"
+    },
+    {
+      "path": "tests/tools/suggest-splits.execute.test.ts",
+      "function": "writeMissionFile",
+      "reason": "No conditional or validation keywords for parameters"
+    }
+  ],
+  "potential_unhandled_promises": [
+    {
+      "path": "cmos/context/src/anti_patterns.js",
+      "line": 129,
+      "content": "const recovery = await this.applyRecoveryStrategy(pattern, context, options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/anti_patterns.js",
+      "line": 452,
+      "content": "const recovery = await this.recoveryStrategies.executeRecovery(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/anti_patterns.js",
+      "line": 629,
+      "content": "const result = await this.detectAntiPatterns(context, { scheduled: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/domain_discovery.js",
+      "line": 61,
+      "content": "const structureAnalysis = await this.analyzeProjectStructure(projectPath);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/domain_manager.js",
+      "line": 81,
+      "content": "const discoveryResult = await this.discovery.discoverDomains(projectPath, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/domain_manager.js",
+      "line": 224,
+      "content": "const loadedDomain = await this.loadDomain(domainId, context, options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/domain_manager.js",
+      "line": 291,
+      "content": "const decompressed = await this.decompressDomain(domain, context);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/domain_manager.js",
+      "line": 568,
+      "content": "const discoveryResult = await this.discovery.discoverDomains(this.projectPath, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/recovery_strategies.js",
+      "line": 66,
+      "content": "result = await this.recoverContextRot(antiPattern, context, dependencies, options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/recovery_strategies.js",
+      "line": 69,
+      "content": "result = await this.recoverContextExplosion(antiPattern, context, dependencies, options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/recovery_strategies.js",
+      "line": 72,
+      "content": "result = await this.recoverMemoryLeak(antiPattern, context, dependencies, options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/recovery_strategies.js",
+      "line": 75,
+      "content": "result = await this.recoverStateOscillation(antiPattern, context, dependencies, options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/recovery_strategies.js",
+      "line": 78,
+      "content": "result = await this.recoverDomainBloat(antiPattern, context, dependencies, options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/recovery_strategies.js",
+      "line": 81,
+      "content": "result = await this.recoverCompressionDegradation(antiPattern, context, dependencies, options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/recovery_strategies.js",
+      "line": 84,
+      "content": "result = await this.genericRecovery(antiPattern, context, dependencies, options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "cmos/context/src/recovery_strategies.js",
+      "line": 89,
+      "content": "const validation = await this.validateRecovery(result, context, dependencies);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/extraction/template-extractor.js",
+      "line": 71,
+      "content": "const stage1Result = await this.identifyCandidates(this.config.sourceMissionPath);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/extraction/template-extractor.js",
+      "line": 73,
+      "content": "const stage2Result = await this.generateTemplate(stage1Result.candidates);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/extraction/template-extractor.js",
+      "line": 116,
+      "content": "await this.analyzeConfigFile(filePath, relativePath, content, literalFrequency, literalLocations);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/extraction/template-extractor.js",
+      "line": 119,
+      "content": "await this.analyzeCodeFile(filePath, relativePath, content, literalFrequency, literalLocations);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/import-export/security-validator.js",
+      "line": 115,
+      "content": "const signatureResult = await this.verifySignature(template, skipSignature);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/import-export/template-importer.js",
+      "line": 92,
+      "content": "const validationReport = await this.validator.validate(parsed, options?.skipSignatureVerification || false);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/import-export/template-importer.js",
+      "line": 99,
+      "content": "const resolvedDependencies = await this.resolveDependencies(template.dependencies || [], options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/import-export/template-importer.js",
+      "line": 154,
+      "content": "const depTemplate = await this.fetchDependency(dep);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/import-export/template-importer.js",
+      "line": 158,
+      "content": "const depResult = await this.import(dep.sourceUrl, options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/import-export/template-importer.js",
+      "line": 221,
+      "content": "return await this.import(path.basename(tempFile), options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 164,
+      "content": "return await executeMissionProtocolTool(name, args, context);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 214,
+      "content": "const result = await (0, extract_template_1.extractTemplate)(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 230,
+      "content": "const result = await (0, import_template_1.importTemplate)(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 249,
+      "content": "const result = await (0, export_template_1.exportTemplate)(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 305,
+      "content": "const summary = await (0, analyze_dependencies_1.executeAnalyzeDependenciesTool)(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 321,
+      "content": "const result = await (0, score_quality_1.scoreQuality)(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 340,
+      "content": "const result = await context.optimizeTokensTool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 417,
+      "content": "const result = await context.splitMissionTool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 447,
+      "content": "const result = await context.suggestSplitsTool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 485,
+      "content": "const context = await buildMissionProtocolContext();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 504,
+      "content": "const context = await initializeServer();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 510,
+      "content": "await server.connect(transport);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 523,
+      "content": "await server.close();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/index.js",
+      "line": 528,
+      "content": "await server.close();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/complexity-scorer.js",
+      "line": 73,
+      "content": "const tokenCount = await this.tokenCounter.count(missionText, this.config.model);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/dependency-analyzer.js",
+      "line": 62,
+      "content": "await this.buildGraph(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/dependency-analyzer.js",
+      "line": 91,
+      "content": "const content = await fs.promises.readFile(filePath, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/mission-splitter.js",
+      "line": 42,
+      "content": "const complexity = await this.complexityScorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/mission-splitter.js",
+      "line": 67,
+      "content": "const complexity = await this.complexityScorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/token-counters.js",
+      "line": 75,
+      "content": "const { encode } = await Promise.resolve().then(() => __importStar(require('gpt-tokenizer')));"
+    },
+    {
+      "path": "dist/intelligence/token-counters.js",
+      "line": 75,
+      "content": "const { encode } = await Promise.resolve().then(() => __importStar(require('gpt-tokenizer')));",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/token-counters.js",
+      "line": 97,
+      "content": "const tokenizer = await this.getClaudeTokenizer();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/token-counters.js",
+      "line": 99,
+      "content": "const encoded = await tokenizer(text);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/token-counters.js",
+      "line": 129,
+      "content": "const { AutoTokenizer } = await Promise.resolve().then(() => __importStar(require('@xenova/transformers')));"
+    },
+    {
+      "path": "dist/intelligence/token-counters.js",
+      "line": 129,
+      "content": "const { AutoTokenizer } = await Promise.resolve().then(() => __importStar(require('@xenova/transformers')));",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/token-counters.js",
+      "line": 130,
+      "content": "const tokenizer = await AutoTokenizer.from_pretrained('Xenova/claude-tokenizer');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/token-optimizer.js",
+      "line": 75,
+      "content": "const originalTokenCount = await this.tokenCounter.count(missionContent, model);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/token-optimizer.js",
+      "line": 105,
+      "content": "const compressedTokenCount = await this.tokenCounter.count(result, model);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/token-optimizer.js",
+      "line": 148,
+      "content": "const fs = await Promise.resolve().then(() => __importStar(require('fs/promises')));"
+    },
+    {
+      "path": "dist/intelligence/token-optimizer.js",
+      "line": 148,
+      "content": "const fs = await Promise.resolve().then(() => __importStar(require('fs/promises')));",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/token-optimizer.js",
+      "line": 149,
+      "content": "const content = await fs.readFile(filePath, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/intelligence/token-optimizer.js",
+      "line": 164,
+      "content": "const result = await this.optimize(mission.content, config);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/quality/analyzers/completeness-analyzer.js",
+      "line": 21,
+      "content": "semanticCoverage: await this.calculateSemanticCoverage(mission)",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/quality/quality-scorer.js",
+      "line": 32,
+      "content": "const [clarityScore, completenessScore, aiReadinessScore] = await Promise.all([",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/quality/quality-scorer.js",
+      "line": 90,
+      "content": "const score = await this.score(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.js",
+      "line": 61,
+      "content": "const missionFiles = await findMissionFiles(args.missionDirectory);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.js",
+      "line": 66,
+      "content": "const missions = await loadMissionFiles(missionFiles);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.js",
+      "line": 69,
+      "content": "const analysisResult = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.js",
+      "line": 126,
+      "content": "const entries = await fs.promises.readdir(dir, { withFileTypes: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.js",
+      "line": 132,
+      "content": "await traverse(fullPath);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.js",
+      "line": 143,
+      "content": "await traverse(directory);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.js",
+      "line": 153,
+      "content": "const content = await fs.promises.readFile(filePath, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/analyze-dependencies.js",
+      "line": 238,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/extract-template.js",
+      "line": 79,
+      "content": "const result = await extractor.extract();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/extract-template.js",
+      "line": 84,
+      "content": "await writeTemplate(templateDir, result);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/import-template.js",
+      "line": 39,
+      "content": "const result = await importer.import(params.templatePath, options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/optimize-tokens.js",
+      "line": 107,
+      "content": "await fs.access(absolutePath);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/optimize-tokens.js",
+      "line": 116,
+      "content": "const content = await fs.readFile(absolutePath, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/optimize-tokens.js",
+      "line": 118,
+      "content": "const result = await this.optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/optimize-tokens.js",
+      "line": 127,
+      "content": "await fs.copyFile(absolutePath, backupPath);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/optimize-tokens.js",
+      "line": 128,
+      "content": "await fs.writeFile(absolutePath, result.optimized, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/score-quality.js",
+      "line": 61,
+      "content": "const score = await scorer.score(mission, mission.missionId);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/split-mission.js",
+      "line": 124,
+      "content": "const complexity = await this.complexityScorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/split-mission.js",
+      "line": 139,
+      "content": "const splitResult = await this.splitter.split(mission, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/tools/suggest-splits.js",
+      "line": 110,
+      "content": "const suggestion = await this.splitter.suggestSplits(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/versioning/migration-engine.js",
+      "line": 127,
+      "content": "backupPath = await this.createBackup(templateId, template, backupDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/versioning/migration-engine.js",
+      "line": 134,
+      "content": "const result = await migration.migrate(currentTemplate);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/versioning/migration-engine.js",
+      "line": 183,
+      "content": "const backupContent = await fs.readFile(backupPath, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/versioning/migration-engine.js",
+      "line": 205,
+      "content": "await fs.mkdir(backupDir, { recursive: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/versioning/migration-engine.js",
+      "line": 207,
+      "content": "await fs.writeFile(backupPath, JSON.stringify(template, null, 2), 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "dist/versioning/migration-engine.js",
+      "line": 315,
+      "content": "const migratedTemplate = await migrateFn(template);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "scripts/validate-token-counts.ts",
+      "line": 85,
+      "content": "const response = await fetch('https://api.anthropic.com/v1/messages/count_tokens', {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "scripts/validate-token-counts.ts",
+      "line": 99,
+      "content": "const error = await response.text();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "scripts/validate-token-counts.ts",
+      "line": 103,
+      "content": "const data = (await response.json()) as AnthropicCountTokensResponse;",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "scripts/validate-token-counts.ts",
+      "line": 116,
+      "content": "const response = await fetch(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "scripts/validate-token-counts.ts",
+      "line": 128,
+      "content": "const error = await response.text();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "scripts/validate-token-counts.ts",
+      "line": 132,
+      "content": "const data = (await response.json()) as GoogleCountTokensResponse;",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "scripts/validate-token-counts.ts",
+      "line": 144,
+      "content": "const localResult = await counter.count(testCase.text, model);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "scripts/validate-token-counts.ts",
+      "line": 149,
+      "content": "providerCount = await validateClaude(testCase.text);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "scripts/validate-token-counts.ts",
+      "line": 151,
+      "content": "providerCount = await validateGemini(testCase.text);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "scripts/validate-token-counts.ts",
+      "line": 194,
+      "content": "const result = await runValidation(counter, 'claude', testCase);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "scripts/validate-token-counts.ts",
+      "line": 216,
+      "content": "const result = await runValidation(counter, 'gemini', testCase);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/extraction/template-extractor.ts",
+      "line": 55,
+      "content": "const stage1Result = await this.identifyCandidates(this.config.sourceMissionPath);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/extraction/template-extractor.ts",
+      "line": 58,
+      "content": "const stage2Result = await this.generateTemplate(stage1Result.candidates);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/extraction/template-extractor.ts",
+      "line": 107,
+      "content": "await this.analyzeConfigFile(filePath, relativePath, content, literalFrequency, literalLocations);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/extraction/template-extractor.ts",
+      "line": 109,
+      "content": "await this.analyzeCodeFile(filePath, relativePath, content, literalFrequency, literalLocations);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/import-export/security-validator.ts",
+      "line": 148,
+      "content": "const signatureResult = await this.verifySignature(template as MissionTemplate, skipSignature);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/import-export/template-importer.ts",
+      "line": 83,
+      "content": "const validationReport = await this.validator.validate(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/import-export/template-importer.ts",
+      "line": 100,
+      "content": "const resolvedDependencies = await this.resolveDependencies(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/import-export/template-importer.ts",
+      "line": 177,
+      "content": "const depTemplate = await this.fetchDependency(dep);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/import-export/template-importer.ts",
+      "line": 183,
+      "content": "const depResult = await this.import(dep.sourceUrl, options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/import-export/template-importer.ts",
+      "line": 264,
+      "content": "return await this.import(path.basename(tempFile), options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 180,
+      "content": "return await executeMissionProtocolTool(name, args, context);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 244,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 263,
+      "content": "const result = await importTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 285,
+      "content": "const result = await exportTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 349,
+      "content": "const summary = await executeAnalyzeDependenciesTool(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 366,
+      "content": "const result = await scoreQuality(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 388,
+      "content": "const result = await context.optimizeTokensTool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 475,
+      "content": "const result = await context.splitMissionTool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 510,
+      "content": "const result = await context.suggestSplitsTool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 557,
+      "content": "const context = await buildMissionProtocolContext();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 578,
+      "content": "const context = await initializeServer();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 587,
+      "content": "await server.connect(transport);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 601,
+      "content": "await server.close();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/index.ts",
+      "line": 607,
+      "content": "await server.close();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/complexity-scorer.ts",
+      "line": 125,
+      "content": "const tokenCount = await this.tokenCounter.count(missionText, this.config.model);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/dependency-analyzer.ts",
+      "line": 61,
+      "content": "await this.buildGraph(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/dependency-analyzer.ts",
+      "line": 96,
+      "content": "const content = await fs.promises.readFile(filePath, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/mission-splitter.ts",
+      "line": 113,
+      "content": "const complexity = await this.complexityScorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/mission-splitter.ts",
+      "line": 160,
+      "content": "const complexity = await this.complexityScorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/token-counters.ts",
+      "line": 51,
+      "content": "const { encode } = await import('gpt-tokenizer');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/token-counters.ts",
+      "line": 74,
+      "content": "const tokenizer = await this.getClaudeTokenizer();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/token-counters.ts",
+      "line": 77,
+      "content": "const encoded = await tokenizer(text);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/token-counters.ts",
+      "line": 110,
+      "content": "const { AutoTokenizer } = await import('@xenova/transformers');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/token-counters.ts",
+      "line": 111,
+      "content": "const tokenizer = await AutoTokenizer.from_pretrained('Xenova/claude-tokenizer');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/token-optimizer.ts",
+      "line": 71,
+      "content": "const originalTokenCount = await this.tokenCounter.count(missionContent, model);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/token-optimizer.ts",
+      "line": 112,
+      "content": "const compressedTokenCount = await this.tokenCounter.count(result, model);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/token-optimizer.ts",
+      "line": 167,
+      "content": "const fs = await import('fs/promises');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/token-optimizer.ts",
+      "line": 168,
+      "content": "const content = await fs.readFile(filePath, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/intelligence/token-optimizer.ts",
+      "line": 189,
+      "content": "const result = await this.optimize(mission.content, config);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/quality/analyzers/completeness-analyzer.ts",
+      "line": 30,
+      "content": "semanticCoverage: await this.calculateSemanticCoverage(mission)",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/quality/quality-scorer.ts",
+      "line": 51,
+      "content": "const [clarityScore, completenessScore, aiReadinessScore] = await Promise.all([",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/quality/quality-scorer.ts",
+      "line": 141,
+      "content": "const score = await this.score(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/analyze-dependencies.ts",
+      "line": 57,
+      "content": "const missionFiles = await findMissionFiles(args.missionDirectory);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/analyze-dependencies.ts",
+      "line": 64,
+      "content": "const missions = await loadMissionFiles(missionFiles);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/analyze-dependencies.ts",
+      "line": 68,
+      "content": "const analysisResult = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/analyze-dependencies.ts",
+      "line": 132,
+      "content": "const entries = await fs.promises.readdir(dir, { withFileTypes: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/analyze-dependencies.ts",
+      "line": 140,
+      "content": "await traverse(fullPath);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/analyze-dependencies.ts",
+      "line": 151,
+      "content": "await traverse(directory);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/analyze-dependencies.ts",
+      "line": 163,
+      "content": "const content = await fs.promises.readFile(filePath, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/analyze-dependencies.ts",
+      "line": 261,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/extract-template.ts",
+      "line": 67,
+      "content": "const result = await extractor.extract();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/extract-template.ts",
+      "line": 74,
+      "content": "await writeTemplate(templateDir, result);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/import-template.ts",
+      "line": 107,
+      "content": "const result: ImportResult = await importer.import(params.templatePath, options);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/optimize-tokens.ts",
+      "line": 123,
+      "content": "await fs.access(absolutePath);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/optimize-tokens.ts",
+      "line": 132,
+      "content": "const content = await fs.readFile(absolutePath, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/optimize-tokens.ts",
+      "line": 135,
+      "content": "const result = await this.optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/optimize-tokens.ts",
+      "line": 145,
+      "content": "await fs.copyFile(absolutePath, backupPath);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/optimize-tokens.ts",
+      "line": 146,
+      "content": "await fs.writeFile(absolutePath, result.optimized, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/score-quality.ts",
+      "line": 43,
+      "content": "const score = await scorer.score(mission, mission.missionId);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/split-mission.ts",
+      "line": 153,
+      "content": "const complexity = await this.complexityScorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/split-mission.ts",
+      "line": 170,
+      "content": "const splitResult = await this.splitter.split(mission, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/tools/suggest-splits.ts",
+      "line": 134,
+      "content": "const suggestion = await this.splitter.suggestSplits(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/versioning/migration-engine.ts",
+      "line": 143,
+      "content": "backupPath = await this.createBackup(templateId, template, backupDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/versioning/migration-engine.ts",
+      "line": 152,
+      "content": "const result = await migration.migrate(currentTemplate);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/versioning/migration-engine.ts",
+      "line": 223,
+      "content": "const backupContent = await fs.readFile(backupPath, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/versioning/migration-engine.ts",
+      "line": 251,
+      "content": "await fs.mkdir(backupDir, { recursive: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/versioning/migration-engine.ts",
+      "line": 254,
+      "content": "await fs.writeFile(backupPath, JSON.stringify(template, null, 2), 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "src/versioning/migration-engine.ts",
+      "line": 415,
+      "content": "const migratedTemplate = await migrateFn(template);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 44,
+      "content": "const result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 64,
+      "content": "const result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 95,
+      "content": "const result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 119,
+      "content": "const result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 144,
+      "content": "const result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 172,
+      "content": "const result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 202,
+      "content": "const result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 227,
+      "content": "const result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 248,
+      "content": "const stage1Result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 249,
+      "content": "const stage2Result = await extractor.generateTemplate(stage1Result.candidates);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 270,
+      "content": "const stage1Result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 271,
+      "content": "const stage2Result = await extractor.generateTemplate(stage1Result.candidates);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 291,
+      "content": "const stage1Result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 292,
+      "content": "const stage2Result = await extractor.generateTemplate(stage1Result.candidates);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 319,
+      "content": "const stage1Result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 320,
+      "content": "const stage2Result = await extractor.generateTemplate(stage1Result.candidates);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 349,
+      "content": "const stage1Result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 350,
+      "content": "const stage2Result = await extractor.generateTemplate(stage1Result.candidates);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 381,
+      "content": "const stage1Result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 382,
+      "content": "const stage2Result = await extractor.generateTemplate(stage1Result.candidates);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 414,
+      "content": "const result = await extractor.extract();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 430,
+      "content": "const result = await extractor.extract();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 450,
+      "content": "const result = await extractor.extract();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 514,
+      "content": "const result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/extraction/template-extractor.test.ts",
+      "line": 554,
+      "content": "const result = await extractor.identifyCandidates(testMissionDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/performance.test.ts",
+      "line": 30,
+      "content": "const result = await importer.importFromString(minimalTemplate, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 63,
+      "content": "const result = await validator.validate(template, false);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 80,
+      "content": "const result = await validator.validate(template, false);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 91,
+      "content": "const result = await validator.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 114,
+      "content": "const result = await validator.validate(template, false);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 140,
+      "content": "const result = await validator.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 150,
+      "content": "const result = await validator.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 162,
+      "content": "const result = await validator.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 174,
+      "content": "const result = await validator.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 188,
+      "content": "const result = await validatorWithAllowlist.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 201,
+      "content": "const result = await validator.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 216,
+      "content": "const result = await validator.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 240,
+      "content": "const result = await validator.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 258,
+      "content": "const result = await validator.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 281,
+      "content": "const result = await validatorWithAllowlist.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 302,
+      "content": "const result = await validatorWithAllowlist.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 323,
+      "content": "const result = await validatorWithWildcard.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 340,
+      "content": "const result = await validator.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 359,
+      "content": "const result = await validator.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 372,
+      "content": "const result = await validator.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 381,
+      "content": "const result = await validator.validate(template, true);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/security-validator.test.ts",
+      "line": 408,
+      "content": "const result = await validatorWithAllowlist.validate(template, false);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.coverage.test.ts",
+      "line": 66,
+      "content": "await expect(importer.import('template.yaml')).rejects.toThrow('Template validation failed');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.coverage.test.ts",
+      "line": 144,
+      "content": "await expect(importer.import('template.yaml')).rejects.toThrow('Failed to resolve dependency');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 74,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 90,
+      "content": "const result = await importer.import('valid.yaml', {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 100,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 113,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 123,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 139,
+      "content": "const result = await importer.import('trusted.yaml', {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 166,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 192,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 223,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 261,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 272,
+      "content": "const result = await importer.import('perf-test.yaml', {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 286,
+      "content": "const result = await importer.importFromString(yamlContent, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 297,
+      "content": "await importer.importFromString(yamlContent, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/import-export/template-importer.test.ts",
+      "line": 346,
+      "content": "const result = await importer.import('complete.yaml', {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase3-flow.test.ts",
+      "line": 39,
+      "content": "const stage1 = await extractor.identifyCandidates(sourceDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase3-flow.test.ts",
+      "line": 62,
+      "content": "const imported = await importer.importFromString(yamlString, { skipSignatureVerification: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase3-flow.test.ts",
+      "line": 97,
+      "content": "const r1 = await registerTemplateVersion({ templateId: 'demo', version: '1.0.0' });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase3-flow.test.ts",
+      "line": 99,
+      "content": "const r2 = await registerTemplateVersion({ templateId: 'demo', version: '1.0.1' });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase3-flow.test.ts",
+      "line": 102,
+      "content": "const compat = await checkVersionCompatibility({ templateId: 'demo', version1: '1.0.0', version2: '1.0.1' });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase3-flow.test.ts",
+      "line": 105,
+      "content": "const latest = await getLatestVersion({ templateId: 'demo', includePrerelease: false });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase3-flow.test.ts",
+      "line": 109,
+      "content": "const cmp = await compareVersions({ version1: '1.0.0', version2: '1.0.1' });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase3-flow.test.ts",
+      "line": 113,
+      "content": "const mig = await findMigrationPath({ templateId: 'demo', fromVersion: '1.0.0', toVersion: '1.0.1' });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 57,
+      "content": "const initialQuality = await scoreQuality({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 67,
+      "content": "const optimized = await handleOptimizeTokens({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 114,
+      "content": "const qualityResult = await scoreQuality({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 165,
+      "content": "const qualityResult = await scoreQuality({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 225,
+      "content": "const analysis = await executeAnalyzeDependenciesTool({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 275,
+      "content": "const result = await handleOptimizeTokens({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 317,
+      "content": "const result = await handleOptimizeTokens({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 355,
+      "content": "await scoreQuality({ missionFile: missionPath, verbose: false });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 380,
+      "content": "await handleOptimizeTokens({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 401,
+      "content": "const qualityResult = await scoreQuality({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 415,
+      "content": "const result = await scoreQuality({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 428,
+      "content": "const result = await scoreQuality({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 466,
+      "content": "const initialQuality = await scoreQuality({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 475,
+      "content": "const optimization = await handleOptimizeTokens({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 486,
+      "content": "const finalQuality = await scoreQuality({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/quality-scoring.test.ts",
+      "line": 28,
+      "content": "const result = await scoreQuality({ missionFile, verbose: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/quality-scoring.test.ts",
+      "line": 48,
+      "content": "const result = await scoreQuality({ missionFile, verbose: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/quality-scoring.test.ts",
+      "line": 58,
+      "content": "const result = await scoreQuality({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/quality-scoring.test.ts",
+      "line": 92,
+      "content": "const result = await scorer.score(mission, mission.missionId);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/quality-scoring.test.ts",
+      "line": 130,
+      "content": "const result = await scorer.score(mission, mission.missionId);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/quality-scoring.test.ts",
+      "line": 150,
+      "content": "const result = await scorer.score(poorMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/quality-scoring.test.ts",
+      "line": 173,
+      "content": "const result = await scorer.score(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/quality-scoring.test.ts",
+      "line": 216,
+      "content": "const result = await scorer.score(complexMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/quality-scoring.test.ts",
+      "line": 233,
+      "content": "const result = await scorer.score(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/integration/quality-scoring.test.ts",
+      "line": 253,
+      "content": "const result = await scorer.score(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 53,
+      "content": "const analysis = await scorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 101,
+      "content": "const analysis = await scorer.calculateCCS(complexMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 112,
+      "content": "const analysis = await scorer.calculateCCS(largeMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 134,
+      "content": "const analysis = await scorer.calculateCCS(complexText);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 151,
+      "content": "const analysis = await scorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 168,
+      "content": "const analysis = await scorer.calculateCCS(complexText);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 185,
+      "content": "const analysis = await scorer.calculateCCS(textMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 205,
+      "content": "const analysis = await scorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 234,
+      "content": "const analysis = await scorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 264,
+      "content": "const analysis = await scorer.calculateCCS(simpleMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 308,
+      "content": "const analysis = await testScorer.calculateCCS(complexMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 336,
+      "content": "const analysis = await testScorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 358,
+      "content": "const analysis = await scorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 378,
+      "content": "const analysis = await scorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 387,
+      "content": "const analysis = await scorer.calculateCCS(shortText);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 397,
+      "content": "const analysis = await scorer.calculateCCS(tinyMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/complexity-scorer.test.ts",
+      "line": 420,
+      "content": "await scorer.calculateCCS(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 30,
+      "content": "const result = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 56,
+      "content": "const result = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 94,
+      "content": "const result = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 127,
+      "content": "const result = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 173,
+      "content": "const result = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 201,
+      "content": "const result = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 225,
+      "content": "const result = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 245,
+      "content": "const result = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 276,
+      "content": "const result = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 323,
+      "content": "const result = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 346,
+      "content": "const result = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 388,
+      "content": "const result = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 420,
+      "content": "const result = await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/dependency-analyzer.test.ts",
+      "line": 436,
+      "content": "await analyzer.analyze(missions);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 74,
+      "content": "const result = await splitter.split(complexMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 96,
+      "content": "const result = await splitter.split(missionText);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 126,
+      "content": "const result = await splitter.split(longMission, { maxSubMissions: 3 });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 134,
+      "content": "const result = await splitter.split(mission, { minChunkSize: 100 });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 152,
+      "content": "const result = await splitter.split(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 172,
+      "content": "const result = await splitter.split(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 188,
+      "content": "const result = await splitter.split(missionText);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 210,
+      "content": "const suggestion = await splitter.suggestSplits(complexMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 230,
+      "content": "const suggestion = await splitter.suggestSplits(simpleMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 248,
+      "content": "const suggestion = await splitter.suggestSplits(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 276,
+      "content": "const suggestion = await splitter.suggestSplits(complexMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 298,
+      "content": "const result = await splitter.split(missionText);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 316,
+      "content": "const result = await splitter.split(missionText);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 332,
+      "content": "const result = await splitter.split(missionText);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 345,
+      "content": "const result = await splitter.split(missionText, { minChunkSize: 10 });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 375,
+      "content": "const result = await splitter.split(missionText, { minChunkSize: 10 });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 390,
+      "content": "const result = await splitter.split(missionText, { minChunkSize: 10 });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 409,
+      "content": "const result = await splitter.split(missionText);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 433,
+      "content": "const result = await splitter.split(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 453,
+      "content": "const result = await splitter.split(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 474,
+      "content": "const result = await splitter.split(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 491,
+      "content": "const result = await splitter.split(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 501,
+      "content": "const result = await splitter.split(shortMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 510,
+      "content": "const result = await splitter.split(noBreakpoints);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 528,
+      "content": "const result = await splitter.split(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "line": 554,
+      "content": "await splitter.split(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.api.test.ts",
+      "line": 87,
+      "content": "const result = await tokenCounter.count('hello world', 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.api.test.ts",
+      "line": 94,
+      "content": "const result = await tokenCounter.count('hello world', 'claude');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.api.test.ts",
+      "line": 102,
+      "content": "const result = await tokenCounter.count(text, 'gemini');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.api.test.ts",
+      "line": 114,
+      "content": "const result = await tokenCounter.count('test text', 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.api.test.ts",
+      "line": 120,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.api.test.ts",
+      "line": 126,
+      "content": "const result1 = await tokenCounter.count('short', 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.api.test.ts",
+      "line": 127,
+      "content": "const result2 = await tokenCounter.count('This is a much longer text that should result in more tokens and higher cost', 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.api.test.ts",
+      "line": 134,
+      "content": "const first = await (tokenCounter as unknown as { getClaudeTokenizer: () => Promise<unknown> }).getClaudeTokenizer();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.api.test.ts",
+      "line": 135,
+      "content": "const second = await (tokenCounter as unknown as { getClaudeTokenizer: () => Promise<unknown> }).getClaudeTokenizer();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.api.test.ts",
+      "line": 145,
+      "content": "const result = await tokenCounter.count('fallback path', 'claude');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 18,
+      "content": "const result = await tokenCounter.count(text, 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 29,
+      "content": "const shortResult = await tokenCounter.count(shortText, 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 30,
+      "content": "const longResult = await tokenCounter.count(longText, 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 37,
+      "content": "const result = await tokenCounter.count(text, 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 47,
+      "content": "const result = await tokenCounter.count(text, 'claude');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 55,
+      "content": "const result = await tokenCounter.count(text, 'claude');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 64,
+      "content": "const result = await tokenCounter.count(text, 'gemini');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 74,
+      "content": "const result = await tokenCounter.count(text, 'claude');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 83,
+      "content": "const result = await tokenCounter.count(text, 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 90,
+      "content": "const result = await tokenCounter.count(text, 'claude');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 99,
+      "content": "const result = await tokenCounter.count(text, 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 111,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 117,
+      "content": "const result = await tokenCounter.count('', 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 126,
+      "content": "const gptResult = await tokenCounter.count(text, 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 127,
+      "content": "const claudeResult = await tokenCounter.count(text, 'claude');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-counters.test.ts",
+      "line": 128,
+      "content": "const geminiResult = await tokenCounter.count(text, 'gemini');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.extra.test.ts",
+      "line": 14,
+      "content": "const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'opt-file-'));",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.extra.test.ts",
+      "line": 17,
+      "content": "await fs.writeFile(filePath, content, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.extra.test.ts",
+      "line": 19,
+      "content": "const result = await optimizer.optimizeFile(filePath, { model: 'gpt', level: 'balanced' });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.extra.test.ts",
+      "line": 22,
+      "content": "await fs.rm(tmpDir, { recursive: true, force: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.extra.test.ts",
+      "line": 31,
+      "content": "const map = await optimizer.optimizeBatch(missions, { model: 'claude', level: 'balanced' });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.extra.test.ts",
+      "line": 40,
+      "content": "const result = await optimizer.optimize(content, { model: 'gemini', level: 'aggressive' });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 27,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 39,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 54,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 65,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 77,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 88,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 99,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 113,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 130,
+      "content": "const result = await optimizer.preview(content, 'claude', 'balanced');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 141,
+      "content": "const result = await optimizeMission(content, 'claude');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 150,
+      "content": "const result = await optimizeMission(content, 'gpt', 'aggressive');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 160,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 176,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 190,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 202,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 214,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 228,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-optimizer.test.ts",
+      "line": 241,
+      "content": "const result = await optimizer.optimize(content, {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 34,
+      "content": "await counter.count('hello world', 'gemini');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 48,
+      "content": "await counter.count('hello world', 'claude');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 66,
+      "content": "await counter.count('hello world', 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 77,
+      "content": "await counter.count(text, 'gemini');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 88,
+      "content": "const result = await counter.count('hello world', 'gpt');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 96,
+      "content": "const result = await counter.count('hello world', 'claude');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 107,
+      "content": "const result = await counter.count('hello world', 'gemini');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 119,
+      "content": "const result = await counter.count(text, 'gemini');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 137,
+      "content": "const localResult = await counter.count(text, 'claude');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 140,
+      "content": "const response = await fetch('https://api.anthropic.com/v1/messages/count_tokens', {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 153,
+      "content": "const data = await response.json() as { input_tokens: number };",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 172,
+      "content": "const localResult = await counter.count(text, 'gemini');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 175,
+      "content": "const response = await fetch(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/intelligence/token-validation.test.ts",
+      "line": 186,
+      "content": "const data = await response.json() as { totalTokens: number };",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/clarity-analyzer.test.ts",
+      "line": 31,
+      "content": "const result = await analyzer.analyze(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/clarity-analyzer.test.ts",
+      "line": 47,
+      "content": "const result = await analyzer.analyze(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/clarity-analyzer.test.ts",
+      "line": 62,
+      "content": "const result = await analyzer.analyze(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/clarity-analyzer.test.ts",
+      "line": 77,
+      "content": "const result = await analyzer.analyze(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/clarity-analyzer.test.ts",
+      "line": 93,
+      "content": "const result = await analyzer.analyze(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/clarity-analyzer.test.ts",
+      "line": 109,
+      "content": "const result = await analyzer.analyze(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/clarity-analyzer.test.ts",
+      "line": 128,
+      "content": "const result = await analyzer.analyze({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/quality-scorer.test.ts",
+      "line": 37,
+      "content": "const result = await scorer.score(mission, mission.missionId);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/quality-scorer.test.ts",
+      "line": 56,
+      "content": "const result = await scorer.score(poorMission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/quality-scorer.test.ts",
+      "line": 70,
+      "content": "const result = await scorer.score(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/quality-scorer.test.ts",
+      "line": 83,
+      "content": "const result = await scorer.score(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/quality-scorer.test.ts",
+      "line": 111,
+      "content": "const result = await customScorer.score(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/quality-scorer.test.ts",
+      "line": 128,
+      "content": "const suggestions = await scorer.suggestImprovements(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/quality/quality-scorer.test.ts",
+      "line": 148,
+      "content": "const suggestions = await scorer.suggestImprovements(mission);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 49,
+      "content": "context = await buildMissionProtocolContext({ defaultModel: 'gpt' });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 69,
+      "content": "const result = await executeMissionProtocolTool(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 90,
+      "content": "const result = await executeMissionProtocolTool(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 109,
+      "content": "const result = await executeMissionProtocolTool(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 127,
+      "content": "const result = await executeMissionProtocolTool('list_available_domains', undefined, context);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 134,
+      "content": "const result = await executeMissionProtocolTool(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 145,
+      "content": "const result = await executeMissionProtocolTool(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 156,
+      "content": "const result = await executeMissionProtocolTool(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 168,
+      "content": "const result = await executeMissionProtocolTool('list_available_domains', undefined, context);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 176,
+      "content": "const result = await executeMissionProtocolTool(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 191,
+      "content": "const result = await executeMissionProtocolTool(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 206,
+      "content": "const result = await executeMissionProtocolTool(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 11,
+      "content": "await fs.promises.mkdir(testDir, { recursive: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 46,
+      "content": "await fs.promises.writeFile(filePath, yaml.dump(missionData));",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 52,
+      "content": "await fs.promises.rm(testDir, { recursive: true, force: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 57,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 70,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 82,
+      "content": "await fs.promises.mkdir(emptyDir, { recursive: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 84,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 91,
+      "content": "await fs.promises.rmdir(emptyDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 95,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 109,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 121,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 132,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 141,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 155,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 167,
+      "content": "await fs.promises.mkdir(cyclicDir, { recursive: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 198,
+      "content": "await fs.promises.writeFile(filePath, yaml.dump(mission));",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 203,
+      "content": "await fs.promises.rm(cyclicDir, { recursive: true, force: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 207,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 219,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 229,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 244,
+      "content": "await fs.promises.mkdir(cyclicDirForFormat, { recursive: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 267,
+      "content": "await fs.promises.writeFile(filePath, yaml.dump(mission));",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 270,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 280,
+      "content": "await fs.promises.rm(cyclicDirForFormat, { recursive: true, force: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 284,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 295,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 308,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 322,
+      "content": "await fs.promises.mkdir(emptyMissionDir, { recursive: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 323,
+      "content": "await fs.promises.writeFile(path.join(emptyMissionDir, 'empty.yaml'), '');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 325,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 332,
+      "content": "await fs.promises.rm(emptyMissionDir, { recursive: true, force: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 337,
+      "content": "await fs.promises.mkdir(invalidDir, { recursive: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 339,
+      "content": "await fs.promises.writeFile(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 344,
+      "content": "const result = await analyzeDependencies({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/analyze-dependencies.test.ts",
+      "line": 351,
+      "content": "await fs.promises.rm(invalidDir, { recursive: true, force: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/combine-packs.test.ts",
+      "line": 9,
+      "content": "context = await buildMissionProtocolContext();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/combine-packs.test.ts",
+      "line": 13,
+      "content": "const result = await context.combinePacksTool.execute(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/combine-packs.test.ts",
+      "line": 25,
+      "content": "const result = await context.combinePacksTool.execute(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/combine-packs.test.ts",
+      "line": 35,
+      "content": "const result = await context.combinePacksTool.execute(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/combine-packs.test.ts",
+      "line": 45,
+      "content": "const result = await context.combinePacksTool.execute(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/combine-packs.test.ts",
+      "line": 55,
+      "content": "const preview = await context.combinePacksTool.preview(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/combine-packs.test.ts",
+      "line": 65,
+      "content": "const preview = await context.combinePacksTool.preview(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/combine-packs.test.ts",
+      "line": 168,
+      "content": "const response = await handleCombinePacks(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/combine-packs.test.ts",
+      "line": 192,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/export-template.test.ts",
+      "line": 30,
+      "content": "const result = await exportTemplate({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/export-template.test.ts",
+      "line": 56,
+      "content": "const result = await exportTemplate({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/export-template.test.ts",
+      "line": 72,
+      "content": "const result = await exportTemplate({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 39,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 52,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 64,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 77,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 92,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 108,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 138,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 164,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 187,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 208,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 242,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 269,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 291,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 336,
+      "content": "await writeTemplate(templateDir, result);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 346,
+      "content": "await expect(writeTemplate(templateDir, badResult)).rejects.toThrow('No template to write');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 368,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 393,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 413,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 441,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 478,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 499,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/extract-template.test.ts",
+      "line": 516,
+      "content": "const result = await extractTemplate(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/import-template.test.ts",
+      "line": 8,
+      "content": "const result = await importTemplate({});",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/import-template.test.ts",
+      "line": 15,
+      "content": "const result = await importTemplate({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/import-template.test.ts",
+      "line": 26,
+      "content": "const memoryResult = await importTemplate({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/import-template.test.ts",
+      "line": 33,
+      "content": "const cpuResult = await importTemplate({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/import-template.test.ts",
+      "line": 44,
+      "content": "const result = await importTemplate({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/import-template.test.ts",
+      "line": 91,
+      "content": "const result = await importTemplate({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 18,
+      "content": "tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'token-optimizer-test-'));",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 25,
+      "content": "await fs.rm(tempDir, { recursive: true, force: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 37,
+      "content": "await fs.writeFile(testFilePath, missionContent, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 45,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 55,
+      "content": "await fs.writeFile(testFilePath, missionContent, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 62,
+      "content": "await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 65,
+      "content": "const backupExists = await fs",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 75,
+      "content": "await fs.writeFile(testFilePath, originalContent, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 83,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 85,
+      "content": "const fileContent = await fs.readFile(testFilePath, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 98,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 107,
+      "content": "await fs.writeFile(testFilePath, missionContent, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 123,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 130,
+      "content": "await fs.writeFile(testFilePath, missionContent, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 141,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 151,
+      "content": "await fs.writeFile(testFilePath, missionContent, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 160,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 168,
+      "content": "await fs.writeFile(testFilePath, shortContent, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 176,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 189,
+      "content": "await fs.writeFile(testFilePath, missionContent, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 197,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 210,
+      "content": "await fs.writeFile(testFilePath, missionContent, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 213,
+      "content": "await fs.chmod(testFilePath, 0o444);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 220,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/optimize-tokens.test.ts",
+      "line": 228,
+      "content": "await fs.chmod(testFilePath, 0o644);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 42,
+      "content": "tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'split-mission-test-'));",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 49,
+      "content": "await fs.rm(tempDir, { recursive: true, force: true });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 92,
+      "content": "await fs.writeFile(testMissionPath, YAML.stringify(complexMission), 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 100,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 110,
+      "content": "const fileExists = await fs",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 130,
+      "content": "await fs.writeFile(testMissionPath, YAML.stringify(simpleMission), 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 137,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 169,
+      "content": "await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 176,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 181,
+      "content": "const content = await fs.readFile(filePath, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 212,
+      "content": "await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 219,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 257,
+      "content": "await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 265,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 284,
+      "content": "await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 290,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 317,
+      "content": "await fs.writeFile(testMissionPath, textMission, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 324,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 337,
+      "content": "await expect(tool.execute(params)).rejects.toThrow('missionFile is required');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 345,
+      "content": "await expect(tool.execute(params)).rejects.toThrow();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 349,
+      "content": "await fs.writeFile(testMissionPath, 'objective: test', 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 356,
+      "content": "await expect(tool.execute(params)).rejects.toThrow();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 360,
+      "content": "await fs.writeFile(testMissionPath, 'objective: test', 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 367,
+      "content": "await expect(tool.execute(params)).rejects.toThrow();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 374,
+      "content": "await fs.writeFile(testMissionPath, rawYaml, 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 376,
+      "content": "const result = await tool.execute({ missionFile: testMissionPath });",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 396,
+      "content": "await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 403,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 428,
+      "content": "await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 435,
+      "content": "const result = await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 477,
+      "content": "await fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "line": 485,
+      "content": "await tool.execute(params);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/suggest-splits.execute.test.ts",
+      "line": 51,
+      "content": "const result = await new Promise<any>((resolve, reject) => {"
+    },
+    {
+      "path": "tests/tools/suggest-splits.execute.test.ts",
+      "line": 51,
+      "content": "const result = await new Promise<any>((resolve, reject) => {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/suggest-splits.execute.test.ts",
+      "line": 105,
+      "content": "const result = await new Promise<any>((resolve, reject) => {"
+    },
+    {
+      "path": "tests/tools/suggest-splits.execute.test.ts",
+      "line": 105,
+      "content": "const result = await new Promise<any>((resolve, reject) => {",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/version-template.errors.test.ts",
+      "line": 11,
+      "content": "const { checkVersionCompatibility } = await loadTools();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/version-template.errors.test.ts",
+      "line": 13,
+      "content": "const result = await checkVersionCompatibility({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/version-template.errors.test.ts",
+      "line": 24,
+      "content": "const { getLatestVersion } = await loadTools();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/version-template.errors.test.ts",
+      "line": 26,
+      "content": "const result = await getLatestVersion({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/version-template.errors.test.ts",
+      "line": 37,
+      "content": "const { registerTemplateVersion } = await loadTools();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/version-template.errors.test.ts",
+      "line": 39,
+      "content": "const result = await registerTemplateVersion({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/version-template.errors.test.ts",
+      "line": 49,
+      "content": "const { compareVersions } = await loadTools();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/version-template.errors.test.ts",
+      "line": 51,
+      "content": "const result = await compareVersions({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/version-template.errors.test.ts",
+      "line": 61,
+      "content": "const { findMigrationPath } = await loadTools();",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/tools/version-template.errors.test.ts",
+      "line": 63,
+      "content": "const result = await findMigrationPath({",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/versioning/migration-engine.test.ts",
+      "line": 241,
+      "content": "const result = await migrationEngine.migrate(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/versioning/migration-engine.test.ts",
+      "line": 291,
+      "content": "const result = await migrationEngine.migrate(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/versioning/migration-engine.test.ts",
+      "line": 324,
+      "content": "const result = await migrationEngine.migrate(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/versioning/migration-engine.test.ts",
+      "line": 361,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/versioning/migration-engine.test.ts",
+      "line": 388,
+      "content": "const result = await nonStrictEngine.migrate('test-template', template, path!, testDir);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/versioning/migration-engine.test.ts",
+      "line": 403,
+      "content": "const result = await migrationEngine.rollback('test-template', backupPath);",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/versioning/migration-engine.test.ts",
+      "line": 410,
+      "content": "const result = await migrationEngine.rollback('test-template', '/nonexistent/path.json');",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/versioning/migration-engine.test.ts",
+      "line": 514,
+      "content": "const result = await migrationEngine.autoMigrate(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/versioning/migration-engine.test.ts",
+      "line": 527,
+      "content": "const result = await migrationEngine.autoMigrate(",
+      "note": "await without surrounding try"
+    },
+    {
+      "path": "tests/versioning/migration-engine.test.ts",
+      "line": 543,
+      "content": "await expect(",
+      "note": "await without surrounding try"
+    }
+  ]
+}

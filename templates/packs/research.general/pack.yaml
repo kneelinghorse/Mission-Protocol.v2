@@ -1,0 +1,6 @@
+name: "research.general"
+version: "1.0.0"
+displayName: "General Research Mission"
+description: "Structured research fields for hypothesis-driven inquiry: statements, questions, synthesis, evidence, and conclusion."
+author: "kneelinghorse"
+schema: "schema.json"

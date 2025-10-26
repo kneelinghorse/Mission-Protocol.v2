@@ -1,0 +1,1541 @@
+{
+  "critical": {
+    "count": 13,
+    "findings": [
+      {
+        "id": "F081",
+        "category": "testing",
+        "severity": "high",
+        "description": "Module lacks coverage: src/index.ts (No coverage data)",
+        "evidence": {
+          "path": "src/index.ts",
+          "reason": "No coverage data"
+        }
+      },
+      {
+        "id": "F082",
+        "category": "testing",
+        "severity": "high",
+        "description": "Module lacks coverage: src/tools/version-template.ts (No coverage data)",
+        "evidence": {
+          "path": "src/tools/version-template.ts",
+          "reason": "No coverage data"
+        }
+      },
+      {
+        "id": "F083",
+        "category": "testing",
+        "severity": "high",
+        "description": "Module lacks coverage: src/types/schemas.ts (No coverage data)",
+        "evidence": {
+          "path": "src/types/schemas.ts",
+          "reason": "No coverage data"
+        }
+      },
+      {
+        "id": "F084",
+        "category": "testing",
+        "severity": "high",
+        "description": "Module lacks coverage: src/types/tools.ts (No coverage data)",
+        "evidence": {
+          "path": "src/types/tools.ts",
+          "reason": "No coverage data"
+        }
+      },
+      {
+        "id": "F085",
+        "category": "testing",
+        "severity": "high",
+        "description": "Module lacks coverage: src/types/registry.ts (No coverage data)",
+        "evidence": {
+          "path": "src/types/registry.ts",
+          "reason": "No coverage data"
+        }
+      },
+      {
+        "id": "F086",
+        "category": "testing",
+        "severity": "high",
+        "description": "Module lacks coverage: src/types/mission-types.ts (No coverage data)",
+        "evidence": {
+          "path": "src/types/mission-types.ts",
+          "reason": "No coverage data"
+        }
+      },
+      {
+        "id": "F087",
+        "category": "testing",
+        "severity": "high",
+        "description": "Module lacks coverage: src/domains/types.ts (No coverage data)",
+        "evidence": {
+          "path": "src/domains/types.ts",
+          "reason": "No coverage data"
+        }
+      },
+      {
+        "id": "F088",
+        "category": "testing",
+        "severity": "high",
+        "description": "Module lacks coverage: src/intelligence/context-propagator.ts (No coverage data)",
+        "evidence": {
+          "path": "src/intelligence/context-propagator.ts",
+          "reason": "No coverage data"
+        }
+      },
+      {
+        "id": "F089",
+        "category": "testing",
+        "severity": "high",
+        "description": "Module lacks coverage: src/intelligence/types.ts (No coverage data)",
+        "evidence": {
+          "path": "src/intelligence/types.ts",
+          "reason": "No coverage data"
+        }
+      },
+      {
+        "id": "F090",
+        "category": "testing",
+        "severity": "high",
+        "description": "Module lacks coverage: src/intelligence/compression-rules.ts (No coverage data)",
+        "evidence": {
+          "path": "src/intelligence/compression-rules.ts",
+          "reason": "No coverage data"
+        }
+      },
+      {
+        "id": "F091",
+        "category": "testing",
+        "severity": "high",
+        "description": "Module lacks coverage: src/extraction/types.ts (No coverage data)",
+        "evidence": {
+          "path": "src/extraction/types.ts",
+          "reason": "No coverage data"
+        }
+      },
+      {
+        "id": "F165",
+        "category": "security",
+        "severity": "high",
+        "description": "Eval Usage in tests/import-export/template-importer.test.ts:162",
+        "evidence": {
+          "pattern": "eval_usage",
+          "file": "tests/import-export/template-importer.test.ts",
+          "line": 162,
+          "snippet": "iption: \"Malicious template\"\n  script: \"eval('malicious code')\"\n`;\n      writeTemplateFile('malicious.yaml', maliciousYA"
+        }
+      },
+      {
+        "id": "F166",
+        "category": "security",
+        "severity": "high",
+        "description": "Eval Usage in tests/import-export/security-validator.test.ts:148",
+        "evidence": {
+          "pattern": "eval_usage",
+          "file": "tests/import-export/security-validator.test.ts",
+          "line": 148,
+          "snippet": "mplate();\n      template.spec.script = 'eval(\"malicious code\")';\n\n      const result = await validator.validate(template"
+        }
+      }
+    ]
+  },
+  "high_priority": {
+    "count": 20,
+    "findings": [
+      {
+        "id": "F031",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function dfs lacks error handling (No try/catch/throw detected) in cmos/context/src/domain_dependencies.js",
+        "evidence": {
+          "path": "cmos/context/src/domain_dependencies.js",
+          "function": "dfs",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F032",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function init lacks error handling (No try/catch/throw detected) in coverage/block-navigation.js",
+        "evidence": {
+          "path": "coverage/block-navigation.js",
+          "function": "init",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F033",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function toggleClass lacks error handling (No try/catch/throw detected) in coverage/block-navigation.js",
+        "evidence": {
+          "path": "coverage/block-navigation.js",
+          "function": "toggleClass",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F034",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function makeCurrent lacks error handling (No try/catch/throw detected) in coverage/block-navigation.js",
+        "evidence": {
+          "path": "coverage/block-navigation.js",
+          "function": "makeCurrent",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F035",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function goToPrevious lacks error handling (No try/catch/throw detected) in coverage/block-navigation.js",
+        "evidence": {
+          "path": "coverage/block-navigation.js",
+          "function": "goToPrevious",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F036",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function goToNext lacks error handling (No try/catch/throw detected) in coverage/block-navigation.js",
+        "evidence": {
+          "path": "coverage/block-navigation.js",
+          "function": "goToNext",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F037",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function jump lacks error handling (No try/catch/throw detected) in coverage/block-navigation.js",
+        "evidence": {
+          "path": "coverage/block-navigation.js",
+          "function": "jump",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F038",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function init lacks error handling (No try/catch/throw detected) in coverage/lcov-report/block-navigation.js",
+        "evidence": {
+          "path": "coverage/lcov-report/block-navigation.js",
+          "function": "init",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F039",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function toggleClass lacks error handling (No try/catch/throw detected) in coverage/lcov-report/block-navigation.js",
+        "evidence": {
+          "path": "coverage/lcov-report/block-navigation.js",
+          "function": "toggleClass",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F040",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function makeCurrent lacks error handling (No try/catch/throw detected) in coverage/lcov-report/block-navigation.js",
+        "evidence": {
+          "path": "coverage/lcov-report/block-navigation.js",
+          "function": "makeCurrent",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F041",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function goToPrevious lacks error handling (No try/catch/throw detected) in coverage/lcov-report/block-navigation.js",
+        "evidence": {
+          "path": "coverage/lcov-report/block-navigation.js",
+          "function": "goToPrevious",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F042",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function goToNext lacks error handling (No try/catch/throw detected) in coverage/lcov-report/block-navigation.js",
+        "evidence": {
+          "path": "coverage/lcov-report/block-navigation.js",
+          "function": "goToNext",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F043",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function jump lacks error handling (No try/catch/throw detected) in coverage/lcov-report/block-navigation.js",
+        "evidence": {
+          "path": "coverage/lcov-report/block-navigation.js",
+          "function": "jump",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F044",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function ab lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+        "evidence": {
+          "path": "coverage/lcov-report/prettify.js",
+          "function": "ab",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F045",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function T lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+        "evidence": {
+          "path": "coverage/lcov-report/prettify.js",
+          "function": "T",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F046",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function X lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+        "evidence": {
+          "path": "coverage/lcov-report/prettify.js",
+          "function": "X",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F047",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function W lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+        "evidence": {
+          "path": "coverage/lcov-report/prettify.js",
+          "function": "W",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F048",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function a lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+        "evidence": {
+          "path": "coverage/lcov-report/prettify.js",
+          "function": "a",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F049",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function aa lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+        "evidence": {
+          "path": "coverage/lcov-report/prettify.js",
+          "function": "aa",
+          "reason": "No try/catch/throw detected"
+        }
+      },
+      {
+        "id": "F050",
+        "category": "code_quality",
+        "severity": "high",
+        "description": "Function B lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+        "evidence": {
+          "path": "coverage/lcov-report/prettify.js",
+          "function": "B",
+          "reason": "No try/catch/throw detected"
+        }
+      }
+    ]
+  },
+  "medium_priority": {
+    "count": 177,
+    "findings": [
+      {
+        "id": "F001",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~53 lines) at cmos/context/src/domain_discovery.js:122",
+        "evidence": {
+          "path": "cmos/context/src/domain_discovery.js",
+          "line": 122,
+          "length": 53,
+          "signature": "items.forEach(item => {"
+        }
+      },
+      {
+        "id": "F002",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~352 lines) at dist/index.d.ts:32",
+        "evidence": {
+          "path": "dist/index.d.ts",
+          "line": 32,
+          "length": 352,
+          "signature": "export declare function getToolDefinitions(): readonly [{"
+        }
+      },
+      {
+        "id": "F003",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~69 lines) at dist/tools/analyze-dependencies.js:50",
+        "evidence": {
+          "path": "dist/tools/analyze-dependencies.js",
+          "line": 50,
+          "length": 69,
+          "signature": "async function analyzeDependencies(args) {"
+        }
+      },
+      {
+        "id": "F004",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~52 lines) at dist/tools/extract-template.js:170",
+        "evidence": {
+          "path": "dist/tools/extract-template.js",
+          "line": 170,
+          "length": 52,
+          "signature": "function generateExtractionReport(result) {"
+        }
+      },
+      {
+        "id": "F005",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~53 lines) at dist/tools/import-template.d.ts:64",
+        "evidence": {
+          "path": "dist/tools/import-template.d.ts",
+          "line": 64,
+          "length": 53,
+          "signature": "export declare function importTemplate(params: ImportTemplateParams): Promise<ImportTemplateResult>;"
+        }
+      },
+      {
+        "id": "F006",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~76 lines) at scripts/validate-token-counts.ts:173",
+        "evidence": {
+          "path": "scripts/validate-token-counts.ts",
+          "line": 173,
+          "length": 76,
+          "signature": "async function main() {"
+        }
+      },
+      {
+        "id": "F007",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~80 lines) at src/tools/analyze-dependencies.ts:43",
+        "evidence": {
+          "path": "src/tools/analyze-dependencies.ts",
+          "line": 43,
+          "length": 80,
+          "signature": "export async function analyzeDependencies(args: AnalyzeDependenciesArgs): Promise<AnalyzeDependenciesResult> {"
+        }
+      },
+      {
+        "id": "F008",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~56 lines) at src/tools/extract-template.ts:36",
+        "evidence": {
+          "path": "src/tools/extract-template.ts",
+          "line": 36,
+          "length": 56,
+          "signature": "export async function extractTemplate(params: ExtractTemplateParams): Promise<ExtractionResult> {"
+        }
+      },
+      {
+        "id": "F009",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~62 lines) at src/tools/extract-template.ts:183",
+        "evidence": {
+          "path": "src/tools/extract-template.ts",
+          "line": 183,
+          "length": 62,
+          "signature": "export function generateExtractionReport(result: ExtractionResult): string {"
+        }
+      },
+      {
+        "id": "F010",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~59 lines) at tests/integration/phase4-intelligence-flow.test.ts:27",
+        "evidence": {
+          "path": "tests/integration/phase4-intelligence-flow.test.ts",
+          "line": 27,
+          "length": 59,
+          "signature": "it('should optimize a mission and verify quality improvement', async () => {"
+        }
+      },
+      {
+        "id": "F011",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~59 lines) at tests/integration/phase4-intelligence-flow.test.ts:180",
+        "evidence": {
+          "path": "tests/integration/phase4-intelligence-flow.test.ts",
+          "line": 180,
+          "length": 59,
+          "signature": "it('should analyze dependencies across multiple missions', async () => {"
+        }
+      },
+      {
+        "id": "F012",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~55 lines) at tests/integration/phase4-intelligence-flow.test.ts:243",
+        "evidence": {
+          "path": "tests/integration/phase4-intelligence-flow.test.ts",
+          "line": 243,
+          "length": 55,
+          "signature": "it('should optimize tokens while preserving semantic meaning', async () => {"
+        }
+      },
+      {
+        "id": "F013",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~61 lines) at tests/integration/phase4-intelligence-flow.test.ts:441",
+        "evidence": {
+          "path": "tests/integration/phase4-intelligence-flow.test.ts",
+          "line": 441,
+          "length": 61,
+          "signature": "it('should process mission through full quality \u2192 optimize \u2192 score workflow', async () => {"
+        }
+      },
+      {
+        "id": "F014",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~52 lines) at tests/tools/create-mission.test.ts:170",
+        "evidence": {
+          "path": "tests/tools/create-mission.test.ts",
+          "line": 170,
+          "length": 52,
+          "signature": "beforeEach(() => {"
+        }
+      },
+      {
+        "id": "F015",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Long function (~60 lines) at tests/tools/split-mission.test.ts:56",
+        "evidence": {
+          "path": "tests/tools/split-mission.test.ts",
+          "line": 56,
+          "length": 60,
+          "signature": "test('should split complex mission and create sub-mission files', async () => {"
+        }
+      },
+      {
+        "id": "F016",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:112",
+        "evidence": {
+          "path": "cmos/context/src/active_set_optimizer.js",
+          "line": 112,
+          "brace_depth": 5
+        }
+      },
+      {
+        "id": "F017",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:113",
+        "evidence": {
+          "path": "cmos/context/src/active_set_optimizer.js",
+          "line": 113,
+          "brace_depth": 5
+        }
+      },
+      {
+        "id": "F018",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:114",
+        "evidence": {
+          "path": "cmos/context/src/active_set_optimizer.js",
+          "line": 114,
+          "brace_depth": 5
+        }
+      },
+      {
+        "id": "F019",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:115",
+        "evidence": {
+          "path": "cmos/context/src/active_set_optimizer.js",
+          "line": 115,
+          "brace_depth": 5
+        }
+      },
+      {
+        "id": "F020",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:116",
+        "evidence": {
+          "path": "cmos/context/src/active_set_optimizer.js",
+          "line": 116,
+          "brace_depth": 5
+        }
+      },
+      {
+        "id": "F021",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:117",
+        "evidence": {
+          "path": "cmos/context/src/active_set_optimizer.js",
+          "line": 117,
+          "brace_depth": 5
+        }
+      },
+      {
+        "id": "F022",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:118",
+        "evidence": {
+          "path": "cmos/context/src/active_set_optimizer.js",
+          "line": 118,
+          "brace_depth": 5
+        }
+      },
+      {
+        "id": "F023",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:119",
+        "evidence": {
+          "path": "cmos/context/src/active_set_optimizer.js",
+          "line": 119,
+          "brace_depth": 5
+        }
+      },
+      {
+        "id": "F024",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:120",
+        "evidence": {
+          "path": "cmos/context/src/active_set_optimizer.js",
+          "line": 120,
+          "brace_depth": 5
+        }
+      },
+      {
+        "id": "F025",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:121",
+        "evidence": {
+          "path": "cmos/context/src/active_set_optimizer.js",
+          "line": 121,
+          "brace_depth": 5
+        }
+      },
+      {
+        "id": "F026",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Large file with 654 lines at cmos/context/src/active_set_optimizer.js",
+        "evidence": {
+          "path": "cmos/context/src/active_set_optimizer.js",
+          "line_count": 654
+        }
+      },
+      {
+        "id": "F027",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Large file with 740 lines at cmos/context/src/anti_patterns.js",
+        "evidence": {
+          "path": "cmos/context/src/anti_patterns.js",
+          "line_count": 740
+        }
+      },
+      {
+        "id": "F028",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Large file with 893 lines at cmos/context/src/context_alerts.js",
+        "evidence": {
+          "path": "cmos/context/src/context_alerts.js",
+          "line_count": 893
+        }
+      },
+      {
+        "id": "F029",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Large file with 594 lines at cmos/context/src/context_compressor.js",
+        "evidence": {
+          "path": "cmos/context/src/context_compressor.js",
+          "line_count": 594
+        }
+      },
+      {
+        "id": "F030",
+        "category": "code_quality",
+        "severity": "medium",
+        "description": "Large file with 520 lines at cmos/context/src/context_state.js",
+        "evidence": {
+          "path": "cmos/context/src/context_state.js",
+          "line_count": 520
+        }
+      },
+      {
+        "id": "F051",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function toggleClass (coverage/block-navigation.js)",
+        "evidence": {
+          "path": "coverage/block-navigation.js",
+          "function": "toggleClass",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F052",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function makeCurrent (coverage/block-navigation.js)",
+        "evidence": {
+          "path": "coverage/block-navigation.js",
+          "function": "makeCurrent",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F053",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function toggleClass (coverage/lcov-report/block-navigation.js)",
+        "evidence": {
+          "path": "coverage/lcov-report/block-navigation.js",
+          "function": "toggleClass",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F054",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function makeCurrent (coverage/lcov-report/block-navigation.js)",
+        "evidence": {
+          "path": "coverage/lcov-report/block-navigation.js",
+          "function": "makeCurrent",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F055",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function o (coverage/lcov-report/prettify.js)",
+        "evidence": {
+          "path": "coverage/lcov-report/prettify.js",
+          "function": "o",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F056",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function Y (coverage/lcov-report/prettify.js)",
+        "evidence": {
+          "path": "coverage/lcov-report/prettify.js",
+          "function": "Y",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F057",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function getNthColumn (coverage/lcov-report/sorter.js)",
+        "evidence": {
+          "path": "coverage/lcov-report/sorter.js",
+          "function": "getNthColumn",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F058",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function o (coverage/prettify.js)",
+        "evidence": {
+          "path": "coverage/prettify.js",
+          "function": "o",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F059",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function Y (coverage/prettify.js)",
+        "evidence": {
+          "path": "coverage/prettify.js",
+          "function": "Y",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F060",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function getNthColumn (coverage/sorter.js)",
+        "evidence": {
+          "path": "coverage/sorter.js",
+          "function": "getNthColumn",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F061",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function combinePacks (dist/combination/pack-combiner.d.ts)",
+        "evidence": {
+          "path": "dist/combination/pack-combiner.d.ts",
+          "function": "combinePacks",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F062",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function combinePacks (dist/combination/pack-combiner.js)",
+        "evidence": {
+          "path": "dist/combination/pack-combiner.js",
+          "function": "combinePacks",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F063",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function loadDomainPack (dist/domains/domain-pack-loader.d.ts)",
+        "evidence": {
+          "path": "dist/domains/domain-pack-loader.d.ts",
+          "function": "loadDomainPack",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F064",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function loadDomainPack (dist/domains/domain-pack-loader.js)",
+        "evidence": {
+          "path": "dist/domains/domain-pack-loader.js",
+          "function": "loadDomainPack",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F065",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function buildMissionProtocolContext (dist/index.d.ts)",
+        "evidence": {
+          "path": "dist/index.d.ts",
+          "function": "buildMissionProtocolContext",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F066",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function executeMissionProtocolTool (dist/index.d.ts)",
+        "evidence": {
+          "path": "dist/index.d.ts",
+          "function": "executeMissionProtocolTool",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F067",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function buildMissionProtocolContext (dist/index.js)",
+        "evidence": {
+          "path": "dist/index.js",
+          "function": "buildMissionProtocolContext",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F068",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function getDefaultRuleset (dist/intelligence/compression-rules.d.ts)",
+        "evidence": {
+          "path": "dist/intelligence/compression-rules.d.ts",
+          "function": "getDefaultRuleset",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F069",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function applySanitization (dist/intelligence/compression-rules.d.ts)",
+        "evidence": {
+          "path": "dist/intelligence/compression-rules.d.ts",
+          "function": "applySanitization",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      },
+      {
+        "id": "F070",
+        "category": "security",
+        "severity": "medium",
+        "description": "Missing input validation in function convertProseToList (dist/intelligence/compression-rules.d.ts)",
+        "evidence": {
+          "path": "dist/intelligence/compression-rules.d.ts",
+          "function": "convertProseToList",
+          "reason": "No conditional or validation keywords for parameters"
+        }
+      }
+    ]
+  },
+  "low_priority": {
+    "count": 48,
+    "findings": [
+      {
+        "id": "F107",
+        "category": "api",
+        "severity": "low",
+        "description": "Naming inconsistency: Non alphanumeric camelCase/PascalCase name (DEFAULT_WEIGHTS in src/quality/types.ts)",
+        "evidence": {
+          "name": "DEFAULT_WEIGHTS",
+          "file": "src/quality/types.ts",
+          "issue": "Non alphanumeric camelCase/PascalCase name"
+        }
+      },
+      {
+        "id": "F108",
+        "category": "api",
+        "severity": "low",
+        "description": "Naming inconsistency: Non alphanumeric camelCase/PascalCase name (DEFAULT_CLARITY_WEIGHTS in src/quality/types.ts)",
+        "evidence": {
+          "name": "DEFAULT_CLARITY_WEIGHTS",
+          "file": "src/quality/types.ts",
+          "issue": "Non alphanumeric camelCase/PascalCase name"
+        }
+      },
+      {
+        "id": "F109",
+        "category": "api",
+        "severity": "low",
+        "description": "Naming inconsistency: Non alphanumeric camelCase/PascalCase name (DEFAULT_COMPLETENESS_WEIGHTS in src/quality/types.ts)",
+        "evidence": {
+          "name": "DEFAULT_COMPLETENESS_WEIGHTS",
+          "file": "src/quality/types.ts",
+          "issue": "Non alphanumeric camelCase/PascalCase name"
+        }
+      },
+      {
+        "id": "F110",
+        "category": "api",
+        "severity": "low",
+        "description": "Naming inconsistency: Non alphanumeric camelCase/PascalCase name (DEFAULT_AI_READINESS_WEIGHTS in src/quality/types.ts)",
+        "evidence": {
+          "name": "DEFAULT_AI_READINESS_WEIGHTS",
+          "file": "src/quality/types.ts",
+          "issue": "Non alphanumeric camelCase/PascalCase name"
+        }
+      },
+      {
+        "id": "F141",
+        "category": "performance",
+        "severity": "low",
+        "description": "Memory Allocations call at tests/tools/import-template.test.ts:88",
+        "evidence": {
+          "type": "memory_allocations",
+          "file": "tests/tools/import-template.test.ts",
+          "line": 88,
+          "snippet": "new Map(),\n      });\n\n    const result = await importTemplate({\n      templatePa"
+        }
+      },
+      {
+        "id": "F142",
+        "category": "performance",
+        "severity": "low",
+        "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:14",
+        "evidence": {
+          "type": "memory_allocations",
+          "file": "tests/intelligence/graph-validator.test.ts",
+          "line": 14,
+          "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: []"
+        }
+      },
+      {
+        "id": "F143",
+        "category": "performance",
+        "severity": "low",
+        "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:19",
+        "evidence": {
+          "type": "memory_allocations",
+          "file": "tests/intelligence/graph-validator.test.ts",
+          "line": 19,
+          "snippet": "new Map([\n          ['A', new Set()],\n          ['B', new Set(['A'])],\n         "
+        }
+      },
+      {
+        "id": "F144",
+        "category": "performance",
+        "severity": "low",
+        "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:36",
+        "evidence": {
+          "type": "memory_allocations",
+          "file": "tests/intelligence/graph-validator.test.ts",
+          "line": 36,
+          "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+        }
+      },
+      {
+        "id": "F145",
+        "category": "performance",
+        "severity": "low",
+        "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:41",
+        "evidence": {
+          "type": "memory_allocations",
+          "file": "tests/intelligence/graph-validator.test.ts",
+          "line": 41,
+          "snippet": "new Map([\n          ['A', new Set(['B'])],\n          ['B', new Set(['C'])],\n    "
+        }
+      },
+      {
+        "id": "F146",
+        "category": "performance",
+        "severity": "low",
+        "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:58",
+        "evidence": {
+          "type": "memory_allocations",
+          "file": "tests/intelligence/graph-validator.test.ts",
+          "line": 58,
+          "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+        }
+      },
+      {
+        "id": "F147",
+        "category": "performance",
+        "severity": "low",
+        "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:61",
+        "evidence": {
+          "type": "memory_allocations",
+          "file": "tests/intelligence/graph-validator.test.ts",
+          "line": 61,
+          "snippet": "new Map([\n          ['A', new Set(['B'])]\n        ])\n      };\n\n      const resul"
+        }
+      },
+      {
+        "id": "F148",
+        "category": "performance",
+        "severity": "low",
+        "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:74",
+        "evidence": {
+          "type": "memory_allocations",
+          "file": "tests/intelligence/graph-validator.test.ts",
+          "line": 74,
+          "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+        }
+      },
+      {
+        "id": "F149",
+        "category": "performance",
+        "severity": "low",
+        "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:77",
+        "evidence": {
+          "type": "memory_allocations",
+          "file": "tests/intelligence/graph-validator.test.ts",
+          "line": 77,
+          "snippet": "new Map([\n          ['A', new Set(['A'])]\n        ])\n      };\n\n      const resul"
+        }
+      },
+      {
+        "id": "F150",
+        "category": "performance",
+        "severity": "low",
+        "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:92",
+        "evidence": {
+          "type": "memory_allocations",
+          "file": "tests/intelligence/graph-validator.test.ts",
+          "line": 92,
+          "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: []"
+        }
+      },
+      {
+        "id": "F151",
+        "category": "performance",
+        "severity": "low",
+        "description": "File Handles call at tests/smoke/mcp-intelligence-tools-smoke.test.ts:53",
+        "evidence": {
+          "type": "file_handles",
+          "file": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+          "line": 53,
+          "snippet": "fs.writeFileSync(missionFile, SAMPLE_MISSION, 'utf-8');\n  });\n\n  afterAll(() => {\n    fs.rmSync(tempDir, { recursive: tr"
+        }
+      },
+      {
+        "id": "F152",
+        "category": "performance",
+        "severity": "low",
+        "description": "File Handles call at tests/tools/create-mission.test.ts:64",
+        "evidence": {
+          "type": "file_handles",
+          "file": "tests/tools/create-mission.test.ts",
+          "line": 64,
+          "snippet": "fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), genericTemplate);\n  });\n\n  afterEach(() => {\n    // Cle"
+        }
+      },
+      {
+        "id": "F153",
+        "category": "performance",
+        "severity": "low",
+        "description": "File Handles call at tests/tools/create-mission.test.ts:183",
+        "evidence": {
+          "type": "file_handles",
+          "file": "tests/tools/create-mission.test.ts",
+          "line": 183,
+          "snippet": "fs.writeFileSync(path.join(webDevDir, 'pack.yaml'), manifest);\n\n      // Create schema\n      const schema = `\ntype: obje"
+        }
+      },
+      {
+        "id": "F154",
+        "category": "performance",
+        "severity": "low",
+        "description": "File Handles call at tests/tools/create-mission.test.ts:198",
+        "evidence": {
+          "type": "file_handles",
+          "file": "tests/tools/create-mission.test.ts",
+          "line": 198,
+          "snippet": "fs.writeFileSync(path.join(webDevDir, 'schema.yaml'), schema);\n\n      // Create template\n      const template = `\ntechSt"
+        }
+      },
+      {
+        "id": "F155",
+        "category": "performance",
+        "severity": "low",
+        "description": "File Handles call at tests/tools/create-mission.test.ts:208",
+        "evidence": {
+          "type": "file_handles",
+          "file": "tests/tools/create-mission.test.ts",
+          "line": 208,
+          "snippet": "fs.writeFileSync(path.join(webDevDir, 'template.yaml'), template);\n\n      // Create registry\n      const registry = `\ndo"
+        }
+      },
+      {
+        "id": "F156",
+        "category": "performance",
+        "severity": "low",
+        "description": "File Handles call at tests/tools/create-mission.test.ts:219",
+        "evidence": {
+          "type": "file_handles",
+          "file": "tests/tools/create-mission.test.ts",
+          "line": 219,
+          "snippet": "fs.writeFileSync(path.join(testDataDir, 'registry.yaml'), registry);\n\n      registryEntries = parser.loadRegistry('regis"
+        }
+      },
+      {
+        "id": "F157",
+        "category": "performance",
+        "severity": "low",
+        "description": "File Handles call at tests/tools/create-mission.test.ts:444",
+        "evidence": {
+          "type": "file_handles",
+          "file": "tests/tools/create-mission.test.ts",
+          "line": 444,
+          "snippet": "fs.writeFileSync(path.join(testDataDir, 'broken-registry.yaml'), registry);\n\n      const registryEntries = parser.loadRe"
+        }
+      },
+      {
+        "id": "F158",
+        "category": "performance",
+        "severity": "low",
+        "description": "File Handles call at tests/tools/create-mission.test.ts:466",
+        "evidence": {
+          "type": "file_handles",
+          "file": "tests/tools/create-mission.test.ts",
+          "line": 466,
+          "snippet": "fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), invalidTemplate);\n\n      const params = { objective: 'T"
+        }
+      },
+      {
+        "id": "F159",
+        "category": "performance",
+        "severity": "low",
+        "description": "File Handles call at tests/tools/optimize-tokens.test.ts:37",
+        "evidence": {
+          "type": "file_handles",
+          "file": "tests/tools/optimize-tokens.test.ts",
+          "line": 37,
+          "snippet": "fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {\n        missionFile: "
+        }
+      },
+      {
+        "id": "F160",
+        "category": "performance",
+        "severity": "low",
+        "description": "File Handles call at tests/tools/optimize-tokens.test.ts:55",
+        "evidence": {
+          "type": "file_handles",
+          "file": "tests/tools/optimize-tokens.test.ts",
+          "line": 55,
+          "snippet": "fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {\n        missionFile: "
+        }
+      },
+      {
+        "id": "F161",
+        "category": "performance",
+        "severity": "low",
+        "description": "Network Calls call at tests/intelligence/token-validation.test.ts:140",
+        "evidence": {
+          "type": "network_calls",
+          "file": "tests/intelligence/token-validation.test.ts",
+          "line": 140,
+          "snippet": "fetch('https://api.anthropic.com/v1/messages/count_tokens', {\n        method: 'POST',\n        headers: {\n          'x-ap"
+        }
+      },
+      {
+        "id": "F162",
+        "category": "performance",
+        "severity": "low",
+        "description": "Network Calls call at tests/intelligence/token-validation.test.ts:175",
+        "evidence": {
+          "type": "network_calls",
+          "file": "tests/intelligence/token-validation.test.ts",
+          "line": 175,
+          "snippet": "fetch(\n        `https://generativelanguage.googleapis.com/v1/${geminiModelId}:countTokens?key=${apiKey}`,\n        {\n    "
+        }
+      },
+      {
+        "id": "F163",
+        "category": "performance",
+        "severity": "low",
+        "description": "Network Calls call at scripts/validate-token-counts.ts:85",
+        "evidence": {
+          "type": "network_calls",
+          "file": "scripts/validate-token-counts.ts",
+          "line": 85,
+          "snippet": "fetch('https://api.anthropic.com/v1/messages/count_tokens', {\n    method: 'POST',\n    headers: {\n      'x-api-key': apiK"
+        }
+      },
+      {
+        "id": "F164",
+        "category": "performance",
+        "severity": "low",
+        "description": "Network Calls call at scripts/validate-token-counts.ts:116",
+        "evidence": {
+          "type": "network_calls",
+          "file": "scripts/validate-token-counts.ts",
+          "line": 116,
+          "snippet": "fetch(\n    `https://generativelanguage.googleapis.com/v1/${GEMINI_MODEL_ID}:countTokens?key=${apiKey}`,\n    {\n      meth"
+        }
+      },
+      {
+        "id": "F214",
+        "category": "documentation",
+        "severity": "low",
+        "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in README.md",
+        "evidence": {
+          "file": "README.md",
+          "missing_sections": [
+            "API",
+            "Installation",
+            "Overview",
+            "Usage"
+          ]
+        }
+      },
+      {
+        "id": "F215",
+        "category": "documentation",
+        "severity": "low",
+        "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in docs/Extension_Patterns_Cookbook.md",
+        "evidence": {
+          "file": "docs/Extension_Patterns_Cookbook.md",
+          "missing_sections": [
+            "API",
+            "Installation",
+            "Overview",
+            "Usage"
+          ]
+        }
+      },
+      {
+        "id": "F216",
+        "category": "documentation",
+        "severity": "low",
+        "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in docs/API_Documentation.md",
+        "evidence": {
+          "file": "docs/API_Documentation.md",
+          "missing_sections": [
+            "API",
+            "Installation",
+            "Overview",
+            "Usage"
+          ]
+        }
+      },
+      {
+        "id": "F217",
+        "category": "documentation",
+        "severity": "low",
+        "description": "Missing sections ['API', 'Installation', 'Usage'] in docs/Intelligence_Layer_Guide.md",
+        "evidence": {
+          "file": "docs/Intelligence_Layer_Guide.md",
+          "missing_sections": [
+            "API",
+            "Installation",
+            "Usage"
+          ]
+        }
+      },
+      {
+        "id": "F218",
+        "category": "documentation",
+        "severity": "low",
+        "description": "Missing sections ['API', 'Installation'] in docs/Quality_Scoring_Implementation.md",
+        "evidence": {
+          "file": "docs/Quality_Scoring_Implementation.md",
+          "missing_sections": [
+            "API",
+            "Installation"
+          ]
+        }
+      },
+      {
+        "id": "F219",
+        "category": "documentation",
+        "severity": "low",
+        "description": "Missing sections ['API', 'Installation', 'Usage'] in docs/Extension_System_Guide.md",
+        "evidence": {
+          "file": "docs/Extension_System_Guide.md",
+          "missing_sections": [
+            "API",
+            "Installation",
+            "Usage"
+          ]
+        }
+      },
+      {
+        "id": "F220",
+        "category": "documentation",
+        "severity": "low",
+        "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in docs/domain-pack-authoring.md",
+        "evidence": {
+          "file": "docs/domain-pack-authoring.md",
+          "missing_sections": [
+            "API",
+            "Installation",
+            "Overview",
+            "Usage"
+          ]
+        }
+      },
+      {
+        "id": "F221",
+        "category": "documentation",
+        "severity": "low",
+        "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in docs/API_Documentation_Phase4.md",
+        "evidence": {
+          "file": "docs/API_Documentation_Phase4.md",
+          "missing_sections": [
+            "API",
+            "Installation",
+            "Overview",
+            "Usage"
+          ]
+        }
+      },
+      {
+        "id": "F222",
+        "category": "documentation",
+        "severity": "low",
+        "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in docs/Token_Validation_Setup.md",
+        "evidence": {
+          "file": "docs/Token_Validation_Setup.md",
+          "missing_sections": [
+            "API",
+            "Installation",
+            "Overview",
+            "Usage"
+          ]
+        }
+      },
+      {
+        "id": "F223",
+        "category": "documentation",
+        "severity": "low",
+        "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in cmos/research/r1.1_The_Universal_Mission_Framework.md",
+        "evidence": {
+          "file": "cmos/research/r1.1_The_Universal_Mission_Framework.md",
+          "missing_sections": [
+            "API",
+            "Installation",
+            "Overview",
+            "Usage"
+          ]
+        }
+      },
+      {
+        "id": "F235",
+        "category": "technical_debt",
+        "severity": "low",
+        "description": "Commented Code indicator at jest.config.js:1",
+        "evidence": {
+          "pattern": "commented_code",
+          "file": "jest.config.js",
+          "line": 1,
+          "snippet": "// Dynamically adjust coverage thresholds when running a focused subset\n// e.g.,"
+        }
+      },
+      {
+        "id": "F236",
+        "category": "technical_debt",
+        "severity": "low",
+        "description": "Commented Code indicator at jest.config.js:2",
+        "evidence": {
+          "pattern": "commented_code",
+          "file": "jest.config.js",
+          "line": 2,
+          "snippet": "// e.g., `npm test -- import-export` should validate functionality without faili"
+        }
+      },
+      {
+        "id": "F237",
+        "category": "technical_debt",
+        "severity": "low",
+        "description": "Commented Code indicator at jest.config.js:20",
+        "evidence": {
+          "pattern": "commented_code",
+          "file": "jest.config.js",
+          "line": 20,
+          "snippet": "        // Looser thresholds for focused suites to prevent unrelated files from "
+        }
+      },
+      {
+        "id": "F238",
+        "category": "technical_debt",
+        "severity": "low",
+        "description": "Commented Code indicator at jest.config.js:29",
+        "evidence": {
+          "pattern": "commented_code",
+          "file": "jest.config.js",
+          "line": 29,
+          "snippet": "        // Project-wide targets (Phase 3 mission requires >=90%)\n        global:"
+        }
+      },
+      {
+        "id": "F239",
+        "category": "technical_debt",
+        "severity": "low",
+        "description": "Commented Code indicator at README.md:1",
+        "evidence": {
+          "pattern": "commented_code",
+          "file": "README.md",
+          "line": 1,
+          "snippet": "# Mission Protocol v2\n\nAn AI-powered mission planning and execution system with "
+        }
+      },
+      {
+        "id": "F240",
+        "category": "technical_debt",
+        "severity": "low",
+        "description": "Commented Code indicator at README.md:4",
+        "evidence": {
+          "pattern": "commented_code",
+          "file": "README.md",
+          "line": 4,
+          "snippet": "\n## Project Status\n\n**Sprint 1 - Template Recovery: In Progress** \u2705\n\n- **Tests**"
+        }
+      },
+      {
+        "id": "F241",
+        "category": "technical_debt",
+        "severity": "low",
+        "description": "Commented Code indicator at README.md:14",
+        "evidence": {
+          "pattern": "commented_code",
+          "file": "README.md",
+          "line": 14,
+          "snippet": "\n## Quick Start\n\nMission Protocol v2 provides MCP tools for autonomous mission m"
+        }
+      },
+      {
+        "id": "F242",
+        "category": "technical_debt",
+        "severity": "low",
+        "description": "Commented Code indicator at README.md:18",
+        "evidence": {
+          "pattern": "commented_code",
+          "file": "README.md",
+          "line": 18,
+          "snippet": "\n### Phase 4: Intelligence Layer (Current)\n- **`score_quality`** - Assess missio"
+        }
+      },
+      {
+        "id": "F243",
+        "category": "technical_debt",
+        "severity": "low",
+        "description": "Commented Code indicator at README.md:24",
+        "evidence": {
+          "pattern": "commented_code",
+          "file": "README.md",
+          "line": 24,
+          "snippet": "\n### Phase 3: Extension System\n- **`extract_template`** - Convert missions into "
+        }
+      },
+      {
+        "id": "F244",
+        "category": "technical_debt",
+        "severity": "low",
+        "description": "Commented Code indicator at README.md:30",
+        "evidence": {
+          "pattern": "commented_code",
+          "file": "README.md",
+          "line": 30,
+          "snippet": "\n### Phase 1-2: Foundation\n- **`list_available_domains`** - Browse domain packs "
+        }
+      }
+    ]
+  },
+  "nice_to_have": {
+    "count": 0,
+    "findings": []
+  },
+  "meta": {
+    "total": 258
+  }
+}

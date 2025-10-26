@@ -1,0 +1,19 @@
+type: "research.general"
+
+researchStatement:
+  topic: ""
+  scope: ""
+  centralHypothesis: ""
+
+keyQuestions: []
+
+synthesis:
+  keyInsights: []
+  surprisingFindings: []
+  contradictoryInformation: []
+
+evidenceCollection: []
+
+conclusion:
+  executiveSummary: ""
+  nextSteps: []

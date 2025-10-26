@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Implementation category (feature, infrastructure, migration, etc.)"
+    },
+    "implementationSteps": {
+      "type": "array",
+      "description": "Ordered execution plan for the build",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "technicalDependencies": {
+      "type": "array",
+      "description": "Systems or components this work depends on",
+      "items": {
+        "type": "string"
+      }
+    },
+    "testingStrategy": {
+      "type": "array",
+      "description": "Verification approach for the implementation",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rollbackPlan": {
+      "type": "array",
+      "description": "Contingency steps if deployment must be rolled back",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["type", "implementationSteps"],
+  "additionalProperties": false
+}

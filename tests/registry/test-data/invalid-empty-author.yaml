@@ -1,0 +1,7 @@
+domains:
+  - name: test
+    description: Empty author
+    version: 1.0.0
+    author: ""
+    path: domains/test
+    schema_version: 1.0.0

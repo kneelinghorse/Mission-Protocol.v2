@@ -1,0 +1,365 @@
+{
+  "readability_scores": [
+    {
+      "file": "README.md",
+      "flesch_reading_ease": 20.24
+    },
+    {
+      "file": "docs/Extension_Patterns_Cookbook.md",
+      "flesch_reading_ease": 7.67
+    },
+    {
+      "file": "docs/API_Documentation.md",
+      "flesch_reading_ease": -14.83
+    },
+    {
+      "file": "docs/Intelligence_Layer_Guide.md",
+      "flesch_reading_ease": 16.03
+    },
+    {
+      "file": "docs/Quality_Scoring_Implementation.md",
+      "flesch_reading_ease": 24.16
+    },
+    {
+      "file": "docs/Extension_System_Guide.md",
+      "flesch_reading_ease": 9.73
+    },
+    {
+      "file": "docs/domain-pack-authoring.md",
+      "flesch_reading_ease": 32.88
+    },
+    {
+      "file": "docs/API_Documentation_Phase4.md",
+      "flesch_reading_ease": -5.89
+    },
+    {
+      "file": "docs/Token_Validation_Setup.md",
+      "flesch_reading_ease": 46.79
+    },
+    {
+      "file": "cmos/research/r1.1_The_Universal_Mission_Framework.md",
+      "flesch_reading_ease": 26.62
+    },
+    {
+      "file": "cmos/research/r1.2_Architectural_Design_Specification.md",
+      "flesch_reading_ease": 29.23
+    },
+    {
+      "file": "cmos/research/R2.1_Token-Counting-Strategy-Analysis-and-Recommendation.md",
+      "flesch_reading_ease": 29.52
+    },
+    {
+      "file": "cmos/context/MASTER_CONTEXT.md",
+      "flesch_reading_ease": 36.21
+    },
+    {
+      "file": "cmos/missions/sprint-01/B1.1_completion_summary.md",
+      "flesch_reading_ease": 40.19
+    },
+    {
+      "file": "cmos/docs/Phase_4_Completion_Report.md",
+      "flesch_reading_ease": 41.86
+    },
+    {
+      "file": "cmos/docs/Memory Server Blueprint Fit.md",
+      "flesch_reading_ease": 35.95
+    },
+    {
+      "file": "cmos/docs/roadmap.md",
+      "flesch_reading_ease": -2.81
+    },
+    {
+      "file": "cmos/docs/Architectural Blueprint for a Production-Grade_Memory-Server.md",
+      "flesch_reading_ease": 18.84
+    },
+    {
+      "file": "cmos/docs/CURRENT_BUILD.md",
+      "flesch_reading_ease": 45.25
+    },
+    {
+      "file": "templates/README.md",
+      "flesch_reading_ease": 14.11
+    }
+  ],
+  "broken_links": [
+    {
+      "file": "docs/Extension_Patterns_Cookbook.md",
+      "link_text": "Template Extraction Patterns",
+      "target": "#template-extraction-patterns"
+    },
+    {
+      "file": "docs/Extension_Patterns_Cookbook.md",
+      "link_text": "Secure Sharing Patterns",
+      "target": "#secure-sharing-patterns"
+    },
+    {
+      "file": "docs/Extension_Patterns_Cookbook.md",
+      "link_text": "Pack Composition Patterns",
+      "target": "#pack-composition-patterns"
+    },
+    {
+      "file": "docs/Extension_Patterns_Cookbook.md",
+      "link_text": "Versioning Patterns",
+      "target": "#versioning-patterns"
+    },
+    {
+      "file": "docs/Extension_Patterns_Cookbook.md",
+      "link_text": "Migration Patterns",
+      "target": "#migration-patterns"
+    },
+    {
+      "file": "docs/Extension_Patterns_Cookbook.md",
+      "link_text": "Error Handling Patterns",
+      "target": "#error-handling-patterns"
+    },
+    {
+      "file": "docs/API_Documentation.md",
+      "link_text": "MCP Tools",
+      "target": "#mcp-tools"
+    },
+    {
+      "file": "docs/API_Documentation.md",
+      "link_text": "Template Extraction API",
+      "target": "#template-extraction-api"
+    },
+    {
+      "file": "docs/API_Documentation.md",
+      "link_text": "Import/Export API",
+      "target": "#importexport-api"
+    },
+    {
+      "file": "docs/API_Documentation.md",
+      "link_text": "Pack Combination API",
+      "target": "#pack-combination-api"
+    },
+    {
+      "file": "docs/API_Documentation.md",
+      "link_text": "Versioning API",
+      "target": "#versioning-api"
+    },
+    {
+      "file": "docs/API_Documentation.md",
+      "link_text": "Type Definitions",
+      "target": "#type-definitions"
+    },
+    {
+      "file": "docs/Intelligence_Layer_Guide.md",
+      "link_text": "Research Foundations",
+      "target": "../missions/research/"
+    },
+    {
+      "file": "docs/Intelligence_Layer_Guide.md",
+      "link_text": "Mission Backlog",
+      "target": "../missions/backlog.yaml"
+    },
+    {
+      "file": "docs/Extension_System_Guide.md",
+      "link_text": "Template Extraction",
+      "target": "#template-extraction"
+    },
+    {
+      "file": "docs/Extension_System_Guide.md",
+      "link_text": "Import & Export",
+      "target": "#import--export"
+    },
+    {
+      "file": "docs/Extension_System_Guide.md",
+      "link_text": "Pack Combination",
+      "target": "#pack-combination"
+    },
+    {
+      "file": "docs/Extension_System_Guide.md",
+      "link_text": "Template Versioning",
+      "target": "#template-versioning"
+    },
+    {
+      "file": "docs/Extension_System_Guide.md",
+      "link_text": "Complete Workflows",
+      "target": "#complete-workflows"
+    },
+    {
+      "file": "docs/Extension_System_Guide.md",
+      "link_text": "Phase 3 Architecture",
+      "target": "./Phase_3_Session_Execution.md"
+    }
+  ],
+  "outdated_examples": [],
+  "missing_sections": [
+    {
+      "file": "README.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "docs/Extension_Patterns_Cookbook.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "docs/API_Documentation.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "docs/Intelligence_Layer_Guide.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Usage"
+      ]
+    },
+    {
+      "file": "docs/Quality_Scoring_Implementation.md",
+      "missing_sections": [
+        "API",
+        "Installation"
+      ]
+    },
+    {
+      "file": "docs/Extension_System_Guide.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Usage"
+      ]
+    },
+    {
+      "file": "docs/domain-pack-authoring.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "docs/API_Documentation_Phase4.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "docs/Token_Validation_Setup.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "cmos/research/r1.1_The_Universal_Mission_Framework.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "cmos/research/r1.2_Architectural_Design_Specification.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "cmos/research/R2.1_Token-Counting-Strategy-Analysis-and-Recommendation.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "cmos/context/MASTER_CONTEXT.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "cmos/missions/sprint-01/B1.1_completion_summary.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "cmos/docs/Phase_4_Completion_Report.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "cmos/docs/Memory Server Blueprint Fit.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "cmos/docs/roadmap.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "cmos/docs/Architectural Blueprint for a Production-Grade_Memory-Server.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "cmos/docs/CURRENT_BUILD.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview",
+        "Usage"
+      ]
+    },
+    {
+      "file": "templates/README.md",
+      "missing_sections": [
+        "API",
+        "Installation",
+        "Overview"
+      ]
+    }
+  ],
+  "notes": "Readability via Flesch Reading Ease (higher is easier). Missing sections based on heuristic set."
+}

@@ -1,0 +1,1313 @@
+{
+  "memory_allocations": [
+    {
+      "file": "tests/tools/import-template.test.ts",
+      "line": 88,
+      "snippet": "new Map(),\n      });\n\n    const result = await importTemplate({\n      templatePa"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 14,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: []"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 19,
+      "snippet": "new Map([\n          ['A', new Set()],\n          ['B', new Set(['A'])],\n         "
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 36,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 41,
+      "snippet": "new Map([\n          ['A', new Set(['B'])],\n          ['B', new Set(['C'])],\n    "
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 58,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 61,
+      "snippet": "new Map([\n          ['A', new Set(['B'])]\n        ])\n      };\n\n      const resul"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 74,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 77,
+      "snippet": "new Map([\n          ['A', new Set(['A'])]\n        ])\n      };\n\n      const resul"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 92,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: []"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 96,
+      "snippet": "new Map([\n          ['A', new Set()],\n          ['B', new Set(['A'])]\n        ])"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 110,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 114,
+      "snippet": "new Map([\n          ['A', new Set(['B'])],\n          ['B', new Set(['A'])]\n     "
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 131,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 137,
+      "snippet": "new Map([\n          ['A', new Set(['B'])],\n          ['B', new Set(['C'])],\n    "
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 153,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 159,
+      "snippet": "new Map([\n          ['A', new Set(['B'])],\n          ['B', new Set()],\n         "
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 176,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: []"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 180,
+      "snippet": "new Map([\n          ['A', new Set()],\n          ['B', new Set(['A'])]\n        ])"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 191,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 195,
+      "snippet": "new Map([\n          ['A', new Set(['B'])],\n          ['B', new Set(['A'])]\n     "
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 208,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: []"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 213,
+      "snippet": "new Map([\n          ['A', new Set()],\n          ['B', new Set(['A'])],\n         "
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 226,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: []"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 231,
+      "snippet": "new Map([\n          ['A', new Set()],\n          ['B', new Set(['A'])],\n         "
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 244,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: []"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 248,
+      "snippet": "new Map([\n          ['A', new Set()],\n          ['B', new Set(['A'])]\n        ])"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 262,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: []"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 266,
+      "snippet": "new Map([\n          ['A', new Set()],\n          ['B', new Set(['A'])]\n        ])"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 278,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 283,
+      "snippet": "new Map([\n          ['A', new Set(['B'])],\n          ['B', new Set(['C'])],\n    "
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 300,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 303,
+      "snippet": "new Map([\n          ['A', new Set(['A'])]\n        ])\n      };\n\n      const sccs "
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 315,
+      "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+    },
+    {
+      "file": "tests/intelligence/graph-validator.test.ts",
+      "line": 321,
+      "snippet": "new Map([\n          ['A', new Set(['B'])],\n          ['B', new Set(['A'])],\n    "
+    },
+    {
+      "file": "tests/intelligence/dependency-inferrer.test.ts",
+      "line": 11,
+      "snippet": "new Map([\n        ['R4.3', { missionId: 'R4.3', filePath: 'missions/R4.3.yaml', "
+    },
+    {
+      "file": "tests/intelligence/dependency-inferrer.test.ts",
+      "line": 16,
+      "snippet": "new Map([\n        ['R4.3', new Set()],\n        ['B4.3', new Set(['R4.3'])],\n    "
+    },
+    {
+      "file": "tests/versioning/version-manager.test.ts",
+      "line": 389,
+      "snippet": "new Map([\n        ['template-a', [{ expression: '^1.0.0' }, { expression: '>=1.5"
+    },
+    {
+      "file": "tests/versioning/version-manager.test.ts",
+      "line": 401,
+      "snippet": "new Map([\n        ['template-a', [{ expression: '^1.0.0' }, { expression: '^2.0."
+    },
+    {
+      "file": "src/quality/improvement-engine.ts",
+      "line": 23,
+      "snippet": "new Map();\n    this.initializeRules();\n  }\n\n  /**\n   * Generate improvement sugg"
+    },
+    {
+      "file": "src/intelligence/dependency-analyzer.ts",
+      "line": 43,
+      "snippet": "new Map(),\n      edges: new Map()\n    };\n  }\n\n  /**\n   * Analyze dependencies fo"
+    },
+    {
+      "file": "src/intelligence/dependency-analyzer.ts",
+      "line": 44,
+      "snippet": "new Map()\n    };\n  }\n\n  /**\n   * Analyze dependencies for a set of missions\n   *"
+    },
+    {
+      "file": "src/intelligence/dependency-analyzer.ts",
+      "line": 56,
+      "snippet": "new Map(),\n      edges: new Map()\n    };\n\n    // Build graph from missions\n    a"
+    },
+    {
+      "file": "src/intelligence/dependency-analyzer.ts",
+      "line": 57,
+      "snippet": "new Map()\n    };\n\n    // Build graph from missions\n    await this.buildGraph(mis"
+    },
+    {
+      "file": "src/combination/pack-combiner.ts",
+      "line": 275,
+      "snippet": "new Map(availablePacks.map(p => [p.manifest.name, p]));\n    const packs: DomainP"
+    },
+    {
+      "file": "src/combination/dependency-resolver.ts",
+      "line": 298,
+      "snippet": "new Map(\n      availablePacks.map(p => [p.manifest.name, p])\n    );\n\n    for (co"
+    },
+    {
+      "file": "src/combination/dependency-resolver.ts",
+      "line": 337,
+      "snippet": "new Map(availablePacks.map(p => [p.manifest.name, p]));\n    const pack = packMap"
+    },
+    {
+      "file": "src/import-export/security-validator.ts",
+      "line": 114,
+      "snippet": "new Map();\n\n/**\n * SecurityValidator implements the 6-layer validation pipeline\n"
+    },
+    {
+      "file": "src/versioning/version-manager.ts",
+      "line": 24,
+      "snippet": "new Map();\n  private options: VersionManagerOptions;\n\n  constructor(options: Ver"
+    },
+    {
+      "file": "src/versioning/migration-engine.ts",
+      "line": 24,
+      "snippet": "new Map(); // templateId -> migrations\n  private options: VersionManagerOptions;"
+    }
+  ],
+  "file_handles": [
+    {
+      "file": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+      "line": 53,
+      "snippet": "fs.writeFileSync(missionFile, SAMPLE_MISSION, 'utf-8');\n  });\n\n  afterAll(() => {\n    fs.rmSync(tempDir, { recursive: tr"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 64,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), genericTemplate);\n  });\n\n  afterEach(() => {\n    // Cle"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 183,
+      "snippet": "fs.writeFileSync(path.join(webDevDir, 'pack.yaml'), manifest);\n\n      // Create schema\n      const schema = `\ntype: obje"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 198,
+      "snippet": "fs.writeFileSync(path.join(webDevDir, 'schema.yaml'), schema);\n\n      // Create template\n      const template = `\ntechSt"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 208,
+      "snippet": "fs.writeFileSync(path.join(webDevDir, 'template.yaml'), template);\n\n      // Create registry\n      const registry = `\ndo"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 219,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'registry.yaml'), registry);\n\n      registryEntries = parser.loadRegistry('regis"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 444,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'broken-registry.yaml'), registry);\n\n      const registryEntries = parser.loadRe"
+    },
+    {
+      "file": "tests/tools/create-mission.test.ts",
+      "line": 466,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), invalidTemplate);\n\n      const params = { objective: 'T"
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 37,
+      "snippet": "fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {\n        missionFile: "
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 55,
+      "snippet": "fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {\n        missionFile: "
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 75,
+      "snippet": "fs.writeFile(testFilePath, originalContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {\n        missionFile:"
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 85,
+      "snippet": "fs.readFile(testFilePath, 'utf-8');\n\n      expect(result.success).toBe(true);\n      expect(fileContent).toBe(originalCon"
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 107,
+      "snippet": "fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const levels: Array<'conservative' | 'balanced' | 'aggressiv"
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 130,
+      "snippet": "fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const models: Array<'claude' | 'gpt' | 'gemini'> = ['claude'"
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 151,
+      "snippet": "fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {\n        missionFile: "
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 168,
+      "snippet": "fs.writeFile(testFilePath, shortContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {\n        missionFile: te"
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 189,
+      "snippet": "fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {\n        missionFile: "
+    },
+    {
+      "file": "tests/tools/optimize-tokens.test.ts",
+      "line": 210,
+      "snippet": "fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      // Make file read-only to trigger write error\n      await fs"
+    },
+    {
+      "file": "tests/tools/create-mission.coverage.test.ts",
+      "line": 54,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), genericTemplate);\n  });\n\n  afterEach(() => {\n    if (!f"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 61,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'single.yaml'), registryContent);\n\n      const result = tool.execute('single.yam"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 94,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'multiple.yaml'), registryContent);\n\n      const result = tool.execute('multiple"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 113,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'no-author.yaml'), registryContent);\n\n      const result = tool.execute('no-auth"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 133,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'invalid.yaml'), registryContent);\n\n      expect(() => tool.execute('invalid.yam"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 145,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'corrupted.yaml'), registryContent);\n\n      expect(() => tool.execute('corrupted"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 159,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'registry.yaml'), registryContent);\n\n      const result = tool.execute(); // No "
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 303,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'full.yaml'), registryContent);\n\n      const domains = tool.execute('full.yaml')"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 321,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'no-array.yaml'), registryContent);\n\n      expect(() => tool.execute('no-array.y"
+    },
+    {
+      "file": "tests/tools/list-domains.test.ts",
+      "line": 330,
+      "snippet": "fs.writeFileSync(path.join(testDataDir, 'empty.yaml'), registryContent);\n\n      const result = tool.execute('empty.yaml'"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 84,
+      "snippet": "fs.writeFileSync(path.join(testMissionDir, 'test.js'), 'console.log(\"test\")');\n\n      const params: ExtractTemplateParam"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 99,
+      "snippet": "fs.writeFileSync(path.join(testMissionDir, 'test.js'), 'console.log(\"test\")');\n\n      const params: ExtractTemplateParam"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 118,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'app.js'),\n        'const express = require(\"express\");\\nconst app ="
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 123,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'package.json'),\n        JSON.stringify({\n          name: 'my-servic"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 152,
+      "snippet": "fs.writeFileSync(\n        missionFile,\n        'name: test-mission\\ntype: build\\nstatus: complete'\n      );\n\n      const"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 174,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'config.yaml'),\n        'name: test-app\\nversion: 1.0.0'\n      );\n\n "
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 194,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'app.js'),\n        'console.log(\"test\")'\n      );\n\n      const param"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 230,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'config.json'),\n        JSON.stringify({ name: 'test-service', port:"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 247,
+      "snippet": "fs.readFileSync(metadataPath, 'utf-8'));\n\n      expect(metadata.templateId).toBe('test-mission');\n      expect(metadata."
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 259,
+      "snippet": "fs.writeFileSync(path.join(srcDir, 'index.js'), 'console.log(\"main\")');\n      fs.writeFileSync(path.join(testMissionDir,"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 260,
+      "snippet": "fs.writeFileSync(path.join(testMissionDir, 'README.md'), '# Test Project');\n\n      const params: ExtractTemplateParams ="
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 279,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'app.py'),\n        'print(\"test\")'\n      );\n\n      const params: Ext"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 298,
+      "snippet": "fs.readFileSync(reportPath, 'utf-8');\n      expect(report).toContain('# Template Extraction Report');\n      expect(repor"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 357,
+      "snippet": "fs.writeFileSync(path.join(nodeModulesDir, 'package.json'), '{}');\n\n      fs.writeFileSync(path.join(testMissionDir, 'ap"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 359,
+      "snippet": "fs.writeFileSync(path.join(testMissionDir, 'app.js'), 'console.log(\"test\")');\n\n      const params: ExtractTemplateParams"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 380,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'app.js'),\n        'console.log(\"test\")'\n      );\n\n      const param"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 401,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'config.yaml'),\n        'name: test\\nversion: 1.0.0'\n      );\n\n     "
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 424,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'app.py'),\n        'from flask import Flask\\n\\napp = Flask(\"customer"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 429,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'requirements.txt'),\n        'flask==2.0.0\\ngunicorn==20.1.0'\n      "
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 447,
+      "snippet": "fs.readFileSync(metadataPath, 'utf-8'));\n\n      expect(Object.keys(metadata.parameters).length).toBeGreaterThan(0);\n    "
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 453,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'package.json'),\n        JSON.stringify({\n          name: 'order-ser"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 466,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'index.js'),\n        'const express = require(\"express\");\\nconst app"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 484,
+      "snippet": "fs.readFileSync(reportPath, 'utf-8');\n\n      expect(report).toContain('order-service');\n    });\n  });\n\n  describe('Error"
+    },
+    {
+      "file": "tests/tools/extract-template.test.ts",
+      "line": 507,
+      "snippet": "fs.writeFileSync(badFile, '{invalid json');\n\n      const params: ExtractTemplateParams = {\n        missionFile: testMiss"
+    },
+    {
+      "file": "tests/tools/suggest-splits.execute.test.ts",
+      "line": 10,
+      "snippet": "fs.writeFileSync(filePath, content, 'utf-8');\n  return filePath;\n}\n\ndescribe('SuggestSplitsToolImpl.execute (mocked spli"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 92,
+      "snippet": "fs.writeFile(testMissionPath, YAML.stringify(complexMission), 'utf-8');\n\n      const params: SplitMissionParams = {\n    "
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 130,
+      "snippet": "fs.writeFile(testMissionPath, YAML.stringify(simpleMission), 'utf-8');\n\n      const params: SplitMissionParams = {\n     "
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 169,
+      "snippet": "fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {\n        mis"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 181,
+      "snippet": "fs.readFile(filePath, 'utf-8');\n          const parsed = YAML.parse(content);\n\n          // Verify it's a valid mission\n"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 212,
+      "snippet": "fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {\n        mis"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 257,
+      "snippet": "fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {\n        mis"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 284,
+      "snippet": "fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {\n        mis"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 317,
+      "snippet": "fs.writeFile(testMissionPath, textMission, 'utf-8');\n\n      const params: SplitMissionParams = {\n        missionFile: te"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 349,
+      "snippet": "fs.writeFile(testMissionPath, 'objective: test', 'utf-8');\n\n      const params: SplitMissionParams = {\n        missionFi"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 360,
+      "snippet": "fs.writeFile(testMissionPath, 'objective: test', 'utf-8');\n\n      const params: SplitMissionParams = {\n        missionFi"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 374,
+      "snippet": "fs.writeFile(testMissionPath, rawYaml, 'utf-8');\n\n      const result = await tool.execute({ missionFile: testMissionPath"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 396,
+      "snippet": "fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {\n        mis"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 428,
+      "snippet": "fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {\n        mis"
+    },
+    {
+      "file": "tests/tools/split-mission.test.ts",
+      "line": 477,
+      "snippet": "fs.writeFile(testMissionPath, YAML.stringify(mission), 'utf-8');\n\n      const params: SplitMissionParams = {\n        mis"
+    },
+    {
+      "file": "tests/tools/export-template.test.ts",
+      "line": 65,
+      "snippet": "fs.readFileSync(fullPath, 'utf-8');\n\n    expect(result.success).toBe(true);\n    expect(() => JSON.parse(content)).not.to"
+    },
+    {
+      "file": "tests/intelligence/token-optimizer.extra.test.ts",
+      "line": 17,
+      "snippet": "fs.writeFile(filePath, content, 'utf-8');\n\n    const result = await optimizer.optimizeFile(filePath, { model: 'gpt', lev"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 22,
+      "snippet": "fs.writeFileSync(\n      path.join(tempDir, 'safe.yaml'),\n      'key: value\\nnumber: 42'\n    );\n  });\n\n  afterEach(() => "
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 118,
+      "snippet": "fs.writeFileSync(path.join(subdir, 'file.yaml'), 'data: test');\n\n      const sanitized = loader.sanitizePath('subdir/fil"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 127,
+      "snippet": "fs.writeFileSync(path.join(nested, 'file.yaml'), 'data: test');\n\n      const sanitized = loader.sanitizePath('a/b/c/file"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 151,
+      "snippet": "fs.writeFileSync(targetFile, 'data: test');\n\n      try {\n        fs.symlinkSync(targetFile, symlinkPath);\n\n        expec"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 177,
+      "snippet": "fs.writeFileSync(targetFile, 'data: symlink-test');\n\n      try {\n        fs.symlinkSync(targetFile, symlinkPath);\n\n     "
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 202,
+      "snippet": "fs.writeFileSync(largeFile, 'x'.repeat(200));\n\n      expect(() => {\n        smallLoader.load('large.yaml');\n      }).toT"
+    },
+    {
+      "file": "tests/security/path-traversal.test.ts",
+      "line": 230,
+      "snippet": "fs.writeFileSync(path.join(subdir, 'file.yaml'), 'test: data');\n\n      const sanitized = loader.sanitizePath('sub//file."
+    },
+    {
+      "file": "tests/integration/mcp-server.test.ts",
+      "line": 34,
+      "snippet": "fs.writeFileSync(require('path').join(baseDir, 'registry.yaml'),\n        `domains:\\n` +\n        `  - name: foundation\\n "
+    },
+    {
+      "file": "tests/integration/mcp-server.test.ts",
+      "line": 40,
+      "snippet": "fs.writeFileSync(require('path').join(baseDir, 'packs', 'foundation', 'pack.yaml'),\n        `name: foundation\\nversion: "
+    },
+    {
+      "file": "tests/integration/mcp-server.test.ts",
+      "line": 42,
+      "snippet": "fs.writeFileSync(require('path').join(baseDir, 'packs', 'foundation', 'schema.json'),\n        `{\"$schema\":\"http://json-s"
+    },
+    {
+      "file": "tests/integration/mcp-server.test.ts",
+      "line": 44,
+      "snippet": "fs.writeFileSync(require('path').join(baseDir, 'packs', 'foundation', 'template.yaml'),\n        `governanceChecklist:\\n "
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 17,
+      "snippet": "fs.writeFileSync(path.join(baseDir, 'registry.yaml'),\n        `domains:\\n  - name: foundation\\n    description: Core bas"
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 19,
+      "snippet": "fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'pack.yaml'),\n        `name: foundation\\nversion: 1.0.0\\ndisp"
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 21,
+      "snippet": "fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'schema.json'),\n        `{\"$schema\":\"http://json-schema.org/d"
+    },
+    {
+      "file": "tests/integration/full-flow.test.ts",
+      "line": 23,
+      "snippet": "fs.writeFileSync(path.join(baseDir, 'packs', 'foundation', 'template.yaml'),\n        `governanceChecklist: []\\n`);\n    }"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 54,
+      "snippet": "fs.writeFileSync(missionPath, complexMission);\n\n      // Step 1: Analyze initial quality\n      const initialQuality = aw"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 111,
+      "snippet": "fs.writeFileSync(missionPath, lowQualityMission);\n\n      // Score the mission\n      const qualityResult = await scoreQua"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 163,
+      "snippet": "fs.writeFileSync(missionPath, highQualityMission);\n\n      const qualityResult = await scoreQuality({\n        missionFile"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 221,
+      "snippet": "fs.writeFileSync(missionPath, mission.content);\n      }\n\n      // Analyze dependencies\n      const analysis = await exec"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 268,
+      "snippet": "fs.writeFileSync(missionPath, verboseMission);\n\n      // Get initial token count\n      const beforeContent = fs.readFile"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 271,
+      "snippet": "fs.readFileSync(missionPath, 'utf-8');\n      const beforeLength = beforeContent.length;\n\n      // Optimize\n      const r"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 312,
+      "snippet": "fs.writeFileSync(missionPath, testMission);\n\n      const beforeContent = fs.readFileSync(missionPath, 'utf-8');\n\n      /"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 314,
+      "snippet": "fs.readFileSync(missionPath, 'utf-8');\n\n      // Optimize in dry run mode\n      const result = await handleOptimizeToken"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 327,
+      "snippet": "fs.readFileSync(missionPath, 'utf-8');\n      expect(afterContent).toBe(beforeContent);\n\n      // But should still get op"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 352,
+      "snippet": "fs.writeFileSync(missionPath, testMission);\n\n      const start = Date.now();\n      await scoreQuality({ missionFile: mis"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 377,
+      "snippet": "fs.writeFileSync(missionPath, testMission);\n\n      const start = Date.now();\n      await handleOptimizeTokens({\n        "
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 399,
+      "snippet": "fs.writeFileSync(malformedPath, 'invalid: yaml: content: [[[');\n\n      const qualityResult = await scoreQuality({\n      "
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 426,
+      "snippet": "fs.writeFileSync(emptyPath, '');\n\n      const result = await scoreQuality({\n        missionFile: emptyPath,\n        verb"
+    },
+    {
+      "file": "tests/integration/phase4-intelligence-flow.test.ts",
+      "line": 463,
+      "snippet": "fs.writeFileSync(missionPath, testMission);\n\n      // Step 1: Initial quality assessment\n      const initialQuality = aw"
+    },
+    {
+      "file": "tests/integration/phase3-flow.test.ts",
+      "line": 35,
+      "snippet": "fs.writeFileSync(path.join(sourceDir, 'service.yaml'), 'name: api\\nversion: 1.0.0\\nport: 8080');\n\n    // Identify candid"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 39,
+      "snippet": "fs.writeFileSync(path.join(localTemplates, 'registry.yaml'),\n        `domains:\\n  - name: software.technical-task\\n    d"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 43,
+      "snippet": "fs.writeFileSync(path.join(localTemplates, 'packs', 'software.technical-task', 'pack.yaml'),\n        `name: software.tec"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 45,
+      "snippet": "fs.writeFileSync(path.join(localTemplates, 'packs', 'software.technical-task', 'schema.json'),\n        `{\"$schema\":\"http"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 47,
+      "snippet": "fs.writeFileSync(path.join(localTemplates, 'packs', 'software.technical-task', 'template.yaml'),\n        `userStory: \"As"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 54,
+      "snippet": "fs.writeFileSync(path.join(localTemplates, 'packs', 'business.market-research', 'pack.yaml'),\n        `name: business.ma"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 56,
+      "snippet": "fs.writeFileSync(path.join(localTemplates, 'packs', 'business.market-research', 'schema.json'),\n        `{\"$schema\":\"htt"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 58,
+      "snippet": "fs.writeFileSync(path.join(localTemplates, 'packs', 'business.market-research', 'template.yaml'),\n        `stakeholders:"
+    },
+    {
+      "file": "tests/integration/phase2-flow.test.ts",
+      "line": 62,
+      "snippet": "fs.writeFileSync(path.join(localTemplates, 'generic_mission.yaml'),\n        `schemaType: \"Mission\"\\nschemaVersion: \"2.0\""
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 87,
+      "snippet": "fs.readFileSync(path.join(testDir, 'parseable.yaml'), 'utf-8');\n      const parsed = YAML.parse(content);\n\n      expect("
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 99,
+      "snippet": "fs.readFileSync(path.join(testDir, 'with-comments.yaml'), 'utf-8');\n\n      expect(content).toContain('# Mission Template"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 111,
+      "snippet": "fs.readFileSync(path.join(testDir, 'no-comments.yaml'), 'utf-8');\n\n      expect(content).not.toContain('# Mission Templa"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 121,
+      "snippet": "fs.readFileSync(path.join(testDir, 'safe-yaml.yaml'), 'utf-8');\n\n      // Check for dangerous YAML tags\n      expect(con"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 134,
+      "snippet": "fs.readFileSync(path.join(testDir, 'pretty.yaml'), 'utf-8');\n\n      // Pretty YAML should have indentation\n      expect("
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 158,
+      "snippet": "fs.readFileSync(path.join(testDir, 'parseable.json'), 'utf-8');\n      const parsed = JSON.parse(content);\n\n      expect("
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 170,
+      "snippet": "fs.readFileSync(path.join(testDir, 'pretty.json'), 'utf-8');\n\n      // Pretty JSON should have newlines and indentation\n"
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 182,
+      "snippet": "fs.readFileSync(path.join(testDir, 'compact.json'), 'utf-8');\n\n      // Compact JSON should not have pretty formatting\n "
+    },
+    {
+      "file": "tests/import-export/template-exporter.test.ts",
+      "line": 380,
+      "snippet": "fs.readFileSync(path.join(testDir, 'roundtrip.yaml'), 'utf-8');\n      const parsed = YAML.parse(content);\n\n      // Veri"
+    },
+    {
+      "file": "tests/import-export/template-importer.test.ts",
+      "line": 43,
+      "snippet": "fs.writeFileSync(path.join(testDir, filename), content, 'utf-8');\n  }\n\n  // Helper to create valid template YAML\n  funct"
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 32,
+      "snippet": "fs.writeFileSync(\n        registryPath,\n        `\ndomains:\n  - name: test-domain\n    description: Test domain pack\n    v"
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 54,
+      "snippet": "fs.writeFileSync(\n        registryPath,\n        `\ndomains:\n  - name: domain-one\n    description: First domain\n    versio"
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 88,
+      "snippet": "fs.writeFileSync(\n        registryPath,\n        `\ndomains:\n  - name: with-author\n    description: Has author\n    version"
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 117,
+      "snippet": "fs.writeFileSync(\n        registryPath,\n        `\ndomains:\n  - description: Missing name\n    version: 1.0.0\n    path: do"
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 133,
+      "snippet": "fs.writeFileSync(\n        registryPath,\n        `\ndomains:\n  - name: test\n    description: Invalid version\n    version: "
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 150,
+      "snippet": "fs.writeFileSync(\n        registryPath,\n        `\ndomains:\n  - name: test\n    description: Invalid schema version\n    ve"
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 169,
+      "snippet": "fs.writeFileSync(\n        registryPath,\n        `\ndomains:\n  - name: test\n    description: Path traversal attempt\n    ve"
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 186,
+      "snippet": "fs.writeFileSync(\n        registryPath,\n        `\ndomains:\n  - name: test\n    description: Absolute path\n    version: 1."
+    },
+    {
+      "file": "tests/registry/registry-parser.test.ts",
+      "line": 203,
+      "snippet": "fs.writeFileSync(\n        registryPath,\n        `\ndomains:\n  - name: test\n    description: Empty author\n    version: 1.0"
+    },
+    {
+      "file": "tests/versioning/migration-engine.test.ts",
+      "line": 336,
+      "snippet": "fs.readFileSync(result.backupPath!, 'utf-8');\n      expect(JSON.parse(backupContent)).toEqual(template);\n    });\n\n    te"
+    },
+    {
+      "file": "tests/versioning/migration-engine.test.ts",
+      "line": 401,
+      "snippet": "fs.writeFileSync(backupPath, JSON.stringify(template), 'utf-8');\n\n      const result = await migrationEngine.rollback('t"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 33,
+      "snippet": "fs.writeFileSync(\n        appPy,\n        `from flask import Flask\\n\\napp = Flask(\"customer-api\")\\n\\n@app.route('/custome"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 53,
+      "snippet": "fs.writeFileSync(\n        configYaml,\n        `name: my-service\\nversion: 1.0.0\\nport: 8080\\nauthor: test@example.com\\n`"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 80,
+      "snippet": "fs.writeFileSync(\n        packageJson,\n        JSON.stringify({\n          name: 'test-project',\n          version: '1.0."
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 111,
+      "snippet": "fs.writeFileSync(file, 'print(\"Hello\")');\n\n      const config: ExtractionConfig = {\n        sourceMissionPath: testMissi"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 133,
+      "snippet": "fs.writeFileSync(path.join(nodeModulesDir, 'package.json'), '{}');\n\n      // Create a normal file\n      fs.writeFileSync"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 136,
+      "snippet": "fs.writeFileSync(path.join(testMissionDir, 'app.js'), 'console.log(\"test\")');\n\n      const config: ExtractionConfig = {\n"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 152,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'file1.py'),\n        'PROJECT_NAME = \"unique-project\"\\nCOMMON = \"com"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 156,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'file2.py'),\n        'NAME = \"unique-project\"\\nCOMMON = \"common-valu"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 160,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'file3.py'),\n        'COMMON = \"common-value\"\\n'\n      );\n\n      con"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 190,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'only.js'),\n        'console.log(\"unique_literal_value\")'\n      );\n\n"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 214,
+      "snippet": "fs.writeFileSync(path.join(gitDir, 'config'), 'git');\n      fs.writeFileSync(path.join(distDir, 'bundle.js'), 'dist');\n "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 215,
+      "snippet": "fs.writeFileSync(path.join(distDir, 'bundle.js'), 'dist');\n      fs.writeFileSync(path.join(testMissionDir, 'debug.log')"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 216,
+      "snippet": "fs.writeFileSync(path.join(testMissionDir, 'debug.log'), 'log');\n\n      // Create one valid file\n      fs.writeFileSync("
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 219,
+      "snippet": "fs.writeFileSync(path.join(testMissionDir, 'main.js'), 'console.log(\"ok\")');\n\n      const config: ExtractionConfig = {\n "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 237,
+      "snippet": "fs.writeFileSync(\n        appPy,\n        'from flask import Flask\\n\\napp = Flask(\"my-service\")\\n'\n      );\n\n      const "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 259,
+      "snippet": "fs.writeFileSync(\n        appPy,\n        'PROJECT = \"customer-api\"\\nprint(\"Welcome to customer-api\")\\n'\n      );\n\n      "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 283,
+      "snippet": "fs.writeFileSync(configYaml, 'name: test-service\\nport: 3000\\n');\n\n      const config: ExtractionConfig = {\n        sour"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 308,
+      "snippet": "fs.writeFileSync(\n        configJson,\n        JSON.stringify({ name: 'true', port: 8080 }, null, 2)\n      );\n\n      cons"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 336,
+      "snippet": "fs.writeFileSync(path.join(customDir, 'index.js'), 'console.log(\"test\")');\n\n      // Also include a common directory to "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 341,
+      "snippet": "fs.writeFileSync(path.join(srcDir, 'helper.js'), 'console.log(\"helper\")');\n\n      const config: ExtractionConfig = {\n   "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 362,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'a.json'),\n        JSON.stringify({ name: 'alpha' }, null, 2)\n      "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 366,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'b.json'),\n        JSON.stringify({ name: 'alpha' }, null, 2)\n      "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 370,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'c.json'),\n        JSON.stringify({ name: 'beta' }, null, 2)\n      )"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 394,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'package.json'),\n        JSON.stringify({\n          name: 'my-micros"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 403,
+      "snippet": "fs.writeFileSync(\n        path.join(testMissionDir, 'app.js'),\n        'const express = require(\"express\");\\nconst app ="
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 441,
+      "snippet": "fs.writeFileSync(file, `const value = \"test-${i}\";\\nconsole.log(value);`);\n      }\n\n      const config: ExtractionConfig"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 482,
+      "snippet": "fs.writeFileSync(path.join(testMissionDir, 'app.py'), 'print(\"test\")');\n      fs.writeFileSync(path.join(testMissionDir,"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 483,
+      "snippet": "fs.writeFileSync(path.join(testMissionDir, 'index.ts'), 'console.log(\"test\")');\n      fs.writeFileSync(path.join(testMis"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 484,
+      "snippet": "fs.writeFileSync(path.join(testMissionDir, 'Main.java'), 'class Main {}');\n      fs.writeFileSync(path.join(testMissionD"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 485,
+      "snippet": "fs.writeFileSync(path.join(testMissionDir, 'main.go'), 'package main');\n\n      const config: ExtractionConfig = {\n      "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 503,
+      "snippet": "fs.writeFileSync(\n        nestedJson,\n        JSON.stringify({ info: { name: 'nested-app', meta: { version: '1.2.3' } } "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 529,
+      "snippet": "fs.writeFileSync(path.join(specialDir, 'index.js'), 'console.log(\"ok\")');\n\n      const config: ExtractionConfig = {\n    "
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 545,
+      "snippet": "fs.writeFileSync(path.join(testMissionDir, '.env'), 'PORT=3000');\n      fs.writeFileSync(path.join(testMissionDir, 'scri"
+    },
+    {
+      "file": "tests/extraction/template-extractor.test.ts",
+      "line": 546,
+      "snippet": "fs.writeFileSync(path.join(testMissionDir, 'script.rb'), 'puts \"hi\"');\n\n      const config: ExtractionConfig = {\n       "
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 33,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'simple.yaml'), yamlContent);\n\n      const data = loader.load('simple.yaml');\n      "
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 52,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'nested.yaml'), yamlContent);\n\n      const data = loader.load('nested.yaml');\n      "
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 67,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'array.yaml'), yamlContent);\n\n      const data = loader.load('array.yaml');\n      ex"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 90,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'anchors.yaml'), yamlContent);\n\n      const data = loader.load('anchors.yaml');\n    "
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 104,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'multiline.yaml'), yamlContent);\n\n      const data = loader.load('multiline.yaml');\n"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 116,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'nulls.yaml'), yamlContent);\n\n      const data = loader.load('nulls.yaml');\n      ex"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 130,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'invalid.yaml'), yamlContent);\n\n      expect(() => {\n        loader.load('invalid.ya"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 145,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'malicious1.yaml'), maliciousYAML);\n\n      // The YAML library should reject this or"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 157,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'malicious2.yaml'), maliciousYAML);\n\n      expect(() => {\n        loader.load('malic"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 169,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'malicious3.yaml'), maliciousYAML);\n\n      expect(() => {\n        loader.load('malic"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 180,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'malicious4.yaml'), maliciousYAML);\n\n      expect(() => {\n        loader.load('malic"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 192,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'malicious5.yaml'), maliciousYAML);\n\n      expect(() => {\n        loader.load('malic"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 203,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'malicious6.yaml'), maliciousYAML);\n\n      expect(() => {\n        loader.load('malic"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 217,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'app.yaml'), yamlContent);\n\n      const schema: JSONSchema = {\n        type: 'object"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 236,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'incomplete.yaml'), yamlContent);\n\n      const schema: JSONSchema = {\n        type: "
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 257,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'wrongtype.yaml'), yamlContent);\n\n      const schema: JSONSchema = {\n        type: '"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 278,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'server.yaml'), yamlContent);\n\n      const schema: JSONSchema = {\n        type: 'obj"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 307,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'users.yaml'), yamlContent);\n\n      const schema: JSONSchema = {\n        type: 'obje"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 334,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'enum.yaml'), yamlContent);\n\n      const schema: JSONSchema = {\n        type: 'objec"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 354,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'bad-enum.yaml'), yamlContent);\n\n      const schema: JSONSchema = {\n        type: 'o"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 374,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'file1.yaml'), 'value: 1');\n      fs.writeFileSync(path.join(tempDir, 'file2.yaml'),"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 375,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'file2.yaml'), 'value: 2');\n      fs.writeFileSync(path.join(tempDir, 'file3.yaml'),"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 376,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'file3.yaml'), 'value: 3');\n\n      const results = loader.loadMultiple(['file1.yaml'"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 385,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'config1.yaml'), 'name: Config1\\nversion: 1.0');\n      fs.writeFileSync(path.join(te"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 386,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'config2.yaml'), 'name: Config2\\nversion: 2.0');\n\n      const schema: JSONSchema = {"
+    },
+    {
+      "file": "tests/loaders/yaml-loader.test.ts",
+      "line": 415,
+      "snippet": "fs.writeFileSync(path.join(tempDir, 'error.yaml'), yamlContent);\n\n      const schema: JSONSchema = {\n        type: 'obje"
+    },
+    {
+      "file": "src/tools/optimize-tokens.ts",
+      "line": 132,
+      "snippet": "fs.readFile(absolutePath, 'utf-8');\n\n      // Optimize\n      const result = await this.optimizer.optimize(content, {\n   "
+    },
+    {
+      "file": "src/tools/optimize-tokens.ts",
+      "line": 146,
+      "snippet": "fs.writeFile(absolutePath, result.optimized, 'utf-8');\n      }\n\n      return {\n        success: true,\n        optimizedC"
+    },
+    {
+      "file": "src/tools/split-mission.ts",
+      "line": 245,
+      "snippet": "fs.readFileSync(filePath, 'utf-8');\n\n      try {\n        const parsed = YAML.parse(content);\n\n        // Check if it's a"
+    },
+    {
+      "file": "src/tools/split-mission.ts",
+      "line": 287,
+      "snippet": "fs.writeFileSync(filePath, missionYaml, 'utf-8');\n      files.push(filePath);\n    }\n\n    return files;\n  }\n\n  /**\n   * C"
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 148,
+      "snippet": "fs.writeFileSync(filePath, file.content, 'utf-8');\n  }\n\n  // Write metadata file\n  const metadataPath = path.join(templa"
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 153,
+      "snippet": "fs.writeFileSync(\n    metadataPath,\n    JSON.stringify(template.metadata, null, 2),\n    'utf-8'\n  );\n\n  // Write extract"
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 162,
+      "snippet": "fs.writeFileSync(reportPath, report, 'utf-8');\n\n  // Write hooks if present\n  if (template.hooks?.preGenerate) {\n    con"
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 168,
+      "snippet": "fs.writeFileSync(preHookPath, template.hooks.preGenerate, 'utf-8');\n    fs.chmodSync(preHookPath, 0o755);\n  }\n\n  if (tem"
+    },
+    {
+      "file": "src/tools/extract-template.ts",
+      "line": 175,
+      "snippet": "fs.writeFileSync(postHookPath, template.hooks.postGenerate, 'utf-8');\n    fs.chmodSync(postHookPath, 0o755);\n  }\n}\n\n/**\n"
+    },
+    {
+      "file": "src/tools/suggest-splits.ts",
+      "line": 203,
+      "snippet": "fs.readFileSync(filePath, 'utf-8');\n\n      try {\n        const parsed = YAML.parse(content);\n        if (isGenericMissio"
+    },
+    {
+      "file": "src/intelligence/token-optimizer.ts",
+      "line": 168,
+      "snippet": "fs.readFile(filePath, 'utf-8');\n    return this.optimize(content, config);\n  }\n\n  /**\n   * Calculate reduction percentag"
+    },
+    {
+      "file": "src/import-export/template-importer.ts",
+      "line": 218,
+      "snippet": "fs.readFileSync(sanitizedPath, 'utf-8');\n      }\n\n      throw new DependencyResolutionError(\n        `Unsupported protoc"
+    },
+    {
+      "file": "src/import-export/template-importer.ts",
+      "line": 263,
+      "snippet": "fs.writeFileSync(tempFile, yamlContent);\n      return await this.import(path.basename(tempFile), options);\n    } finally"
+    },
+    {
+      "file": "src/import-export/template-exporter.ts",
+      "line": 66,
+      "snippet": "fs.writeFileSync(resolvedPath, content, 'utf-8');\n\n      return true;\n    } catch (error) {\n      throw new ImportExport"
+    },
+    {
+      "file": "src/versioning/migration-engine.ts",
+      "line": 223,
+      "snippet": "fs.readFile(backupPath, 'utf-8');\n      const template = JSON.parse(backupContent);\n\n      return {\n        success: tru"
+    },
+    {
+      "file": "src/versioning/migration-engine.ts",
+      "line": 254,
+      "snippet": "fs.writeFile(backupPath, JSON.stringify(template, null, 2), 'utf-8');\n\n    return backupPath;\n  }\n\n  /**\n   * Get all av"
+    },
+    {
+      "file": "src/extraction/template-extractor.ts",
+      "line": 102,
+      "snippet": "fs.readFileSync(filePath, 'utf-8');\n      const relativePath = path.relative(missionPath, filePath);\n\n      // Analyze d"
+    },
+    {
+      "file": "src/extraction/template-extractor.ts",
+      "line": 195,
+      "snippet": "fs.readFileSync(filePath, 'utf-8');\n      let templatePath = relativePath;\n\n      // Apply parameterization to file path"
+    },
+    {
+      "file": "src/loaders/yaml-loader.ts",
+      "line": 182,
+      "snippet": "fs.readFileSync(sanitizedPath, 'utf-8');\n\n    // Layer 2: Safe parse\n    const parsed = this.safeParse(content);\n\n    //"
+    }
+  ],
+  "network_calls": [
+    {
+      "file": "tests/intelligence/token-validation.test.ts",
+      "line": 140,
+      "snippet": "fetch('https://api.anthropic.com/v1/messages/count_tokens', {\n        method: 'POST',\n        headers: {\n          'x-ap"
+    },
+    {
+      "file": "tests/intelligence/token-validation.test.ts",
+      "line": 175,
+      "snippet": "fetch(\n        `https://generativelanguage.googleapis.com/v1/${geminiModelId}:countTokens?key=${apiKey}`,\n        {\n    "
+    },
+    {
+      "file": "scripts/validate-token-counts.ts",
+      "line": 85,
+      "snippet": "fetch('https://api.anthropic.com/v1/messages/count_tokens', {\n    method: 'POST',\n    headers: {\n      'x-api-key': apiK"
+    },
+    {
+      "file": "scripts/validate-token-counts.ts",
+      "line": 116,
+      "snippet": "fetch(\n    `https://generativelanguage.googleapis.com/v1/${GEMINI_MODEL_ID}:countTokens?key=${apiKey}`,\n    {\n      meth"
+    }
+  ]
+}

@@ -1,0 +1,3029 @@
+{
+  "total_findings": 258,
+  "findings": [
+    {
+      "id": "F001",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~53 lines) at cmos/context/src/domain_discovery.js:122",
+      "evidence": {
+        "path": "cmos/context/src/domain_discovery.js",
+        "line": 122,
+        "length": 53,
+        "signature": "items.forEach(item => {"
+      }
+    },
+    {
+      "id": "F002",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~352 lines) at dist/index.d.ts:32",
+      "evidence": {
+        "path": "dist/index.d.ts",
+        "line": 32,
+        "length": 352,
+        "signature": "export declare function getToolDefinitions(): readonly [{"
+      }
+    },
+    {
+      "id": "F003",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~69 lines) at dist/tools/analyze-dependencies.js:50",
+      "evidence": {
+        "path": "dist/tools/analyze-dependencies.js",
+        "line": 50,
+        "length": 69,
+        "signature": "async function analyzeDependencies(args) {"
+      }
+    },
+    {
+      "id": "F004",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~52 lines) at dist/tools/extract-template.js:170",
+      "evidence": {
+        "path": "dist/tools/extract-template.js",
+        "line": 170,
+        "length": 52,
+        "signature": "function generateExtractionReport(result) {"
+      }
+    },
+    {
+      "id": "F005",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~53 lines) at dist/tools/import-template.d.ts:64",
+      "evidence": {
+        "path": "dist/tools/import-template.d.ts",
+        "line": 64,
+        "length": 53,
+        "signature": "export declare function importTemplate(params: ImportTemplateParams): Promise<ImportTemplateResult>;"
+      }
+    },
+    {
+      "id": "F006",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~76 lines) at scripts/validate-token-counts.ts:173",
+      "evidence": {
+        "path": "scripts/validate-token-counts.ts",
+        "line": 173,
+        "length": 76,
+        "signature": "async function main() {"
+      }
+    },
+    {
+      "id": "F007",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~80 lines) at src/tools/analyze-dependencies.ts:43",
+      "evidence": {
+        "path": "src/tools/analyze-dependencies.ts",
+        "line": 43,
+        "length": 80,
+        "signature": "export async function analyzeDependencies(args: AnalyzeDependenciesArgs): Promise<AnalyzeDependenciesResult> {"
+      }
+    },
+    {
+      "id": "F008",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~56 lines) at src/tools/extract-template.ts:36",
+      "evidence": {
+        "path": "src/tools/extract-template.ts",
+        "line": 36,
+        "length": 56,
+        "signature": "export async function extractTemplate(params: ExtractTemplateParams): Promise<ExtractionResult> {"
+      }
+    },
+    {
+      "id": "F009",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~62 lines) at src/tools/extract-template.ts:183",
+      "evidence": {
+        "path": "src/tools/extract-template.ts",
+        "line": 183,
+        "length": 62,
+        "signature": "export function generateExtractionReport(result: ExtractionResult): string {"
+      }
+    },
+    {
+      "id": "F010",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~59 lines) at tests/integration/phase4-intelligence-flow.test.ts:27",
+      "evidence": {
+        "path": "tests/integration/phase4-intelligence-flow.test.ts",
+        "line": 27,
+        "length": 59,
+        "signature": "it('should optimize a mission and verify quality improvement', async () => {"
+      }
+    },
+    {
+      "id": "F011",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~59 lines) at tests/integration/phase4-intelligence-flow.test.ts:180",
+      "evidence": {
+        "path": "tests/integration/phase4-intelligence-flow.test.ts",
+        "line": 180,
+        "length": 59,
+        "signature": "it('should analyze dependencies across multiple missions', async () => {"
+      }
+    },
+    {
+      "id": "F012",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~55 lines) at tests/integration/phase4-intelligence-flow.test.ts:243",
+      "evidence": {
+        "path": "tests/integration/phase4-intelligence-flow.test.ts",
+        "line": 243,
+        "length": 55,
+        "signature": "it('should optimize tokens while preserving semantic meaning', async () => {"
+      }
+    },
+    {
+      "id": "F013",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~61 lines) at tests/integration/phase4-intelligence-flow.test.ts:441",
+      "evidence": {
+        "path": "tests/integration/phase4-intelligence-flow.test.ts",
+        "line": 441,
+        "length": 61,
+        "signature": "it('should process mission through full quality \u2192 optimize \u2192 score workflow', async () => {"
+      }
+    },
+    {
+      "id": "F014",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~52 lines) at tests/tools/create-mission.test.ts:170",
+      "evidence": {
+        "path": "tests/tools/create-mission.test.ts",
+        "line": 170,
+        "length": 52,
+        "signature": "beforeEach(() => {"
+      }
+    },
+    {
+      "id": "F015",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Long function (~60 lines) at tests/tools/split-mission.test.ts:56",
+      "evidence": {
+        "path": "tests/tools/split-mission.test.ts",
+        "line": 56,
+        "length": 60,
+        "signature": "test('should split complex mission and create sub-mission files', async () => {"
+      }
+    },
+    {
+      "id": "F016",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:112",
+      "evidence": {
+        "path": "cmos/context/src/active_set_optimizer.js",
+        "line": 112,
+        "brace_depth": 5
+      }
+    },
+    {
+      "id": "F017",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:113",
+      "evidence": {
+        "path": "cmos/context/src/active_set_optimizer.js",
+        "line": 113,
+        "brace_depth": 5
+      }
+    },
+    {
+      "id": "F018",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:114",
+      "evidence": {
+        "path": "cmos/context/src/active_set_optimizer.js",
+        "line": 114,
+        "brace_depth": 5
+      }
+    },
+    {
+      "id": "F019",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:115",
+      "evidence": {
+        "path": "cmos/context/src/active_set_optimizer.js",
+        "line": 115,
+        "brace_depth": 5
+      }
+    },
+    {
+      "id": "F020",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:116",
+      "evidence": {
+        "path": "cmos/context/src/active_set_optimizer.js",
+        "line": 116,
+        "brace_depth": 5
+      }
+    },
+    {
+      "id": "F021",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:117",
+      "evidence": {
+        "path": "cmos/context/src/active_set_optimizer.js",
+        "line": 117,
+        "brace_depth": 5
+      }
+    },
+    {
+      "id": "F022",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:118",
+      "evidence": {
+        "path": "cmos/context/src/active_set_optimizer.js",
+        "line": 118,
+        "brace_depth": 5
+      }
+    },
+    {
+      "id": "F023",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:119",
+      "evidence": {
+        "path": "cmos/context/src/active_set_optimizer.js",
+        "line": 119,
+        "brace_depth": 5
+      }
+    },
+    {
+      "id": "F024",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:120",
+      "evidence": {
+        "path": "cmos/context/src/active_set_optimizer.js",
+        "line": 120,
+        "brace_depth": 5
+      }
+    },
+    {
+      "id": "F025",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Deep nesting level 5 at cmos/context/src/active_set_optimizer.js:121",
+      "evidence": {
+        "path": "cmos/context/src/active_set_optimizer.js",
+        "line": 121,
+        "brace_depth": 5
+      }
+    },
+    {
+      "id": "F026",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Large file with 654 lines at cmos/context/src/active_set_optimizer.js",
+      "evidence": {
+        "path": "cmos/context/src/active_set_optimizer.js",
+        "line_count": 654
+      }
+    },
+    {
+      "id": "F027",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Large file with 740 lines at cmos/context/src/anti_patterns.js",
+      "evidence": {
+        "path": "cmos/context/src/anti_patterns.js",
+        "line_count": 740
+      }
+    },
+    {
+      "id": "F028",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Large file with 893 lines at cmos/context/src/context_alerts.js",
+      "evidence": {
+        "path": "cmos/context/src/context_alerts.js",
+        "line_count": 893
+      }
+    },
+    {
+      "id": "F029",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Large file with 594 lines at cmos/context/src/context_compressor.js",
+      "evidence": {
+        "path": "cmos/context/src/context_compressor.js",
+        "line_count": 594
+      }
+    },
+    {
+      "id": "F030",
+      "category": "code_quality",
+      "severity": "medium",
+      "description": "Large file with 520 lines at cmos/context/src/context_state.js",
+      "evidence": {
+        "path": "cmos/context/src/context_state.js",
+        "line_count": 520
+      }
+    },
+    {
+      "id": "F031",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function dfs lacks error handling (No try/catch/throw detected) in cmos/context/src/domain_dependencies.js",
+      "evidence": {
+        "path": "cmos/context/src/domain_dependencies.js",
+        "function": "dfs",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F032",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function init lacks error handling (No try/catch/throw detected) in coverage/block-navigation.js",
+      "evidence": {
+        "path": "coverage/block-navigation.js",
+        "function": "init",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F033",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function toggleClass lacks error handling (No try/catch/throw detected) in coverage/block-navigation.js",
+      "evidence": {
+        "path": "coverage/block-navigation.js",
+        "function": "toggleClass",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F034",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function makeCurrent lacks error handling (No try/catch/throw detected) in coverage/block-navigation.js",
+      "evidence": {
+        "path": "coverage/block-navigation.js",
+        "function": "makeCurrent",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F035",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function goToPrevious lacks error handling (No try/catch/throw detected) in coverage/block-navigation.js",
+      "evidence": {
+        "path": "coverage/block-navigation.js",
+        "function": "goToPrevious",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F036",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function goToNext lacks error handling (No try/catch/throw detected) in coverage/block-navigation.js",
+      "evidence": {
+        "path": "coverage/block-navigation.js",
+        "function": "goToNext",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F037",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function jump lacks error handling (No try/catch/throw detected) in coverage/block-navigation.js",
+      "evidence": {
+        "path": "coverage/block-navigation.js",
+        "function": "jump",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F038",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function init lacks error handling (No try/catch/throw detected) in coverage/lcov-report/block-navigation.js",
+      "evidence": {
+        "path": "coverage/lcov-report/block-navigation.js",
+        "function": "init",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F039",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function toggleClass lacks error handling (No try/catch/throw detected) in coverage/lcov-report/block-navigation.js",
+      "evidence": {
+        "path": "coverage/lcov-report/block-navigation.js",
+        "function": "toggleClass",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F040",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function makeCurrent lacks error handling (No try/catch/throw detected) in coverage/lcov-report/block-navigation.js",
+      "evidence": {
+        "path": "coverage/lcov-report/block-navigation.js",
+        "function": "makeCurrent",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F041",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function goToPrevious lacks error handling (No try/catch/throw detected) in coverage/lcov-report/block-navigation.js",
+      "evidence": {
+        "path": "coverage/lcov-report/block-navigation.js",
+        "function": "goToPrevious",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F042",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function goToNext lacks error handling (No try/catch/throw detected) in coverage/lcov-report/block-navigation.js",
+      "evidence": {
+        "path": "coverage/lcov-report/block-navigation.js",
+        "function": "goToNext",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F043",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function jump lacks error handling (No try/catch/throw detected) in coverage/lcov-report/block-navigation.js",
+      "evidence": {
+        "path": "coverage/lcov-report/block-navigation.js",
+        "function": "jump",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F044",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function ab lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+      "evidence": {
+        "path": "coverage/lcov-report/prettify.js",
+        "function": "ab",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F045",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function T lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+      "evidence": {
+        "path": "coverage/lcov-report/prettify.js",
+        "function": "T",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F046",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function X lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+      "evidence": {
+        "path": "coverage/lcov-report/prettify.js",
+        "function": "X",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F047",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function W lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+      "evidence": {
+        "path": "coverage/lcov-report/prettify.js",
+        "function": "W",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F048",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function a lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+      "evidence": {
+        "path": "coverage/lcov-report/prettify.js",
+        "function": "a",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F049",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function aa lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+      "evidence": {
+        "path": "coverage/lcov-report/prettify.js",
+        "function": "aa",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F050",
+      "category": "code_quality",
+      "severity": "high",
+      "description": "Function B lacks error handling (No try/catch/throw detected) in coverage/lcov-report/prettify.js",
+      "evidence": {
+        "path": "coverage/lcov-report/prettify.js",
+        "function": "B",
+        "reason": "No try/catch/throw detected"
+      }
+    },
+    {
+      "id": "F051",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function toggleClass (coverage/block-navigation.js)",
+      "evidence": {
+        "path": "coverage/block-navigation.js",
+        "function": "toggleClass",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F052",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function makeCurrent (coverage/block-navigation.js)",
+      "evidence": {
+        "path": "coverage/block-navigation.js",
+        "function": "makeCurrent",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F053",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function toggleClass (coverage/lcov-report/block-navigation.js)",
+      "evidence": {
+        "path": "coverage/lcov-report/block-navigation.js",
+        "function": "toggleClass",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F054",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function makeCurrent (coverage/lcov-report/block-navigation.js)",
+      "evidence": {
+        "path": "coverage/lcov-report/block-navigation.js",
+        "function": "makeCurrent",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F055",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function o (coverage/lcov-report/prettify.js)",
+      "evidence": {
+        "path": "coverage/lcov-report/prettify.js",
+        "function": "o",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F056",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function Y (coverage/lcov-report/prettify.js)",
+      "evidence": {
+        "path": "coverage/lcov-report/prettify.js",
+        "function": "Y",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F057",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function getNthColumn (coverage/lcov-report/sorter.js)",
+      "evidence": {
+        "path": "coverage/lcov-report/sorter.js",
+        "function": "getNthColumn",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F058",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function o (coverage/prettify.js)",
+      "evidence": {
+        "path": "coverage/prettify.js",
+        "function": "o",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F059",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function Y (coverage/prettify.js)",
+      "evidence": {
+        "path": "coverage/prettify.js",
+        "function": "Y",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F060",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function getNthColumn (coverage/sorter.js)",
+      "evidence": {
+        "path": "coverage/sorter.js",
+        "function": "getNthColumn",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F061",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function combinePacks (dist/combination/pack-combiner.d.ts)",
+      "evidence": {
+        "path": "dist/combination/pack-combiner.d.ts",
+        "function": "combinePacks",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F062",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function combinePacks (dist/combination/pack-combiner.js)",
+      "evidence": {
+        "path": "dist/combination/pack-combiner.js",
+        "function": "combinePacks",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F063",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function loadDomainPack (dist/domains/domain-pack-loader.d.ts)",
+      "evidence": {
+        "path": "dist/domains/domain-pack-loader.d.ts",
+        "function": "loadDomainPack",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F064",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function loadDomainPack (dist/domains/domain-pack-loader.js)",
+      "evidence": {
+        "path": "dist/domains/domain-pack-loader.js",
+        "function": "loadDomainPack",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F065",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function buildMissionProtocolContext (dist/index.d.ts)",
+      "evidence": {
+        "path": "dist/index.d.ts",
+        "function": "buildMissionProtocolContext",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F066",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function executeMissionProtocolTool (dist/index.d.ts)",
+      "evidence": {
+        "path": "dist/index.d.ts",
+        "function": "executeMissionProtocolTool",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F067",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function buildMissionProtocolContext (dist/index.js)",
+      "evidence": {
+        "path": "dist/index.js",
+        "function": "buildMissionProtocolContext",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F068",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function getDefaultRuleset (dist/intelligence/compression-rules.d.ts)",
+      "evidence": {
+        "path": "dist/intelligence/compression-rules.d.ts",
+        "function": "getDefaultRuleset",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F069",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function applySanitization (dist/intelligence/compression-rules.d.ts)",
+      "evidence": {
+        "path": "dist/intelligence/compression-rules.d.ts",
+        "function": "applySanitization",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F070",
+      "category": "security",
+      "severity": "medium",
+      "description": "Missing input validation in function convertProseToList (dist/intelligence/compression-rules.d.ts)",
+      "evidence": {
+        "path": "dist/intelligence/compression-rules.d.ts",
+        "function": "convertProseToList",
+        "reason": "No conditional or validation keywords for parameters"
+      }
+    },
+    {
+      "id": "F071",
+      "category": "reliability",
+      "severity": "medium",
+      "description": "Potential unhandled promise at cmos/context/src/anti_patterns.js:129",
+      "evidence": {
+        "path": "cmos/context/src/anti_patterns.js",
+        "line": 129,
+        "content": "const recovery = await this.applyRecoveryStrategy(pattern, context, options);",
+        "note": "await without surrounding try"
+      }
+    },
+    {
+      "id": "F072",
+      "category": "reliability",
+      "severity": "medium",
+      "description": "Potential unhandled promise at cmos/context/src/anti_patterns.js:452",
+      "evidence": {
+        "path": "cmos/context/src/anti_patterns.js",
+        "line": 452,
+        "content": "const recovery = await this.recoveryStrategies.executeRecovery(",
+        "note": "await without surrounding try"
+      }
+    },
+    {
+      "id": "F073",
+      "category": "reliability",
+      "severity": "medium",
+      "description": "Potential unhandled promise at cmos/context/src/anti_patterns.js:629",
+      "evidence": {
+        "path": "cmos/context/src/anti_patterns.js",
+        "line": 629,
+        "content": "const result = await this.detectAntiPatterns(context, { scheduled: true });",
+        "note": "await without surrounding try"
+      }
+    },
+    {
+      "id": "F074",
+      "category": "reliability",
+      "severity": "medium",
+      "description": "Potential unhandled promise at cmos/context/src/domain_discovery.js:61",
+      "evidence": {
+        "path": "cmos/context/src/domain_discovery.js",
+        "line": 61,
+        "content": "const structureAnalysis = await this.analyzeProjectStructure(projectPath);",
+        "note": "await without surrounding try"
+      }
+    },
+    {
+      "id": "F075",
+      "category": "reliability",
+      "severity": "medium",
+      "description": "Potential unhandled promise at cmos/context/src/domain_manager.js:81",
+      "evidence": {
+        "path": "cmos/context/src/domain_manager.js",
+        "line": 81,
+        "content": "const discoveryResult = await this.discovery.discoverDomains(projectPath, {",
+        "note": "await without surrounding try"
+      }
+    },
+    {
+      "id": "F076",
+      "category": "reliability",
+      "severity": "medium",
+      "description": "Potential unhandled promise at cmos/context/src/domain_manager.js:224",
+      "evidence": {
+        "path": "cmos/context/src/domain_manager.js",
+        "line": 224,
+        "content": "const loadedDomain = await this.loadDomain(domainId, context, options);",
+        "note": "await without surrounding try"
+      }
+    },
+    {
+      "id": "F077",
+      "category": "reliability",
+      "severity": "medium",
+      "description": "Potential unhandled promise at cmos/context/src/domain_manager.js:291",
+      "evidence": {
+        "path": "cmos/context/src/domain_manager.js",
+        "line": 291,
+        "content": "const decompressed = await this.decompressDomain(domain, context);",
+        "note": "await without surrounding try"
+      }
+    },
+    {
+      "id": "F078",
+      "category": "reliability",
+      "severity": "medium",
+      "description": "Potential unhandled promise at cmos/context/src/domain_manager.js:568",
+      "evidence": {
+        "path": "cmos/context/src/domain_manager.js",
+        "line": 568,
+        "content": "const discoveryResult = await this.discovery.discoverDomains(this.projectPath, {",
+        "note": "await without surrounding try"
+      }
+    },
+    {
+      "id": "F079",
+      "category": "reliability",
+      "severity": "medium",
+      "description": "Potential unhandled promise at cmos/context/src/recovery_strategies.js:66",
+      "evidence": {
+        "path": "cmos/context/src/recovery_strategies.js",
+        "line": 66,
+        "content": "result = await this.recoverContextRot(antiPattern, context, dependencies, options);",
+        "note": "await without surrounding try"
+      }
+    },
+    {
+      "id": "F080",
+      "category": "reliability",
+      "severity": "medium",
+      "description": "Potential unhandled promise at cmos/context/src/recovery_strategies.js:69",
+      "evidence": {
+        "path": "cmos/context/src/recovery_strategies.js",
+        "line": 69,
+        "content": "result = await this.recoverContextExplosion(antiPattern, context, dependencies, options);",
+        "note": "await without surrounding try"
+      }
+    },
+    {
+      "id": "F081",
+      "category": "testing",
+      "severity": "high",
+      "description": "Module lacks coverage: src/index.ts (No coverage data)",
+      "evidence": {
+        "path": "src/index.ts",
+        "reason": "No coverage data"
+      }
+    },
+    {
+      "id": "F082",
+      "category": "testing",
+      "severity": "high",
+      "description": "Module lacks coverage: src/tools/version-template.ts (No coverage data)",
+      "evidence": {
+        "path": "src/tools/version-template.ts",
+        "reason": "No coverage data"
+      }
+    },
+    {
+      "id": "F083",
+      "category": "testing",
+      "severity": "high",
+      "description": "Module lacks coverage: src/types/schemas.ts (No coverage data)",
+      "evidence": {
+        "path": "src/types/schemas.ts",
+        "reason": "No coverage data"
+      }
+    },
+    {
+      "id": "F084",
+      "category": "testing",
+      "severity": "high",
+      "description": "Module lacks coverage: src/types/tools.ts (No coverage data)",
+      "evidence": {
+        "path": "src/types/tools.ts",
+        "reason": "No coverage data"
+      }
+    },
+    {
+      "id": "F085",
+      "category": "testing",
+      "severity": "high",
+      "description": "Module lacks coverage: src/types/registry.ts (No coverage data)",
+      "evidence": {
+        "path": "src/types/registry.ts",
+        "reason": "No coverage data"
+      }
+    },
+    {
+      "id": "F086",
+      "category": "testing",
+      "severity": "high",
+      "description": "Module lacks coverage: src/types/mission-types.ts (No coverage data)",
+      "evidence": {
+        "path": "src/types/mission-types.ts",
+        "reason": "No coverage data"
+      }
+    },
+    {
+      "id": "F087",
+      "category": "testing",
+      "severity": "high",
+      "description": "Module lacks coverage: src/domains/types.ts (No coverage data)",
+      "evidence": {
+        "path": "src/domains/types.ts",
+        "reason": "No coverage data"
+      }
+    },
+    {
+      "id": "F088",
+      "category": "testing",
+      "severity": "high",
+      "description": "Module lacks coverage: src/intelligence/context-propagator.ts (No coverage data)",
+      "evidence": {
+        "path": "src/intelligence/context-propagator.ts",
+        "reason": "No coverage data"
+      }
+    },
+    {
+      "id": "F089",
+      "category": "testing",
+      "severity": "high",
+      "description": "Module lacks coverage: src/intelligence/types.ts (No coverage data)",
+      "evidence": {
+        "path": "src/intelligence/types.ts",
+        "reason": "No coverage data"
+      }
+    },
+    {
+      "id": "F090",
+      "category": "testing",
+      "severity": "high",
+      "description": "Module lacks coverage: src/intelligence/compression-rules.ts (No coverage data)",
+      "evidence": {
+        "path": "src/intelligence/compression-rules.ts",
+        "reason": "No coverage data"
+      }
+    },
+    {
+      "id": "F091",
+      "category": "testing",
+      "severity": "high",
+      "description": "Module lacks coverage: src/extraction/types.ts (No coverage data)",
+      "evidence": {
+        "path": "src/extraction/types.ts",
+        "reason": "No coverage data"
+      }
+    },
+    {
+      "id": "F092",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for getToolDefinitions in src/index.ts",
+      "evidence": {
+        "name": "getToolDefinitions",
+        "file": "src/index.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F093",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for CombinePacksToolImpl in src/tools/combine-packs.ts",
+      "evidence": {
+        "name": "CombinePacksToolImpl",
+        "file": "src/tools/combine-packs.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F094",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for OptimizeTokensToolImpl in src/tools/optimize-tokens.ts",
+      "evidence": {
+        "name": "OptimizeTokensToolImpl",
+        "file": "src/tools/optimize-tokens.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F095",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for CreateMissionToolImpl in src/tools/create-mission.ts",
+      "evidence": {
+        "name": "CreateMissionToolImpl",
+        "file": "src/tools/create-mission.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F096",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for SplitMissionToolImpl in src/tools/split-mission.ts",
+      "evidence": {
+        "name": "SplitMissionToolImpl",
+        "file": "src/tools/split-mission.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F097",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for ListDomainsToolImpl in src/tools/list-domains.ts",
+      "evidence": {
+        "name": "ListDomainsToolImpl",
+        "file": "src/tools/list-domains.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F098",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for SuggestSplitsToolImpl in src/tools/suggest-splits.ts",
+      "evidence": {
+        "name": "SuggestSplitsToolImpl",
+        "file": "src/tools/suggest-splits.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F099",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for YAMLLoaderError in src/types/errors.ts",
+      "evidence": {
+        "name": "YAMLLoaderError",
+        "file": "src/types/errors.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F100",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for PathTraversalError in src/types/errors.ts",
+      "evidence": {
+        "name": "PathTraversalError",
+        "file": "src/types/errors.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F101",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for SchemaValidationError in src/types/errors.ts",
+      "evidence": {
+        "name": "SchemaValidationError",
+        "file": "src/types/errors.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F102",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for UnsafeYAMLError in src/types/errors.ts",
+      "evidence": {
+        "name": "UnsafeYAMLError",
+        "file": "src/types/errors.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F103",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for DomainPackLoader in src/domains/domain-pack-loader.ts",
+      "evidence": {
+        "name": "DomainPackLoader",
+        "file": "src/domains/domain-pack-loader.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F104",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for ImprovementEngine in src/quality/improvement-engine.ts",
+      "evidence": {
+        "name": "ImprovementEngine",
+        "file": "src/quality/improvement-engine.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F105",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for QualityScorer in src/quality/quality-scorer.ts",
+      "evidence": {
+        "name": "QualityScorer",
+        "file": "src/quality/quality-scorer.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F106",
+      "category": "api",
+      "severity": "medium",
+      "description": "Missing return annotation for AIReadinessAnalyzer in src/quality/analyzers/ai-readiness-analyzer.ts",
+      "evidence": {
+        "name": "AIReadinessAnalyzer",
+        "file": "src/quality/analyzers/ai-readiness-analyzer.ts",
+        "issue": "Missing return type annotation"
+      }
+    },
+    {
+      "id": "F107",
+      "category": "api",
+      "severity": "low",
+      "description": "Naming inconsistency: Non alphanumeric camelCase/PascalCase name (DEFAULT_WEIGHTS in src/quality/types.ts)",
+      "evidence": {
+        "name": "DEFAULT_WEIGHTS",
+        "file": "src/quality/types.ts",
+        "issue": "Non alphanumeric camelCase/PascalCase name"
+      }
+    },
+    {
+      "id": "F108",
+      "category": "api",
+      "severity": "low",
+      "description": "Naming inconsistency: Non alphanumeric camelCase/PascalCase name (DEFAULT_CLARITY_WEIGHTS in src/quality/types.ts)",
+      "evidence": {
+        "name": "DEFAULT_CLARITY_WEIGHTS",
+        "file": "src/quality/types.ts",
+        "issue": "Non alphanumeric camelCase/PascalCase name"
+      }
+    },
+    {
+      "id": "F109",
+      "category": "api",
+      "severity": "low",
+      "description": "Naming inconsistency: Non alphanumeric camelCase/PascalCase name (DEFAULT_COMPLETENESS_WEIGHTS in src/quality/types.ts)",
+      "evidence": {
+        "name": "DEFAULT_COMPLETENESS_WEIGHTS",
+        "file": "src/quality/types.ts",
+        "issue": "Non alphanumeric camelCase/PascalCase name"
+      }
+    },
+    {
+      "id": "F110",
+      "category": "api",
+      "severity": "low",
+      "description": "Naming inconsistency: Non alphanumeric camelCase/PascalCase name (DEFAULT_AI_READINESS_WEIGHTS in src/quality/types.ts)",
+      "evidence": {
+        "name": "DEFAULT_AI_READINESS_WEIGHTS",
+        "file": "src/quality/types.ts",
+        "issue": "Non alphanumeric camelCase/PascalCase name"
+      }
+    },
+    {
+      "id": "F111",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Synchronous File Operations detected at tests/smoke/mcp-intelligence-tools-smoke.test.ts:53",
+      "evidence": {
+        "pattern": "synchronous_file_operations",
+        "file": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+        "line": 53,
+        "context": "fs.writeFileSync(missionFile, SAMPLE_MISSION, 'utf-8');\n  });\n\n  afterAll(() => {\n    fs.rmSync(tempDir, { recursive: tr"
+      }
+    },
+    {
+      "id": "F112",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Synchronous File Operations detected at tests/smoke/template-assets-smoke.test.ts:32",
+      "evidence": {
+        "pattern": "synchronous_file_operations",
+        "file": "tests/smoke/template-assets-smoke.test.ts",
+        "line": 32,
+        "context": "fs.existsSync(registryPath)) {\n      throw new Error(`Registry not found at ${registryPath}. Restore template assets bef"
+      }
+    },
+    {
+      "id": "F113",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Synchronous File Operations detected at tests/smoke/template-assets-smoke.test.ts:36",
+      "evidence": {
+        "pattern": "synchronous_file_operations",
+        "file": "tests/smoke/template-assets-smoke.test.ts",
+        "line": 36,
+        "context": "fs.existsSync(genericTemplatePath)) {\n      throw new Error(\n        `Generic mission template missing at ${genericTempl"
+      }
+    },
+    {
+      "id": "F114",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Synchronous File Operations detected at tests/tools/create-mission.test.ts:36",
+      "evidence": {
+        "pattern": "synchronous_file_operations",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 36,
+        "context": "fs.existsSync(testDataDir)) {\n      fs.mkdirSync(testDataDir, { recursive: true });\n    }\n  });\n\n  beforeEach(() => {\n  "
+      }
+    },
+    {
+      "id": "F115",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Synchronous File Operations detected at tests/tools/create-mission.test.ts:64",
+      "evidence": {
+        "pattern": "synchronous_file_operations",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 64,
+        "context": "fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), genericTemplate);\n  });\n\n  afterEach(() => {\n    // Cle"
+      }
+    },
+    {
+      "id": "F116",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Synchronous File Operations detected at tests/tools/create-mission.test.ts:183",
+      "evidence": {
+        "pattern": "synchronous_file_operations",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 183,
+        "context": "fs.writeFileSync(path.join(webDevDir, 'pack.yaml'), manifest);\n\n      // Create schema\n      const schema = `\ntype: obje"
+      }
+    },
+    {
+      "id": "F117",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Synchronous File Operations detected at tests/tools/create-mission.test.ts:198",
+      "evidence": {
+        "pattern": "synchronous_file_operations",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 198,
+        "context": "fs.writeFileSync(path.join(webDevDir, 'schema.yaml'), schema);\n\n      // Create template\n      const template = `\ntechSt"
+      }
+    },
+    {
+      "id": "F118",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Synchronous File Operations detected at tests/tools/create-mission.test.ts:208",
+      "evidence": {
+        "pattern": "synchronous_file_operations",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 208,
+        "context": "fs.writeFileSync(path.join(webDevDir, 'template.yaml'), template);\n\n      // Create registry\n      const registry = `\ndo"
+      }
+    },
+    {
+      "id": "F119",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Synchronous File Operations detected at tests/tools/create-mission.test.ts:219",
+      "evidence": {
+        "pattern": "synchronous_file_operations",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 219,
+        "context": "fs.writeFileSync(path.join(testDataDir, 'registry.yaml'), registry);\n\n      registryEntries = parser.loadRegistry('regis"
+      }
+    },
+    {
+      "id": "F120",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Synchronous File Operations detected at tests/tools/create-mission.test.ts:444",
+      "evidence": {
+        "pattern": "synchronous_file_operations",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 444,
+        "context": "fs.writeFileSync(path.join(testDataDir, 'broken-registry.yaml'), registry);\n\n      const registryEntries = parser.loadRe"
+      }
+    },
+    {
+      "id": "F121",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Nested Loops detected at dist/index.d.ts:247",
+      "evidence": {
+        "pattern": "nested_loops",
+        "file": "dist/index.d.ts",
+        "line": 247,
+        "context": "format: {\n                readonly type: \"string\";\n                readonly enum: readonly [\"yaml\", \"json\"];\n           "
+      }
+    },
+    {
+      "id": "F122",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Nested Loops detected at dist/index.d.ts:307",
+      "evidence": {
+        "pattern": "nested_loops",
+        "file": "dist/index.d.ts",
+        "line": 307,
+        "context": "format)\";\n            };\n            readonly targetModel: {\n                readonly type: \"string\";\n                re"
+      }
+    },
+    {
+      "id": "F123",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Nested Loops detected at dist/tools/import-template.d.ts:5",
+      "evidence": {
+        "pattern": "nested_loops",
+        "file": "dist/tools/import-template.d.ts",
+        "line": 5,
+        "context": "for use in Claude Desktop and other MCP-compatible environments.\n *\n * Implements the 6-layer security validation pipeli"
+      }
+    },
+    {
+      "id": "F124",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Nested Loops detected at dist/tools/split-mission.d.ts:20",
+      "evidence": {
+        "pattern": "nested_loops",
+        "file": "dist/tools/split-mission.d.ts",
+        "line": 20,
+        "context": "for split_mission tool\n */\nexport interface SplitMissionParams {\n    /** Path to mission file to split (YAML format) */\n"
+      }
+    },
+    {
+      "id": "F125",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Nested Loops detected at dist/tools/split-mission.d.ts:96",
+      "evidence": {
+        "pattern": "nested_loops",
+        "file": "dist/tools/split-mission.d.ts",
+        "line": 96,
+        "context": "for mission splitting\n */\nexport declare class SplitMissionToolImpl {\n    private loader;\n    private splitter;\n    priv"
+      }
+    },
+    {
+      "id": "F126",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Nested Loops detected at dist/tools/export-template.d.ts:11",
+      "evidence": {
+        "pattern": "nested_loops",
+        "file": "dist/tools/export-template.d.ts",
+        "line": 11,
+        "context": "for Template Export\n */\nexport interface ExportTemplateParams {\n    /** Template object to export (must conform to missi"
+      }
+    },
+    {
+      "id": "F127",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Nested Loops detected at dist/tools/list-domains.d.ts:14",
+      "evidence": {
+        "pattern": "nested_loops",
+        "file": "dist/tools/list-domains.d.ts",
+        "line": 14,
+        "context": "for the MCP server.\n * Reads from the registry and formats output for LLM consumption.\n */\nexport declare class ListDoma"
+      }
+    },
+    {
+      "id": "F128",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Nested Loops detected at dist/tools/extract-template.d.ts:9",
+      "evidence": {
+        "pattern": "nested_loops",
+        "file": "dist/tools/extract-template.d.ts",
+        "line": 9,
+        "context": "for Template Extraction\n */\nexport interface ExtractTemplateParams {\n    /** Path to the source mission file or director"
+      }
+    },
+    {
+      "id": "F129",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Nested Loops detected at dist/tools/create-mission.d.ts:74",
+      "evidence": {
+        "pattern": "nested_loops",
+        "file": "dist/tools/create-mission.d.ts",
+        "line": 74,
+        "context": "for mission creation\n */\nexport declare class CreateMissionToolImpl {\n    private packLoader;\n    private merger;\n    pr"
+      }
+    },
+    {
+      "id": "F130",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Nested Loops detected at dist/tools/combine-packs.d.ts:22",
+      "evidence": {
+        "pattern": "nested_loops",
+        "file": "dist/tools/combine-packs.d.ts",
+        "line": 22,
+        "context": "for combine_packs tool\n */\nexport interface CombinePacksParams {\n    /** Array of pack names to combine (required) */\n  "
+      }
+    },
+    {
+      "id": "F131",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Large Data Structures detected at dist/index.d.ts:32",
+      "evidence": {
+        "pattern": "large_data_structures",
+        "file": "dist/index.d.ts",
+        "line": 32,
+        "context": "[{\n    name: string;\n    description: string;\n    inputSchema: {\n        type: string;\n        properties: {};\n        a"
+      }
+    },
+    {
+      "id": "F132",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Large Data Structures detected at tests/tools/list-domains.test.ts:177",
+      "evidence": {
+        "pattern": "large_data_structures",
+        "file": "tests/tools/list-domains.test.ts",
+        "line": 177,
+        "context": "[\n        {\n          name: 'foundation',\n          description: 'Core infrastructure',\n          version: '1.0.0',\n    "
+      }
+    },
+    {
+      "id": "F133",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Large Data Structures detected at tests/tools/list-domains.test.ts:195",
+      "evidence": {
+        "pattern": "large_data_structures",
+        "file": "tests/tools/list-domains.test.ts",
+        "line": 195,
+        "context": "[\n        {\n          name: 'foundation',\n          description: 'Core infrastructure',\n          version: '1.0.0',\n    "
+      }
+    },
+    {
+      "id": "F134",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Large Data Structures detected at tests/tools/list-domains.test.ts:220",
+      "evidence": {
+        "pattern": "large_data_structures",
+        "file": "tests/tools/list-domains.test.ts",
+        "line": 220,
+        "context": "[\n        {\n          name: 'foundation',\n          description: 'Core infrastructure',\n          version: '1.0.0',\n    "
+      }
+    },
+    {
+      "id": "F135",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Large Data Structures detected at tests/tools/list-domains.test.ts:234",
+      "evidence": {
+        "pattern": "large_data_structures",
+        "file": "tests/tools/list-domains.test.ts",
+        "line": 234,
+        "context": "[\n        {\n          name: 'foundation',\n          description: 'Core',\n          version: '1.0.0',\n        },\n        "
+      }
+    },
+    {
+      "id": "F136",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Large Data Structures detected at tests/tools/list-domains.test.ts:255",
+      "evidence": {
+        "pattern": "large_data_structures",
+        "file": "tests/tools/list-domains.test.ts",
+        "line": 255,
+        "context": "[\n        {\n          name: 'test',\n          description: 'Test domain',\n          version: '1.0.0',\n        },\n      ]"
+      }
+    },
+    {
+      "id": "F137",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Large Data Structures detected at tests/tools/list-domains.test.ts:272",
+      "evidence": {
+        "pattern": "large_data_structures",
+        "file": "tests/tools/list-domains.test.ts",
+        "line": 272,
+        "context": "[\n        {\n          name: 'test',\n          description: 'Test with \"quotes\" and <tags>',\n          version: '1.0.0',\n"
+      }
+    },
+    {
+      "id": "F138",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Large Data Structures detected at tests/tools/suggest-splits.execute.test.ts:44",
+      "evidence": {
+        "pattern": "large_data_structures",
+        "file": "tests/tools/suggest-splits.execute.test.ts",
+        "line": 44,
+        "context": "[\n        { position: 20, reason: 'Objective shift', confidence: 0.75 },\n        { position: 80, reason: 'Deliverable ph"
+      }
+    },
+    {
+      "id": "F139",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Large Data Structures detected at tests/tools/analyze-dependencies.test.ts:13",
+      "evidence": {
+        "pattern": "large_data_structures",
+        "file": "tests/tools/analyze-dependencies.test.ts",
+        "line": 13,
+        "context": "[\n      {\n        missionId: 'R4.3',\n        objective: 'Research mission for dependency analysis',\n        context: 'Th"
+      }
+    },
+    {
+      "id": "F140",
+      "category": "performance",
+      "severity": "medium",
+      "description": "Large Data Structures detected at tests/tools/analyze-dependencies.test.ts:169",
+      "evidence": {
+        "pattern": "large_data_structures",
+        "file": "tests/tools/analyze-dependencies.test.ts",
+        "line": 169,
+        "context": "[\n        {\n          missionId: 'A',\n          domainFields: {\n            handoffContext: {\n              dependencies"
+      }
+    },
+    {
+      "id": "F141",
+      "category": "performance",
+      "severity": "low",
+      "description": "Memory Allocations call at tests/tools/import-template.test.ts:88",
+      "evidence": {
+        "type": "memory_allocations",
+        "file": "tests/tools/import-template.test.ts",
+        "line": 88,
+        "snippet": "new Map(),\n      });\n\n    const result = await importTemplate({\n      templatePa"
+      }
+    },
+    {
+      "id": "F142",
+      "category": "performance",
+      "severity": "low",
+      "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:14",
+      "evidence": {
+        "type": "memory_allocations",
+        "file": "tests/intelligence/graph-validator.test.ts",
+        "line": 14,
+        "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: []"
+      }
+    },
+    {
+      "id": "F143",
+      "category": "performance",
+      "severity": "low",
+      "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:19",
+      "evidence": {
+        "type": "memory_allocations",
+        "file": "tests/intelligence/graph-validator.test.ts",
+        "line": 19,
+        "snippet": "new Map([\n          ['A', new Set()],\n          ['B', new Set(['A'])],\n         "
+      }
+    },
+    {
+      "id": "F144",
+      "category": "performance",
+      "severity": "low",
+      "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:36",
+      "evidence": {
+        "type": "memory_allocations",
+        "file": "tests/intelligence/graph-validator.test.ts",
+        "line": 36,
+        "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+      }
+    },
+    {
+      "id": "F145",
+      "category": "performance",
+      "severity": "low",
+      "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:41",
+      "evidence": {
+        "type": "memory_allocations",
+        "file": "tests/intelligence/graph-validator.test.ts",
+        "line": 41,
+        "snippet": "new Map([\n          ['A', new Set(['B'])],\n          ['B', new Set(['C'])],\n    "
+      }
+    },
+    {
+      "id": "F146",
+      "category": "performance",
+      "severity": "low",
+      "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:58",
+      "evidence": {
+        "type": "memory_allocations",
+        "file": "tests/intelligence/graph-validator.test.ts",
+        "line": 58,
+        "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+      }
+    },
+    {
+      "id": "F147",
+      "category": "performance",
+      "severity": "low",
+      "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:61",
+      "evidence": {
+        "type": "memory_allocations",
+        "file": "tests/intelligence/graph-validator.test.ts",
+        "line": 61,
+        "snippet": "new Map([\n          ['A', new Set(['B'])]\n        ])\n      };\n\n      const resul"
+      }
+    },
+    {
+      "id": "F148",
+      "category": "performance",
+      "severity": "low",
+      "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:74",
+      "evidence": {
+        "type": "memory_allocations",
+        "file": "tests/intelligence/graph-validator.test.ts",
+        "line": 74,
+        "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['"
+      }
+    },
+    {
+      "id": "F149",
+      "category": "performance",
+      "severity": "low",
+      "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:77",
+      "evidence": {
+        "type": "memory_allocations",
+        "file": "tests/intelligence/graph-validator.test.ts",
+        "line": 77,
+        "snippet": "new Map([\n          ['A', new Set(['A'])]\n        ])\n      };\n\n      const resul"
+      }
+    },
+    {
+      "id": "F150",
+      "category": "performance",
+      "severity": "low",
+      "description": "Memory Allocations call at tests/intelligence/graph-validator.test.ts:92",
+      "evidence": {
+        "type": "memory_allocations",
+        "file": "tests/intelligence/graph-validator.test.ts",
+        "line": 92,
+        "snippet": "new Map([\n          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: []"
+      }
+    },
+    {
+      "id": "F151",
+      "category": "performance",
+      "severity": "low",
+      "description": "File Handles call at tests/smoke/mcp-intelligence-tools-smoke.test.ts:53",
+      "evidence": {
+        "type": "file_handles",
+        "file": "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+        "line": 53,
+        "snippet": "fs.writeFileSync(missionFile, SAMPLE_MISSION, 'utf-8');\n  });\n\n  afterAll(() => {\n    fs.rmSync(tempDir, { recursive: tr"
+      }
+    },
+    {
+      "id": "F152",
+      "category": "performance",
+      "severity": "low",
+      "description": "File Handles call at tests/tools/create-mission.test.ts:64",
+      "evidence": {
+        "type": "file_handles",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 64,
+        "snippet": "fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), genericTemplate);\n  });\n\n  afterEach(() => {\n    // Cle"
+      }
+    },
+    {
+      "id": "F153",
+      "category": "performance",
+      "severity": "low",
+      "description": "File Handles call at tests/tools/create-mission.test.ts:183",
+      "evidence": {
+        "type": "file_handles",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 183,
+        "snippet": "fs.writeFileSync(path.join(webDevDir, 'pack.yaml'), manifest);\n\n      // Create schema\n      const schema = `\ntype: obje"
+      }
+    },
+    {
+      "id": "F154",
+      "category": "performance",
+      "severity": "low",
+      "description": "File Handles call at tests/tools/create-mission.test.ts:198",
+      "evidence": {
+        "type": "file_handles",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 198,
+        "snippet": "fs.writeFileSync(path.join(webDevDir, 'schema.yaml'), schema);\n\n      // Create template\n      const template = `\ntechSt"
+      }
+    },
+    {
+      "id": "F155",
+      "category": "performance",
+      "severity": "low",
+      "description": "File Handles call at tests/tools/create-mission.test.ts:208",
+      "evidence": {
+        "type": "file_handles",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 208,
+        "snippet": "fs.writeFileSync(path.join(webDevDir, 'template.yaml'), template);\n\n      // Create registry\n      const registry = `\ndo"
+      }
+    },
+    {
+      "id": "F156",
+      "category": "performance",
+      "severity": "low",
+      "description": "File Handles call at tests/tools/create-mission.test.ts:219",
+      "evidence": {
+        "type": "file_handles",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 219,
+        "snippet": "fs.writeFileSync(path.join(testDataDir, 'registry.yaml'), registry);\n\n      registryEntries = parser.loadRegistry('regis"
+      }
+    },
+    {
+      "id": "F157",
+      "category": "performance",
+      "severity": "low",
+      "description": "File Handles call at tests/tools/create-mission.test.ts:444",
+      "evidence": {
+        "type": "file_handles",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 444,
+        "snippet": "fs.writeFileSync(path.join(testDataDir, 'broken-registry.yaml'), registry);\n\n      const registryEntries = parser.loadRe"
+      }
+    },
+    {
+      "id": "F158",
+      "category": "performance",
+      "severity": "low",
+      "description": "File Handles call at tests/tools/create-mission.test.ts:466",
+      "evidence": {
+        "type": "file_handles",
+        "file": "tests/tools/create-mission.test.ts",
+        "line": 466,
+        "snippet": "fs.writeFileSync(path.join(testDataDir, 'generic_mission.yaml'), invalidTemplate);\n\n      const params = { objective: 'T"
+      }
+    },
+    {
+      "id": "F159",
+      "category": "performance",
+      "severity": "low",
+      "description": "File Handles call at tests/tools/optimize-tokens.test.ts:37",
+      "evidence": {
+        "type": "file_handles",
+        "file": "tests/tools/optimize-tokens.test.ts",
+        "line": 37,
+        "snippet": "fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {\n        missionFile: "
+      }
+    },
+    {
+      "id": "F160",
+      "category": "performance",
+      "severity": "low",
+      "description": "File Handles call at tests/tools/optimize-tokens.test.ts:55",
+      "evidence": {
+        "type": "file_handles",
+        "file": "tests/tools/optimize-tokens.test.ts",
+        "line": 55,
+        "snippet": "fs.writeFile(testFilePath, missionContent, 'utf-8');\n\n      const params: OptimizeTokensParams = {\n        missionFile: "
+      }
+    },
+    {
+      "id": "F161",
+      "category": "performance",
+      "severity": "low",
+      "description": "Network Calls call at tests/intelligence/token-validation.test.ts:140",
+      "evidence": {
+        "type": "network_calls",
+        "file": "tests/intelligence/token-validation.test.ts",
+        "line": 140,
+        "snippet": "fetch('https://api.anthropic.com/v1/messages/count_tokens', {\n        method: 'POST',\n        headers: {\n          'x-ap"
+      }
+    },
+    {
+      "id": "F162",
+      "category": "performance",
+      "severity": "low",
+      "description": "Network Calls call at tests/intelligence/token-validation.test.ts:175",
+      "evidence": {
+        "type": "network_calls",
+        "file": "tests/intelligence/token-validation.test.ts",
+        "line": 175,
+        "snippet": "fetch(\n        `https://generativelanguage.googleapis.com/v1/${geminiModelId}:countTokens?key=${apiKey}`,\n        {\n    "
+      }
+    },
+    {
+      "id": "F163",
+      "category": "performance",
+      "severity": "low",
+      "description": "Network Calls call at scripts/validate-token-counts.ts:85",
+      "evidence": {
+        "type": "network_calls",
+        "file": "scripts/validate-token-counts.ts",
+        "line": 85,
+        "snippet": "fetch('https://api.anthropic.com/v1/messages/count_tokens', {\n    method: 'POST',\n    headers: {\n      'x-api-key': apiK"
+      }
+    },
+    {
+      "id": "F164",
+      "category": "performance",
+      "severity": "low",
+      "description": "Network Calls call at scripts/validate-token-counts.ts:116",
+      "evidence": {
+        "type": "network_calls",
+        "file": "scripts/validate-token-counts.ts",
+        "line": 116,
+        "snippet": "fetch(\n    `https://generativelanguage.googleapis.com/v1/${GEMINI_MODEL_ID}:countTokens?key=${apiKey}`,\n    {\n      meth"
+      }
+    },
+    {
+      "id": "F165",
+      "category": "security",
+      "severity": "high",
+      "description": "Eval Usage in tests/import-export/template-importer.test.ts:162",
+      "evidence": {
+        "pattern": "eval_usage",
+        "file": "tests/import-export/template-importer.test.ts",
+        "line": 162,
+        "snippet": "iption: \"Malicious template\"\n  script: \"eval('malicious code')\"\n`;\n      writeTemplateFile('malicious.yaml', maliciousYA"
+      }
+    },
+    {
+      "id": "F166",
+      "category": "security",
+      "severity": "high",
+      "description": "Eval Usage in tests/import-export/security-validator.test.ts:148",
+      "evidence": {
+        "pattern": "eval_usage",
+        "file": "tests/import-export/security-validator.test.ts",
+        "line": 148,
+        "snippet": "mplate();\n      template.spec.script = 'eval(\"malicious code\")';\n\n      const result = await validator.validate(template"
+      }
+    },
+    {
+      "id": "F167",
+      "category": "security",
+      "severity": "medium",
+      "description": "Unsafe Deserialization in dist/tools/analyze-dependencies.js:154",
+      "evidence": {
+        "pattern": "unsafe_deserialization",
+        "file": "dist/tools/analyze-dependencies.js",
+        "line": 154,
+        "snippet": "tf-8');\n            const missionData = yaml.load(content);\n            if (missionData && typeof missionData === 'objec"
+      }
+    },
+    {
+      "id": "F168",
+      "category": "security",
+      "severity": "medium",
+      "description": "Unsafe Deserialization in dist/intelligence/dependency-analyzer.js:92",
+      "evidence": {
+        "pattern": "unsafe_deserialization",
+        "file": "dist/intelligence/dependency-analyzer.js",
+        "line": 92,
+        "snippet": "'utf-8');\n                missionData = yaml.load(content);\n            }\n            else {\n                // Mission "
+      }
+    },
+    {
+      "id": "F169",
+      "category": "security",
+      "severity": "medium",
+      "description": "Unsafe Deserialization in src/tools/analyze-dependencies.ts:164",
+      "evidence": {
+        "pattern": "unsafe_deserialization",
+        "file": "src/tools/analyze-dependencies.ts",
+        "line": 164,
+        "snippet": "th, 'utf-8');\n      const missionData = yaml.load(content);\n\n      if (missionData && typeof missionData === 'object') {"
+      }
+    },
+    {
+      "id": "F170",
+      "category": "security",
+      "severity": "medium",
+      "description": "Unsafe Deserialization in src/intelligence/dependency-analyzer.ts:97",
+      "evidence": {
+        "pattern": "unsafe_deserialization",
+        "file": "src/intelligence/dependency-analyzer.ts",
+        "line": 97,
+        "snippet": "lePath, 'utf-8');\n        missionData = yaml.load(content);\n      } else {\n        // Mission is already an object\n     "
+      }
+    },
+    {
+      "id": "F171",
+      "category": "security",
+      "severity": "medium",
+      "description": "Path Traversal Risk in dist/tools/extract-template.js:83",
+      "evidence": {
+        "pattern": "path_traversal_risk",
+        "file": "dist/tools/extract-template.js",
+        "line": 83,
+        "snippet": "lates';\n            const templateDir = path.join(outputDir, params.templateName);\n            await writeTemplate(templ"
+      }
+    },
+    {
+      "id": "F172",
+      "category": "security",
+      "severity": "medium",
+      "description": "Path Traversal Risk in dist/tools/extract-template.js:139",
+      "evidence": {
+        "pattern": "path_traversal_risk",
+        "file": "dist/tools/extract-template.js",
+        "line": 139,
+        "snippet": "leStructure) {\n        const filePath = path.join(templateDir, file.path);\n        const fileDir = path.dirname(filePath"
+      }
+    },
+    {
+      "id": "F173",
+      "category": "security",
+      "severity": "medium",
+      "description": "Path Traversal Risk in dist/tools/extract-template.js:147",
+      "evidence": {
+        "pattern": "path_traversal_risk",
+        "file": "dist/tools/extract-template.js",
+        "line": 147,
+        "snippet": " metadata file\n    const metadataPath = path.join(templateDir, 'template-metadata.json');\n    fs.writeFileSync(metadataP"
+      }
+    },
+    {
+      "id": "F174",
+      "category": "security",
+      "severity": "medium",
+      "description": "Path Traversal Risk in dist/tools/extract-template.js:150",
+      "evidence": {
+        "pattern": "path_traversal_risk",
+        "file": "dist/tools/extract-template.js",
+        "line": 150,
+        "snippet": "xtraction report\n    const reportPath = path.join(templateDir, 'EXTRACTION_REPORT.md');\n    const report = generateExtra"
+      }
+    },
+    {
+      "id": "F175",
+      "category": "security",
+      "severity": "medium",
+      "description": "Path Traversal Risk in dist/tools/extract-template.js:155",
+      "evidence": {
+        "pattern": "path_traversal_risk",
+        "file": "dist/tools/extract-template.js",
+        "line": 155,
+        "snippet": "Generate) {\n        const preHookPath = path.join(templateDir, 'hooks', 'pre_gen_project.sh');\n        fs.mkdirSync(path"
+      }
+    },
+    {
+      "id": "F176",
+      "category": "security",
+      "severity": "medium",
+      "description": "Path Traversal Risk in dist/tools/extract-template.js:161",
+      "evidence": {
+        "pattern": "path_traversal_risk",
+        "file": "dist/tools/extract-template.js",
+        "line": 161,
+        "snippet": "enerate) {\n        const postHookPath = path.join(templateDir, 'hooks', 'post_gen_project.sh');\n        fs.mkdirSync(pat"
+      }
+    },
+    {
+      "id": "F177",
+      "category": "security",
+      "severity": "medium",
+      "description": "Path Traversal Risk in dist/tools/analyze-dependencies.js:128",
+      "evidence": {
+        "pattern": "path_traversal_risk",
+        "file": "dist/tools/analyze-dependencies.js",
+        "line": 128,
+        "snippet": "entries) {\n            const fullPath = path.join(dir, entry.name);\n            if (entry.isDirectory()) {\n             "
+      }
+    },
+    {
+      "id": "F178",
+      "category": "security",
+      "severity": "medium",
+      "description": "Path Traversal Risk in dist/tools/split-mission.js:228",
+      "evidence": {
+        "pattern": "path_traversal_risk",
+        "file": "dist/tools/split-mission.js",
+        "line": 228,
+        "snippet": "er}.yaml`;\n            const filePath = path.join(outputDir, fileName);\n            // Convert SubMission to GenericMiss"
+      }
+    },
+    {
+      "id": "F179",
+      "category": "security",
+      "severity": "medium",
+      "description": "Path Traversal Risk in dist/domains/domain-pack-loader.js:125",
+      "evidence": {
+        "pattern": "path_traversal_risk",
+        "file": "dist/domains/domain-pack-loader.js",
+        "line": 125,
+        "snippet": "l manifest\n        const manifestPath = path.join(registryEntry.path, 'pack.yaml');\n        const manifest = this.loadMa"
+      }
+    },
+    {
+      "id": "F180",
+      "category": "security",
+      "severity": "medium",
+      "description": "Path Traversal Risk in dist/domains/domain-pack-loader.js:133",
+      "evidence": {
+        "pattern": "path_traversal_risk",
+        "file": "dist/domains/domain-pack-loader.js",
+        "line": 133,
+        "snippet": "omain schema\n        const schemaPath = path.join(registryEntry.path, manifest.schema);\n        const schema = this.load"
+      }
+    },
+    {
+      "id": "F181",
+      "category": "security",
+      "severity": "medium",
+      "description": "Hardcoded Secrets in tests/intelligence/token-validation.test.ts:133",
+      "evidence": {
+        "pattern": "hardcoded_secrets",
+        "file": "tests/intelligence/token-validation.test.ts",
+        "line": 133,
+        "snippet": "y) {\n        throw new Error('ANTHROPIC_API_KEY required for API validation tests');\n      }\n\n      const text = 'hello "
+      }
+    },
+    {
+      "id": "F182",
+      "category": "security",
+      "severity": "medium",
+      "description": "Hardcoded Secrets in tests/intelligence/token-validation.test.ts:166",
+      "evidence": {
+        "pattern": "hardcoded_secrets",
+        "file": "tests/intelligence/token-validation.test.ts",
+        "line": 166,
+        "snippet": "\n        throw new Error('GOOGLE_GEMINI_API_KEY required for API validation tests');\n      }\n\n      const geminiModelId "
+      }
+    },
+    {
+      "id": "F183",
+      "category": "security",
+      "severity": "medium",
+      "description": "Hardcoded Secrets in scripts/validate-token-counts.ts:9",
+      "evidence": {
+        "pattern": "hardcoded_secrets",
+        "file": "scripts/validate-token-counts.ts",
+        "line": 9,
+        "snippet": "ment variables required:\n * - ANTHROPIC_API_KEY: For Claude validation\n * - GOOGLE_GEMINI_API_KEY: For Gemini validation"
+      }
+    },
+    {
+      "id": "F184",
+      "category": "security",
+      "severity": "medium",
+      "description": "Hardcoded Secrets in scripts/validate-token-counts.ts:10",
+      "evidence": {
+        "pattern": "hardcoded_secrets",
+        "file": "scripts/validate-token-counts.ts",
+        "line": 10,
+        "snippet": "or Claude validation\n * - GOOGLE_GEMINI_API_KEY: For Gemini validation\n * \n * Exit codes:\n * - 0: All validations passed"
+      }
+    },
+    {
+      "id": "F185",
+      "category": "security",
+      "severity": "medium",
+      "description": "Hardcoded Secrets in scripts/validate-token-counts.ts:82",
+      "evidence": {
+        "pattern": "hardcoded_secrets",
+        "file": "scripts/validate-token-counts.ts",
+        "line": 82,
+        "snippet": "piKey) {\n    throw new Error('ANTHROPIC_API_KEY not set');\n  }\n\n  const response = await fetch('https://api.anthropic.co"
+      }
+    },
+    {
+      "id": "F186",
+      "category": "security",
+      "severity": "medium",
+      "description": "Hardcoded Secrets in scripts/validate-token-counts.ts:113",
+      "evidence": {
+        "pattern": "hardcoded_secrets",
+        "file": "scripts/validate-token-counts.ts",
+        "line": 113,
+        "snippet": "y) {\n    throw new Error('GOOGLE_GEMINI_API_KEY not set');\n  }\n\n  const response = await fetch(\n    `https://generativel"
+      }
+    },
+    {
+      "id": "F187",
+      "category": "security",
+      "severity": "medium",
+      "description": "Hardcoded Secrets in scripts/validate-token-counts.ts:184",
+      "evidence": {
+        "pattern": "hardcoded_secrets",
+        "file": "scripts/validate-token-counts.ts",
+        "line": 184,
+        "snippet": "ror('\u274c No API keys found. Set ANTHROPIC_API_KEY and/or GOOGLE_GEMINI_API_KEY');\n    console.error('   See docs/Token_Val"
+      }
+    },
+    {
+      "id": "F188",
+      "category": "security",
+      "severity": "medium",
+      "description": "Hardcoded Secrets in scripts/validate-token-counts.ts:208",
+      "evidence": {
+        "pattern": "hardcoded_secrets",
+        "file": "scripts/validate-token-counts.ts",
+        "line": 208,
+        "snippet": "  Skipping Claude validation (ANTHROPIC_API_KEY not set)\\n');\n  }\n\n  // Run Gemini validation if key is available\n  if ("
+      }
+    },
+    {
+      "id": "F189",
+      "category": "security",
+      "severity": "medium",
+      "description": "Hardcoded Secrets in scripts/validate-token-counts.ts:230",
+      "evidence": {
+        "pattern": "hardcoded_secrets",
+        "file": "scripts/validate-token-counts.ts",
+        "line": 230,
+        "snippet": "ipping Gemini validation (GOOGLE_GEMINI_API_KEY not set)\\n');\n  }\n\n  // Summary\n  const failedResults = results.filter(r"
+      }
+    },
+    {
+      "id": "F190",
+      "category": "security",
+      "severity": "medium",
+      "description": "Hardcoded Secrets in .github/workflows/token-validation.yml:35",
+      "evidence": {
+        "pattern": "hardcoded_secrets",
+        "file": ".github/workflows/token-validation.yml",
+        "line": 35,
+        "snippet": "dation\n        env:\n          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}\n          GOOGLE_GEMINI_API_KEY: ${{ s"
+      }
+    },
+    {
+      "id": "F191",
+      "category": "security",
+      "severity": "medium",
+      "description": "file system operations without validation at dist/tools/suggest-splits.js:160",
+      "evidence": {
+        "entrypoint": "file_system_operations",
+        "file": "dist/tools/suggest-splits.js",
+        "line": 160,
+        "context": "            throw new Error('missionFile is required');\n        }\n        if (!fs.existsSync(params.missionFile)) {\n            throw new Error(`Mission file not found: ${params.missionFile}`);\n        }",
+        "sanitized": false
+      }
+    },
+    {
+      "id": "F192",
+      "category": "security",
+      "severity": "medium",
+      "description": "file system operations without validation at dist/tools/extract-template.js:114",
+      "evidence": {
+        "entrypoint": "file_system_operations",
+        "file": "dist/tools/extract-template.js",
+        "line": 114,
+        "context": "        throw new Error('Parameter \"author\" is required');\n    }\n    if (!fs.existsSync(params.missionFile)) {\n        throw new Error(`Mission file does not exist: ${params.missionFile}`);\n    }",
+        "sanitized": false
+      }
+    },
+    {
+      "id": "F193",
+      "category": "security",
+      "severity": "medium",
+      "description": "file system operations without validation at dist/tools/extract-template.js:136",
+      "evidence": {
+        "entrypoint": "file_system_operations",
+        "file": "dist/tools/extract-template.js",
+        "line": 136,
+        "context": "    const { template } = result;\n    // Create template directory\n    fs.mkdirSync(templateDir, { recursive: true });\n    // Write template files\n    for (const file of template.fileStructure) {",
+        "sanitized": false
+      }
+    },
+    {
+      "id": "F194",
+      "category": "security",
+      "severity": "medium",
+      "description": "file system operations without validation at dist/tools/extract-template.js:142",
+      "evidence": {
+        "entrypoint": "file_system_operations",
+        "file": "dist/tools/extract-template.js",
+        "line": 142,
+        "context": "        const fileDir = path.dirname(filePath);\n        // Create directory if it doesn't exist\n        fs.mkdirSync(fileDir, { recursive: true });\n        // Write file content\n        fs.writeFileSync(filePath, file.content, 'utf-8');",
+        "sanitized": false
+      }
+    },
+    {
+      "id": "F195",
+      "category": "security",
+      "severity": "medium",
+      "description": "file system operations without validation at dist/tools/extract-template.js:144",
+      "evidence": {
+        "entrypoint": "file_system_operations",
+        "file": "dist/tools/extract-template.js",
+        "line": 144,
+        "context": "        fs.mkdirSync(fileDir, { recursive: true });\n        // Write file content\n        fs.writeFileSync(filePath, file.content, 'utf-8');\n    }\n    // Write metadata file",
+        "sanitized": false
+      }
+    },
+    {
+      "id": "F196",
+      "category": "security",
+      "severity": "medium",
+      "description": "file system operations without validation at dist/tools/extract-template.js:148",
+      "evidence": {
+        "entrypoint": "file_system_operations",
+        "file": "dist/tools/extract-template.js",
+        "line": 148,
+        "context": "    // Write metadata file\n    const metadataPath = path.join(templateDir, 'template-metadata.json');\n    fs.writeFileSync(metadataPath, JSON.stringify(template.metadata, null, 2), 'utf-8');\n    // Write extraction report\n    const reportPath = path.join(templateDir, 'EXTRACTION_REPORT.md');",
+        "sanitized": false
+      }
+    },
+    {
+      "id": "F197",
+      "category": "security",
+      "severity": "medium",
+      "description": "file system operations without validation at dist/tools/extract-template.js:152",
+      "evidence": {
+        "entrypoint": "file_system_operations",
+        "file": "dist/tools/extract-template.js",
+        "line": 152,
+        "context": "    const reportPath = path.join(templateDir, 'EXTRACTION_REPORT.md');\n    const report = generateExtractionReport(result);\n    fs.writeFileSync(reportPath, report, 'utf-8');\n    // Write hooks if present\n    if (template.hooks?.preGenerate) {",
+        "sanitized": false
+      }
+    },
+    {
+      "id": "F198",
+      "category": "security",
+      "severity": "medium",
+      "description": "file system operations without validation at dist/tools/extract-template.js:156",
+      "evidence": {
+        "entrypoint": "file_system_operations",
+        "file": "dist/tools/extract-template.js",
+        "line": 156,
+        "context": "    if (template.hooks?.preGenerate) {\n        const preHookPath = path.join(templateDir, 'hooks', 'pre_gen_project.sh');\n        fs.mkdirSync(path.dirname(preHookPath), { recursive: true });\n        fs.writeFileSync(preHookPath, template.hooks.preGenerate, 'utf-8');\n        fs.chmodSync(preHookPath, 0o755);",
+        "sanitized": false
+      }
+    },
+    {
+      "id": "F199",
+      "category": "security",
+      "severity": "medium",
+      "description": "file system operations without validation at dist/tools/extract-template.js:157",
+      "evidence": {
+        "entrypoint": "file_system_operations",
+        "file": "dist/tools/extract-template.js",
+        "line": 157,
+        "context": "        const preHookPath = path.join(templateDir, 'hooks', 'pre_gen_project.sh');\n        fs.mkdirSync(path.dirname(preHookPath), { recursive: true });\n        fs.writeFileSync(preHookPath, template.hooks.preGenerate, 'utf-8');\n        fs.chmodSync(preHookPath, 0o755);\n    }",
+        "sanitized": false
+      }
+    },
+    {
+      "id": "F200",
+      "category": "security",
+      "severity": "medium",
+      "description": "external data without validation at tests/intelligence/token-validation.test.ts:140",
+      "evidence": {
+        "entrypoint": "external_data",
+        "file": "tests/intelligence/token-validation.test.ts",
+        "line": 140,
+        "context": "\n      // Call Anthropic API\n      const response = await fetch('https://api.anthropic.com/v1/messages/count_tokens', {\n        method: 'POST',\n        headers: {",
+        "sanitized": false
+      }
+    },
+    {
+      "id": "F201",
+      "category": "security",
+      "severity": "medium",
+      "description": "external data without validation at tests/intelligence/token-validation.test.ts:175",
+      "evidence": {
+        "entrypoint": "external_data",
+        "file": "tests/intelligence/token-validation.test.ts",
+        "line": 175,
+        "context": "\n      // Call Google API\n      const response = await fetch(\n        `https://generativelanguage.googleapis.com/v1/${geminiModelId}:countTokens?key=${apiKey}`,\n        {",
+        "sanitized": false
+      }
+    },
+    {
+      "id": "F202",
+      "category": "security",
+      "severity": "medium",
+      "description": "external data without validation at scripts/validate-token-counts.ts:85",
+      "evidence": {
+        "entrypoint": "external_data",
+        "file": "scripts/validate-token-counts.ts",
+        "line": 85,
+        "context": "  }\n\n  const response = await fetch('https://api.anthropic.com/v1/messages/count_tokens', {\n    method: 'POST',\n    headers: {",
+        "sanitized": false
+      }
+    },
+    {
+      "id": "F203",
+      "category": "security",
+      "severity": "medium",
+      "description": "external data without validation at scripts/validate-token-counts.ts:116",
+      "evidence": {
+        "entrypoint": "external_data",
+        "file": "scripts/validate-token-counts.ts",
+        "line": 116,
+        "context": "  }\n\n  const response = await fetch(\n    `https://generativelanguage.googleapis.com/v1/${GEMINI_MODEL_ID}:countTokens?key=${apiKey}`,\n    {",
+        "sanitized": false
+      }
+    },
+    {
+      "id": "F204",
+      "category": "documentation",
+      "severity": "medium",
+      "description": "Broken doc link #template-extraction-patterns in docs/Extension_Patterns_Cookbook.md",
+      "evidence": {
+        "file": "docs/Extension_Patterns_Cookbook.md",
+        "link_text": "Template Extraction Patterns",
+        "target": "#template-extraction-patterns"
+      }
+    },
+    {
+      "id": "F205",
+      "category": "documentation",
+      "severity": "medium",
+      "description": "Broken doc link #secure-sharing-patterns in docs/Extension_Patterns_Cookbook.md",
+      "evidence": {
+        "file": "docs/Extension_Patterns_Cookbook.md",
+        "link_text": "Secure Sharing Patterns",
+        "target": "#secure-sharing-patterns"
+      }
+    },
+    {
+      "id": "F206",
+      "category": "documentation",
+      "severity": "medium",
+      "description": "Broken doc link #pack-composition-patterns in docs/Extension_Patterns_Cookbook.md",
+      "evidence": {
+        "file": "docs/Extension_Patterns_Cookbook.md",
+        "link_text": "Pack Composition Patterns",
+        "target": "#pack-composition-patterns"
+      }
+    },
+    {
+      "id": "F207",
+      "category": "documentation",
+      "severity": "medium",
+      "description": "Broken doc link #versioning-patterns in docs/Extension_Patterns_Cookbook.md",
+      "evidence": {
+        "file": "docs/Extension_Patterns_Cookbook.md",
+        "link_text": "Versioning Patterns",
+        "target": "#versioning-patterns"
+      }
+    },
+    {
+      "id": "F208",
+      "category": "documentation",
+      "severity": "medium",
+      "description": "Broken doc link #migration-patterns in docs/Extension_Patterns_Cookbook.md",
+      "evidence": {
+        "file": "docs/Extension_Patterns_Cookbook.md",
+        "link_text": "Migration Patterns",
+        "target": "#migration-patterns"
+      }
+    },
+    {
+      "id": "F209",
+      "category": "documentation",
+      "severity": "medium",
+      "description": "Broken doc link #error-handling-patterns in docs/Extension_Patterns_Cookbook.md",
+      "evidence": {
+        "file": "docs/Extension_Patterns_Cookbook.md",
+        "link_text": "Error Handling Patterns",
+        "target": "#error-handling-patterns"
+      }
+    },
+    {
+      "id": "F210",
+      "category": "documentation",
+      "severity": "medium",
+      "description": "Broken doc link #mcp-tools in docs/API_Documentation.md",
+      "evidence": {
+        "file": "docs/API_Documentation.md",
+        "link_text": "MCP Tools",
+        "target": "#mcp-tools"
+      }
+    },
+    {
+      "id": "F211",
+      "category": "documentation",
+      "severity": "medium",
+      "description": "Broken doc link #template-extraction-api in docs/API_Documentation.md",
+      "evidence": {
+        "file": "docs/API_Documentation.md",
+        "link_text": "Template Extraction API",
+        "target": "#template-extraction-api"
+      }
+    },
+    {
+      "id": "F212",
+      "category": "documentation",
+      "severity": "medium",
+      "description": "Broken doc link #importexport-api in docs/API_Documentation.md",
+      "evidence": {
+        "file": "docs/API_Documentation.md",
+        "link_text": "Import/Export API",
+        "target": "#importexport-api"
+      }
+    },
+    {
+      "id": "F213",
+      "category": "documentation",
+      "severity": "medium",
+      "description": "Broken doc link #pack-combination-api in docs/API_Documentation.md",
+      "evidence": {
+        "file": "docs/API_Documentation.md",
+        "link_text": "Pack Combination API",
+        "target": "#pack-combination-api"
+      }
+    },
+    {
+      "id": "F214",
+      "category": "documentation",
+      "severity": "low",
+      "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in README.md",
+      "evidence": {
+        "file": "README.md",
+        "missing_sections": [
+          "API",
+          "Installation",
+          "Overview",
+          "Usage"
+        ]
+      }
+    },
+    {
+      "id": "F215",
+      "category": "documentation",
+      "severity": "low",
+      "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in docs/Extension_Patterns_Cookbook.md",
+      "evidence": {
+        "file": "docs/Extension_Patterns_Cookbook.md",
+        "missing_sections": [
+          "API",
+          "Installation",
+          "Overview",
+          "Usage"
+        ]
+      }
+    },
+    {
+      "id": "F216",
+      "category": "documentation",
+      "severity": "low",
+      "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in docs/API_Documentation.md",
+      "evidence": {
+        "file": "docs/API_Documentation.md",
+        "missing_sections": [
+          "API",
+          "Installation",
+          "Overview",
+          "Usage"
+        ]
+      }
+    },
+    {
+      "id": "F217",
+      "category": "documentation",
+      "severity": "low",
+      "description": "Missing sections ['API', 'Installation', 'Usage'] in docs/Intelligence_Layer_Guide.md",
+      "evidence": {
+        "file": "docs/Intelligence_Layer_Guide.md",
+        "missing_sections": [
+          "API",
+          "Installation",
+          "Usage"
+        ]
+      }
+    },
+    {
+      "id": "F218",
+      "category": "documentation",
+      "severity": "low",
+      "description": "Missing sections ['API', 'Installation'] in docs/Quality_Scoring_Implementation.md",
+      "evidence": {
+        "file": "docs/Quality_Scoring_Implementation.md",
+        "missing_sections": [
+          "API",
+          "Installation"
+        ]
+      }
+    },
+    {
+      "id": "F219",
+      "category": "documentation",
+      "severity": "low",
+      "description": "Missing sections ['API', 'Installation', 'Usage'] in docs/Extension_System_Guide.md",
+      "evidence": {
+        "file": "docs/Extension_System_Guide.md",
+        "missing_sections": [
+          "API",
+          "Installation",
+          "Usage"
+        ]
+      }
+    },
+    {
+      "id": "F220",
+      "category": "documentation",
+      "severity": "low",
+      "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in docs/domain-pack-authoring.md",
+      "evidence": {
+        "file": "docs/domain-pack-authoring.md",
+        "missing_sections": [
+          "API",
+          "Installation",
+          "Overview",
+          "Usage"
+        ]
+      }
+    },
+    {
+      "id": "F221",
+      "category": "documentation",
+      "severity": "low",
+      "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in docs/API_Documentation_Phase4.md",
+      "evidence": {
+        "file": "docs/API_Documentation_Phase4.md",
+        "missing_sections": [
+          "API",
+          "Installation",
+          "Overview",
+          "Usage"
+        ]
+      }
+    },
+    {
+      "id": "F222",
+      "category": "documentation",
+      "severity": "low",
+      "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in docs/Token_Validation_Setup.md",
+      "evidence": {
+        "file": "docs/Token_Validation_Setup.md",
+        "missing_sections": [
+          "API",
+          "Installation",
+          "Overview",
+          "Usage"
+        ]
+      }
+    },
+    {
+      "id": "F223",
+      "category": "documentation",
+      "severity": "low",
+      "description": "Missing sections ['API', 'Installation', 'Overview', 'Usage'] in cmos/research/r1.1_The_Universal_Mission_Framework.md",
+      "evidence": {
+        "file": "cmos/research/r1.1_The_Universal_Mission_Framework.md",
+        "missing_sections": [
+          "API",
+          "Installation",
+          "Overview",
+          "Usage"
+        ]
+      }
+    },
+    {
+      "id": "F224",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Workaround indicator at cmos/docs/Architectural Blueprint for a Production-Grade_Memory-Server.md:56",
+      "evidence": {
+        "pattern": "workaround",
+        "file": "cmos/docs/Architectural Blueprint for a Production-Grade_Memory-Server.md",
+        "line": 56,
+        "snippet": "port \n\nLimited; requires extensions and workarounds \n\nGrowing support, but not as core to the design as FastAPI\nLearning Curve\t\nSteeper due to async patterns an"
+      }
+    },
+    {
+      "id": "F225",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Deprecated indicator at package-lock.json:3322",
+      "evidence": {
+        "pattern": "deprecated",
+        "file": "package-lock.json",
+        "line": 3322,
+        "snippet": "Wcy/FZR3/4IgflMgKLOsvPDrGCJA==\",\n      \"deprecated\": \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and "
+      }
+    },
+    {
+      "id": "F226",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Deprecated indicator at package-lock.json:5779",
+      "evidence": {
+        "pattern": "deprecated",
+        "file": "package-lock.json",
+        "line": 5779,
+        "snippet": "YJtOlYt9v6dvszD2BGRqBL+iQK9Q==\",\n      \"deprecated\": \"Glob versions prior to v9 are no longer supported\",\n      \"dev\": true,\n      \"license\": \"ISC\",\n      \"depe"
+      }
+    },
+    {
+      "id": "F227",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Deprecated indicator at dist/tools/version-template.js:232",
+      "evidence": {
+        "pattern": "deprecated",
+        "file": "dist/tools/version-template.js",
+        "line": 232,
+        "snippet": "te: latest.releaseDate,\n                deprecated: latest.deprecated !== undefined,\n                deprecationMessage: latest.deprecated?.message,\n           "
+      }
+    },
+    {
+      "id": "F228",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Deprecated indicator at dist/tools/version-template.js:232",
+      "evidence": {
+        "pattern": "deprecated",
+        "file": "dist/tools/version-template.js",
+        "line": 232,
+        "snippet": "ate,\n                deprecated: latest.deprecated !== undefined,\n                deprecationMessage: latest.deprecated?.message,\n            },\n            mes"
+      }
+    },
+    {
+      "id": "F229",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Deprecated indicator at dist/tools/version-template.js:233",
+      "evidence": {
+        "pattern": "deprecated",
+        "file": "dist/tools/version-template.js",
+        "line": 233,
+        "snippet": "             deprecationMessage: latest.deprecated?.message,\n            },\n            message: `Latest version for ${params.templateId}: ${versionManager.vers"
+      }
+    },
+    {
+      "id": "F230",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Deprecated indicator at dist/tools/version-template.d.ts:166",
+      "evidence": {
+        "pattern": "deprecated",
+        "file": "dist/tools/version-template.d.ts",
+        "line": 166,
+        "snippet": "g;\n        releaseDate: string;\n        deprecated?: boolean;\n        deprecationMessage?: string;\n    };\n    message: string;\n}\nexport declare function getLate"
+      }
+    },
+    {
+      "id": "F231",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Deprecated indicator at dist/versioning/types.d.ts:63",
+      "evidence": {
+        "pattern": "deprecated",
+        "file": "dist/versioning/types.d.ts",
+        "line": 63,
+        "snippet": "* Deprecation notice if this version is deprecated */\n    deprecated?: {\n        message: string;\n        replacedBy?: string;\n    };\n}\n/**\n * Version compatibi"
+      }
+    },
+    {
+      "id": "F232",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Deprecated indicator at dist/versioning/types.d.ts:64",
+      "evidence": {
+        "pattern": "deprecated",
+        "file": "dist/versioning/types.d.ts",
+        "line": 64,
+        "snippet": "ce if this version is deprecated */\n    deprecated?: {\n        message: string;\n        replacedBy?: string;\n    };\n}\n/**\n * Version compatibility check result\n"
+      }
+    },
+    {
+      "id": "F233",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Deprecated indicator at dist/versioning/version-manager.js:212",
+      "evidence": {
+        "pattern": "deprecated",
+        "file": "dist/versioning/version-manager.js",
+        "line": 212,
+        "snippet": "precation warnings\n        if (version1.deprecated || version2.deprecated) {\n            const deprecatedVersion = version1.deprecated ? version1 : version2;\n  "
+      }
+    },
+    {
+      "id": "F234",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Deprecated indicator at dist/versioning/version-manager.js:212",
+      "evidence": {
+        "pattern": "deprecated",
+        "file": "dist/versioning/version-manager.js",
+        "line": 212,
+        "snippet": "    if (version1.deprecated || version2.deprecated) {\n            const deprecatedVersion = version1.deprecated ? version1 : version2;\n            return {\n    "
+      }
+    },
+    {
+      "id": "F235",
+      "category": "technical_debt",
+      "severity": "low",
+      "description": "Commented Code indicator at jest.config.js:1",
+      "evidence": {
+        "pattern": "commented_code",
+        "file": "jest.config.js",
+        "line": 1,
+        "snippet": "// Dynamically adjust coverage thresholds when running a focused subset\n// e.g.,"
+      }
+    },
+    {
+      "id": "F236",
+      "category": "technical_debt",
+      "severity": "low",
+      "description": "Commented Code indicator at jest.config.js:2",
+      "evidence": {
+        "pattern": "commented_code",
+        "file": "jest.config.js",
+        "line": 2,
+        "snippet": "// e.g., `npm test -- import-export` should validate functionality without faili"
+      }
+    },
+    {
+      "id": "F237",
+      "category": "technical_debt",
+      "severity": "low",
+      "description": "Commented Code indicator at jest.config.js:20",
+      "evidence": {
+        "pattern": "commented_code",
+        "file": "jest.config.js",
+        "line": 20,
+        "snippet": "        // Looser thresholds for focused suites to prevent unrelated files from "
+      }
+    },
+    {
+      "id": "F238",
+      "category": "technical_debt",
+      "severity": "low",
+      "description": "Commented Code indicator at jest.config.js:29",
+      "evidence": {
+        "pattern": "commented_code",
+        "file": "jest.config.js",
+        "line": 29,
+        "snippet": "        // Project-wide targets (Phase 3 mission requires >=90%)\n        global:"
+      }
+    },
+    {
+      "id": "F239",
+      "category": "technical_debt",
+      "severity": "low",
+      "description": "Commented Code indicator at README.md:1",
+      "evidence": {
+        "pattern": "commented_code",
+        "file": "README.md",
+        "line": 1,
+        "snippet": "# Mission Protocol v2\n\nAn AI-powered mission planning and execution system with "
+      }
+    },
+    {
+      "id": "F240",
+      "category": "technical_debt",
+      "severity": "low",
+      "description": "Commented Code indicator at README.md:4",
+      "evidence": {
+        "pattern": "commented_code",
+        "file": "README.md",
+        "line": 4,
+        "snippet": "\n## Project Status\n\n**Sprint 1 - Template Recovery: In Progress** \u2705\n\n- **Tests**"
+      }
+    },
+    {
+      "id": "F241",
+      "category": "technical_debt",
+      "severity": "low",
+      "description": "Commented Code indicator at README.md:14",
+      "evidence": {
+        "pattern": "commented_code",
+        "file": "README.md",
+        "line": 14,
+        "snippet": "\n## Quick Start\n\nMission Protocol v2 provides MCP tools for autonomous mission m"
+      }
+    },
+    {
+      "id": "F242",
+      "category": "technical_debt",
+      "severity": "low",
+      "description": "Commented Code indicator at README.md:18",
+      "evidence": {
+        "pattern": "commented_code",
+        "file": "README.md",
+        "line": 18,
+        "snippet": "\n### Phase 4: Intelligence Layer (Current)\n- **`score_quality`** - Assess missio"
+      }
+    },
+    {
+      "id": "F243",
+      "category": "technical_debt",
+      "severity": "low",
+      "description": "Commented Code indicator at README.md:24",
+      "evidence": {
+        "pattern": "commented_code",
+        "file": "README.md",
+        "line": 24,
+        "snippet": "\n### Phase 3: Extension System\n- **`extract_template`** - Convert missions into "
+      }
+    },
+    {
+      "id": "F244",
+      "category": "technical_debt",
+      "severity": "low",
+      "description": "Commented Code indicator at README.md:30",
+      "evidence": {
+        "pattern": "commented_code",
+        "file": "README.md",
+        "line": 30,
+        "snippet": "\n### Phase 1-2: Foundation\n- **`list_available_domains`** - Browse domain packs "
+      }
+    },
+    {
+      "id": "F245",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Hack Comments indicator at package-lock.json:6401",
+      "evidence": {
+        "pattern": "hack_comments",
+        "file": "package-lock.json",
+        "line": 6401,
+        "snippet": "url\": \"https://github.com/sponsors/colinhacks\"\n      }\n    },\n    \"node_modules/zod-to-json-schema\": {\n      \"version\": \"3.24.6\",\n      \"resolved\": \"https://reg"
+      }
+    },
+    {
+      "id": "F246",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Hack Comments indicator at tests/loaders/yaml-loader.test.ts:178",
+      "evidence": {
+        "pattern": "hack_comments",
+        "file": "tests/loaders/yaml-loader.test.ts",
+        "line": 178,
+        "snippet": "   const maliciousYAML = `\n!!js/regexp /hack/i\n`;\n      fs.writeFileSync(path.join(tempDir, 'malicious4.yaml'), maliciousYAML);\n\n      expect(() => {\n        lo"
+      }
+    },
+    {
+      "id": "F247",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Hack Comments indicator at cmos/research/R2.1_Token-Counting-Strategy-Analysis-and-Recommendation.md:310",
+      "evidence": {
+        "pattern": "hack_comments",
+        "file": "cmos/research/R2.1_Token-Counting-Strategy-Analysis-and-Recommendation.md",
+        "line": 310,
+        "snippet": "news.ycombinator.com/item?id=40001193\tA Hacker News thread discussing Transformers.js model sizes, noting small models are 10-60 MB but larger ones can be 800 M"
+      }
+    },
+    {
+      "id": "F248",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Hack Comments indicator at cmos/research/R2.1_Token-Counting-Strategy-Analysis-and-Recommendation.md:445",
+      "evidence": {
+        "pattern": "hack_comments",
+        "file": "cmos/research/R2.1_Token-Counting-Strategy-Analysis-and-Recommendation.md",
+        "line": 445,
+        "snippet": " Transformers directly in the browser | Hacker News\nOpens in a new window\n\nnpmjs.com\nsctg/sentencepiece-js - NPM\nOpens in a new window\n\ngithub.com\nJanKaul/sente"
+      }
+    },
+    {
+      "id": "F249",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Temporary Solution indicator at dist/intelligence/token-counters.d.ts:8",
+      "evidence": {
+        "pattern": "temporary_solution",
+        "file": "dist/intelligence/token-counters.d.ts",
+        "line": 8,
+        "snippet": "tored)\n * - Gemini: Enhanced heuristic (temporary, pending official library)\n */\nimport { ITokenCounter, TokenCount, SupportedModel } from './types';\n/**\n * Tok"
+      }
+    },
+    {
+      "id": "F250",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Temporary Solution indicator at dist/intelligence/token-counters.d.ts:42",
+      "evidence": {
+        "pattern": "temporary_solution",
+        "file": "dist/intelligence/token-counters.d.ts",
+        "line": 42,
+        "snippet": " Gemini using enhanced heuristic\n     * TEMPORARY SOLUTION: No viable offline library exists\n     * - @lenml/tokenizer-gemini is 139 MB (unacceptable)\n     * - "
+      }
+    },
+    {
+      "id": "F251",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Temporary Solution indicator at dist/intelligence/token-counters.js:9",
+      "evidence": {
+        "pattern": "temporary_solution",
+        "file": "dist/intelligence/token-counters.js",
+        "line": 9,
+        "snippet": "tored)\n * - Gemini: Enhanced heuristic (temporary, pending official library)\n */\nvar __createBinding = (this && this.__createBinding) || (Object.create ? (funct"
+      }
+    },
+    {
+      "id": "F252",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Temporary Solution indicator at dist/intelligence/token-counters.js:140",
+      "evidence": {
+        "pattern": "temporary_solution",
+        "file": "dist/intelligence/token-counters.js",
+        "line": 140,
+        "snippet": " Gemini using enhanced heuristic\n     * TEMPORARY SOLUTION: No viable offline library exists\n     * - @lenml/tokenizer-gemini is 139 MB (unacceptable)\n     * - "
+      }
+    },
+    {
+      "id": "F253",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Temporary Solution indicator at dist/import-export/template-importer.js:217",
+      "evidence": {
+        "pattern": "temporary_solution",
+        "file": "dist/import-export/template-importer.js",
+        "line": 217,
+        "snippet": "Content, options) {\n        // Write to temporary file and import\n        const tempFile = path.join(this.baseDir, `.temp-${Date.now()}.yaml`);\n        try {\n  "
+      }
+    },
+    {
+      "id": "F254",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Temporary Solution indicator at tests/tools/extract-template.test.ts:16",
+      "evidence": {
+        "pattern": "temporary_solution",
+        "file": "tests/tools/extract-template.test.ts",
+        "line": 16,
+        "snippet": "ng;\n\n  beforeEach(() => {\n    // Create temporary directories\n    tempDir = fs.mkdtempSync(path.join(require('os').tmpdir(), 'extract-template-test-'));\n    tes"
+      }
+    },
+    {
+      "id": "F255",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Temporary Solution indicator at tests/security/path-traversal.test.ts:17",
+      "evidence": {
+        "pattern": "temporary_solution",
+        "file": "tests/security/path-traversal.test.ts",
+        "line": 17,
+        "snippet": ";\n\n  beforeEach(() => {\n    // Create a temporary directory for testing\n    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yaml-loader-test-'));\n    loader = "
+      }
+    },
+    {
+      "id": "F256",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Temporary Solution indicator at tests/import-export/template-importer.test.ts:294",
+      "evidence": {
+        "pattern": "temporary_solution",
+        "file": "tests/import-export/template-importer.test.ts",
+        "line": 294,
+        "snippet": "true);\n    });\n\n    it('should clean up temporary files after import', async () => {\n      const yamlContent = createValidTemplateYAML();\n\n      await importer."
+      }
+    },
+    {
+      "id": "F257",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Temporary Solution indicator at tests/extraction/template-extractor.test.ts:16",
+      "evidence": {
+        "pattern": "temporary_solution",
+        "file": "tests/extraction/template-extractor.test.ts",
+        "line": 16,
+        "snippet": ";\n\n  beforeEach(() => {\n    // Create a temporary test mission directory\n    tempDir = fs.mkdtempSync(path.join(require('os').tmpdir(), 'template-extractor-test"
+      }
+    },
+    {
+      "id": "F258",
+      "category": "technical_debt",
+      "severity": "medium",
+      "description": "Temporary Solution indicator at tests/extraction/template-extractor.test.ts:23",
+      "evidence": {
+        "pattern": "temporary_solution",
+        "file": "tests/extraction/template-extractor.test.ts",
+        "line": 23,
+        "snippet": ");\n\n  afterEach(() => {\n    // Clean up temporary directory\n    if (fs.existsSync(tempDir)) {\n      fs.rmSync(tempDir, { recursive: true, force: true });\n    }\n"
+      }
+    }
+  ]
+}

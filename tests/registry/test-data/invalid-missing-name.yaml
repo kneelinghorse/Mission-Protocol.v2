@@ -1,0 +1,5 @@
+domains:
+  - description: Missing name
+    version: 1.0.0
+    path: domains/test
+    schema_version: 1.0.0

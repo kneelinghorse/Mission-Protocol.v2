@@ -1,0 +1,102 @@
+[
+  {
+    "id": "F081",
+    "category": "testing",
+    "severity": "high",
+    "description": "Module lacks coverage: src/index.ts (No coverage data)",
+    "evidence": {
+      "path": "src/index.ts",
+      "reason": "No coverage data"
+    }
+  },
+  {
+    "id": "F082",
+    "category": "testing",
+    "severity": "high",
+    "description": "Module lacks coverage: src/tools/version-template.ts (No coverage data)",
+    "evidence": {
+      "path": "src/tools/version-template.ts",
+      "reason": "No coverage data"
+    }
+  },
+  {
+    "id": "F083",
+    "category": "testing",
+    "severity": "high",
+    "description": "Module lacks coverage: src/types/schemas.ts (No coverage data)",
+    "evidence": {
+      "path": "src/types/schemas.ts",
+      "reason": "No coverage data"
+    }
+  },
+  {
+    "id": "F084",
+    "category": "testing",
+    "severity": "high",
+    "description": "Module lacks coverage: src/types/tools.ts (No coverage data)",
+    "evidence": {
+      "path": "src/types/tools.ts",
+      "reason": "No coverage data"
+    }
+  },
+  {
+    "id": "F085",
+    "category": "testing",
+    "severity": "high",
+    "description": "Module lacks coverage: src/types/registry.ts (No coverage data)",
+    "evidence": {
+      "path": "src/types/registry.ts",
+      "reason": "No coverage data"
+    }
+  },
+  {
+    "id": "F086",
+    "category": "testing",
+    "severity": "high",
+    "description": "Module lacks coverage: src/types/mission-types.ts (No coverage data)",
+    "evidence": {
+      "path": "src/types/mission-types.ts",
+      "reason": "No coverage data"
+    }
+  },
+  {
+    "id": "F087",
+    "category": "testing",
+    "severity": "high",
+    "description": "Module lacks coverage: src/domains/types.ts (No coverage data)",
+    "evidence": {
+      "path": "src/domains/types.ts",
+      "reason": "No coverage data"
+    }
+  },
+  {
+    "id": "F088",
+    "category": "testing",
+    "severity": "high",
+    "description": "Module lacks coverage: src/intelligence/context-propagator.ts (No coverage data)",
+    "evidence": {
+      "path": "src/intelligence/context-propagator.ts",
+      "reason": "No coverage data"
+    }
+  },
+  {
+    "id": "F089",
+    "category": "testing",
+    "severity": "high",
+    "description": "Module lacks coverage: src/intelligence/types.ts (No coverage data)",
+    "evidence": {
+      "path": "src/intelligence/types.ts",
+      "reason": "No coverage data"
+    }
+  },
+  {
+    "id": "F090",
+    "category": "testing",
+    "severity": "high",
+    "description": "Module lacks coverage: src/intelligence/compression-rules.ts (No coverage data)",
+    "evidence": {
+      "path": "src/intelligence/compression-rules.ts",
+      "reason": "No coverage data"
+    }
+  }
+]

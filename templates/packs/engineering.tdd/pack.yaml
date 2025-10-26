@@ -1,0 +1,6 @@
+name: "engineering.tdd"
+version: "1.0.0"
+displayName: "Technical Design Document"
+description: "A mission to create a detailed technical blueprint for a new system or feature before implementation begins."
+author: "Engineering"
+schema: "schema.json"

@@ -1,0 +1,269 @@
+{
+  "files": [
+    {
+      "path": "dist/intelligence/mission-splitter.d.ts",
+      "import_count": 2,
+      "imports": [
+        "import { GenericMission } from '../types/mission-types'",
+        "import { ComplexityScorer, ComplexityAnalysis } from './complexity-scorer'"
+      ],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "dist/intelligence/mission-splitter.js",
+      "import_count": 0,
+      "imports": [],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "dist/schemas/generic-mission.d.ts",
+      "import_count": 0,
+      "imports": [],
+      "function_count": 1,
+      "functions": [
+        {
+          "name": "isGenericMission",
+          "parameters": [
+            "obj: unknown"
+          ],
+          "parameter_count": 1,
+          "return_annotation": "obj",
+          "exported": false,
+          "kind": "function_declaration"
+        }
+      ]
+    },
+    {
+      "path": "dist/schemas/generic-mission.js",
+      "import_count": 0,
+      "imports": [],
+      "function_count": 1,
+      "functions": [
+        {
+          "name": "isGenericMission",
+          "parameters": [
+            "obj"
+          ],
+          "parameter_count": 1,
+          "return_annotation": null,
+          "exported": false,
+          "kind": "function_declaration"
+        }
+      ]
+    },
+    {
+      "path": "dist/tools/create-mission.d.ts",
+      "import_count": 5,
+      "imports": [
+        "import { SecureYAMLLoader } from '../loaders/yaml-loader'",
+        "import { RegistryParser } from '../registry/registry-parser'",
+        "import { DomainPackLoader } from '../domains/domain-pack-loader'",
+        "import { MissionMerger } from '../merge/deep-merge'",
+        "import { DomainPackEntry } from '../types/registry'"
+      ],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "dist/tools/create-mission.js",
+      "import_count": 0,
+      "imports": [],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "dist/tools/split-mission.d.ts",
+      "import_count": 2,
+      "imports": [
+        "import { SecureYAMLLoader } from '../loaders/yaml-loader'",
+        "import { ITokenCounter, SupportedModel } from '../intelligence/types'"
+      ],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "dist/tools/split-mission.js",
+      "import_count": 0,
+      "imports": [],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "dist/types/mission-types.d.ts",
+      "import_count": 0,
+      "imports": [],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "dist/types/mission-types.js",
+      "import_count": 0,
+      "imports": [],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "src/intelligence/mission-splitter.ts",
+      "import_count": 2,
+      "imports": [
+        "import { GenericMission } from '../types/mission-types'",
+        "import { ComplexityScorer, ComplexityAnalysis } from './complexity-scorer'"
+      ],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "src/schemas/generic-mission.ts",
+      "import_count": 0,
+      "imports": [],
+      "function_count": 1,
+      "functions": [
+        {
+          "name": "isGenericMission",
+          "parameters": [
+            "obj: unknown"
+          ],
+          "parameter_count": 1,
+          "return_annotation": "obj",
+          "exported": true,
+          "kind": "function_declaration"
+        }
+      ]
+    },
+    {
+      "path": "src/tools/create-mission.ts",
+      "import_count": 9,
+      "imports": [
+        "import * as path from 'path'",
+        "import * as YAML from 'yaml'",
+        "import { SecureYAMLLoader } from '../loaders/yaml-loader'",
+        "import { RegistryParser } from '../registry/registry-parser'",
+        "import { DomainPackLoader } from '../domains/domain-pack-loader'",
+        "import { MissionMerger } from '../merge/deep-merge'",
+        "import { GenericMission, isGenericMission } from '../schemas/generic-mission'",
+        "import { DomainPackEntry } from '../types/registry'",
+        "import Ajv from 'ajv'"
+      ],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "src/tools/split-mission.ts",
+      "import_count": 8,
+      "imports": [
+        "import * as fs from 'fs'",
+        "import * as path from 'path'",
+        "import * as YAML from 'yaml'",
+        "import { SecureYAMLLoader } from '../loaders/yaml-loader'",
+        "import { GenericMission, isGenericMission } from '../schemas/generic-mission'",
+        "import { MissionSplitter, SubMission, SplitResult } from '../intelligence/mission-splitter'",
+        "import { ComplexityScorer, ComplexityAnalysis } from '../intelligence/complexity-scorer'",
+        "import { ITokenCounter, SupportedModel } from '../intelligence/types'"
+      ],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "src/types/mission-types.ts",
+      "import_count": 0,
+      "imports": [],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "tests/intelligence/mission-splitter.test.ts",
+      "import_count": 5,
+      "imports": [
+        "import { describe, test, expect, beforeEach } from '@jest/globals'",
+        "import { MissionSplitter, SubMission, SplitResult } from '../../src/intelligence/mission-splitter'",
+        "import { ComplexityScorer } from '../../src/intelligence/complexity-scorer'",
+        "import { GenericMission } from '../../src/types/mission-types'",
+        "import { ITokenCounter, TokenCount, SupportedModel } from '../../src/intelligence/types'"
+      ],
+      "function_count": 2,
+      "functions": [
+        {
+          "name": "example",
+          "parameters": [],
+          "parameter_count": 0,
+          "return_annotation": null,
+          "exported": false,
+          "kind": "function_declaration"
+        },
+        {
+          "name": "para",
+          "parameters": [
+            "s: string"
+          ],
+          "parameter_count": 1,
+          "return_annotation": null,
+          "exported": false,
+          "kind": "arrow_assignment"
+        }
+      ]
+    },
+    {
+      "path": "tests/schemas/generic-mission.test.ts",
+      "import_count": 2,
+      "imports": [
+        "import Ajv from \"ajv\"",
+        "import {\n  GenericMission,\n  genericMissionSchema,\n  isGenericMission,\n} from \"../../src/schemas/generic-mission\""
+      ],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "tests/tools/create-mission.coverage.test.ts",
+      "import_count": 9,
+      "imports": [
+        "import * as path from 'path'",
+        "import * as fs from 'fs'",
+        "import * as YAML from 'yaml'",
+        "import { SecureYAMLLoader } from '../../src/loaders/yaml-loader'",
+        "import { RegistryParser } from '../../src/registry/registry-parser'",
+        "import { DomainPackLoader } from '../../src/domains/domain-pack-loader'",
+        "import { MissionMerger } from '../../src/merge/deep-merge'",
+        "import { CreateMissionToolImpl } from '../../src/tools/create-mission'",
+        "import * as schema from '../../src/schemas/generic-mission'"
+      ],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "tests/tools/create-mission.test.ts",
+      "import_count": 10,
+      "imports": [
+        "import * as path from 'path'",
+        "import * as fs from 'fs'",
+        "import * as YAML from 'yaml'",
+        "import { SecureYAMLLoader } from '../../src/loaders/yaml-loader'",
+        "import { RegistryParser } from '../../src/registry/registry-parser'",
+        "import { DomainPackLoader } from '../../src/domains/domain-pack-loader'",
+        "import { MissionMerger } from '../../src/merge/deep-merge'",
+        "import { CreateMissionToolImpl } from '../../src/tools/create-mission'",
+        "import { GenericMission } from '../../src/schemas/generic-mission'",
+        "import { DomainPackEntry } from '../../src/types/registry'"
+      ],
+      "function_count": 0,
+      "functions": []
+    },
+    {
+      "path": "tests/tools/split-mission.test.ts",
+      "import_count": 8,
+      "imports": [
+        "import { describe, test, expect, beforeEach, afterEach } from '@jest/globals'",
+        "import { SplitMissionToolImpl, SplitMissionParams } from '../../src/tools/split-mission'",
+        "import { SecureYAMLLoader } from '../../src/loaders/yaml-loader'",
+        "import { ITokenCounter, TokenCount, SupportedModel } from '../../src/intelligence/types'",
+        "import * as fs from 'fs/promises'",
+        "import * as path from 'path'",
+        "import * as os from 'os'",
+        "import * as YAML from 'yaml'"
+      ],
+      "function_count": 0,
+      "functions": []
+    }
+  ]
+}

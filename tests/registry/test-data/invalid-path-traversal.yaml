@@ -1,0 +1,6 @@
+domains:
+  - name: test
+    description: Path traversal attempt
+    version: 1.0.0
+    path: ../../../etc/passwd
+    schema_version: 1.0.0

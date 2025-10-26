@@ -1,0 +1,11 @@
+{
+  "domain_root_exists": false,
+  "domains_analyzed": [],
+  "unused_or_duplicate": [],
+  "errors": [
+    {
+      "path": "domains",
+      "issue": "Domain directory missing"
+    }
+  ]
+}

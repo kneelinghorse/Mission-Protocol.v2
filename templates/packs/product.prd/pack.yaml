@@ -1,0 +1,6 @@
+name: "product.prd"
+version: "1.0.0"
+displayName: "Product Requirements Document"
+description: "A mission to create the single source of truth for a project, aligning all teams on what is being built and why."
+author: "Product Management"
+schema: "schema.json"

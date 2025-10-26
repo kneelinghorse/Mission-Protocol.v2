@@ -1,0 +1,6 @@
+domains:
+  - name: test
+    description: Invalid version
+    version: v1.2.0
+    path: domains/test
+    schema_version: 1.0.0

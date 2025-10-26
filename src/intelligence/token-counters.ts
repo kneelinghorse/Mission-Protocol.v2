@@ -1,0 +1,212 @@
+/**
+ * Token Counters - Hybrid Offline Strategy
+ *
+ * Model-specific token counting implementations using offline libraries.
+ * Follows R2.1 findings:
+ * - GPT: gpt-tokenizer (100% accurate, pure JS)
+ * - Claude: Transformers.js with Xenova/claude-tokenizer (known drift, monitored)
+ * - Gemini: Enhanced heuristic (temporary, pending official library)
+ */
+
+import { ITokenCounter, TokenCount, SupportedModel } from './types';
+import { emitTelemetryWarning } from './telemetry';
+
+/**
+ * Type definitions for external libraries
+ */
+type GPTTokens = number[];
+type PreTrainedTokenizer = any;
+
+/**
+ * Token counter implementation using TokenizerFactory pattern
+ */
+export class TokenCounter implements ITokenCounter {
+  private static claudeTokenizerCache: PreTrainedTokenizer | null = null;
+
+  /**
+   * Count tokens for a given text and model
+   * Factory method that routes to the appropriate tokenizer implementation
+   */
+  async count(text: string, model: SupportedModel): Promise<TokenCount> {
+    switch (model) {
+      case 'gpt':
+        return this.countGPT(text);
+      case 'claude':
+        return this.countClaude(text);
+      case 'gemini':
+        return this.countGemini(text);
+      default:
+        throw new Error(`Unsupported model: ${model}`);
+    }
+  }
+
+  /**
+   * Count tokens for GPT using gpt-tokenizer library
+   * Uses pure JavaScript implementation with 1:1 accuracy to tiktoken
+   * Supports cl100k_base (GPT-4) and o200k_base (GPT-4o) encodings
+   */
+  private async countGPT(text: string): Promise<TokenCount> {
+    try {
+      // Dynamic import of gpt-tokenizer
+      const { encode } = await import('gpt-tokenizer');
+      const tokens: GPTTokens = encode(text);
+      const count = tokens.length;
+
+      return {
+        model: 'gpt',
+        count,
+        estimatedCost: this.estimateGPTCost(count),
+      };
+    } catch (error) {
+      // Fallback to heuristic if library fails
+      return this.fallbackCount(text, 'gpt');
+    }
+  }
+
+  /**
+   * Count tokens for Claude using Transformers.js with Xenova/claude-tokenizer
+   * WARNING: This is an unofficial tokenizer with documented accuracy drift
+   * Token counts may differ from official Anthropic API by up to 50%+
+   * Should be monitored via validation suite in B2.3
+   */
+  private async countClaude(text: string): Promise<TokenCount> {
+    try {
+      const tokenizer = await this.getClaudeTokenizer();
+      
+      // Tokenize the text
+      const encoded = await tokenizer(text);
+      const count = encoded.input_ids.data.length;
+
+      // Emit telemetry warning about potential drift
+      emitTelemetryWarning('token-counter', 'Claude token count using unofficial tokenizer (Transformers.js)', {
+        tokenizer: 'Xenova/claude-tokenizer',
+        textLength: text.length,
+        estimatedTokens: count,
+        accuracyNote: 'May drift up to 50% from official Anthropic API. Weekly validation recommended.',
+      });
+
+      return {
+        model: 'claude',
+        count,
+        estimatedCost: this.estimateClaudeCost(count),
+      };
+    } catch (error) {
+      // Fallback to heuristic if tokenizer fails to load
+      return this.fallbackCount(text, 'claude');
+    }
+  }
+
+  /**
+   * Load and cache the Claude tokenizer from Transformers.js
+   * Uses Xenova/claude-tokenizer from Hugging Face Hub
+   * Downloads model file on first use (~1-2 MB), cached thereafter
+   */
+  private async getClaudeTokenizer(): Promise<PreTrainedTokenizer> {
+    if (TokenCounter.claudeTokenizerCache) {
+      return TokenCounter.claudeTokenizerCache;
+    }
+
+    try {
+      // Use require to support CommonJS environments and Jest mocks
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { AutoTokenizer } = require('@xenova/transformers');
+      const tokenizer = await AutoTokenizer.from_pretrained('Xenova/claude-tokenizer');
+      TokenCounter.claudeTokenizerCache = tokenizer;
+      return tokenizer;
+    } catch (error) {
+      throw new Error(`Failed to load Claude tokenizer: ${error}`);
+    }
+  }
+
+  /**
+   * Count tokens for Gemini using enhanced heuristic
+   * TEMPORARY SOLUTION: No viable offline library exists
+   * - @lenml/tokenizer-gemini is 139 MB (unacceptable)
+   * - Official JS library does not exist
+   * Uses conservative overestimation (1.5x safety margin) to prevent context overflow
+   */
+  private async countGemini(text: string): Promise<TokenCount> {
+    // Enhanced heuristic: base estimate with 50% safety margin
+    const baseTokens = Math.ceil(text.length / 4);
+    const count = Math.ceil(baseTokens * 1.5);
+
+    emitTelemetryWarning('token-counter', 'Gemini heuristic token estimate applied', {
+      textLength: text.length,
+      baseTokens,
+      safetyFactor: 1.5,
+      estimatedTokens: count,
+    });
+
+    return {
+      model: 'gemini',
+      count,
+      estimatedCost: this.estimateGeminiCost(count),
+    };
+  }
+
+  /**
+   * Fallback token counting using basic heuristic
+   * Approximately 4 characters per token for English text
+   * Used when primary tokenizer fails to load
+   */
+  private fallbackCount(text: string, model: SupportedModel): TokenCount {
+    const count = Math.ceil(text.length / 4);
+
+    emitTelemetryWarning('token-counter', `Fallback heuristic used for ${model} tokenizer`, {
+      model,
+      textLength: text.length,
+      estimatedTokens: count,
+      reason: 'Primary tokenizer failed to load',
+      accuracyNote: 'Basic heuristic (4 chars/token) - accuracy may vary significantly',
+    });
+
+    let estimatedCost: number | undefined;
+    switch (model) {
+      case 'gpt':
+        estimatedCost = this.estimateGPTCost(count);
+        break;
+      case 'claude':
+        estimatedCost = this.estimateClaudeCost(count);
+        break;
+      case 'gemini':
+        estimatedCost = this.estimateGeminiCost(count);
+        break;
+    }
+
+    return {
+      model,
+      count,
+      estimatedCost,
+    };
+  }
+
+  /**
+   * Estimate cost for GPT tokens (input pricing)
+   * GPT-4o: ~$2.50 per 1M input tokens
+   */
+  private estimateGPTCost(tokens: number): number {
+    return (tokens / 1_000_000) * 2.5;
+  }
+
+  /**
+   * Estimate cost for Claude tokens (input pricing)
+   * Claude 3.5 Sonnet: ~$3.00 per 1M input tokens
+   */
+  private estimateClaudeCost(tokens: number): number {
+    return (tokens / 1_000_000) * 3.0;
+  }
+
+  /**
+   * Estimate cost for Gemini tokens (input pricing)
+   * Gemini 1.5 Pro: ~$1.25 per 1M input tokens
+   */
+  private estimateGeminiCost(tokens: number): number {
+    return (tokens / 1_000_000) * 1.25;
+  }
+}
+
+/**
+ * Export singleton instance for default usage
+ * No API keys required - fully offline operation
+ */
+export const defaultTokenCounter = new TokenCounter();
