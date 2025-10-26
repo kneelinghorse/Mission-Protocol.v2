@@ -1,0 +1,54 @@
+missionId: "BI-20251026-301"
+
+objective: "Harden the write-enabled MCP tools by enforcing safe path handling and atomic writes for mission files."
+
+context: |
+  The 2025-10-26 current state assessment identified high-risk path traversal and data loss vectors in
+  `update_token_optimization` and `split_mission` (see ASSESSMENT_REPORT.md and artifacts/08_security_issues.json).
+  Both tools resolve user-supplied paths directly and overwrite source files without sandbox enforcement.
+  This mission implements the recommended safeguards (R02, R14) so subsequent feature work can rely on
+  secured file IO primitives.
+
+successCriteria:
+  - "All write-enabled tool entry points use `safeFilePath` (or equivalent) with a shared workspace allowlist."
+  - "Optimized mission content is written via a temp file + atomic rename with backup rollback."
+  - "Split mission output directories are validated and constrained to the workspace root."
+  - "Regression tests cover success and failure paths for the new guards."
+
+deliverables:
+  - "Updated tool implementations with sanitized IO flows."
+  - "Unit/integration tests proving traversal attempts are rejected and backups roll back on failure."
+
+domainFields:
+  type: "Build.Implementation.v1"
+
+  researchFoundation:
+    - finding: "Path sanitization and atomic writes missing for optimize/split tools."
+      sourceMission: "CSA-20251026"
+    - finding: "Security recommendation R02/R14 prioritizes shared workspace allowlist."
+      sourceMission: "CSA-20251026"
+
+  implementationScope:
+    coreDeliverable: "Introduce shared IO guard helpers and refactor `update_token_optimization` & `split_mission` to use them."
+    outOfScope:
+      - "Broader refactor of MissionSplitter algorithm."
+      - "Telemetry adjustments (handled in later mission)."
+      - "Documentation updates beyond inline JSDoc."
+
+  validationProtocol:
+    - validator: "Claude"
+      focus: "Ensure traversal attempts and arbitrary writes are rejected."
+    - validator: "GPT"
+      focus: "Verify atomic temp-file workflow covers error scenarios."
+
+  handoffContext:
+    completed:
+      - "Shared IO guard implemented and consumed by write-enabled tools."
+      - "Atomic write + rollback pattern verified by tests."
+    interfaces:
+      - "Helper: `resolveWorkspacePath(inputPath: string): Promise<string>`"
+      - "Helper: `writeFileAtomicWithBackup(targetPath: string, contents: string): Promise<void>`"
+    assumptions:
+      - "Workspace root is configurable via environment variable for tests."
+    nextMission: "BI-20251026-302: Restore optimize_tokens tool/test contract."
+    blockers: []

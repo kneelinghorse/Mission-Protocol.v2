@@ -1,0 +1,52 @@
+missionId: "BI-20251026-302"
+
+objective: "Restore the optimize_tokens MCP tool contract and add guardrail tests for tool definitions."
+
+context: |
+  Jest suites for optimize_tokens currently fail because the canonical export was renamed to
+  `updateTokenOptimizationToolDefinition` without updating dependent tests or providing a legacy shim
+  (artifacts/05_coverage_report.json). The assessment recommendations (R03, R15) call for restoring
+  the contract and adding regression coverage so future renames surface immediately.
+
+successCriteria:
+  - "Optimize tokens tests (`tests/tools/optimize-tokens.test.ts`) run without TypeErrors."
+  - "Legacy aliases remain functional or tests are refactored with updated assertions."
+  - "Snapshot or schema-based tests cover all tool definitions to detect accidental renames."
+  - "Updated documentation/JSDoc reflect the canonical tool name."
+
+deliverables:
+  - "Patched tool module and test suite."
+  - "Regression tests guarding tool definition exports."
+
+domainFields:
+  type: "Build.Implementation.v1"
+
+  researchFoundation:
+    - finding: "TypeErrors due to missing `optimizeTokensToolDefinition` export."
+      sourceMission: "CSA-20251026"
+    - finding: "Recommendation R15 adds regression tests for tool definitions."
+      sourceMission: "CSA-20251026"
+
+  implementationScope:
+    coreDeliverable: "Align tool exports/aliases and extend Jest coverage to snapshot tool definitions."
+    outOfScope:
+      - "Refactoring token optimization algorithm."
+      - "Telemetry changes (handled separately)."
+      - "CLI documentation updates beyond the README snippet."
+
+  validationProtocol:
+    - validator: "Claude"
+      focus: "Confirm tool definition schema matches documentation."
+    - validator: "GPT"
+      focus: "Review unit test additions for coverage depth."
+
+  handoffContext:
+    completed:
+      - "Optimize tokens tool exports/tests aligned."
+      - "Tool definition snapshots committed."
+    interfaces:
+      - "Snapshot fixture: `tests/tools/__snapshots__/tool-definitions.test.ts.snap`"
+    assumptions:
+      - "Tool definition snapshot covers all exported schemas from `src/tools`."
+    nextMission: "BI-20251026-303: Type SecureYAML loader dependent tests."
+    blockers: []

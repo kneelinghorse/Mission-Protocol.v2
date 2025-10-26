@@ -1,0 +1,52 @@
+missionId: "BI-20251026-303"
+
+objective: "Restore SecureYAML loader and security validator test suites with proper typing and guards."
+
+context: |
+  After tightening SecureYAMLLoader, several Jest suites fail with TS18046 errors because the tests
+  assume concrete shapes for values now typed as `unknown`. Additionally, the security validator suite
+  mutates template structures without guards (artifacts/05_coverage_report.json). Recommendation R04
+  targets adding generics or helper wrappers, while R07 calls for hardened type checks before mutation.
+
+successCriteria:
+  - "`tests/loaders/yaml-loader.test.ts` compiles and passes with explicit types or helper parsers."
+  - "`tests/import-export/security-validator.test.ts` uses type guards before accessing nested fields."
+  - "Shared test utilities prevent future `unknown` access regressions."
+  - "Coverage for loader/security validator suites restored to previous baseline."
+
+deliverables:
+  - "Typed helper utilities for SecureYAMLLoader fixtures."
+  - "Updated Jest suites with guards and assertions."
+
+domainFields:
+  type: "Build.Implementation.v1"
+
+  researchFoundation:
+    - finding: "TS18046 errors due to SecureYAMLLoader returning unknown."
+      sourceMission: "CSA-20251026"
+    - finding: "Recommendation R04/R07: add generics and guards to tests."
+      sourceMission: "CSA-20251026"
+
+  implementationScope:
+    coreDeliverable: "Introduce typed fixture helpers and refactor failing tests to consume them."
+    outOfScope:
+      - "Production code changes beyond test-focused helpers."
+      - "Refactoring unrelated test suites."
+      - "Documentation updates for tooling guidelines."
+
+  validationProtocol:
+    - validator: "Claude"
+      focus: "Ensure test guards cover error paths and avoid unsafe casts."
+    - validator: "GPT"
+      focus: "Confirm loader/security validator coverage metrics rebound."
+
+  handoffContext:
+    completed:
+      - "Typed helpers for SecureYAML fixtures shared across tests."
+      - "Security validator suite guarded against `unknown` mutations."
+    interfaces:
+      - "Helper: `loadYamlFixture<T>(path): Promise<T>` for tests."
+    assumptions:
+      - "Fixtures remain representative of real templates."
+    nextMission: "BI-20251026-304: Align dependency analyzer & migration tests."
+    blockers: []

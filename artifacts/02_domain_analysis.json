@@ -1,11 +1,460 @@
 {
-  "domain_root_exists": false,
-  "domains_analyzed": [],
-  "unused_or_duplicate": [],
-  "errors": [
+  "domain_root_exists": true,
+  "domains_analyzed": [
     {
-      "path": "domains",
-      "issue": "Domain directory missing"
+      "dir": "build.architecture-mission",
+      "packPath": "templates/packs/build.architecture-mission/pack.yaml",
+      "templatePath": "templates/packs/build.architecture-mission/template.yaml",
+      "metadata": {
+        "name": "build.architecture-mission",
+        "version": "1.0.0",
+        "author": "CMOS Team",
+        "description": "A 4-6 hour mission to translate validated requirements from the discovery phase into a high-level technical specification, a risk mitigation plan, and initial build missions for CMOS.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 9,
+        "maxDepth": 1
+      },
+      "references": []
+    },
+    {
+      "dir": "build.implementation",
+      "packPath": "templates/packs/build.implementation/pack.yaml",
+      "templatePath": "templates/packs/build.implementation/template.yaml",
+      "metadata": {
+        "name": "build.implementation",
+        "version": "1.0.0",
+        "author": "core-team",
+        "description": "Technical implementation and development build missions",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 14,
+        "maxDepth": 1
+      },
+      "references": [
+        "tests/integration/template-runtime-store.test.ts"
+      ]
+    },
+    {
+      "dir": "build.technical-research",
+      "packPath": "templates/packs/build.technical-research/pack.yaml",
+      "templatePath": "templates/packs/build.technical-research/template.yaml",
+      "metadata": {
+        "name": "build.technical-research",
+        "version": "1.0.0",
+        "author": "core-team",
+        "description": "Technical research and architectural investigation missions",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 13,
+        "maxDepth": 1
+      },
+      "references": []
+    },
+    {
+      "dir": "business.market-research",
+      "packPath": "templates/packs/business.market-research/pack.yaml",
+      "templatePath": "templates/packs/business.market-research/template.yaml",
+      "metadata": {
+        "name": "business.market-research",
+        "version": "1.0.0",
+        "author": "core-team",
+        "description": "Business analysis and market research missions",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 13,
+        "maxDepth": 1
+      },
+      "references": [
+        "tests/integration/phase3-flow.test.ts",
+        "tests/integration/phase2-flow.test.ts",
+        "tests/integration/mcp-server.test.ts"
+      ]
+    },
+    {
+      "dir": "design.ux-research-summary",
+      "packPath": "templates/packs/design.ux-research-summary/pack.yaml",
+      "templatePath": "templates/packs/design.ux-research-summary/template.yaml",
+      "metadata": {
+        "name": "design.ux-research-summary",
+        "version": "1.0.0",
+        "author": "Design / UX Research",
+        "description": "A mission to synthesize user research findings into actionable insights and recommendations for stakeholders.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 18,
+        "maxDepth": 3
+      },
+      "references": []
+    },
+    {
+      "dir": "discovery.go-no-go-synthesis",
+      "packPath": "templates/packs/discovery.go-no-go-synthesis/pack.yaml",
+      "templatePath": "templates/packs/discovery.go-no-go-synthesis/template.yaml",
+      "metadata": {
+        "name": "discovery.go-no-go-synthesis",
+        "version": "1.1.0",
+        "author": "core-team",
+        "description": "Aggregate the five lenses into a scored, human-reviewed decision record.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 39,
+        "maxDepth": 2
+      },
+      "references": []
+    },
+    {
+      "dir": "discovery.opportunity-scan",
+      "packPath": "templates/packs/discovery.opportunity-scan/pack.yaml",
+      "templatePath": "templates/packs/discovery.opportunity-scan/template.yaml",
+      "metadata": {
+        "name": "discovery.opportunity-scan",
+        "version": "1.1.0",
+        "author": "core-team",
+        "description": "Session-scoped scan to decide whether to proceed to Problem Definition.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 30,
+        "maxDepth": 3
+      },
+      "references": []
+    },
+    {
+      "dir": "discovery.pivot-analysis",
+      "packPath": "templates/packs/discovery.pivot-analysis/pack.yaml",
+      "templatePath": "templates/packs/discovery.pivot-analysis/template.yaml",
+      "metadata": {
+        "name": "discovery.pivot-analysis",
+        "version": "1.0.0",
+        "author": "CMOS Team",
+        "description": "A 2-3 hour mission to extract a new hypothesis from previous research findings and decide whether to restart the discovery process or abandon the opportunity. Triggered by a 'Pivot/Refine' decision from a Level 4 Synthesis.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 7,
+        "maxDepth": 1
+      },
+      "references": []
+    },
+    {
+      "dir": "discovery.problem-definition",
+      "packPath": "templates/packs/discovery.problem-definition/pack.yaml",
+      "templatePath": "templates/packs/discovery.problem-definition/template.yaml",
+      "metadata": {
+        "name": "discovery.problem-definition",
+        "version": "1.1.0",
+        "author": "core-team",
+        "description": "Session-scoped, evidence-backed problem definition (actor, broken step, desired outcome).",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 41,
+        "maxDepth": 3
+      },
+      "references": []
+    },
+    {
+      "dir": "discovery.research-orchestrator",
+      "packPath": "templates/packs/discovery.research-orchestrator/pack.yaml",
+      "templatePath": "templates/packs/discovery.research-orchestrator/template.yaml",
+      "metadata": {
+        "name": "discovery.research-orchestrator",
+        "version": "1.1.0",
+        "author": "core-team",
+        "description": "Manage five parallel research lenses (R1–R5), cross-validate, and synthesize.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 54,
+        "maxDepth": 3
+      },
+      "references": []
+    },
+    {
+      "dir": "discovery.research-sub-mission",
+      "packPath": "templates/packs/discovery.research-sub-mission/pack.yaml",
+      "templatePath": "templates/packs/discovery.research-sub-mission/template.yaml",
+      "metadata": {
+        "name": "discovery.research-sub-mission",
+        "version": "1.1.0",
+        "author": "core-team",
+        "description": "Focused lens mission (e.g., R1–R5). Sourced findings + synthesis + confidence.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 13,
+        "maxDepth": 2
+      },
+      "references": []
+    },
+    {
+      "dir": "engineering.adr",
+      "packPath": "templates/packs/engineering.adr/pack.yaml",
+      "templatePath": "templates/packs/engineering.adr/template.yaml",
+      "metadata": {
+        "name": "engineering.adr",
+        "version": "1.0.0",
+        "author": "Architecture Guild",
+        "description": "A mission to create a lightweight, immutable record of a single, architecturally significant decision.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 8,
+        "maxDepth": 1
+      },
+      "references": []
+    },
+    {
+      "dir": "engineering.bug-fix",
+      "packPath": "templates/packs/engineering.bug-fix/pack.yaml",
+      "templatePath": "templates/packs/engineering.bug-fix/template.yaml",
+      "metadata": {
+        "name": "engineering.bug-fix",
+        "version": "1.0.0",
+        "author": "Engineering",
+        "description": "A mission to document a bug fix, detailing the root cause and the corrective and preventive actions taken.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 9,
+        "maxDepth": 1
+      },
+      "references": []
+    },
+    {
+      "dir": "engineering.tdd",
+      "packPath": "templates/packs/engineering.tdd/pack.yaml",
+      "templatePath": "templates/packs/engineering.tdd/template.yaml",
+      "metadata": {
+        "name": "engineering.tdd",
+        "version": "1.0.0",
+        "author": "Engineering",
+        "description": "A mission to create a detailed technical blueprint for a new system or feature before implementation begins.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 22,
+        "maxDepth": 3
+      },
+      "references": []
+    },
+    {
+      "dir": "foundation",
+      "packPath": "templates/packs/foundation/pack.yaml",
+      "templatePath": "templates/packs/foundation/template.yaml",
+      "metadata": {
+        "name": "foundation",
+        "version": "1.0.0",
+        "author": "core-team",
+        "description": "Core infrastructure and governance baseline for organizational missions",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 7,
+        "maxDepth": 1
+      },
+      "references": [
+        "tests/tools/split-mission.test.ts",
+        "tests/tools/list-domains.test.ts",
+        "tests/tools/combine-packs.test.ts",
+        "tests/smoke/mcp-intelligence-tools-smoke.test.ts",
+        "tests/integration/tools.test.ts",
+        "tests/integration/template-runtime-store.test.ts",
+        "tests/integration/mcp-server.test.ts",
+        "tests/integration/full-flow.test.ts",
+        "tests/index.execute.test.ts"
+      ]
+    },
+    {
+      "dir": "market.customer-development",
+      "packPath": "templates/packs/market.customer-development/pack.yaml",
+      "templatePath": "templates/packs/market.customer-development/template.yaml",
+      "metadata": {
+        "name": "market.customer-development",
+        "version": "1.0.0",
+        "author": "Product Discovery",
+        "description": "A mission to validate early adopter hypotheses, refine interview scripts, and align channel strategy with validated pricing insights.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 12,
+        "maxDepth": 1
+      },
+      "references": []
+    },
+    {
+      "dir": "process.code-review",
+      "packPath": "templates/packs/process.code-review/pack.yaml",
+      "templatePath": "templates/packs/process.code-review/template.yaml",
+      "metadata": {
+        "name": "process.code-review",
+        "version": "1.0.0",
+        "author": "Engineering",
+        "description": "A mission to conduct a thorough and consistent code review, ensuring all critical aspects of quality are covered.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 42,
+        "maxDepth": 3
+      },
+      "references": []
+    },
+    {
+      "dir": "process.design-review",
+      "packPath": "templates/packs/process.design-review/pack.yaml",
+      "templatePath": "templates/packs/process.design-review/template.yaml",
+      "metadata": {
+        "name": "process.design-review",
+        "version": "1.0.0",
+        "author": "Design / Product",
+        "description": "A mission to gather objective, goal-oriented feedback on a design.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 23,
+        "maxDepth": 2
+      },
+      "references": []
+    },
+    {
+      "dir": "product.competitive-analysis",
+      "packPath": "templates/packs/product.competitive-analysis/pack.yaml",
+      "templatePath": "templates/packs/product.competitive-analysis/template.yaml",
+      "metadata": {
+        "name": "product.competitive-analysis",
+        "version": "1.0.0",
+        "author": "Product Management / Marketing",
+        "description": "A mission to conduct a structured evaluation of competitors to identify market opportunities and strategic advantages.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 21,
+        "maxDepth": 2
+      },
+      "references": []
+    },
+    {
+      "dir": "product.dashboard-blueprint",
+      "packPath": "templates/packs/product.dashboard-blueprint/pack.yaml",
+      "templatePath": "templates/packs/product.dashboard-blueprint/template.yaml",
+      "metadata": {
+        "name": "product.dashboard-blueprint",
+        "version": "1.0.0",
+        "author": "Product Management / Analytics",
+        "description": "A mission to design a dashboard that tells a clear story about product performance to a specific audience.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 11,
+        "maxDepth": 2
+      },
+      "references": []
+    },
+    {
+      "dir": "product.prd",
+      "packPath": "templates/packs/product.prd/pack.yaml",
+      "templatePath": "templates/packs/product.prd/template.yaml",
+      "metadata": {
+        "name": "product.prd",
+        "version": "1.0.0",
+        "author": "Product Management",
+        "description": "A mission to create the single source of truth for a project, aligning all teams on what is being built and why.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 32,
+        "maxDepth": 2
+      },
+      "references": []
+    },
+    {
+      "dir": "qa.bug-report",
+      "packPath": "templates/packs/qa.bug-report/pack.yaml",
+      "templatePath": "templates/packs/qa.bug-report/template.yaml",
+      "metadata": {
+        "name": "qa.bug-report",
+        "version": "1.0.0",
+        "author": "QA / Engineering",
+        "description": "A mission to report a software bug with sufficient detail for reproduction and resolution.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 13,
+        "maxDepth": 1
+      },
+      "references": []
+    },
+    {
+      "dir": "research.general",
+      "packPath": "templates/packs/research.general/pack.yaml",
+      "templatePath": "templates/packs/research.general/template.yaml",
+      "metadata": {
+        "name": "research.general",
+        "version": "1.0.0",
+        "author": "kneelinghorse",
+        "description": "Structured research fields for hypothesis-driven inquiry: statements, questions, synthesis, evidence, and conclusion.",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 14,
+        "maxDepth": 2
+      },
+      "references": []
+    },
+    {
+      "dir": "software.technical-task",
+      "packPath": "templates/packs/software.technical-task/pack.yaml",
+      "templatePath": "templates/packs/software.technical-task/template.yaml",
+      "metadata": {
+        "name": "software.technical-task",
+        "version": "1.0.0",
+        "author": "core-team",
+        "description": "Missions for designing and implementing software features",
+        "schema": "schema.json"
+      },
+      "templateStats": {
+        "fieldCount": 15,
+        "maxDepth": 2
+      },
+      "references": [
+        "tests/smoke/template-assets-smoke.test.ts",
+        "tests/integration/tools.test.ts",
+        "tests/integration/template-runtime-store.test.ts",
+        "tests/integration/phase3-flow.test.ts",
+        "tests/integration/phase2-flow.test.ts",
+        "tests/integration/mcp-server.test.ts"
+      ]
     }
-  ]
+  ],
+  "duplicates": [],
+  "unused": [
+    "build.architecture-mission",
+    "build.technical-research",
+    "design.ux-research-summary",
+    "discovery.go-no-go-synthesis",
+    "discovery.opportunity-scan",
+    "discovery.pivot-analysis",
+    "discovery.problem-definition",
+    "discovery.research-orchestrator",
+    "discovery.research-sub-mission",
+    "engineering.adr",
+    "engineering.bug-fix",
+    "engineering.tdd",
+    "market.customer-development",
+    "process.code-review",
+    "process.design-review",
+    "product.competitive-analysis",
+    "product.dashboard-blueprint",
+    "product.prd",
+    "qa.bug-report",
+    "research.general"
+  ],
+  "errors": []
 }

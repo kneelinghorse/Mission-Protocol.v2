@@ -1,103 +1,1369 @@
 {
-  "usage": [
+  "tools": [
     {
-      "function": "para",
-      "defined_in": "tests/intelligence/mission-splitter.test.ts",
-      "usage_count": 3,
-      "usage_files": [
-        "tests/intelligence/mission-splitter.test.ts"
-      ]
+      "file": "src/tools/analyze-dependencies.ts",
+      "exports": [
+        {
+          "type": "function",
+          "name": "analyzeDependencies",
+          "parameters": [
+            {
+              "name": "args",
+              "type": "AnalyzeDependenciesArgs"
+            }
+          ],
+          "returnType": "Promise<AnalyzeDependenciesResult>"
+        },
+        {
+          "type": "function",
+          "name": "formatAnalysisResult",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "AnalyzeDependenciesResult"
+            }
+          ],
+          "returnType": "string"
+        },
+        {
+          "type": "variable",
+          "name": "getDependencyAnalysisToolDefinition",
+          "toolName": "get_dependency_analysis"
+        },
+        {
+          "type": "variable",
+          "name": "analyzeDependenciesToolDefinitionDeprecated",
+          "toolName": "analyze_dependencies"
+        },
+        {
+          "type": "function",
+          "name": "executeAnalyzeDependenciesTool",
+          "parameters": [
+            {
+              "name": "params",
+              "type": "AnalyzeDependenciesArgs"
+            }
+          ],
+          "returnType": "Promise<string>"
+        }
+      ],
+      "toolDefinitions": [
+        {
+          "const": "getDependencyAnalysisToolDefinition",
+          "name": "get_dependency_analysis"
+        },
+        {
+          "const": "analyzeDependenciesToolDefinitionDeprecated",
+          "name": "analyze_dependencies"
+        }
+      ],
+      "imports": [
+        "../errors/handler",
+        "../errors/io-error",
+        "../errors/mission-error",
+        "../errors/validation-error",
+        "../intelligence/dependency-analyzer",
+        "../intelligence/dependency-inferrer",
+        "../intelligence/graph-validator",
+        "../utils/fs",
+        "../validation/common",
+        "../validation/middleware",
+        "../validation/schemas/file-path-schema",
+        "fs",
+        "js-yaml",
+        "path",
+        "zod"
+      ],
+      "usage": {
+        "files": [
+          "src/index.ts",
+          "src/tools/analyze-dependencies.ts",
+          "tests/index.execute.test.ts",
+          "tests/integration/phase4-intelligence-flow.test.ts",
+          "tests/tools/analyze-dependencies.test.ts"
+        ],
+        "counts": {
+          "analyzeDependencies": 30,
+          "formatAnalysisResult": 11,
+          "executeAnalyzeDependenciesTool": 6,
+          "getDependencyAnalysisToolDefinition": 4,
+          "analyzeDependenciesToolDefinitionDeprecated": 3
+        }
+      }
     },
     {
-      "function": "isGenericMission",
-      "defined_in": "dist/schemas/generic-mission.d.ts",
-      "usage_count": 40,
-      "usage_files": [
-        "dist/schemas/generic-mission.js",
-        "dist/tools/create-mission.js",
-        "dist/tools/split-mission.js",
-        "dist/tools/suggest-splits.js",
-        "dist/types/mission-types.d.ts",
-        "dist/types/mission-types.js",
-        "src/schemas/generic-mission.ts",
-        "src/tools/create-mission.ts",
-        "src/tools/split-mission.ts",
-        "src/tools/suggest-splits.ts",
-        "src/types/mission-types.ts",
-        "tests/integration/phase2-flow.test.ts",
-        "tests/integration/template-runtime-store.test.ts",
-        "tests/schemas/generic-mission.test.ts",
-        "tests/smoke/template-assets-smoke.test.ts",
-        "tests/tools/create-mission.coverage.test.ts"
-      ]
+      "file": "src/tools/combine-packs.ts",
+      "exports": [
+        {
+          "type": "variable",
+          "name": "createCombinedPackToolDefinition",
+          "toolName": "create_combined_pack"
+        },
+        {
+          "type": "variable",
+          "name": "combinePacksToolDefinitionDeprecated",
+          "toolName": "combine_packs"
+        },
+        {
+          "type": "class",
+          "name": "CombinePacksToolImpl",
+          "methods": [
+            {
+              "name": "execute",
+              "parameters": [
+                {
+                  "name": "params",
+                  "type": "CombinePacksParams"
+                },
+                {
+                  "name": "registryPath",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "preview",
+              "parameters": [
+                {
+                  "name": "params",
+                  "type": "CombinePacksParams"
+                },
+                {
+                  "name": "registryPath",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "formatOutput",
+              "parameters": [
+                {
+                  "name": "combinedPack",
+                  "type": "CombinedPack"
+                },
+                {
+                  "name": "format",
+                  "type": "'yaml' | 'json'"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "createCombinePacksTool",
+          "parameters": [
+            {
+              "name": "packLoader",
+              "type": "DomainPackLoader"
+            },
+            {
+              "name": "registry",
+              "type": "RegistryParser"
+            },
+            {
+              "name": "loader",
+              "type": "SecureYAMLLoader"
+            }
+          ],
+          "returnType": "CombinePacksToolImpl"
+        },
+        {
+          "type": "function",
+          "name": "handleCombinePacks",
+          "parameters": [
+            {
+              "name": "params",
+              "type": "CombinePacksParams"
+            },
+            {
+              "name": "registryPath",
+              "type": "string"
+            },
+            {
+              "name": "packLoader",
+              "type": "DomainPackLoader"
+            },
+            {
+              "name": "registry",
+              "type": "RegistryParser"
+            },
+            {
+              "name": "loader",
+              "type": "SecureYAMLLoader"
+            }
+          ],
+          "returnType": "Promise<string>"
+        }
+      ],
+      "toolDefinitions": [
+        {
+          "const": "createCombinedPackToolDefinition",
+          "name": "create_combined_pack"
+        },
+        {
+          "const": "combinePacksToolDefinitionDeprecated",
+          "name": "combine_packs"
+        }
+      ],
+      "imports": [
+        "../combination/pack-combiner",
+        "../combination/types",
+        "../domains/domain-pack-loader",
+        "../loaders/yaml-loader",
+        "../registry/registry-parser",
+        "../types/registry",
+        "path",
+        "yaml"
+      ],
+      "usage": {
+        "files": [
+          "src/index.ts",
+          "src/tools/combine-packs.ts",
+          "tests/tools/combine-packs.test.ts"
+        ],
+        "counts": {
+          "CombinePacksToolImpl": 14,
+          "createCombinePacksTool": 2,
+          "handleCombinePacks": 5,
+          "createCombinedPackToolDefinition": 4,
+          "combinePacksToolDefinitionDeprecated": 3
+        }
+      }
     },
     {
-      "function": "isGenericMission",
-      "defined_in": "dist/schemas/generic-mission.js",
-      "usage_count": 40,
-      "usage_files": [
-        "dist/schemas/generic-mission.d.ts",
-        "dist/schemas/generic-mission.js",
-        "dist/tools/create-mission.js",
-        "dist/tools/split-mission.js",
-        "dist/tools/suggest-splits.js",
-        "dist/types/mission-types.d.ts",
-        "dist/types/mission-types.js",
-        "src/schemas/generic-mission.ts",
-        "src/tools/create-mission.ts",
-        "src/tools/split-mission.ts",
-        "src/tools/suggest-splits.ts",
-        "src/types/mission-types.ts",
-        "tests/integration/phase2-flow.test.ts",
-        "tests/integration/template-runtime-store.test.ts",
-        "tests/schemas/generic-mission.test.ts",
-        "tests/smoke/template-assets-smoke.test.ts",
-        "tests/tools/create-mission.coverage.test.ts"
-      ]
+      "file": "src/tools/create-mission.ts",
+      "exports": [
+        {
+          "type": "variable",
+          "name": "createMissionToolDefinition",
+          "toolName": "create_mission"
+        },
+        {
+          "type": "class",
+          "name": "CreateMissionToolImpl",
+          "methods": [
+            {
+              "name": "execute",
+              "parameters": [
+                {
+                  "name": "params",
+                  "type": "CreateMissionParams"
+                },
+                {
+                  "name": "registryEntries",
+                  "type": "DomainPackEntry[]"
+                }
+              ]
+            },
+            {
+              "name": "validateParams",
+              "parameters": [
+                {
+                  "name": "params",
+                  "type": "CreateMissionParams"
+                }
+              ]
+            },
+            {
+              "name": "buildContextFromParams",
+              "parameters": [
+                {
+                  "name": "params",
+                  "type": "CreateMissionParams"
+                }
+              ]
+            },
+            {
+              "name": "generateMissionId",
+              "parameters": []
+            },
+            {
+              "name": "loadGenericTemplate",
+              "parameters": []
+            },
+            {
+              "name": "populateCoreFields",
+              "parameters": [
+                {
+                  "name": "template",
+                  "type": "GenericMission"
+                },
+                {
+                  "name": "params",
+                  "type": "CreateMissionParams"
+                },
+                {
+                  "name": "missionId",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "mergeWithDomain",
+              "parameters": [
+                {
+                  "name": "mission",
+                  "type": "GenericMission"
+                },
+                {
+                  "name": "domainName",
+                  "type": "string"
+                },
+                {
+                  "name": "registryEntries",
+                  "type": "DomainPackEntry[]"
+                }
+              ]
+            },
+            {
+              "name": "validateMission",
+              "parameters": [
+                {
+                  "name": "mission",
+                  "type": "GenericMission"
+                }
+              ]
+            },
+            {
+              "name": "toYAML",
+              "parameters": [
+                {
+                  "name": "mission",
+                  "type": "GenericMission"
+                }
+              ]
+            },
+            {
+              "name": "formatForLLM",
+              "parameters": [
+                {
+                  "name": "yamlString",
+                  "type": "string"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "toolDefinitions": [
+        {
+          "const": "createMissionToolDefinition",
+          "name": "create_mission"
+        }
+      ],
+      "imports": [
+        "../domains/domain-pack-loader",
+        "../errors/domain-error",
+        "../errors/handler",
+        "../errors/types",
+        "../errors/validation-error",
+        "../loaders/yaml-loader",
+        "../merge/deep-merge",
+        "../registry/registry-parser",
+        "../schemas/generic-mission",
+        "../types/registry",
+        "ajv",
+        "path",
+        "yaml"
+      ],
+      "usage": {
+        "files": [
+          "src/index.ts",
+          "src/tools/create-mission.ts",
+          "tests/integration/phase2-flow.test.ts",
+          "tests/smoke/template-assets-smoke.test.ts",
+          "tests/tools/create-mission.coverage.test.ts",
+          "tests/tools/create-mission.test.ts"
+        ],
+        "counts": {
+          "CreateMissionToolImpl": 24,
+          "createMissionToolDefinition": 3
+        }
+      }
     },
     {
-      "function": "isGenericMission",
-      "defined_in": "src/schemas/generic-mission.ts",
-      "usage_count": 40,
-      "usage_files": [
-        "dist/schemas/generic-mission.d.ts",
-        "dist/schemas/generic-mission.js",
-        "dist/tools/create-mission.js",
-        "dist/tools/split-mission.js",
-        "dist/tools/suggest-splits.js",
-        "dist/types/mission-types.d.ts",
-        "dist/types/mission-types.js",
-        "src/tools/create-mission.ts",
-        "src/tools/split-mission.ts",
-        "src/tools/suggest-splits.ts",
-        "src/types/mission-types.ts",
-        "tests/integration/phase2-flow.test.ts",
-        "tests/integration/template-runtime-store.test.ts",
-        "tests/schemas/generic-mission.test.ts",
-        "tests/smoke/template-assets-smoke.test.ts",
-        "tests/tools/create-mission.coverage.test.ts"
-      ]
+      "file": "src/tools/export-template.ts",
+      "exports": [
+        {
+          "type": "function",
+          "name": "exportTemplate",
+          "parameters": [
+            {
+              "name": "params",
+              "type": "ExportTemplateParams"
+            }
+          ],
+          "returnType": "Promise<ExportTemplateResult>"
+        },
+        {
+          "type": "function",
+          "name": "createTemplateFromMission",
+          "parameters": [
+            {
+              "name": "missionData",
+              "type": "Record<string, unknown>"
+            },
+            {
+              "name": "metadata",
+              "type": "{\n    name: string;\n    version: string;\n    author: string;\n    signature: {\n      keyId: string;\n      algorithm: string;\n      value: string;\n    };\n  }"
+            }
+          ],
+          "returnType": "MissionTemplate"
+        },
+        {
+          "type": "variable",
+          "name": "getTemplateExportToolDefinition",
+          "toolName": "get_template_export"
+        },
+        {
+          "type": "variable",
+          "name": "exportTemplateToolDefinitionDeprecated",
+          "toolName": "export_template"
+        }
+      ],
+      "toolDefinitions": [
+        {
+          "const": "getTemplateExportToolDefinition",
+          "name": "get_template_export"
+        },
+        {
+          "const": "exportTemplateToolDefinitionDeprecated",
+          "name": "export_template"
+        }
+      ],
+      "imports": [
+        "../errors/handler",
+        "../errors/validation-error",
+        "../import-export/template-exporter",
+        "../import-export/types",
+        "../validation/common",
+        "../validation/errors",
+        "../validation/middleware",
+        "../validation/schemas/file-path-schema",
+        "../validation/schemas/template-schema",
+        "path",
+        "zod"
+      ],
+      "usage": {
+        "files": [
+          "src/index.ts",
+          "src/tools/export-template.ts",
+          "tests/index.execute.test.ts",
+          "tests/integration/tools.test.ts",
+          "tests/tools/export-template.core.test.ts",
+          "tests/tools/export-template.test.ts"
+        ],
+        "counts": {
+          "exportTemplate": 22,
+          "createTemplateFromMission": 9,
+          "getTemplateExportToolDefinition": 4,
+          "exportTemplateToolDefinitionDeprecated": 3
+        }
+      }
     },
     {
-      "function": "example",
-      "defined_in": "tests/intelligence/mission-splitter.test.ts",
-      "usage_count": 74,
-      "usage_files": [
-        "dist/import-export/security-validator.js",
-        "dist/intelligence/model-transpilers.js",
-        "dist/merge/deep-merge.d.ts",
-        "dist/merge/deep-merge.js",
-        "src/import-export/security-validator.ts",
-        "src/intelligence/model-transpilers.ts",
-        "src/merge/deep-merge.ts",
-        "tests/extraction/template-extractor.test.ts",
-        "tests/import-export/security-validator.test.ts",
-        "tests/import-export/template-exporter.test.ts",
-        "tests/import-export/template-importer.test.ts",
-        "tests/intelligence/model-transpilers.test.ts",
-        "tests/loaders/yaml-loader.test.ts",
-        "tests/tools/extract-template.test.ts"
-      ]
+      "file": "src/tools/extract-template.ts",
+      "exports": [
+        {
+          "type": "function",
+          "name": "extractTemplate",
+          "parameters": [
+            {
+              "name": "params",
+              "type": "ExtractTemplateParams"
+            }
+          ],
+          "returnType": "Promise<ExtractionResult>"
+        },
+        {
+          "type": "function",
+          "name": "writeTemplate",
+          "parameters": [
+            {
+              "name": "templateDir",
+              "type": "string"
+            },
+            {
+              "name": "result",
+              "type": "ExtractionResult"
+            }
+          ],
+          "returnType": "Promise<void>"
+        },
+        {
+          "type": "function",
+          "name": "generateExtractionReport",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "ExtractionResult"
+            }
+          ],
+          "returnType": "string"
+        },
+        {
+          "type": "variable",
+          "name": "getTemplateExtractionToolDefinition",
+          "toolName": "get_template_extraction"
+        },
+        {
+          "type": "variable",
+          "name": "extractTemplateToolDefinitionDeprecated",
+          "toolName": "extract_template"
+        }
+      ],
+      "toolDefinitions": [
+        {
+          "const": "getTemplateExtractionToolDefinition",
+          "name": "get_template_extraction"
+        },
+        {
+          "const": "extractTemplateToolDefinitionDeprecated",
+          "name": "extract_template"
+        }
+      ],
+      "imports": [
+        "../extraction/template-extractor",
+        "../extraction/types",
+        "../utils/fs",
+        "../validation/common",
+        "../validation/errors",
+        "../validation/middleware",
+        "../validation/schemas/file-path-schema",
+        "fs",
+        "path",
+        "zod"
+      ],
+      "usage": {
+        "files": [
+          "src/index.ts",
+          "src/tools/extract-template.ts",
+          "tests/import-export/template-importer.test.ts",
+          "tests/index.execute.test.ts",
+          "tests/tools/extract-template.test.ts"
+        ],
+        "counts": {
+          "extractTemplate": 30,
+          "writeTemplate": 19,
+          "generateExtractionReport": 4,
+          "getTemplateExtractionToolDefinition": 4,
+          "extractTemplateToolDefinitionDeprecated": 3
+        }
+      }
+    },
+    {
+      "file": "src/tools/import-template.ts",
+      "exports": [
+        {
+          "type": "function",
+          "name": "importTemplate",
+          "parameters": [
+            {
+              "name": "params",
+              "type": "ImportTemplateParams"
+            }
+          ],
+          "returnType": "Promise<ImportTemplateResult>"
+        },
+        {
+          "type": "variable",
+          "name": "createTemplateImportToolDefinition",
+          "toolName": "create_template_import"
+        },
+        {
+          "type": "variable",
+          "name": "importTemplateToolDefinitionDeprecated",
+          "toolName": "import_template"
+        }
+      ],
+      "toolDefinitions": [
+        {
+          "const": "createTemplateImportToolDefinition",
+          "name": "create_template_import"
+        },
+        {
+          "const": "importTemplateToolDefinitionDeprecated",
+          "name": "import_template"
+        }
+      ],
+      "imports": [
+        "../import-export/template-importer",
+        "../import-export/types",
+        "../validation/common",
+        "../validation/errors",
+        "../validation/middleware",
+        "../validation/schemas/file-path-schema",
+        "path",
+        "zod"
+      ],
+      "usage": {
+        "files": [
+          "src/index.ts",
+          "src/tools/import-template.ts",
+          "tests/index.execute.test.ts",
+          "tests/tools/import-template.error-handling.test.ts",
+          "tests/tools/import-template.test.ts"
+        ],
+        "counts": {
+          "importTemplate": 22,
+          "createTemplateImportToolDefinition": 4,
+          "importTemplateToolDefinitionDeprecated": 3
+        }
+      }
+    },
+    {
+      "file": "src/tools/list-domains.ts",
+      "exports": [
+        {
+          "type": "class",
+          "name": "ListDomainsToolImpl",
+          "methods": [
+            {
+              "name": "execute",
+              "parameters": [
+                {
+                  "name": "registryPath",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "toDomainInfo",
+              "parameters": [
+                {
+                  "name": "entry",
+                  "type": "DomainPackEntry"
+                }
+              ]
+            },
+            {
+              "name": "formatForLLM",
+              "parameters": [
+                {
+                  "name": "domains",
+                  "type": "DomainInfo[]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "variable",
+          "name": "getAvailableDomainsToolDefinition",
+          "toolName": "get_available_domains"
+        },
+        {
+          "type": "variable",
+          "name": "listAvailableDomainsToolDefinitionDeprecated",
+          "toolName": "list_available_domains"
+        }
+      ],
+      "toolDefinitions": [
+        {
+          "const": "getAvailableDomainsToolDefinition",
+          "name": "get_available_domains"
+        },
+        {
+          "const": "listAvailableDomainsToolDefinitionDeprecated",
+          "name": "list_available_domains"
+        }
+      ],
+      "imports": [
+        "../registry/registry-parser",
+        "../types/registry",
+        "../types/tools"
+      ],
+      "usage": {
+        "files": [
+          "src/index.ts",
+          "src/tools/list-domains.ts",
+          "tests/integration/full-flow.test.ts",
+          "tests/integration/mcp-server.test.ts",
+          "tests/tools/list-domains.test.ts"
+        ],
+        "counts": {
+          "ListDomainsToolImpl": 15,
+          "getAvailableDomainsToolDefinition": 11,
+          "listAvailableDomainsToolDefinitionDeprecated": 7
+        }
+      }
+    },
+    {
+      "file": "src/tools/optimize-tokens.ts",
+      "exports": [
+        {
+          "type": "variable",
+          "name": "updateTokenOptimizationToolDefinition",
+          "toolName": "update_token_optimization"
+        },
+        {
+          "type": "variable",
+          "name": "optimizeTokensToolDefinitionDeprecated",
+          "toolName": "optimize_tokens"
+        },
+        {
+          "type": "class",
+          "name": "OptimizeTokensToolImpl",
+          "methods": [
+            {
+              "name": "execute",
+              "parameters": [
+                {
+                  "name": "params",
+                  "type": "OptimizeTokensParams"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "handleOptimizeTokens",
+          "parameters": [
+            {
+              "name": "params",
+              "type": "OptimizeTokensParams"
+            }
+          ],
+          "returnType": "Promise<OptimizeTokensExecutionResult>"
+        }
+      ],
+      "toolDefinitions": [
+        {
+          "const": "updateTokenOptimizationToolDefinition",
+          "name": "update_token_optimization"
+        },
+        {
+          "const": "optimizeTokensToolDefinitionDeprecated",
+          "name": "optimize_tokens"
+        }
+      ],
+      "imports": [
+        "../intelligence/token-optimizer",
+        "../intelligence/types",
+        "fs/promises",
+        "path"
+      ],
+      "usage": {
+        "files": [
+          "src/index.ts",
+          "src/tools/optimize-tokens.ts",
+          "tests/integration/phase4-intelligence-flow.test.ts",
+          "tests/tools/optimize-tokens.test.ts"
+        ],
+        "counts": {
+          "OptimizeTokensToolImpl": 10,
+          "handleOptimizeTokens": 7,
+          "updateTokenOptimizationToolDefinition": 4,
+          "optimizeTokensToolDefinitionDeprecated": 3
+        }
+      }
+    },
+    {
+      "file": "src/tools/score-quality.ts",
+      "exports": [
+        {
+          "type": "function",
+          "name": "scoreQuality",
+          "parameters": [
+            {
+              "name": "input",
+              "type": "ScoreQualityInput"
+            }
+          ],
+          "returnType": "Promise<ScoreQualityOutput>"
+        },
+        {
+          "type": "function",
+          "name": "formatQualitySummary",
+          "parameters": [
+            {
+              "name": "score",
+              "type": "QualityScore"
+            },
+            {
+              "name": "verbose",
+              "type": "boolean"
+            }
+          ],
+          "returnType": "string"
+        },
+        {
+          "type": "function",
+          "name": "getQualityGrade",
+          "parameters": [
+            {
+              "name": "score",
+              "type": "number"
+            }
+          ],
+          "returnType": "string"
+        },
+        {
+          "type": "variable",
+          "name": "getMissionQualityScoreTool",
+          "toolName": "get_mission_quality_score"
+        },
+        {
+          "type": "variable",
+          "name": "scoreQualityToolDeprecated",
+          "toolName": "score_quality"
+        }
+      ],
+      "toolDefinitions": [
+        {
+          "const": "getMissionQualityScoreTool",
+          "name": "get_mission_quality_score"
+        },
+        {
+          "const": "scoreQualityToolDeprecated",
+          "name": "score_quality"
+        }
+      ],
+      "imports": [
+        "../loaders/yaml-loader",
+        "../quality/quality-scorer",
+        "../quality/types",
+        "path"
+      ],
+      "usage": {
+        "files": [
+          "src/index.ts",
+          "src/tools/score-quality.ts",
+          "tests/index.execute.test.ts",
+          "tests/integration/phase4-intelligence-flow.test.ts",
+          "tests/integration/quality-scoring.test.ts",
+          "tests/tools/score-quality.summary.test.ts"
+        ],
+        "counts": {
+          "scoreQuality": 32,
+          "formatQualitySummary": 7,
+          "getQualityGrade": 9,
+          "getMissionQualityScoreTool": 4,
+          "scoreQualityToolDeprecated": 3
+        }
+      }
+    },
+    {
+      "file": "src/tools/split-mission.ts",
+      "exports": [
+        {
+          "type": "variable",
+          "name": "createMissionSplitsToolDefinition",
+          "toolName": "create_mission_splits"
+        },
+        {
+          "type": "variable",
+          "name": "splitMissionToolDefinitionDeprecated",
+          "toolName": "split_mission"
+        },
+        {
+          "type": "class",
+          "name": "SplitMissionToolImpl",
+          "methods": [
+            {
+              "name": "execute",
+              "parameters": [
+                {
+                  "name": "params",
+                  "type": "SplitMissionParams"
+                }
+              ]
+            },
+            {
+              "name": "validateParams",
+              "parameters": [
+                {
+                  "name": "params",
+                  "type": "SplitMissionParams"
+                }
+              ]
+            },
+            {
+              "name": "buildTokenUsage",
+              "parameters": [
+                {
+                  "name": "complexity",
+                  "type": "ComplexityAnalysis"
+                }
+              ]
+            },
+            {
+              "name": "loadMissionFile",
+              "parameters": [
+                {
+                  "name": "filePath",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "writeSubMissions",
+              "parameters": [
+                {
+                  "name": "splitResult",
+                  "type": "SplitResult"
+                },
+                {
+                  "name": "outputDir",
+                  "type": "string"
+                },
+                {
+                  "name": "baseName",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "subMissionToYAML",
+              "parameters": [
+                {
+                  "name": "subMission",
+                  "type": "SubMission"
+                },
+                {
+                  "name": "preservedContext",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "createExecutionPlan",
+              "parameters": [
+                {
+                  "name": "subMissions",
+                  "type": "SubMission[]"
+                },
+                {
+                  "name": "files",
+                  "type": "string[]"
+                }
+              ]
+            },
+            {
+              "name": "generateSummary",
+              "parameters": [
+                {
+                  "name": "complexity",
+                  "type": "ComplexityAnalysis"
+                },
+                {
+                  "name": "splitResult",
+                  "type": "SplitResult"
+                },
+                {
+                  "name": "files",
+                  "type": "string[]"
+                }
+              ]
+            },
+            {
+              "name": "getContextWindow",
+              "parameters": [
+                {
+                  "name": "model",
+                  "type": "SupportedModel"
+                }
+              ]
+            },
+            {
+              "name": "formatForLLM",
+              "parameters": [
+                {
+                  "name": "result",
+                  "type": "SplitMissionResult"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "toolDefinitions": [
+        {
+          "const": "createMissionSplitsToolDefinition",
+          "name": "create_mission_splits"
+        },
+        {
+          "const": "splitMissionToolDefinitionDeprecated",
+          "name": "split_mission"
+        }
+      ],
+      "imports": [
+        "../intelligence/complexity-scorer",
+        "../intelligence/mission-splitter",
+        "../intelligence/types",
+        "../loaders/yaml-loader",
+        "../schemas/generic-mission",
+        "../utils/fs",
+        "fs",
+        "path",
+        "yaml"
+      ],
+      "usage": {
+        "files": [
+          "src/index.ts",
+          "src/tools/split-mission.ts",
+          "tests/tools/split-mission.coverage.test.ts",
+          "tests/tools/split-mission.test.ts"
+        ],
+        "counts": {
+          "SplitMissionToolImpl": 10,
+          "createMissionSplitsToolDefinition": 4,
+          "splitMissionToolDefinitionDeprecated": 3
+        }
+      }
+    },
+    {
+      "file": "src/tools/suggest-splits.ts",
+      "exports": [
+        {
+          "type": "variable",
+          "name": "getSplitSuggestionsToolDefinition",
+          "toolName": "get_split_suggestions"
+        },
+        {
+          "type": "variable",
+          "name": "suggestSplitsToolDefinitionDeprecated",
+          "toolName": "suggest_splits"
+        },
+        {
+          "type": "class",
+          "name": "SuggestSplitsToolImpl",
+          "methods": [
+            {
+              "name": "execute",
+              "parameters": [
+                {
+                  "name": "params",
+                  "type": "SuggestSplitsParams"
+                }
+              ]
+            },
+            {
+              "name": "buildTokenUsage",
+              "parameters": [
+                {
+                  "name": "complexity",
+                  "type": "ComplexityAnalysis"
+                }
+              ]
+            },
+            {
+              "name": "validateParams",
+              "parameters": [
+                {
+                  "name": "params",
+                  "type": "SuggestSplitsParams"
+                }
+              ]
+            },
+            {
+              "name": "loadMissionFile",
+              "parameters": [
+                {
+                  "name": "filePath",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "generateRecommendation",
+              "parameters": [
+                {
+                  "name": "suggestion",
+                  "type": "SplitAnalysisResult"
+                }
+              ]
+            },
+            {
+              "name": "getNoSplitRecommendation",
+              "parameters": [
+                {
+                  "name": "complexity",
+                  "type": "ComplexityAnalysis"
+                }
+              ]
+            },
+            {
+              "name": "getSplitRecommendation",
+              "parameters": [
+                {
+                  "name": "suggestion",
+                  "type": "SplitAnalysisResult"
+                }
+              ]
+            },
+            {
+              "name": "getBreakpointPreview",
+              "parameters": [
+                {
+                  "name": "text",
+                  "type": "string"
+                },
+                {
+                  "name": "position",
+                  "type": "number"
+                }
+              ]
+            },
+            {
+              "name": "serializeMission",
+              "parameters": [
+                {
+                  "name": "mission",
+                  "type": "GenericMission"
+                }
+              ]
+            },
+            {
+              "name": "getContextWindow",
+              "parameters": [
+                {
+                  "name": "model",
+                  "type": "SupportedModel"
+                }
+              ]
+            },
+            {
+              "name": "formatForLLM",
+              "parameters": [
+                {
+                  "name": "result",
+                  "type": "SplitSuggestion"
+                },
+                {
+                  "name": "detailed",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "toolDefinitions": [
+        {
+          "const": "getSplitSuggestionsToolDefinition",
+          "name": "get_split_suggestions"
+        },
+        {
+          "const": "suggestSplitsToolDefinitionDeprecated",
+          "name": "suggest_splits"
+        }
+      ],
+      "imports": [
+        "../intelligence/complexity-scorer",
+        "../intelligence/mission-splitter",
+        "../intelligence/types",
+        "../schemas/generic-mission",
+        "../utils/fs",
+        "fs",
+        "yaml"
+      ],
+      "usage": {
+        "files": [
+          "src/index.ts",
+          "src/tools/suggest-splits.ts",
+          "tests/tools/suggest-splits.execute.test.ts",
+          "tests/tools/suggest-splits.format.test.ts",
+          "tests/tools/suggest-splits.recommendation.test.ts"
+        ],
+        "counts": {
+          "SuggestSplitsToolImpl": 17,
+          "getSplitSuggestionsToolDefinition": 4,
+          "suggestSplitsToolDefinitionDeprecated": 3
+        }
+      }
+    },
+    {
+      "file": "src/tools/version-template.ts",
+      "exports": [
+        {
+          "type": "function",
+          "name": "checkVersionCompatibility",
+          "parameters": [
+            {
+              "name": "params",
+              "type": "CheckVersionCompatibilityParams"
+            }
+          ],
+          "returnType": "Promise<CheckVersionCompatibilityResult>"
+        },
+        {
+          "type": "variable",
+          "name": "getVersionCompatibilityToolDefinition",
+          "toolName": "get_version_compatibility"
+        },
+        {
+          "type": "variable",
+          "name": "checkVersionCompatibilityToolDefinitionDeprecated",
+          "toolName": "check_version_compatibility"
+        },
+        {
+          "type": "function",
+          "name": "findMigrationPath",
+          "parameters": [
+            {
+              "name": "params",
+              "type": "FindMigrationPathParams"
+            }
+          ],
+          "returnType": "Promise<FindMigrationPathResult>"
+        },
+        {
+          "type": "variable",
+          "name": "getMigrationPathToolDefinition",
+          "toolName": "get_migration_path"
+        },
+        {
+          "type": "variable",
+          "name": "findMigrationPathToolDefinitionDeprecated",
+          "toolName": "find_migration_path"
+        },
+        {
+          "type": "function",
+          "name": "registerTemplateVersion",
+          "parameters": [
+            {
+              "name": "params",
+              "type": "RegisterTemplateVersionParams"
+            }
+          ],
+          "returnType": "Promise<RegisterTemplateVersionResult>"
+        },
+        {
+          "type": "variable",
+          "name": "createTemplateVersionToolDefinition",
+          "toolName": "create_template_version"
+        },
+        {
+          "type": "variable",
+          "name": "registerTemplateVersionToolDefinitionDeprecated",
+          "toolName": "register_template_version"
+        },
+        {
+          "type": "function",
+          "name": "getLatestVersion",
+          "parameters": [
+            {
+              "name": "params",
+              "type": "GetLatestVersionParams"
+            }
+          ],
+          "returnType": "Promise<GetLatestVersionResult>"
+        },
+        {
+          "type": "variable",
+          "name": "getLatestVersionToolDefinition",
+          "toolName": "get_latest_version"
+        },
+        {
+          "type": "function",
+          "name": "compareVersions",
+          "parameters": [
+            {
+              "name": "params",
+              "type": "CompareVersionsParams"
+            }
+          ],
+          "returnType": "Promise<CompareVersionsResult>"
+        },
+        {
+          "type": "variable",
+          "name": "getVersionComparisonToolDefinition",
+          "toolName": "get_version_comparison"
+        },
+        {
+          "type": "variable",
+          "name": "compareVersionsToolDefinitionDeprecated",
+          "toolName": "compare_versions"
+        },
+        {
+          "type": "variable",
+          "name": "versioningTools",
+          "toolName": null
+        },
+        {
+          "type": "variable",
+          "name": "versioningToolsDeprecated",
+          "toolName": null
+        }
+      ],
+      "toolDefinitions": [
+        {
+          "const": "getVersionCompatibilityToolDefinition",
+          "name": "get_version_compatibility"
+        },
+        {
+          "const": "checkVersionCompatibilityToolDefinitionDeprecated",
+          "name": "check_version_compatibility"
+        },
+        {
+          "const": "getMigrationPathToolDefinition",
+          "name": "get_migration_path"
+        },
+        {
+          "const": "findMigrationPathToolDefinitionDeprecated",
+          "name": "find_migration_path"
+        },
+        {
+          "const": "createTemplateVersionToolDefinition",
+          "name": "create_template_version"
+        },
+        {
+          "const": "registerTemplateVersionToolDefinitionDeprecated",
+          "name": "register_template_version"
+        },
+        {
+          "const": "getLatestVersionToolDefinition",
+          "name": "get_latest_version"
+        },
+        {
+          "const": "getVersionComparisonToolDefinition",
+          "name": "get_version_comparison"
+        },
+        {
+          "const": "compareVersionsToolDefinitionDeprecated",
+          "name": "compare_versions"
+        }
+      ],
+      "imports": [
+        "../versioning/migration-engine",
+        "../versioning/types",
+        "../versioning/version-manager"
+      ],
+      "usage": {
+        "files": [
+          "src/tools/version-template.ts",
+          "src/versioning/migration-engine.ts",
+          "src/versioning/version-manager.ts",
+          "tests/integration/phase3-flow.test.ts",
+          "tests/tools/version-template.errors.test.ts",
+          "tests/tools/version-template.test.ts",
+          "tests/versioning/migration-engine.test.ts",
+          "tests/versioning/version-manager.test.ts"
+        ],
+        "counts": {
+          "getLatestVersion": 23,
+          "compareVersions": 52,
+          "findMigrationPath": 38,
+          "checkVersionCompatibility": 22,
+          "registerTemplateVersion": 27,
+          "getVersionCompatibilityToolDefinition": 3,
+          "checkVersionCompatibilityToolDefinitionDeprecated": 2,
+          "getMigrationPathToolDefinition": 3,
+          "findMigrationPathToolDefinitionDeprecated": 2,
+          "createTemplateVersionToolDefinition": 3,
+          "registerTemplateVersionToolDefinitionDeprecated": 2,
+          "getLatestVersionToolDefinition": 2,
+          "getVersionComparisonToolDefinition": 3,
+          "compareVersionsToolDefinitionDeprecated": 2
+        }
+      }
     }
-  ]
+  ],
+  "summary": {
+    "totalTools": 12,
+    "exportedToolDefinitions": 30
+  }
 }

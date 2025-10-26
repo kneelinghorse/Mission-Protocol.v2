@@ -1,8 +1,153 @@
 {
-  "functions_with_docs": 116,
-  "functions_total": 116,
-  "function_doc_coverage_percent": 100.0,
-  "example_sections_detected": 184,
-  "api_reference_mentions": 44,
-  "outdated_documentation_flags": []
+  "documentationFiles": {
+    "docsDirectory": 9,
+    "repoWide": 25
+  },
+  "apiDocCoverage": {
+    "totalExportsChecked": 91,
+    "documentedExports": 56,
+    "documentedPercent": 61.54,
+    "undocumentedExports": [
+      {
+        "file": "src/index.ts",
+        "name": "getToolDefinitions"
+      },
+      {
+        "file": "src/index.ts",
+        "name": "summarizeValue"
+      },
+      {
+        "file": "src/index.ts",
+        "name": "sanitizeArgs"
+      },
+      {
+        "file": "src/index.ts",
+        "name": "buildMissionProtocolContext"
+      },
+      {
+        "file": "src/index.ts",
+        "name": "executeMissionProtocolTool"
+      },
+      {
+        "file": "src/index.ts",
+        "name": "__test__"
+      },
+      {
+        "file": "src/tools/export-template.ts",
+        "name": "exportTemplateToolDefinitionDeprecated"
+      },
+      {
+        "file": "src/tools/score-quality.ts",
+        "name": "ScoreQualityInput"
+      },
+      {
+        "file": "src/tools/score-quality.ts",
+        "name": "ScoreQualityOutput"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "CheckVersionCompatibilityParams"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "CheckVersionCompatibilityResult"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "checkVersionCompatibility"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "getVersionCompatibilityToolDefinition"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "checkVersionCompatibilityToolDefinitionDeprecated"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "FindMigrationPathParams"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "FindMigrationPathResult"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "findMigrationPath"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "getMigrationPathToolDefinition"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "findMigrationPathToolDefinitionDeprecated"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "RegisterTemplateVersionParams"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "RegisterTemplateVersionResult"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "registerTemplateVersion"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "createTemplateVersionToolDefinition"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "registerTemplateVersionToolDefinitionDeprecated"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "GetLatestVersionParams"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "GetLatestVersionResult"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "getLatestVersion"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "getLatestVersionToolDefinition"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "CompareVersionsParams"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "CompareVersionsResult"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "compareVersions"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "getVersionComparisonToolDefinition"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "compareVersionsToolDefinitionDeprecated"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "versioningTools"
+      },
+      {
+        "file": "src/tools/version-template.ts",
+        "name": "versioningToolsDeprecated"
+      }
+    ]
+  }
 }

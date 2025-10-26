@@ -1,129 +1,168 @@
 # Mission Protocol Current State Assessment
 
-_Completed on 2025-10-25 14:47 UTC_
+_Completed on 2025-10-26 21:10 UTC_
 
 ## Executive Summary
 
-- Overall health score: 48.7
-- Test coverage: 94.9% (branches 85.4%)
-- Code quality grade: C (avg cyclomatic 42.0)
-- Security score: 0 with 33 high-severity findings
-- Documentation score: 100 with 116/116 APIs documented
+- Five Jest suites fail with TypeScript compilation errors, blocking coverage generation and CI signal (see `artifacts/05_coverage_report.json`).
+- Write-capable tools accept arbitrary filesystem paths without `safeFilePath`, leaving the MCP server vulnerable to path traversal and destructive writes (`src/tools/optimize-tokens.ts:131`, `src/tools/split-mission.ts:254`).
+- Architectural hotspots concentrate almost 4k LOC in `src/tools` and 3.7k LOC in `src/intelligence`, with single files exceeding 600 lines and >60 decision points (`artifacts/04_complexity_metrics.json`).
+- 24 domain packs exist, yet 20 are never referenced anywhere in code or tests, indicating dead configuration (`artifacts/02_domain_analysis.json`).
+- API documentation coverage sits at 61.54% with 35 exported symbols missing JSDoc, despite a large Markdown footprint (`artifacts/09_doc_coverage.json`).
+- npm audit (2025-10-26 UTC) reports zero vulnerable dependencies, but telemetry warnings still leak model metadata in shared environments (`src/intelligence/token-counters.ts:154`).
 
-Total findings: 258 across 258 entries. 33 high severity, 177 medium, 48 low.
+74 specific findings are catalogued in `artifacts/11_compiled_findings.json` (17 high, 34 medium, 22 low, 1 informational).
 
 ## Current State Overview
 
-| Category | Findings |
-| --- | ---: |
-| code_quality | 50 |
-| security | 59 |
-| reliability | 10 |
-| testing | 11 |
-| api | 19 |
-| performance | 54 |
-| documentation | 20 |
-| technical_debt | 35 |
+| Severity | Findings | Representative example |
+| --- | ---: | --- |
+| high | 17 | Unsanitized file writes in `src/tools/optimize-tokens.ts:131` |
+| medium | 34 | Out-of-sync tests vs. tool API in `tests/tools/optimize-tokens.test.ts:235` |
+| low | 22 | Missing JSDoc on `createMissionToolDefinition` (`src/tools/create-mission.ts:41`) |
+| info | 1 | Domain root present (`templates/packs`) |
 
-| Severity | Count |
-| --- | ---: |
-| medium | 177 |
-| high | 33 |
-| low | 48 |
+| Category | Findings | Notable signal |
+| --- | ---: | --- |
+| domains | 25 | 20 unused packs (e.g., `templates/packs/market.customer-development/pack.yaml:1`) |
+| documentation | 15 | 35 undocumented exports |
+| complexity | 10 | `src/extraction/template-extractor.ts:1` carries 63 decision points |
+| security | 8 | Three high-risk path traversal vectors in write tools |
+| technical_debt | 7 | Missing linting, failing suites |
+| testing | 5 | Five blocked suites |
+| api | 2 | Inconsistent tool naming (deprecated aliases) |
+| tooling | 2 | No eslint/prettier configuration present |
 
 ## Architecture Analysis
 
-- `src/`: 57 files (dominant: .ts: 56, no_ext: 1)
-- `lib/`: missing (recorded in findings)
-- `tools/`: missing (recorded in findings)
-- `templates/`: 77 files (dominant: .yaml: 50, .json: 24, no_ext: 2)
-- `domains/`: missing (recorded in findings)
-- `tests/`: 66 files (dominant: .ts: 55, .yaml: 9, no_ext: 1)
+- Top-level code volume (files, LOC, decision points):
+  - `src/tools/` — 12 files, 4 025 LOC, 176 decision points; major tool orchestration (`artifacts/04_complexity_metrics.json`).
+  - `src/intelligence/` — 12 files, 3 686 LOC, 250 decision points; complex mission analysis logic.
+  - `src/quality/` — 6 files, 1 688 LOC, 118 decision points.
+  - `src/index.ts` alone is 881 LOC with 61 decision points, bundling server bootstrap and tool wiring in a single file (`src/index.ts:1`).
+- `templates/packs/` hosts 24 domain directories; each contains `pack.yaml` metadata and a mission template (`templates/packs/foundation/pack.yaml:1`).
+- Tool definitions are centralized under `src/tools`, with 30 exported tool definition constants (`artifacts/03_tool_usage_analysis.json`).
 
 ## Code Quality Metrics
 
-- eslint: fail (npm warn exec The following package was not found and will be installed: eslint@9.38.0)
-- pylint: fail (Tool not found: [Errno 2] No such file or directory: 'pylint')
-- prettier: fail (npm warn exec The following package was not found and will be installed: prettier@3.6.2)
-- Average cyclomatic complexity estimate: 42.05
-- Maximum cyclomatic complexity estimate: 210
-- Code quality grade: C
+- 75 TypeScript source files totalling 17 689 LOC (average 236 LOC per file) with 1 107 decision points.
+- Longest files:
+  - `src/intelligence/mission-splitter.ts:1` — 648 lines.
+  - `src/extraction/template-extractor.ts:1` — 634 lines, longest function spans 84 lines.
+  - `src/tools/version-template.ts:1` — 551 lines.
+- 35 exported symbols lack any JSDoc (`artifacts/09_doc_coverage.json`), reducing clarity for MCP clients.
+- No linting or formatting tooling is configured (`package.json:15` lists scripts but eslint/prettier are absent).
 
 ## Test Coverage
 
-- Line coverage: 94.9%
-- Branch coverage: 85.4%
-- Untested modules flagged: 11
-- Test assertion density heuristic: 2.22
+- `npm test -- --coverage` fails: five suites error at compile time (TS18046/TS18048/TS2353) with coverage aborted (`artifacts/05_coverage_report.json`).
+- Key failures:
+  - Renamed tool definition causes runtime `TypeError` (`tests/tools/optimize-tokens.test.ts:235`).
+  - SecureYAMLLoader now returns `unknown`, tests dereference without typing (`tests/loaders/yaml-loader.test.ts:59`).
+  - Versioning migration test assumes non-null template (`tests/versioning/migration-engine.test.ts:727`).
+  - Integration tests still pass legacy `outputFormat` (`tests/integration/phase4-intelligence-flow.test.ts:254`).
+  - Security validator tests mutate `unknown` phase data (`tests/import-export/security-validator.test.ts:186`).
+- Focused run of `optimize-tokens` suite reports statements 78.51%, below the global 90% threshold, confirming drift.
+
+## Domain Pack Analysis
+
+- 24 packs analysed; average template field count 20, max nesting depth 3 (`artifacts/02_domain_analysis.json`).
+- 20 packs unused by code/tests, including `templates/packs/process.code-review/pack.yaml:1` and `templates/packs/design.ux-research-summary/pack.yaml:1`.
+- No duplicate pack names detected; metadata consistently specifies version `1.0.0`.
+- Registry sanity checks succeed; `registry.yaml` covers all directories (`templates/registry.yaml:1`).
+
+## Tool Function Analysis
+
+- 12 mission tools export 30 tool definition constants and 25 functions (`artifacts/03_tool_usage_analysis.json`).
+- All tools are referenced in at least one test or runtime file; no unused exports detected.
+- Legacy aliases remain alongside canonical names, doubling the maintenance surface (e.g., `src/tools/split-mission.ts:72` still exports `splitMissionToolDefinitionDeprecated`).
+- `optimize_tokens` and `split_mission` lack shared validation middleware; others (import/export/analyze dependencies) leverage `safeFilePath`.
 
 ## Performance Analysis
 
-- Performance score: 0
-- Bottleneck candidates identified: 539
-- Frequent function complexity snapshots stored in `artifacts/07_complexity_analysis.json`
+- Identified hotspots (`artifacts/07_bottlenecks.json`):
+  - O(n²) reconciliation between proposed breakpoints and atomic operations (`src/intelligence/mission-splitter.ts:288`).
+  - Sequential template dependency resolution (`src/import-export/template-importer.ts:174`).
+  - Batch optimization serially awaits each mission (`src/intelligence/token-optimizer.ts:182`).
+- Token counting falls back to heuristic mode when Transformers models are missing, emitting verbose telemetry and lowering accuracy (`src/intelligence/token-counters.ts:154`).
+- No profiling hooks or metrics are emitted beyond console warnings.
 
 ## Security Findings
 
-- Security score: 0
-- Unsanitized entry points detected: 275
-- Dependency vulnerabilities: see `artifacts/08_dependency_vulnerabilities.json` (npm audit)
+- Strengths:
+  - `SecureYAMLLoader` enforces path sanitization, file size limits, and AJV validation (`src/loaders/yaml-loader.ts:52`).
+  - Import/export tools use `safeFilePath` to constrain I/O (`src/tools/import-template.ts:91`, `src/tools/export-template.ts:94`).
+- High-risk gaps:
+  - `update_token_optimization` resolves user paths directly and overwrites originals plus `.backup` without workspace restrictions (`src/tools/optimize-tokens.ts:131`).
+  - `split_mission` reads and writes arbitrary file paths, allowing path traversal and uncontrolled writes (`src/tools/split-mission.ts:254`, `src/tools/split-mission.ts:284`).
+  - Telemetry logs expose model name and text length for every fallback (`src/intelligence/telemetry.ts:56`), risking information leakage in shared logs.
+- npm audit on 2025-10-26 shows zero vulnerable dependencies (`artifacts/08_security_issues.json`).
 
 ## Documentation Status
 
-- Documentation score: 100
-- API doc coverage: 100.0%
-- Broken links: 20
+- Repository contains 679 Markdown files overall (9 under `docs/`), but only 61.54% of measured exports include JSDoc (`artifacts/09_doc_coverage.json`).
+- Missing API documentation for core handlers such as `executeAnalyzeDependenciesTool` (`src/tools/analyze-dependencies.ts:121`) and `OptimizeTokensToolImpl.execute` (`src/tools/optimize-tokens.ts:103`).
+- Documentation assets are comprehensive for user guides (`docs/Extension_System_Guide.md:1`), yet no automated doc generation exists.
 
 ## Gap Analysis
 
-- Technical debt signals logged: 3243
-- Feature request references: see `artifacts/10_feature_requests.json`
-- Not implemented markers: see `artifacts/10_not_implemented.json`
+- Unused assets: 20 dormant domain packs and deprecated tool aliases inflate maintenance surface.
+- Tooling gaps: No eslint/prettier baseline, no CI profiling, no regression tests guarding tool definition schemas (`artifacts/10_technical_debt.json`).
+- Security backlog: Path sanitization absent in two high-impact tools and no rollback guard for failed optimizations.
+- Testing debt: Suites blocked by API drift; coverage thresholds cannot be trusted until failures resolved.
 
 ## Top 10 Issues
 
-1. (high) Module lacks coverage: src/index.ts (No coverage data) – src/index.ts
-2. (high) Module lacks coverage: src/tools/version-template.ts (No coverage data) – src/tools/version-template.ts
-3. (high) Module lacks coverage: src/types/schemas.ts (No coverage data) – src/types/schemas.ts
-4. (high) Module lacks coverage: src/types/tools.ts (No coverage data) – src/types/tools.ts
-5. (high) Module lacks coverage: src/types/registry.ts (No coverage data) – src/types/registry.ts
-6. (high) Module lacks coverage: src/types/mission-types.ts (No coverage data) – src/types/mission-types.ts
-7. (high) Module lacks coverage: src/domains/types.ts (No coverage data) – src/domains/types.ts
-8. (high) Module lacks coverage: src/intelligence/context-propagator.ts (No coverage data) – src/intelligence/context-propagator.ts
-9. (high) Module lacks coverage: src/intelligence/types.ts (No coverage data) – src/intelligence/types.ts
-10. (high) Module lacks coverage: src/intelligence/compression-rules.ts (No coverage data) – src/intelligence/compression-rules.ts
+1. `tests/tools/optimize-tokens.test.ts:235` – renamed export (`updateTokenOptimizationToolDefinition`) leaves tests dereferencing `optimizeTokensToolDefinition`.
+2. `src/tools/optimize-tokens.ts:131` – user-provided `missionFile` resolved and overwritten without `safeFilePath` or sandbox constraints.
+3. `tests/loaders/yaml-loader.test.ts:59` – SecureYAMLLoader returns `unknown`, tests dereference without typing (TS18046).
+4. `tests/versioning/migration-engine.test.ts:727` – access to `result.migratedTemplate` without null guard (TS18048).
+5. `tests/integration/phase4-intelligence-flow.test.ts:254` – legacy `outputFormat` parameter breaks compile-time contract (TS2353).
+6. `src/tools/split-mission.ts:254` – direct `fs.readFile` on unsanitized path.
+7. `src/import-export/template-importer.ts:174` – dependency resolution loop processes sequentially, hampering performance.
+8. `src/extraction/template-extractor.ts:1` – 63 decision points make the module brittle and difficult to test.
+9. `templates/packs/market.customer-development/pack.yaml:1` – domain pack never referenced; maintenance overhead with no coverage.
+10. `src/intelligence/token-counters.ts:154` – fallback telemetry leaks model/text metadata and signals tokenizer initialization failures.
 
 ## Prioritized Recommendations
 
-- **R01 – Implement Centralized Error Handling** (impact high, effort medium, risk medium)
-- **R02 – Enforce Input Validation Contracts** (impact high, effort medium, risk low)
-- **R03 – Expand Automated Test Coverage** (impact high, effort high, risk medium)
-- **R04 – Declare Explicit Return Types** (impact medium, effort low, risk low)
-- **R05 – Standardize API Naming** (impact medium, effort low, risk low)
-- **R06 – Replace Synchronous IO Operations** (impact high, effort medium, risk medium)
-- **R07 – Optimize Nested Loop Hotspots** (impact medium, effort medium, risk medium)
-- **R08 – Eliminate Dangerous Security Patterns** (impact high, effort medium, risk high)
-- **R09 – Repair Documentation Links** (impact medium, effort low, risk low)
-- **R10 – Fill Documentation Gaps** (impact medium, effort low, risk low)
-- **R11 – Retire Temporary Workarounds** (impact medium, effort medium, risk medium)
-- **R12 – Repair Domain Pack Definitions** (impact high, effort low, risk medium)
-- **R13 – Improve Coverage Hotspots** (impact high, effort medium, risk low)
-- **R14 – Introduce Performance Profiling in CI** (impact medium, effort medium, risk medium)
-- **R15 – Automate Documentation Generation** (impact medium, effort medium, risk low)
+- **R01 – Modularize MCP server bootstrap**: Split `src/index.ts` into transport/context/tool registration modules.
+- **R02 – Sanitize mission file paths for write tools**: Adopt shared `safeFilePath` guard in `split_mission` and `update_token_optimization`.
+- **R03 – Restore jest suite by aligning tool definition exports**: Re-export `optimizeTokensToolDefinition` or update tests.
+- **R04 – Type SecureYAMLLoader results in tests**: Provide generics/helpers so tests compile.
+- **R05 – Guard migration-engine expectations**: Introduce null checks or refined types.
+- **R06 – Update integration tests for new dependency analyzer API**: Remove `outputFormat` argument and adjust expectations.
+- **R07 – Harden security validator tests**: Type guard nested fields introduced by stricter loader.
+- **R08 – Preload tokenizer models / silence heuristic telemetry**: Bundle claude tokenizer assets or mock them in CI.
+- **R09 – Introduce eslint + prettier baseline**: Add tooling to catch drift and enforce style.
+- **R10 – Refactor template extractor branching**: Break into composable modules with unit coverage.
+- **R11 – Parallelize template dependency resolution**: Batch `resolveDependencies` operations.
+- **R12 – Document remaining exports**: Add JSDoc to 35 undocumented symbols.
+- **R13 – Align coverage thresholds with reality**: Restore >90% coverage or tune thresholds temporarily.
+- **R14 – Add workspace allowlist for write-enabled tools**: Centralize authorized paths and reuse across file-writing workflows.
+- **R15 – Add regression tests for tool definitions**: Snapshot canonical tool schemas to detect accidental renames.
+
+See `artifacts/11_recommendations.json` for impact/effort/risk details.
 
 ## Implementation Roadmap
 
-- **Immediate:** R01 (Implement Centralized Error Handling); R02 (Enforce Input Validation Contracts); R06 (Replace Synchronous IO Operations); R08 (Eliminate Dangerous Security Patterns); R12 (Repair Domain Pack Definitions); R13 (Improve Coverage Hotspots)
-- **Short Term:** R03 (Expand Automated Test Coverage)
-- **Medium Term:** R04 (Declare Explicit Return Types); R05 (Standardize API Naming); R07 (Optimize Nested Loop Hotspots); R09 (Repair Documentation Links); R10 (Fill Documentation Gaps); R11 (Retire Temporary Workarounds); R14 (Introduce Performance Profiling in CI); R15 (Automate Documentation Generation)
-- **Long Term:** No items scheduled
+- **Immediate:** R02, R03, R04, R05, R06, R07 (security and test unblocks).
+- **Short Term:** R01, R08, R09, R14, R15 (stability and tooling).
+- **Medium Term:** R10, R11, R12, R13 (structural refactors and documentation).
+- **Long Term:** None scheduled; reassess after medium-term remediation.
 
 ## Appendices
 
-- Full findings dataset: `artifacts/11_compiled_findings.json`
-- Categorized issues: `artifacts/11_categorized_issues.json`
-- Coverage report: `artifacts/05_coverage_report.json`
+- Findings dataset: `artifacts/11_compiled_findings.json`
+- Categorised issues: `artifacts/11_categorized_issues.json`
+- Directory inventory: `artifacts/01_directory_structure.txt`
+- Domain analytics: `artifacts/02_domain_analysis.json`
+- Tool usage: `artifacts/03_tool_usage_analysis.json`
 - Complexity metrics: `artifacts/04_complexity_metrics.json`
-- Additional errors encountered:
-- PyYAML not available; domain parsing fell back to lightweight parser
-- `assessment_report_template.md` missing; report generated via fallback template
+- Coverage report: `artifacts/05_coverage_report.json`
+- API surface: `artifacts/06_api_surface.json`
+- Bottleneck summary: `artifacts/07_bottlenecks.json`
+- Security assessment: `artifacts/08_security_issues.json`
+- Documentation coverage: `artifacts/09_doc_coverage.json`
+- Technical debt log: `artifacts/10_technical_debt.json`
+- Recommendations & roadmap: `artifacts/11_recommendations.json`, `artifacts/11_improvement_roadmap.json`

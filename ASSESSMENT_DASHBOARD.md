@@ -2,8 +2,8 @@
 
 | Metric | Value |
 | --- | --- |
-| Overall health score | 48.7 |
+| Overall health score | 55 |
 | Code quality grade | C |
-| Test coverage (%) | 94.9 |
-| Documentation score | 100 |
-| Security score | 0 |
+| Test coverage | Blocked (Jest compilation failures) |
+| Documentation score | 61.5% JSDoc coverage |
+| Security score | 40 |

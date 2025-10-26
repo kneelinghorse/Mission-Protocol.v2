@@ -1,304 +1,137 @@
-{
-  "recommendations": [
-    {
-      "id": "R01",
-      "title": "Implement Centralized Error Handling",
-      "description": "Introduce shared error-handling utilities and refactor high-risk functions to wrap asynchronous calls with try/catch and structured error propagation.",
-      "related_findings": [
-        "F031",
-        "F032",
-        "F033",
-        "F034",
-        "F035",
-        "F036",
-        "F037",
-        "F038",
-        "F039",
-        "F040"
-      ],
-      "impact": "high",
-      "effort": "medium",
-      "risk": "medium"
-    },
-    {
-      "id": "R02",
-      "title": "Enforce Input Validation Contracts",
-      "description": "Adopt schema-based validation (e.g., Zod/JSON Schema) for file-system and external data entry points before processing inputs.",
-      "related_findings": [
-        "F051",
-        "F052",
-        "F053",
-        "F054",
-        "F055",
-        "F056",
-        "F057",
-        "F058",
-        "F059",
-        "F060"
-      ],
-      "impact": "high",
-      "effort": "medium",
-      "risk": "low"
-    },
-    {
-      "id": "R03",
-      "title": "Expand Automated Test Coverage",
-      "description": "Prioritize test authoring for untested modules to protect critical mission tools and domain utilities; target >95% coverage for high-touch modules.",
-      "related_findings": [
-        "F081",
-        "F082",
-        "F083",
-        "F084",
-        "F085",
-        "F086",
-        "F087",
-        "F088",
-        "F089",
-        "F090",
-        "F091"
-      ],
-      "impact": "high",
-      "effort": "high",
-      "risk": "medium"
-    },
-    {
-      "id": "R04",
-      "title": "Declare Explicit Return Types",
-      "description": "Document and annotate all exported API functions with explicit return types to improve IntelliSense and guard against implicit any types.",
-      "related_findings": [
-        "F092",
-        "F093",
-        "F094",
-        "F095",
-        "F096",
-        "F097",
-        "F098",
-        "F099",
-        "F100",
-        "F101",
-        "F102",
-        "F103",
-        "F104",
-        "F105",
-        "F106"
-      ],
-      "impact": "medium",
-      "effort": "low",
-      "risk": "low"
-    },
-    {
-      "id": "R05",
-      "title": "Standardize API Naming",
-      "description": "Adopt a naming convention guide (PascalCase for classes, camelCase for functions) and lint rules to enforce it.",
-      "related_findings": [
-        "F107",
-        "F108",
-        "F109",
-        "F110"
-      ],
-      "impact": "medium",
-      "effort": "low",
-      "risk": "low"
-    },
-    {
-      "id": "R06",
-      "title": "Replace Synchronous IO Operations",
-      "description": "Switch fs.*Sync calls to async equivalents and pipeline operations to prevent event-loop blocking in mission execution.",
-      "related_findings": [
-        "F111",
-        "F112",
-        "F113",
-        "F114",
-        "F115",
-        "F116",
-        "F117",
-        "F118",
-        "F119",
-        "F120"
-      ],
-      "impact": "high",
-      "effort": "medium",
-      "risk": "medium"
-    },
-    {
-      "id": "R07",
-      "title": "Optimize Nested Loop Hotspots",
-      "description": "Profile nested loops in dependency resolvers and quality analyzers; refactor to use memoization or set lookups.",
-      "related_findings": [
-        "F121",
-        "F122",
-        "F123",
-        "F124",
-        "F125",
-        "F126",
-        "F127",
-        "F128",
-        "F129",
-        "F130"
-      ],
-      "impact": "medium",
-      "effort": "medium",
-      "risk": "medium"
-    },
-    {
-      "id": "R08",
-      "title": "Eliminate Dangerous Security Patterns",
-      "description": "Audit eval/command usage and replace with safe alternatives or parameterized APIs; add ESLint security plugin to prevent regressions.",
-      "related_findings": [
-        "F165",
-        "F166"
-      ],
-      "impact": "high",
-      "effort": "medium",
-      "risk": "high"
-    },
-    {
-      "id": "R09",
-      "title": "Repair Documentation Links",
-      "description": "Validate relative documentation links and add automated link checking in CI.",
-      "related_findings": [
-        "F204",
-        "F205",
-        "F206",
-        "F207",
-        "F208",
-        "F209",
-        "F210",
-        "F211",
-        "F212",
-        "F213"
-      ],
-      "impact": "medium",
-      "effort": "low",
-      "risk": "low"
-    },
-    {
-      "id": "R10",
-      "title": "Fill Documentation Gaps",
-      "description": "Add Overview, Usage, API, and Installation sections to onboarding docs to reduce ramp-up time.",
-      "related_findings": [
-        "F214",
-        "F215",
-        "F216",
-        "F217",
-        "F218",
-        "F219",
-        "F220",
-        "F221",
-        "F222",
-        "F223"
-      ],
-      "impact": "medium",
-      "effort": "low",
-      "risk": "low"
-    },
-    {
-      "id": "R11",
-      "title": "Retire Temporary Workarounds",
-      "description": "Track workaround hotspots in backlog, convert to permanent solutions, and codify acceptance criteria.",
-      "related_findings": [
-        "F224",
-        "F249",
-        "F250",
-        "F251",
-        "F252",
-        "F253",
-        "F254",
-        "F255",
-        "F256",
-        "F257",
-        "F258"
-      ],
-      "impact": "medium",
-      "effort": "medium",
-      "risk": "medium"
-    },
-    {
-      "id": "R12",
-      "title": "Repair Domain Pack Definitions",
-      "description": "Resolve missing metadata or parse errors in domain YAML files to keep mission packs discoverable.",
-      "related_findings": [
-        "domain_error_1"
-      ],
-      "impact": "high",
-      "effort": "low",
-      "risk": "medium"
-    },
-    {
-      "id": "R13",
-      "title": "Improve Coverage Hotspots",
-      "description": "Raise line coverage from 94.9% to >=95% focusing on low-covered tools like export-template and score-quality.",
-      "related_findings": [
-        "F081",
-        "F082",
-        "F083",
-        "F084",
-        "F085",
-        "F086",
-        "F087",
-        "F088",
-        "F089",
-        "F090",
-        "F091"
-      ],
-      "impact": "high",
-      "effort": "medium",
-      "risk": "low"
-    },
-    {
-      "id": "R14",
-      "title": "Introduce Performance Profiling in CI",
-      "description": "Add lightweight benchmarks for mission planning flows and fail builds on regressions >10%.",
-      "related_findings": [
-        "F111",
-        "F112",
-        "F113",
-        "F114",
-        "F115",
-        "F116",
-        "F117",
-        "F118",
-        "F119",
-        "F120",
-        "F121",
-        "F122",
-        "F123",
-        "F124",
-        "F125",
-        "F126",
-        "F127",
-        "F128",
-        "F129",
-        "F130"
-      ],
-      "impact": "medium",
-      "effort": "medium",
-      "risk": "medium"
-    },
-    {
-      "id": "R15",
-      "title": "Automate Documentation Generation",
-      "description": "Generate API docs from TypeScript annotations using TypeDoc to keep reference in sync with code.",
-      "related_findings": [
-        "F092",
-        "F093",
-        "F094",
-        "F095",
-        "F096",
-        "F097",
-        "F098",
-        "F099",
-        "F100",
-        "F101",
-        "F102",
-        "F103",
-        "F104",
-        "F105",
-        "F106"
-      ],
-      "impact": "medium",
-      "effort": "medium",
-      "risk": "low"
-    }
-  ]
-}
+[
+  {
+    "id": "R01",
+    "title": "Modularize MCP server bootstrap",
+    "impact": "high",
+    "effort": "medium",
+    "risk": "low",
+    "summary": "Split src/index.ts into transport, tool-registration, and context modules to reduce the 880-line entry point and simplify testing.",
+    "evidence": "src/index.ts:1"
+  },
+  {
+    "id": "R02",
+    "title": "Sanitize mission file paths for write-capable tools",
+    "impact": "high",
+    "effort": "low",
+    "risk": "medium",
+    "summary": "Wrap split_mission and update_token_optimization inputs with safeFilePath and restrict outputDir to a configured workspace root.",
+    "evidence": "src/tools/split-mission.ts:217, src/tools/optimize-tokens.ts:66"
+  },
+  {
+    "id": "R03",
+    "title": "Restore jest suite by aligning tool definition exports",
+    "impact": "high",
+    "effort": "low",
+    "risk": "low",
+    "summary": "Update tests or re-export optimizeTokensToolDefinition to match new naming, unblocking 4 failing assertions.",
+    "evidence": "tests/tools/optimize-tokens.test.ts:235"
+  },
+  {
+    "id": "R04",
+    "title": "Type SecureYAMLLoader results in tests",
+    "impact": "medium",
+    "effort": "low",
+    "risk": "low",
+    "summary": "Add explicit generics or helper wrappers so loader.load<T>() returns typed data, avoiding TS18046 in YAML suites.",
+    "evidence": "tests/loaders/yaml-loader.test.ts:59"
+  },
+  {
+    "id": "R05",
+    "title": "Guard migration-engine expectations",
+    "impact": "medium",
+    "effort": "low",
+    "risk": "low",
+    "summary": "Introduce non-null checks or refined types for migratedTemplate before assertions to fix TS18048 failures.",
+    "evidence": "tests/versioning/migration-engine.test.ts:727"
+  },
+  {
+    "id": "R06",
+    "title": "Update integration tests for new dependency analyzer API",
+    "impact": "medium",
+    "effort": "low",
+    "risk": "low",
+    "summary": "Remove legacy outputFormat parameter from phase4 intelligence flow tests and adjust expected payloads.",
+    "evidence": "tests/integration/phase4-intelligence-flow.test.ts:254"
+  },
+  {
+    "id": "R07",
+    "title": "Harden security validator tests against unknown shapes",
+    "impact": "medium",
+    "effort": "low",
+    "risk": "low",
+    "summary": "Use type guards for template.spec.phases in security validator tests after stricter SecureYAMLLoader changes.",
+    "evidence": "tests/import-export/security-validator.test.ts:186"
+  },
+  {
+    "id": "R08",
+    "title": "Preload tokenizer models and silence heuristic telemetry in CI",
+    "impact": "medium",
+    "effort": "medium",
+    "risk": "medium",
+    "summary": "Bundle claude tokenizer assets with dist build or stub them in tests to avoid fallbackCount warnings and noisy stderr.",
+    "evidence": "src/intelligence/token-counters.ts:154"
+  },
+  {
+    "id": "R09",
+    "title": "Introduce eslint + prettier baseline",
+    "impact": "medium",
+    "effort": "medium",
+    "risk": "low",
+    "summary": "Add lint scripts and configuration to enforce consistent style and catch dead imports earlier.",
+    "evidence": "package.json:scripts"
+  },
+  {
+    "id": "R10",
+    "title": "Refactor template extractor branching hot spots",
+    "impact": "medium",
+    "effort": "high",
+    "risk": "medium",
+    "summary": "Break template-extractor pipeline (63 decision points) into focused modules with unit coverage for each phase.",
+    "evidence": "artifacts/04_complexity_metrics.json -> src/extraction/template-extractor.ts"
+  },
+  {
+    "id": "R11",
+    "title": "Parallelize dependency resolution during template import",
+    "impact": "medium",
+    "effort": "medium",
+    "risk": "medium",
+    "summary": "Batch resolveDependencies with Promise.allSettled and shared caching to reduce import latency for large packs.",
+    "evidence": "src/import-export/template-importer.ts:170"
+  },
+  {
+    "id": "R12",
+    "title": "Document remaining public exports",
+    "impact": "low",
+    "effort": "medium",
+    "risk": "low",
+    "summary": "Add JSDoc to 36 undocumented exports to raise API documentation coverage from 61.54% to >90%.",
+    "evidence": "artifacts/09_doc_coverage.json"
+  },
+  {
+    "id": "R13",
+    "title": "Align coverage thresholds with current totals",
+    "impact": "low",
+    "effort": "low",
+    "risk": "medium",
+    "summary": "Either restore global coverage >90% or adjust jest thresholds while remediation is underway to keep CI actionable.",
+    "evidence": "artifacts/05_coverage_report.json"
+  },
+  {
+    "id": "R14",
+    "title": "Add workspace allowlist for write-enabled tools",
+    "impact": "high",
+    "effort": "medium",
+    "risk": "medium",
+    "summary": "Centralize allowed base directory configuration and reuse across optimize, split, and extract tools.",
+    "evidence": "src/tools/split-mission.ts:188"
+  },
+  {
+    "id": "R15",
+    "title": "Add regression tests for tool definitions",
+    "impact": "medium",
+    "effort": "low",
+    "risk": "low",
+    "summary": "Create snapshot tests around tool definitions to detect accidental renames or schema drift early.",
+    "evidence": "tests/tools/optimize-tokens.test.ts"
+  }
+]

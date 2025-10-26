@@ -1,114 +1,24 @@
 {
   "immediate": [
-    {
-      "id": "R01",
-      "title": "Implement Centralized Error Handling",
-      "impact": "high",
-      "effort": "medium",
-      "risk": "medium"
-    },
-    {
-      "id": "R02",
-      "title": "Enforce Input Validation Contracts",
-      "impact": "high",
-      "effort": "medium",
-      "risk": "low"
-    },
-    {
-      "id": "R06",
-      "title": "Replace Synchronous IO Operations",
-      "impact": "high",
-      "effort": "medium",
-      "risk": "medium"
-    },
-    {
-      "id": "R08",
-      "title": "Eliminate Dangerous Security Patterns",
-      "impact": "high",
-      "effort": "medium",
-      "risk": "high"
-    },
-    {
-      "id": "R12",
-      "title": "Repair Domain Pack Definitions",
-      "impact": "high",
-      "effort": "low",
-      "risk": "medium"
-    },
-    {
-      "id": "R13",
-      "title": "Improve Coverage Hotspots",
-      "impact": "high",
-      "effort": "medium",
-      "risk": "low"
-    }
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R07"
   ],
   "short_term": [
-    {
-      "id": "R03",
-      "title": "Expand Automated Test Coverage",
-      "impact": "high",
-      "effort": "high",
-      "risk": "medium"
-    }
+    "R01",
+    "R08",
+    "R09",
+    "R14",
+    "R15"
   ],
   "medium_term": [
-    {
-      "id": "R04",
-      "title": "Declare Explicit Return Types",
-      "impact": "medium",
-      "effort": "low",
-      "risk": "low"
-    },
-    {
-      "id": "R05",
-      "title": "Standardize API Naming",
-      "impact": "medium",
-      "effort": "low",
-      "risk": "low"
-    },
-    {
-      "id": "R07",
-      "title": "Optimize Nested Loop Hotspots",
-      "impact": "medium",
-      "effort": "medium",
-      "risk": "medium"
-    },
-    {
-      "id": "R09",
-      "title": "Repair Documentation Links",
-      "impact": "medium",
-      "effort": "low",
-      "risk": "low"
-    },
-    {
-      "id": "R10",
-      "title": "Fill Documentation Gaps",
-      "impact": "medium",
-      "effort": "low",
-      "risk": "low"
-    },
-    {
-      "id": "R11",
-      "title": "Retire Temporary Workarounds",
-      "impact": "medium",
-      "effort": "medium",
-      "risk": "medium"
-    },
-    {
-      "id": "R14",
-      "title": "Introduce Performance Profiling in CI",
-      "impact": "medium",
-      "effort": "medium",
-      "risk": "medium"
-    },
-    {
-      "id": "R15",
-      "title": "Automate Documentation Generation",
-      "impact": "medium",
-      "effort": "medium",
-      "risk": "low"
-    }
+    "R10",
+    "R11",
+    "R12",
+    "R13"
   ],
   "long_term": []
 }
