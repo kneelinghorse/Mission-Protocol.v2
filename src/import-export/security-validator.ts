@@ -24,6 +24,7 @@ import {
   SemanticValidationError,
   DependencyResolutionError,
   TemplateDependency,
+  TemplateSpec,
 } from './types';
 
 /**
@@ -265,11 +266,11 @@ export class SecurityValidator {
   /**
    * Create canonical representation of content for signing
    */
-  private canonicalize(spec: any, dependencies?: any[]): string {
+  private canonicalize(spec: TemplateSpec, dependencies: TemplateDependency[] = []): string {
     // Deterministic JSON serialization
     const content = {
       spec,
-      dependencies: dependencies || [],
+      dependencies,
     };
     return JSON.stringify(content, Object.keys(content).sort());
   }
@@ -313,37 +314,54 @@ export class SecurityValidator {
       }
 
       // Check resource limits
-      if (spec.resources) {
-        if (spec.resources.memory && spec.resources.memory > this.semanticRules.maxResourceMemory) {
+      const resources = (spec as { resources?: { memory?: unknown; cpu?: unknown } }).resources;
+      if (resources && typeof resources === 'object') {
+        const memory = (resources as { memory?: unknown }).memory;
+        if (typeof memory === 'number' && memory > this.semanticRules.maxResourceMemory) {
           errors.push(
-            `Memory request ${spec.resources.memory}MB exceeds limit ${this.semanticRules.maxResourceMemory}MB`
+            `Memory request ${memory}MB exceeds limit ${this.semanticRules.maxResourceMemory}MB`
           );
         }
-        if (spec.resources.cpu && spec.resources.cpu > this.semanticRules.maxResourceCpu) {
+
+        const cpu = (resources as { cpu?: unknown }).cpu;
+        if (typeof cpu === 'number' && cpu > this.semanticRules.maxResourceCpu) {
           errors.push(
-            `CPU request ${spec.resources.cpu} cores exceeds limit ${this.semanticRules.maxResourceCpu} cores`
+            `CPU request ${cpu} cores exceeds limit ${this.semanticRules.maxResourceCpu} cores`
           );
         }
       }
 
-      // Validate allowed actions (if allowlist is populated)
-      if (this.semanticRules.allowedActions.length > 0 && spec.phases) {
-        for (const phase of spec.phases) {
-          if (phase.steps) {
-            for (const step of phase.steps) {
-              if (step.action && !this.semanticRules.allowedActions.includes(step.action)) {
-                errors.push(`Disallowed action: ${step.action}`);
-              }
+      const phases = (spec as { phases?: unknown }).phases;
+      if (this.semanticRules.allowedActions.length > 0 && Array.isArray(phases)) {
+        for (const phase of phases) {
+          if (!phase || typeof phase !== 'object') {
+            continue;
+          }
+
+          const steps = (phase as { steps?: unknown }).steps;
+          if (!Array.isArray(steps)) {
+            continue;
+          }
+
+          for (const step of steps) {
+            if (!step || typeof step !== 'object') {
+              continue;
+            }
+
+            const action = (step as { action?: unknown }).action;
+            if (typeof action === 'string' && !this.semanticRules.allowedActions.includes(action)) {
+              errors.push(`Disallowed action: ${action}`);
             }
           }
         }
       }
 
-      // Cross-field consistency checks
-      if (spec.startDate && spec.endDate) {
-        const start = new Date(spec.startDate);
-        const end = new Date(spec.endDate);
-        if (end <= start) {
+      const startDate = (spec as { startDate?: unknown }).startDate;
+      const endDate = (spec as { endDate?: unknown }).endDate;
+      if (typeof startDate === 'string' && typeof endDate === 'string') {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        if (!Number.isNaN(start.getTime()) && !Number.isNaN(end.getTime()) && end <= start) {
           errors.push('End date must be after start date');
         }
       }

@@ -232,6 +232,19 @@ successCriteria: It is important to note that the test must pass.`;
         })
       ).rejects.toThrow();
     });
+
+    test('wraps pipeline failures with optimization failed message', async () => {
+      const content = 'objective: Trigger failure';
+      const transpileSpy = jest.spyOn(mockTranspiler, 'transpile').mockImplementation(() => {
+        throw new Error('transpile broke');
+      });
+
+      await expect(
+        optimizer.optimize(content, { model: 'claude', level: 'balanced' })
+      ).rejects.toThrow('Optimization failed: transpile broke');
+
+      transpileSpy.mockRestore();
+    });
   });
 
   describe('Custom preserve tags', () => {
@@ -246,5 +259,19 @@ successCriteria: It is important to note that the test must pass.`;
 
       expect(result.optimized).toContain('Must keep this');
     });
+  });
+
+  test('allows overriding ruleset to skip early passes', async () => {
+    const result = await optimizer.optimize('Objective: keep text', {
+      model: 'gpt',
+      level: 'aggressive',
+      ruleset: {
+        sanitizationRules: [],
+        structuralRules: [],
+        linguisticRules: [],
+      },
+    });
+
+    expect(result.stats.passesApplied).toEqual(['model-specific']);
   });
 });

@@ -22,6 +22,8 @@ import { ComplexityScorer, ComplexityAnalysis } from '../intelligence/complexity
 import { ITokenCounter, SupportedModel } from '../intelligence/types';
 import { pathExists } from '../utils/fs';
 
+type SplitAnalysisResult = Awaited<ReturnType<MissionSplitter['suggestSplits']>>;
+
 /**
  * Parameters for suggest_splits tool
  */
@@ -68,11 +70,12 @@ export interface SplitSuggestion {
 }
 
 /**
- * MCP Tool Definition for suggest_splits
+ * MCP Tool Definition for split suggestions
  */
-export const suggestSplitsToolDefinition = {
-  name: 'suggest_splits',
-  description: 'Analyzes a mission for complexity and suggests optimal split points without actually splitting it. Use this to evaluate whether a mission should be split and where the natural breakpoints are. This is useful for planning and understanding mission structure before committing to a split.',
+export const getSplitSuggestionsToolDefinition = {
+  name: 'get_split_suggestions',
+  description:
+    'Analyzes a mission for complexity and suggests optimal split points without actually splitting it. Use this to evaluate whether a mission should be split and where the natural breakpoints are. This is useful for planning and understanding mission structure before committing to a split.',
   inputSchema: {
     type: 'object',
     required: ['missionFile'],
@@ -92,6 +95,16 @@ export const suggestSplitsToolDefinition = {
       },
     },
   },
+} as const;
+
+/**
+ * Legacy alias maintained for one release cycle
+ */
+export const suggestSplitsToolDefinitionDeprecated = {
+  ...getSplitSuggestionsToolDefinition,
+  name: 'suggest_splits',
+  description:
+    '[DEPRECATED] Use get_split_suggestions instead. Produces the same mission split recommendation report.',
 } as const;
 
 /**
@@ -223,7 +236,7 @@ export class SuggestSplitsToolImpl {
   /**
    * Generate recommendation text
    */
-  private generateRecommendation(suggestion: any): string {
+  private generateRecommendation(suggestion: SplitAnalysisResult): string {
     if (!suggestion.shouldSplit) {
       return this.getNoSplitRecommendation(suggestion.complexity);
     }
@@ -249,7 +262,7 @@ export class SuggestSplitsToolImpl {
   /**
    * Recommendation when split is suggested
    */
-  private getSplitRecommendation(suggestion: any): string {
+  private getSplitRecommendation(suggestion: SplitAnalysisResult): string {
     const score = suggestion.complexity.compositeScore;
     const numSplits = suggestion.suggestedSplits.length + 1;
 

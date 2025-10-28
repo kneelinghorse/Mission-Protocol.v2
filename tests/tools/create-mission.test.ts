@@ -21,7 +21,9 @@ import { DomainPackLoader } from '../../src/domains/domain-pack-loader';
 import { MissionMerger } from '../../src/merge/deep-merge';
 import { CreateMissionToolImpl } from '../../src/tools/create-mission';
 import { ensureDir, pathExists } from '../../src/utils/fs';
-import { GenericMission } from '../../src/schemas/generic-mission';
+import * as GenericMissionSchema from '../../src/schemas/generic-mission';
+import type { GenericMission } from '../../src/schemas/generic-mission';
+import { MissionProtocolError } from '../../src/errors/mission-error';
 import { DomainPackEntry } from '../../src/types/registry';
 
 describe('CreateMissionToolImpl', () => {
@@ -265,7 +267,7 @@ domains:
         domain: 'nonexistent-domain',
       };
 
-      await expect(tool.execute(params, registryEntries)).rejects.toThrow(/not found.*list_available_domains/i);
+      await expect(tool.execute(params, registryEntries)).rejects.toThrow(/not found.*get_available_domains/i);
     });
   });
 
@@ -416,7 +418,7 @@ objective: "Test objective"
         domain: 'invalid-domain',
       };
 
-      await expect(tool.execute(params, [])).rejects.toThrow(/not found.*list_available_domains/i);
+      await expect(tool.execute(params, [])).rejects.toThrow(/not found.*get_available_domains/i);
     });
 
     it('should handle domain pack loading errors', async () => {
@@ -572,6 +574,132 @@ objective: "test"
 
       expect(mission.successCriteria).toHaveLength(50);
       expect(mission.successCriteria[49]).toBe('Criterion 50');
+    });
+  });
+
+  describe('validateMission', () => {
+    const createValidMission = (): GenericMission => ({
+      schemaType: 'Mission',
+      schemaVersion: '2.0',
+      missionId: 'mission-valid',
+      objective: 'Deliver core functionality',
+      context: {
+        background: 'Context text',
+        dependencies: [],
+        constraints: [],
+      },
+      successCriteria: ['Pass tests'],
+      deliverables: ['Report'],
+      domainFields: {},
+    });
+
+    test('throws when schemaType missing or incorrect', () => {
+      const mission = createValidMission();
+      (mission as any).schemaType = 'Task';
+      const guardSpy = jest
+        .spyOn(GenericMissionSchema, 'isGenericMission')
+        .mockReturnValue(true);
+      try {
+        expect(() => (tool as any).validateMission(mission)).toThrow('Invalid schemaType');
+      } finally {
+        guardSpy.mockRestore();
+      }
+    });
+
+    test('throws when schemaVersion missing or incorrect', () => {
+      const mission = createValidMission();
+      (mission as any).schemaVersion = '1.0';
+      const guardSpy = jest
+        .spyOn(GenericMissionSchema, 'isGenericMission')
+        .mockReturnValue(true);
+      try {
+        expect(() => (tool as any).validateMission(mission)).toThrow('Invalid schemaVersion');
+      } finally {
+        guardSpy.mockRestore();
+      }
+    });
+
+    test('throws when missionId missing', () => {
+      const mission = createValidMission();
+      mission.missionId = '';
+      const guardSpy = jest
+        .spyOn(GenericMissionSchema, 'isGenericMission')
+        .mockReturnValue(true);
+      try {
+        expect(() => (tool as any).validateMission(mission)).toThrow('Invalid missionId');
+      } finally {
+        guardSpy.mockRestore();
+      }
+    });
+
+    test('throws when objective missing', () => {
+      const mission = createValidMission();
+      mission.objective = '';
+      const guardSpy = jest
+        .spyOn(GenericMissionSchema, 'isGenericMission')
+        .mockReturnValue(true);
+      try {
+        expect(() => (tool as any).validateMission(mission)).toThrow('Invalid objective');
+      } finally {
+        guardSpy.mockRestore();
+      }
+    });
+
+    test('throws when successCriteria empty', () => {
+      const mission = createValidMission();
+      mission.successCriteria = [];
+      const guardSpy = jest
+        .spyOn(GenericMissionSchema, 'isGenericMission')
+        .mockReturnValue(true);
+      try {
+        expect(() => (tool as any).validateMission(mission)).toThrow(
+          'successCriteria must be a non-empty array'
+        );
+      } finally {
+        guardSpy.mockRestore();
+      }
+    });
+
+    test('throws when deliverables empty', () => {
+      const mission = createValidMission();
+      mission.deliverables = [];
+      const guardSpy = jest
+        .spyOn(GenericMissionSchema, 'isGenericMission')
+        .mockReturnValue(true);
+      try {
+        expect(() => (tool as any).validateMission(mission)).toThrow(
+          'deliverables must be a non-empty array'
+        );
+      } finally {
+        guardSpy.mockRestore();
+      }
+    });
+
+    test('wraps serialization failures when converting to YAML', async () => {
+      jest.resetModules();
+      jest.doMock('yaml', () => ({
+        stringify: jest.fn(() => {
+          throw new Error('failed to stringify');
+        }),
+      }));
+
+      const { CreateMissionToolImpl: MockedCreateMissionToolImpl } = await import(
+        '../../src/tools/create-mission'
+      );
+
+      const dummyTool = new MockedCreateMissionToolImpl({} as any, {} as any, {} as any, {} as any);
+      const mission = createValidMission();
+
+      try {
+        (dummyTool as any).toYAML(mission);
+        throw new Error('Expected toYAML to throw');
+      } catch (error) {
+        expect(error).toBeTruthy();
+        expect((error as any).context?.userMessage).toBe('Unable to serialize mission to YAML.');
+        expect((error as Error).message).toBe('failed to stringify');
+      } finally {
+        jest.resetModules();
+      }
     });
   });
 });

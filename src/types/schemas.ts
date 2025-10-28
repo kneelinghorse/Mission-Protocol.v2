@@ -8,7 +8,7 @@ export interface JSONSchema {
   required?: string[];
   items?: JSONSchema;
   additionalProperties?: boolean | JSONSchema;
-  enum?: any[];
+  enum?: unknown[];
   pattern?: string;
   minimum?: number;
   maximum?: number;
@@ -16,11 +16,11 @@ export interface JSONSchema {
   maxLength?: number;
   minItems?: number;
   maxItems?: number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface ValidationResult<T> {
   valid: boolean;
   data?: T;
-  errors?: any[];
+  errors?: unknown[];
 }

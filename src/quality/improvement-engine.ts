@@ -6,14 +6,19 @@
 import {
   ImprovementSuggestion,
   DimensionScore,
-  MissionContent
+  MissionContent,
+  MetricResult
 } from './types';
 
 interface FeedbackRule {
-  condition: (metricValue: number, details?: any) => boolean;
+  condition: (metricValue: number, details?: Record<string, unknown>) => boolean;
   severity: 'critical' | 'important' | 'info';
   category: string;
-  messageTemplate: (metricValue: number, details?: any, context?: any) => string;
+  messageTemplate: (
+    metricValue: number,
+    details?: Record<string, unknown>,
+    context?: MissionContent
+  ) => string;
 }
 
 export class ImprovementEngine {
@@ -62,7 +67,7 @@ export class ImprovementEngine {
    */
   private evaluateMetric(
     metricName: string,
-    metric: any,
+    metric: MetricResult,
     mission: MissionContent
   ): ImprovementSuggestion[] {
     const suggestions: ImprovementSuggestion[] = [];
@@ -87,6 +92,29 @@ export class ImprovementEngine {
    * Initialize all feedback rules
    */
   private initializeRules(): void {
+    const getNumberDetail = (detail: Record<string, unknown> | undefined, key: string): number | undefined => {
+      const value = detail?.[key];
+      return typeof value === 'number' ? value : undefined;
+    };
+
+    const getStringDetail = (detail: Record<string, unknown> | undefined, key: string): string | undefined => {
+      const value = detail?.[key];
+      return typeof value === 'string' ? value : undefined;
+    };
+
+    const getBooleanDetail = (detail: Record<string, unknown> | undefined, key: string): boolean | undefined => {
+      const value = detail?.[key];
+      return typeof value === 'boolean' ? value : undefined;
+    };
+
+    const getStringArrayDetail = (detail: Record<string, unknown> | undefined, key: string): string[] => {
+      const value = detail?.[key];
+      if (!Array.isArray(value)) {
+        return [];
+      }
+      return value.filter((item): item is string => typeof item === 'string');
+    };
+
     // Syntactic Validity (Critical)
     this.addRule('Syntactic Validity', {
       condition: (value) => value === 0,
@@ -102,7 +130,7 @@ export class ImprovementEngine {
       severity: 'critical',
       category: 'Completeness',
       messageTemplate: (value, details) => {
-        const missing = details?.missing || [];
+        const missing = getStringArrayDetail(details, 'missing');
         return `Mission is missing required fields: ${missing.join(', ')}. All required fields must be present.`;
       }
     });
@@ -112,9 +140,16 @@ export class ImprovementEngine {
       condition: (value) => value > 20,
       severity: 'important',
       category: 'Clarity',
-      messageTemplate: (value, details) =>
-        `This mission's logical complexity is very high (MCC: ${value}, Risk: ${details?.riskLevel}). ` +
-        `Consider refactoring into multiple, smaller missions to reduce the number of decision points (${details?.decisionPoints}).`
+      messageTemplate: (value, details) => {
+        const riskLevel = getStringDetail(details, 'riskLevel') ?? 'unknown';
+        const decisionPoints = getNumberDetail(details, 'decisionPoints');
+        const decisionPointsText = decisionPoints !== undefined ? decisionPoints : 'unknown';
+
+        return (
+          `This mission's logical complexity is very high (MCC: ${value}, Risk: ${riskLevel}). ` +
+          `Consider refactoring into multiple, smaller missions to reduce the number of decision points (${decisionPointsText}).`
+        );
+      }
     });
 
     this.addRule('Mission Cyclomatic Complexity', {
@@ -147,8 +182,10 @@ export class ImprovementEngine {
       condition: (value) => value < 50,
       severity: 'info',
       category: 'Clarity',
-      messageTemplate: (value, details) =>
-        `Information density is low (${details?.percentage}). Consider reducing filler words and increasing content-bearing terms.`
+      messageTemplate: (value, details) => {
+        const percentage = getStringDetail(details, 'percentage') ?? 'N/A';
+        return `Information density is low (${percentage}). Consider reducing filler words and increasing content-bearing terms.`;
+      }
     });
 
     // Referential Ambiguity
@@ -163,12 +200,17 @@ export class ImprovementEngine {
 
     // Lexical Ambiguity
     this.addRule('Lexical Ambiguity', {
-      condition: (value, details) => details?.ambiguousWordCount > 5,
+      condition: (value, details) => (getNumberDetail(details, 'ambiguousWordCount') ?? 0) > 5,
       severity: 'info',
       category: 'Clarity',
-      messageTemplate: (value, details) =>
-        `Mission contains ${details?.ambiguousWordCount} potentially ambiguous words. ` +
-        `Review context-dependent terms for clarity.`
+      messageTemplate: (value, details) => {
+        const ambiguousWordCount = getNumberDetail(details, 'ambiguousWordCount');
+        const countText = ambiguousWordCount !== undefined ? ambiguousWordCount : 'several';
+        return (
+          `Mission contains ${countText} potentially ambiguous words. ` +
+          `Review context-dependent terms for clarity.`
+        );
+      }
     });
 
     // Information Density
@@ -178,9 +220,12 @@ export class ImprovementEngine {
       category: 'Completeness',
       messageTemplate: (value, details) => {
         const issues: string[] = [];
-        if (details?.objectiveWords < 10) issues.push('objective is too brief');
-        if (details?.contextWords < 25) issues.push('context lacks detail');
-        if (details?.successCriteriaCount < 3) issues.push('insufficient success criteria');
+        const objectiveWords = getNumberDetail(details, 'objectiveWords');
+        const contextWords = getNumberDetail(details, 'contextWords');
+        const successCriteriaCount = getNumberDetail(details, 'successCriteriaCount');
+        if ((objectiveWords ?? 0) < 10) issues.push('objective is too brief');
+        if ((contextWords ?? 0) < 25) issues.push('context lacks detail');
+        if ((successCriteriaCount ?? 0) < 3) issues.push('insufficient success criteria');
 
         return `Mission lacks sufficient detail: ${issues.join(', ')}. Add more specific information.`;
       }
@@ -208,7 +253,7 @@ export class ImprovementEngine {
 
     // Instruction Specificity
     this.addRule('Instruction Specificity', {
-      condition: (value, details) => !details?.hasExplicitGoal,
+      condition: (value, details) => !getBooleanDetail(details, 'hasExplicitGoal'),
       severity: 'important',
       category: 'AI-Readiness',
       messageTemplate: () =>
@@ -217,7 +262,7 @@ export class ImprovementEngine {
     });
 
     this.addRule('Instruction Specificity', {
-      condition: (value, details) => !details?.hasFormatSpec,
+      condition: (value, details) => !getBooleanDetail(details, 'hasFormatSpec'),
       severity: 'info',
       category: 'AI-Readiness',
       messageTemplate: () =>
@@ -226,7 +271,7 @@ export class ImprovementEngine {
     });
 
     this.addRule('Instruction Specificity', {
-      condition: (value, details) => !details?.hasConstraints,
+      condition: (value, details) => !getBooleanDetail(details, 'hasConstraints'),
       severity: 'info',
       category: 'AI-Readiness',
       messageTemplate: () =>
@@ -235,7 +280,7 @@ export class ImprovementEngine {
     });
 
     this.addRule('Instruction Specificity', {
-      condition: (value, details) => !details?.hasSuccessCriteria,
+      condition: (value, details) => !getBooleanDetail(details, 'hasSuccessCriteria'),
       severity: 'important',
       category: 'AI-Readiness',
       messageTemplate: () =>
@@ -245,20 +290,28 @@ export class ImprovementEngine {
 
     // Linting Score
     this.addRule('Linting Score', {
-      condition: (value, details) => details?.vaguePhrasesCount > 5,
+      condition: (value, details) => (getNumberDetail(details, 'vaguePhrasesCount') ?? 0) > 5,
       severity: 'info',
       category: 'AI-Readiness',
-      messageTemplate: (value, details) =>
-        `Mission contains ${details?.vaguePhrasesCount} vague phrases ` +
-        `(e.g., ${details?.vaguePhrasesFound?.join(', ')}). Replace with specific, measurable terms.`
+      messageTemplate: (value, details) => {
+        const vagueCount = getNumberDetail(details, 'vaguePhrasesCount') ?? 0;
+        const phrases = getStringArrayDetail(details, 'vaguePhrasesFound');
+        const phrasesText = phrases.length > 0 ? phrases.join(', ') : 'n/a';
+        return (
+          `Mission contains ${vagueCount} vague phrases ` +
+          `(e.g., ${phrasesText}). Replace with specific, measurable terms.`
+        );
+      }
     });
 
     this.addRule('Linting Score', {
-      condition: (value, details) => details?.emptyFieldsCount > 0,
+      condition: (value, details) => (getNumberDetail(details, 'emptyFieldsCount') ?? 0) > 0,
       severity: 'info',
       category: 'Structure',
-      messageTemplate: (value, details) =>
-        `Mission has ${details?.emptyFieldsCount} empty fields. Remove unused fields or populate with content.`
+      messageTemplate: (value, details) => {
+        const emptyFieldsCount = getNumberDetail(details, 'emptyFieldsCount') ?? 0;
+        return `Mission has ${emptyFieldsCount} empty fields. Remove unused fields or populate with content.`;
+      }
     });
   }
 

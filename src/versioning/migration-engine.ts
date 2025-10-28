@@ -13,6 +13,7 @@ import {
   TemplateVersion,
   MigrationError,
   VersionManagerOptions,
+  TemplateData,
 } from './types';
 import { VersionManager } from './version-manager';
 import { jsonContent } from '../validation/common';
@@ -130,14 +131,14 @@ export class MigrationEngine {
    */
   async migrate(
     templateId: string,
-    template: any,
+    template: TemplateData,
     migrationPath: MigrationPath,
     backupDir?: string
   ): Promise<MigrationResult> {
     const startTime = Date.now();
     const errors: string[] = [];
     const warnings: string[] = [];
-    let currentTemplate = template;
+    let currentTemplate: TemplateData = template;
     let backupPath: string | undefined;
 
     try {
@@ -192,12 +193,23 @@ export class MigrationEngine {
       }
 
       const executionTime = Date.now() - startTime;
+      const warningList = warnings.length > 0 ? warnings : undefined;
+
+      if (errors.length === 0) {
+        return {
+          success: true,
+          migratedTemplate: currentTemplate,
+          warnings: warningList,
+          executionTime,
+          backupPath,
+        };
+      }
 
       return {
-        success: errors.length === 0,
+        success: false,
         migratedTemplate: currentTemplate,
-        errors: errors.length > 0 ? errors : undefined,
-        warnings: warnings.length > 0 ? warnings : undefined,
+        errors,
+        warnings: warningList,
         executionTime,
         backupPath,
       };
@@ -221,10 +233,10 @@ export class MigrationEngine {
   async rollback(
     templateId: string,
     backupPath: string
-  ): Promise<{ success: boolean; template?: any; error?: string }> {
+  ): Promise<{ success: boolean; template?: TemplateData; error?: string }> {
     try {
       const backupContent = await fs.readFile(backupPath, 'utf-8');
-      const template = jsonContent(backupContent, { maxSize: MAX_BACKUP_SIZE_BYTES });
+      const template = jsonContent(backupContent, { maxSize: MAX_BACKUP_SIZE_BYTES }) as TemplateData;
 
       return {
         success: true,
@@ -243,7 +255,7 @@ export class MigrationEngine {
    */
   private async createBackup(
     templateId: string,
-    template: any,
+    template: TemplateData,
     backupDir: string
   ): Promise<string> {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
@@ -319,7 +331,7 @@ export class MigrationEngine {
    */
   async autoMigrate(
     templateId: string,
-    template: any,
+    template: TemplateData,
     currentVersion: SemanticVersion,
     backupDir?: string
   ): Promise<MigrationResult> {
@@ -401,9 +413,9 @@ export function createMigration(
   fromVersion: SemanticVersion,
   toVersion: SemanticVersion,
   description: string,
-  migrateFn: (template: any) => Promise<any>,
+  migrateFn: (template: TemplateData) => Promise<TemplateData>,
   options: {
-    rollbackFn?: (template: any) => Promise<any>;
+    rollbackFn?: (template: TemplateData) => Promise<TemplateData>;
     estimatedDuration?: number;
   } = {}
 ): MigrationScript {
@@ -412,7 +424,7 @@ export function createMigration(
     fromVersion,
     toVersion,
     description,
-    migrate: async (template: any): Promise<MigrationResult> => {
+    migrate: async (template: TemplateData): Promise<MigrationResult> => {
       const startTime = Date.now();
       try {
         const migratedTemplate = await migrateFn(template);

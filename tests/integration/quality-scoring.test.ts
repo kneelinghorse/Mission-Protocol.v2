@@ -109,14 +109,14 @@ describe('Quality Scoring Integration', () => {
           'All specified metrics functional and accurate.',
           'Unified Quality Score calculation with configurable weights.',
           'Quality assessment completes in <3 seconds per mission.',
-          'The score_quality MCP tool is functional.',
+          'The get_mission_quality_score MCP tool is functional.',
           'Actionable improvement suggestions generated.'
         ],
         deliverables: [
           'The implemented QualityScorer class with all metric calculations.',
           'Unified scoring algorithm with weighted dimensions.',
           'Improvement suggestion engine.',
-          'The score_quality MCP tool.',
+          'The get_mission_quality_score MCP tool.',
           'Benchmarking against successful mission patterns.'
         ],
         domainFields: {

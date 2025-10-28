@@ -12,8 +12,38 @@ import {
   SemanticVersion,
   MigrationScript,
   MigrationError,
+  MigrationResult,
+  SuccessfulMigrationResult,
+  FailedMigrationResult,
+  isSuccessfulMigrationResult,
 } from '../../src/versioning/types';
 import { ensureDir, pathExists, removeDir } from '../../src/utils/fs';
+
+function expectSuccessfulResult(
+  result: MigrationResult,
+  message = 'Expected migration to succeed'
+): SuccessfulMigrationResult {
+  expect(result.success).toBe(true);
+
+  if (!isSuccessfulMigrationResult(result)) {
+    throw new Error(message);
+  }
+
+  return result;
+}
+
+function expectFailedResult(
+  result: MigrationResult,
+  message = 'Expected migration to fail'
+): FailedMigrationResult {
+  expect(result.success).toBe(false);
+
+  if (isSuccessfulMigrationResult(result)) {
+    throw new Error(message);
+  }
+
+  return result;
+}
 
 describe('MigrationEngine', () => {
   let versionManager: VersionManager;
@@ -169,6 +199,40 @@ describe('MigrationEngine', () => {
       expect(path).toBeNull();
     });
 
+    test('returns null when migrations create a cycle', () => {
+      migrationEngine.clearMigrations();
+
+      migrationEngine.registerMigration(
+        'cyclic-template',
+        createMigration(
+          'forward',
+          versionManager.parseVersion('1.0.0'),
+          versionManager.parseVersion('1.1.0'),
+          'Forward step',
+          async (template) => template
+        )
+      );
+
+      migrationEngine.registerMigration(
+        'cyclic-template',
+        createMigration(
+          'backward',
+          versionManager.parseVersion('1.1.0'),
+          versionManager.parseVersion('1.0.0'),
+          'Backward step',
+          async (template) => template
+        )
+      );
+
+      const path = migrationEngine.findMigrationPath(
+        'cyclic-template',
+        versionManager.parseVersion('1.0.0'),
+        versionManager.parseVersion('1.2.0')
+      );
+
+      expect(path).toBeNull();
+    });
+
     test('should return null for unknown template', () => {
       const path = migrationEngine.findMigrationPath(
         'unknown-template',
@@ -245,8 +309,8 @@ describe('MigrationEngine', () => {
         testDir
       );
 
-      expect(result.success).toBe(true);
-      expect(result.migratedTemplate).toEqual({
+      const success = expectSuccessfulResult(result);
+      expect(success.migratedTemplate).toEqual({
         name: 'test',
         newField: 'value',
       });
@@ -295,8 +359,8 @@ describe('MigrationEngine', () => {
         testDir
       );
 
-      expect(result.success).toBe(true);
-      expect(result.migratedTemplate).toEqual({
+      const success = expectSuccessfulResult(result);
+      expect(success.migratedTemplate).toEqual({
         name: 'test',
         step1: true,
         step2: true,
@@ -387,9 +451,168 @@ describe('MigrationEngine', () => {
       const template = { name: 'test' };
       const result = await nonStrictEngine.migrate('test-template', template, path!, testDir);
 
-      expect(result.success).toBe(false);
-      expect(result.errors).toBeDefined();
-      expect(result.errors!.length).toBeGreaterThan(0);
+      const failure = expectFailedResult(result);
+      expect(failure.errors.length).toBeGreaterThan(0);
+    });
+
+    test('should record warnings from successful steps', async () => {
+      migrationEngine.registerMigration(
+        'test-template',
+        {
+          id: 'warn-step',
+          fromVersion: versionManager.parseVersion('1.0.0'),
+          toVersion: versionManager.parseVersion('1.1.0'),
+          description: 'Warns but succeeds',
+          migrate: async () => ({
+            success: true,
+            migratedTemplate: { migrated: true },
+            warnings: ['manual review recommended'],
+            executionTime: 5,
+          }),
+          reversible: false,
+        }
+      );
+
+      const path = migrationEngine.findMigrationPath(
+        'test-template',
+        versionManager.parseVersion('1.0.0'),
+        versionManager.parseVersion('1.1.0')
+      );
+
+      const result = await migrationEngine.migrate(
+        'test-template',
+        { name: 'warn' },
+        path!,
+        testDir
+      );
+
+      expect(result.warnings).toEqual(['manual review recommended']);
+      const success = expectSuccessfulResult(result);
+      expect(success.migratedTemplate).toEqual({ migrated: true });
+    });
+
+    test('throws in strict mode when step reports failure without throwing', async () => {
+      const failingMigration: MigrationScript = {
+        id: 'soft-failure',
+        fromVersion: versionManager.parseVersion('1.0.0'),
+        toVersion: versionManager.parseVersion('1.1.0'),
+        description: 'Returns failure',
+        migrate: async () => ({
+          success: false,
+          errors: ['validation failed'],
+          executionTime: 2,
+        }),
+        reversible: false,
+      };
+
+      migrationEngine.registerMigration('test-template', failingMigration);
+
+      const path = migrationEngine.findMigrationPath(
+        'test-template',
+        versionManager.parseVersion('1.0.0'),
+        versionManager.parseVersion('1.1.0')
+      );
+
+      await expect(
+        migrationEngine.migrate('test-template', { id: 'x' }, path!, testDir)
+      ).rejects.toThrow(MigrationError);
+    });
+
+    test('collects soft failures in non-strict mode', async () => {
+      const nonStrictEngine = new MigrationEngine(versionManager, { strict: false });
+      const failingMigration: MigrationScript = {
+        id: 'soft-failure-nonstrict',
+        fromVersion: versionManager.parseVersion('1.0.0'),
+        toVersion: versionManager.parseVersion('1.1.0'),
+        description: 'Returns failure but continues',
+        migrate: async () => ({
+          success: false,
+          errors: ['step incomplete'],
+          warnings: ['follow-up required'],
+          executionTime: 1,
+        }),
+        reversible: false,
+      };
+
+      nonStrictEngine.registerMigration('test-template', failingMigration);
+
+      const path = nonStrictEngine.findMigrationPath(
+        'test-template',
+        versionManager.parseVersion('1.0.0'),
+        versionManager.parseVersion('1.1.0')
+      );
+
+      const result = await nonStrictEngine.migrate(
+        'test-template',
+        { id: 'y' },
+        path!,
+        testDir
+      );
+
+      const failure = expectFailedResult(result);
+      expect(failure.errors).toEqual([
+        'Migration step 1 (soft-failure-nonstrict) failed: step incomplete',
+      ]);
+      expect(failure.warnings).toEqual(['follow-up required']);
+    });
+
+    test('skips backup creation when disabled', async () => {
+      const noBackupEngine = new MigrationEngine(versionManager, { createBackups: false });
+      noBackupEngine.registerMigration(
+        'test-template',
+        createMigration(
+          'noop',
+          versionManager.parseVersion('1.0.0'),
+          versionManager.parseVersion('1.1.0'),
+          'No-op',
+          async (template) => template
+        )
+      );
+
+      const path = noBackupEngine.findMigrationPath(
+        'test-template',
+        versionManager.parseVersion('1.0.0'),
+        versionManager.parseVersion('1.1.0')
+      );
+
+      const result = await noBackupEngine.migrate(
+        'test-template',
+        { name: 'no-backup' },
+        path!,
+        testDir
+      );
+
+      expect(result.success).toBe(true);
+      expect(result.backupPath).toBeUndefined();
+    });
+
+    test('wraps unexpected backup failures in migration error', async () => {
+      const writeSpy = jest.spyOn(fs, 'writeFile').mockRejectedValueOnce(new Error('denied'));
+
+      try {
+        migrationEngine.registerMigration(
+          'test-template',
+          createMigration(
+            'simple',
+            versionManager.parseVersion('1.0.0'),
+            versionManager.parseVersion('1.1.0'),
+            'Simple migration',
+            async (template) => template
+          )
+        );
+
+        const path = migrationEngine.findMigrationPath(
+          'test-template',
+          versionManager.parseVersion('1.0.0'),
+          versionManager.parseVersion('1.1.0')
+        );
+
+        await expect(
+          migrationEngine.migrate('test-template', { name: 'fail-backup' }, path!, testDir)
+        ).rejects.toThrow(/Migration failed: denied/);
+      } finally {
+        writeSpy.mockRestore();
+      }
     });
   });
 
@@ -478,6 +701,19 @@ describe('MigrationEngine', () => {
     });
   });
 
+  test('autoMigrate throws when no versions registered', async () => {
+    const template = { name: 'test', version: '0.1.0' };
+
+    await expect(
+      migrationEngine.autoMigrate(
+        'missing-template',
+        template,
+        versionManager.parseVersion('0.1.0'),
+        testDir
+      )
+    ).rejects.toThrow(/No versions registered/);
+  });
+
   describe('Auto-Migration', () => {
     beforeEach(() => {
       // Register versions
@@ -518,8 +754,8 @@ describe('MigrationEngine', () => {
         testDir
       );
 
-      expect(result.success).toBe(true);
-      expect(result.migratedTemplate.version).toBe('2.0.0');
+      const success = expectSuccessfulResult(result);
+      expect(success.migratedTemplate.version).toBe('2.0.0');
     });
 
     test('should skip migration if already at latest version', async () => {

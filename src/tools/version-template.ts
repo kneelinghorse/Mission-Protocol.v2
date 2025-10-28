@@ -1,5 +1,3 @@
-/* istanbul ignore file */
-
 /**
  * MCP Tool: version_template
  *
@@ -104,8 +102,8 @@ export async function checkVersionCompatibility(
   }
 }
 
-export const checkVersionCompatibilityToolDefinition = {
-  name: 'check_version_compatibility',
+export const getVersionCompatibilityToolDefinition = {
+  name: 'get_version_compatibility',
   description:
     'Check if two template versions are compatible with each other. Returns compatibility status and suggested upgrade path if incompatible.',
   inputSchema: {
@@ -126,7 +124,14 @@ export const checkVersionCompatibilityToolDefinition = {
     },
     required: ['templateId', 'version1', 'version2'],
   },
-};
+} as const;
+
+export const checkVersionCompatibilityToolDefinitionDeprecated = {
+  ...getVersionCompatibilityToolDefinition,
+  name: 'check_version_compatibility',
+  description:
+    '[DEPRECATED] Use get_version_compatibility instead. Returns the same compatibility assessment.',
+} as const;
 
 // ============================================================================
 // Tool 2: Find Migration Path
@@ -217,8 +222,8 @@ export async function findMigrationPath(
   }
 }
 
-export const findMigrationPathToolDefinition = {
-  name: 'find_migration_path',
+export const getMigrationPathToolDefinition = {
+  name: 'get_migration_path',
   description:
     'Find a migration path from one template version to another. Returns the sequence of migration steps required.',
   inputSchema: {
@@ -239,7 +244,14 @@ export const findMigrationPathToolDefinition = {
     },
     required: ['templateId', 'fromVersion', 'toVersion'],
   },
-};
+} as const;
+
+export const findMigrationPathToolDefinitionDeprecated = {
+  ...getMigrationPathToolDefinition,
+  name: 'find_migration_path',
+  description:
+    '[DEPRECATED] Use get_migration_path instead. Produces the same ordered migration plan.',
+} as const;
 
 // ============================================================================
 // Tool 3: Register Template Version
@@ -320,8 +332,8 @@ export async function registerTemplateVersion(
   }
 }
 
-export const registerTemplateVersionToolDefinition = {
-  name: 'register_template_version',
+export const createTemplateVersionToolDefinition = {
+  name: 'create_template_version',
   description:
     'Register a new template version in the version registry. Validates the version and adds it to the registry.',
   inputSchema: {
@@ -351,7 +363,14 @@ export const registerTemplateVersionToolDefinition = {
     },
     required: ['templateId', 'version'],
   },
-};
+} as const;
+
+export const registerTemplateVersionToolDefinitionDeprecated = {
+  ...createTemplateVersionToolDefinition,
+  name: 'register_template_version',
+  description:
+    '[DEPRECATED] Use create_template_version instead. Registers the same version metadata and changelog information.',
+} as const;
 
 // ============================================================================
 // Tool 4: Get Latest Version
@@ -485,8 +504,8 @@ export async function compareVersions(
   }
 }
 
-export const compareVersionsToolDefinition = {
-  name: 'compare_versions',
+export const getVersionComparisonToolDefinition = {
+  name: 'get_version_comparison',
   description:
     'Compare two semantic versions. Returns whether the first version is less than, equal to, or greater than the second.',
   inputSchema: {
@@ -503,16 +522,30 @@ export const compareVersionsToolDefinition = {
     },
     required: ['version1', 'version2'],
   },
-};
+} as const;
+
+export const compareVersionsToolDefinitionDeprecated = {
+  ...getVersionComparisonToolDefinition,
+  name: 'compare_versions',
+  description:
+    '[DEPRECATED] Use get_version_comparison instead. Provides the same ordering result.',
+} as const;
 
 // ============================================================================
 // Export all tool definitions for MCP registration
 // ============================================================================
 
 export const versioningTools = [
-  checkVersionCompatibilityToolDefinition,
-  findMigrationPathToolDefinition,
-  registerTemplateVersionToolDefinition,
+  getVersionCompatibilityToolDefinition,
+  getMigrationPathToolDefinition,
+  createTemplateVersionToolDefinition,
   getLatestVersionToolDefinition,
-  compareVersionsToolDefinition,
-];
+  getVersionComparisonToolDefinition,
+] as const;
+
+export const versioningToolsDeprecated = [
+  checkVersionCompatibilityToolDefinitionDeprecated,
+  findMigrationPathToolDefinitionDeprecated,
+  registerTemplateVersionToolDefinitionDeprecated,
+  compareVersionsToolDefinitionDeprecated,
+] as const;

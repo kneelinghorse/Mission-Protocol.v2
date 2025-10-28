@@ -12,6 +12,7 @@
 
 import { SecurityValidator } from '../../src/import-export/security-validator';
 import { MissionTemplate } from '../../src/import-export/types';
+import { assertArray, assertRecord, assertString } from '../utils/type-guards';
 
 describe('SecurityValidator - 6-Layer Defense', () => {
   let validator: SecurityValidator;
@@ -54,6 +55,58 @@ describe('SecurityValidator - 6-Layer Defense', () => {
         ],
       },
     };
+  }
+
+  type MutablePhaseStep = {
+    action: string;
+    parameters: Record<string, unknown>;
+  };
+
+  type MutablePhase = {
+    name: string;
+    steps: MutablePhaseStep[];
+  };
+
+  function getMutablePhases(template: MissionTemplate): MutablePhase[] {
+    const spec = template.spec as Record<string, unknown>;
+    const phases = spec['phases'];
+    assertArray(phases, 'template.spec.phases');
+    phases.forEach((phase, index) => assertMutablePhase(phase, `template.spec.phases[${index}]`));
+    return phases as MutablePhase[];
+  }
+
+  function getMutablePhaseStep(
+    template: MissionTemplate,
+    phaseIndex: number,
+    stepIndex: number
+  ): MutablePhaseStep {
+    const phases = getMutablePhases(template);
+    const phase = phases[phaseIndex];
+    if (!phase) {
+      throw new Error(`Expected phase at index ${phaseIndex}`);
+    }
+    const step = phase.steps[stepIndex];
+    if (!step) {
+      throw new Error(`Expected step at index ${stepIndex} for phase ${phaseIndex}`);
+    }
+    return step;
+  }
+
+  function assertMutablePhase(value: unknown, context: string): asserts value is MutablePhase {
+    assertRecord(value, context);
+    assertString(value.name, `${context}.name`);
+    const steps = value.steps;
+    assertArray(steps, `${context}.steps`);
+    steps.forEach((step, index) => assertMutablePhaseStep(step, `${context}.steps[${index}]`));
+  }
+
+  function assertMutablePhaseStep(
+    value: unknown,
+    context: string
+  ): asserts value is MutablePhaseStep {
+    assertRecord(value, context);
+    assertString(value.action, `${context}.action`);
+    assertRecord(value.parameters, `${context}.parameters`);
   }
 
   describe('Layer 4: Signature Verification', () => {
@@ -183,7 +236,8 @@ describe('SecurityValidator - 6-Layer Defense', () => {
       });
 
       const template = createValidTemplate();
-      template.spec.phases[0].steps[0].action = 'unapproved-action';
+      const step = getMutablePhaseStep(template, 0, 0);
+      step.action = 'unapproved-action';
 
       const result = await validatorWithAllowlist.validate(template, true);
 

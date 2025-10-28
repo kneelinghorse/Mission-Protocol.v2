@@ -59,7 +59,7 @@ export class MissionMerger {
    */
   merge<T>(
     base: T,
-    extension: any,
+    extension: unknown,
     options?: MergeOptions
   ): T {
     const mergeOpts = { ...DEFAULT_OPTIONS, ...options };
@@ -215,7 +215,7 @@ export class MissionMerger {
  */
 export function deepMerge<T>(
   base: T,
-  extension: any,
+  extension: unknown,
   options?: MergeOptions
 ): T {
   const merger = new MissionMerger();

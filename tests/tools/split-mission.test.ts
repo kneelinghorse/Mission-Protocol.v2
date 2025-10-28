@@ -1,7 +1,7 @@
 /**
  * Split Mission Tool Integration Tests
  *
- * End-to-end tests for the split_mission MCP tool
+ * End-to-end tests for the create_mission_splits MCP tool
  */
 
 import { describe, test, expect, beforeEach, afterEach } from '@jest/globals';
@@ -32,6 +32,7 @@ describe('SplitMissionTool Integration', () => {
   let mockTokenCounter: MockTokenCounter;
   let tempDir: string;
   let testMissionPath: string;
+  let previousWorkspaceRoot: string | undefined;
 
   beforeEach(async () => {
     loader = new SecureYAMLLoader({ baseDir: path.join(__dirname, '../../templates') });
@@ -39,11 +40,19 @@ describe('SplitMissionTool Integration', () => {
     tool = new SplitMissionToolImpl(loader, mockTokenCounter, 'claude');
 
     // Create temp directory for test files
+    previousWorkspaceRoot = process.env.MISSION_PROTOCOL_WORKSPACE_ROOT;
     tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'split-mission-test-'));
     testMissionPath = path.join(tempDir, 'test-mission.yaml');
+    process.env.MISSION_PROTOCOL_WORKSPACE_ROOT = tempDir;
   });
 
   afterEach(async () => {
+    if (previousWorkspaceRoot !== undefined) {
+      process.env.MISSION_PROTOCOL_WORKSPACE_ROOT = previousWorkspaceRoot;
+    } else {
+      delete process.env.MISSION_PROTOCOL_WORKSPACE_ROOT;
+    }
+    previousWorkspaceRoot = undefined;
     // Clean up temp directory
     try {
       await fs.rm(tempDir, { recursive: true, force: true });
@@ -52,15 +61,107 @@ describe('SplitMissionTool Integration', () => {
     }
   });
 
+  describe('loadMissionFile', () => {
+    test('returns parsed mission for valid YAML content', async () => {
+      const missionPath = path.join(tempDir, 'valid.yaml');
+      await fs.writeFile(
+        missionPath,
+        YAML.stringify({
+          schemaType: 'Mission',
+          schemaVersion: '2.0',
+          missionId: 'unit-test-001',
+          objective: 'Validate loader branch',
+          context: {},
+          successCriteria: ['Complete task'],
+          deliverables: ['Report'],
+          domainFields: {},
+        }),
+        'utf-8'
+      );
+
+      const mission = await (tool as any).loadMissionFile(missionPath);
+      expect(mission.missionId).toBe('unit-test-001');
+      expect(typeof mission).toBe('object');
+    });
+
+    test('returns original text when YAML cannot be parsed or is non mission', async () => {
+      const invalidPath = path.join(tempDir, 'invalid.yaml');
+      await fs.writeFile(invalidPath, 'objective: [unterminated', 'utf-8');
+
+      const nonMissionPath = path.join(tempDir, 'non-mission.yaml');
+      await fs.writeFile(nonMissionPath, 'not: a mission', 'utf-8');
+
+      const invalid = await (tool as any).loadMissionFile(invalidPath);
+      expect(typeof invalid).toBe('string');
+      expect(invalid).toContain('unterminated');
+
+      const nonMission = await (tool as any).loadMissionFile(nonMissionPath);
+      expect(typeof nonMission).toBe('string');
+      expect(nonMission).toContain('not: a mission');
+    });
+
+    test('throws informative error when file cannot be read', async () => {
+      const missingPath = path.join(tempDir, 'missing.yaml');
+      await fs.writeFile(missingPath, 'placeholder', 'utf-8');
+      await fs.rm(missingPath);
+
+      await expect((tool as any).loadMissionFile(missingPath)).rejects.toThrow(
+        'Failed to load mission file'
+      );
+    });
+  });
+
   describe('execute', () => {
+    test('rejects mission paths that escape the workspace root', async () => {
+      const params: SplitMissionParams = {
+        missionFile: '../outside.yaml',
+      };
+
+      await expect(tool.execute(params)).rejects.toThrow('Path cannot contain parent directory traversals');
+    });
+
+    test('rejects output directories outside the workspace root', async () => {
+      const missionContent = YAML.stringify({
+        schemaType: 'Mission',
+        schemaVersion: '2.0',
+        missionId: 'boundary-test',
+        objective: 'Validate output dir guard',
+        context: {},
+        successCriteria: ['Complete'],
+        deliverables: ['Report'],
+        domainFields: {},
+      });
+
+      await fs.writeFile(testMissionPath, missionContent, 'utf-8');
+
+      const params: SplitMissionParams = {
+        missionFile: testMissionPath,
+        outputDir: '../unsafe',
+      };
+
+      await expect(tool.execute(params)).rejects.toThrow('Path cannot contain parent directory traversals');
+    });
+
     test('should split complex mission and create sub-mission files', async () => {
       const complexMission = {
         schemaType: 'Mission',
         schemaVersion: '2.0',
         missionId: 'integration-test-001',
-        objective: 'Build complete full-stack application with authentication, database, API, and frontend',
+        objective: [
+          'Deliver a multi-phase platform modernization covering foundational services and user experiences.',
+          'Phase 1: Build a resilient authentication service with zero-trust guardrails and centralized identity.',
+          'Phase 2: Establish a scalable API layer with documented interfaces, observability, and contract testing.',
+          'Phase 3: Ship a responsive frontend with offline support, accessibility compliance, and real-time telemetry.',
+          'Phase 4: Launch automated deployment pipelines with environment parity, feature flags, and rollback safety.',
+        ].join(' '),
         context: {
-          background: 'Create a comprehensive web application',
+          background: [
+            'The program replaces legacy infrastructure while ensuring business continuity and regulatory compliance.',
+            '',
+            'Phase alpha transitions critical services without downtime by running blue/green deployments in parallel.',
+            '',
+            'Phase beta focuses on experience design, content migration, and rapid iteration with user councils.',
+          ].join('\n'),
           dependencies: ['PostgreSQL', 'Node.js', 'React'],
           constraints: ['Must use TypeScript', 'Must have >90% test coverage'],
         },
@@ -345,6 +446,10 @@ describe('SplitMissionTool Integration', () => {
       await expect(tool.execute(params)).rejects.toThrow();
     });
 
+    test('should reject empty missionFile parameter', async () => {
+      await expect(tool.execute({ missionFile: '   ' })).rejects.toThrow('missionFile is required');
+    });
+
     test('should reject invalid maxSubMissions', async () => {
       await fs.writeFile(testMissionPath, 'objective: test', 'utf-8');
 
@@ -378,6 +483,16 @@ describe('SplitMissionTool Integration', () => {
       expect(result).toBeDefined();
       expect(result.complexity).toBeDefined();
     });
+
+    test('loadMissionFile returns text when YAML parsing fails', async () => {
+      const malformed = '---\n- invalid: [';
+      await fs.writeFile(testMissionPath, malformed, 'utf-8');
+
+      const content = await (tool as any).loadMissionFile(testMissionPath);
+      expect(typeof content).toBe('string');
+      expect(content).toContain('invalid');
+    });
+
   });
 
   describe('file naming', () => {
@@ -456,6 +571,49 @@ describe('SplitMissionTool Integration', () => {
       expect(typeof formatted).toBe('string');
       expect(formatted).toContain('Mission Analysis Complete');
       expect(formatted).toContain('No split needed');
+    });
+
+    test('should format split result even when no suggested breakpoints exist', () => {
+      const formatted = tool.formatForLLM({
+        shouldSplit: true,
+        complexity: {
+          compositeScore: 7.1,
+          tokenScore: 3,
+          structuralScore: 3,
+          timeHorizonScore: 3,
+          computationalScore: 3,
+        },
+        reasons: ['High complexity'],
+        summary: 'Mission complexity score: 7.10/10. Split recommended.',
+        suggestedBreakpoints: [],
+        executionPlan: [],
+        tokenUsage: undefined,
+      } as any);
+
+      expect(formatted).toContain('Mission Successfully Split');
+      expect(formatted).not.toContain('Suggested Split Points');
+    });
+
+    test('should include estimated cost details when available', () => {
+      const formatted = tool.formatForLLM({
+        shouldSplit: true,
+        complexity: { score: 5.4, reasons: ['High complexity'] },
+        summary: 'Mission complexity score: 5.40/10. Split recommended.',
+        subMissionFiles: ['mission_sub1.yaml'],
+        executionPlan: [
+          { order: 1, file: 'mission_sub1.yaml', objective: 'Do work', dependencies: [] },
+        ],
+        tokenUsage: {
+          model: 'claude',
+          totalTokens: 1200,
+          estimatedCost: 3.1415,
+          contextWindow: 200000,
+          utilization: 1200 / 200000,
+        },
+      });
+
+      expect(formatted).toContain('$3.1415');
+      expect(formatted).toContain('mission_sub1.yaml');
     });
   });
 

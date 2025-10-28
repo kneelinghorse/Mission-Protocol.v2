@@ -131,4 +131,43 @@ describe('DependencyInferrer', () => {
       inferred.some((i) => i.from === 'X4.1' && i.to === 'B4.3' && i.method === 'structural')
     ).toBe(true);
   });
+
+  describe('edge cases', () => {
+    it('ignores self-references and accepts success criteria strings', () => {
+      const mission = {
+        missionId: 'B4.3',
+        successCriteria: 'Ensure B4.3 delivers before B4.4',
+      };
+
+      const inferred = inferrer.inferDependencies(graph, mission);
+      expect(inferred.every(dep => dep.to !== 'B4.3')).toBe(true);
+    });
+
+    it('handles deliverable strings without matches gracefully', () => {
+      const mission = {
+        missionId: 'B4.4',
+        deliverables: 'No matching file paths here',
+      };
+
+      const inferred = inferrer.inferDependencies(graph, mission);
+      expect(inferred.length).toBeGreaterThan(0); // structural inference still runs
+    });
+
+    it('skips structural inference when mission id is not parseable', () => {
+      const mission = { missionId: 'invalid-id' };
+      const inferred = inferrer.inferDependencies(graph, mission);
+      expect(inferred).toHaveLength(0);
+    });
+
+    it('mergeWithGraph uses default confidence threshold and deduplicates deps', () => {
+      const deps: InferredDependency[] = [
+        { from: 'B4.3', to: 'R4.3', confidence: 0.8, reason: 'keyword', method: 'keyword' },
+        { from: 'B4.3', to: 'R4.3', confidence: 0.9, reason: 'structural', method: 'structural' },
+      ];
+
+      inferrer.mergeWithGraph(graph, deps);
+      const node = graph.nodes.get('B4.3') as any;
+      expect(node.implicitDependencies).toEqual(['R4.3']);
+    });
+  });
 });

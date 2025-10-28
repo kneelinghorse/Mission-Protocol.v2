@@ -24,6 +24,7 @@ import { MissionSplitter, SubMission, SplitResult } from '../intelligence/missio
 import { ComplexityScorer, ComplexityAnalysis } from '../intelligence/complexity-scorer';
 import { ITokenCounter, SupportedModel } from '../intelligence/types';
 import { ensureDir, pathExists, writeFileAtomic } from '../utils/fs';
+import { resolveWorkspacePath } from '../utils/workspace-io';
 
 /**
  * Parameters for split_mission tool
@@ -72,11 +73,12 @@ export interface SplitMissionResult {
 }
 
 /**
- * MCP Tool Definition for split_mission
+ * MCP Tool Definition for mission splitting
  */
-export const splitMissionToolDefinition = {
-  name: 'split_mission',
-  description: 'Automatically splits a large or complex mission into smaller, coherent sub-missions. This tool analyzes mission complexity and decomposes it using semantic-structural analysis while preserving atomic operations and context. Use this when a mission is too large to complete in a single session or has a high complexity score.',
+export const createMissionSplitsToolDefinition = {
+  name: 'create_mission_splits',
+  description:
+    'Automatically splits a large or complex mission into smaller, coherent sub-missions. This tool analyzes mission complexity and decomposes it using semantic-structural analysis while preserving atomic operations and context. Use this when a mission is too large to complete in a single session or has a high complexity score.',
   inputSchema: {
     type: 'object',
     required: ['missionFile'],
@@ -104,6 +106,16 @@ export const splitMissionToolDefinition = {
       },
     },
   },
+} as const;
+
+/**
+ * Legacy alias maintained for one release cycle
+ */
+export const splitMissionToolDefinitionDeprecated = {
+  ...createMissionSplitsToolDefinition,
+  name: 'split_mission',
+  description:
+    '[DEPRECATED] Use create_mission_splits instead. Generates the same token-balanced mission segments.',
 } as const;
 
 /**
@@ -144,11 +156,10 @@ export class SplitMissionToolImpl {
    * @returns Split result with file paths and execution plan
    */
   async execute(params: SplitMissionParams): Promise<SplitMissionResult> {
-    // Validate input
-    await this.validateParams(params);
+    const validated = await this.validateParams(params);
 
     // 1. Load mission file
-    const mission = await this.loadMissionFile(params.missionFile);
+    const mission = await this.loadMissionFile(validated.missionFile);
 
     // 2. Analyze complexity
     const complexity = await this.complexityScorer.calculateCCS(mission);
@@ -169,16 +180,16 @@ export class SplitMissionToolImpl {
 
     // 4. Split mission
     const splitResult = await this.splitter.split(mission, {
-      maxSubMissions: params.maxSubMissions,
-      preserveStructure: params.preserveStructure ?? true,
+      maxSubMissions: validated.maxSubMissions,
+      preserveStructure: validated.preserveStructure ?? true,
     });
 
     // 5. Generate sub-mission files
-    const outputDir = params.outputDir || path.dirname(params.missionFile);
+    const outputDir = validated.outputDir || path.dirname(validated.missionFile);
     const subMissionFiles = await this.writeSubMissions(
       splitResult,
       outputDir,
-      path.basename(params.missionFile, path.extname(params.missionFile))
+      path.basename(validated.missionFile, path.extname(validated.missionFile))
     );
 
     // 6. Create execution plan
@@ -203,12 +214,16 @@ export class SplitMissionToolImpl {
   /**
    * Validate input parameters
    */
-  private async validateParams(params: SplitMissionParams): Promise<void> {
+  private async validateParams(params: SplitMissionParams): Promise<SplitMissionParams> {
     if (!params.missionFile || params.missionFile.trim().length === 0) {
       throw new Error('missionFile is required');
     }
 
-    if (!(await pathExists(params.missionFile))) {
+    const sanitizedMissionFile = await resolveWorkspacePath(params.missionFile, {
+      allowedExtensions: ['.yaml', '.yml'],
+    });
+
+    if (!(await pathExists(sanitizedMissionFile))) {
       throw new Error(`Mission file not found: ${params.missionFile}`);
     }
 
@@ -216,9 +231,22 @@ export class SplitMissionToolImpl {
       throw new Error('maxSubMissions must be at least 2');
     }
 
-    if (params.outputDir && !(await pathExists(params.outputDir))) {
-      throw new Error(`Output directory not found: ${params.outputDir}`);
+    let sanitizedOutputDir: string | undefined;
+    if (params.outputDir) {
+      sanitizedOutputDir = await resolveWorkspacePath(params.outputDir, {
+        allowRelative: true,
+      });
+
+      if (!(await pathExists(sanitizedOutputDir))) {
+        throw new Error(`Output directory not found: ${params.outputDir}`);
+      }
     }
+
+    return {
+      ...params,
+      missionFile: sanitizedMissionFile,
+      outputDir: sanitizedOutputDir,
+    };
   }
 
   /**

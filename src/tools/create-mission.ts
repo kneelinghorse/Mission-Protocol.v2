@@ -52,7 +52,8 @@ export interface CreateMissionParams {
  */
 export const createMissionToolDefinition = {
   name: 'create_mission',
-  description: 'Use this tool to create a new mission based on a user\'s request. You must provide a clear and concise objective. You can optionally specify a domain from the list provided by list_available_domains. If no domain is specified, a generic mission will be created.',
+  description:
+    'Use this tool to create a new mission based on a user\'s request. You must provide a clear and concise objective. You can optionally specify a domain from the list provided by get_available_domains (formerly list_available_domains). If no domain is specified, a generic mission will be created.',
   inputSchema: {
     type: 'object',
     required: ['objective'],
@@ -63,7 +64,7 @@ export const createMissionToolDefinition = {
       },
       domain: {
         type: 'string',
-        description: 'Optional domain pack name (use list_available_domains to see available options)',
+        description: 'Optional domain pack name (use get_available_domains to see available options)',
       },
       successCriteria: {
         type: 'array',
@@ -301,7 +302,7 @@ export class CreateMissionToolImpl {
     } catch (error) {
       if (error instanceof Error && error.message.includes('not found in registry')) {
         throw new DomainError(
-          `Domain pack "${domainName}" not found. Use list_available_domains to see available options.`,
+          `Domain pack "${domainName}" not found. Use get_available_domains (legacy alias: list_available_domains) to see available options.`,
           {
             code: 'DOMAIN_NOT_FOUND',
             context: { domainName },

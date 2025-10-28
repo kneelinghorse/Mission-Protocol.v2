@@ -5,9 +5,15 @@
 
 import { describe, test, expect, beforeEach, jest } from '@jest/globals';
 
-jest.mock('../../src/intelligence/telemetry', () => ({
-  emitTelemetryWarning: jest.fn(),
-}));
+jest.mock('../../src/intelligence/telemetry', () => {
+  const actual = jest.requireActual('../../src/intelligence/telemetry') as typeof import('../../src/intelligence/telemetry');
+  return {
+    ...actual,
+    emitTelemetryWarning: jest.fn(),
+    emitTelemetryInfo: jest.fn(),
+    emitTelemetryError: jest.fn(),
+  };
+});
 
 // Mock gpt-tokenizer
 jest.mock(
@@ -50,13 +56,27 @@ let transformersMock: {
 let gptTokenizerMock: {
   encode: jest.Mock;
 };
+let bootstrapTestUtils: { reset: () => void } | undefined;
+let getTokenizerHealth:
+  | typeof import('../../src/intelligence/tokenizer-bootstrap').getTokenizerHealth
+  | undefined;
+let ensureTokenizersReady:
+  | typeof import('../../src/intelligence/tokenizer-bootstrap').ensureTokenizersReady
+  | undefined;
 
 describe('TokenCounter offline implementation', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    getTokenizerHealth = undefined;
+    ensureTokenizersReady = undefined;
     jest.isolateModules(() => {
       ({ TokenCounter } = require('../../src/intelligence/token-counters'));
+      const bootstrapModule = require('../../src/intelligence/tokenizer-bootstrap');
+      bootstrapTestUtils = bootstrapModule.__test__;
+      getTokenizerHealth = bootstrapModule.getTokenizerHealth;
+      ensureTokenizersReady = bootstrapModule.ensureTokenizersReady;
     });
+    bootstrapTestUtils?.reset();
     tokenCounter = new TokenCounter();
     transformersMock = jest.requireMock('@xenova/transformers') as {
       AutoTokenizer: {
@@ -70,7 +90,6 @@ describe('TokenCounter offline implementation', () => {
       .emitTelemetryWarning as jest.MockedFunction<
       typeof import('../../src/intelligence/telemetry').emitTelemetryWarning
     >;
-    (TokenCounter as unknown as { claudeTokenizerCache: unknown }).claudeTokenizerCache = null;
     gptTokenizerMock.encode.mockImplementation((text: unknown) =>
       Array(Math.max(1, Math.ceil(String(text ?? '').length / 4))).fill(0)
     );
@@ -131,10 +150,16 @@ describe('TokenCounter offline implementation', () => {
   });
 
   test('Claude tokenizer is cached between invocations', async () => {
+    expect(ensureTokenizersReady).toBeDefined();
+    await ensureTokenizersReady?.();
+    expect(transformersMock.AutoTokenizer.from_pretrained).toBeDefined();
+    transformersMock.AutoTokenizer.from_pretrained.mockClear();
+
     await tokenCounter.count('first run', 'claude');
     await tokenCounter.count('second run', 'claude');
-
-    expect(transformersMock.AutoTokenizer.from_pretrained.mock.calls.length).toBeLessThanOrEqual(1);
+    expect(transformersMock.AutoTokenizer.from_pretrained).not.toHaveBeenCalled();
+    const health = getTokenizerHealth?.();
+    expect(health?.models.claude.attempts).toBe(1);
   });
 
   test('Claude path uses cached tokenizer when available', async () => {

@@ -14,10 +14,14 @@ export async function sanitize<TSchema extends AnyZodSchema>(
   }
 }
 
-export function validate<TSchema extends AnyZodSchema>(schema: TSchema) {
+export function validate<TSchema extends AnyZodSchema>(
+  schema: TSchema
+): <Args extends unknown[], TResult>(
+  handler: (input: z.infer<TSchema>, ...rest: Args) => TResult | Promise<TResult>
+) => (input: unknown, ...rest: Args) => Promise<TResult> {
   return function <Args extends unknown[], TResult>(
     handler: (input: z.infer<TSchema>, ...rest: Args) => TResult | Promise<TResult>
-  ) {
+  ): (input: unknown, ...rest: Args) => Promise<TResult> {
     return async (input: unknown, ...rest: Args): Promise<TResult> => {
       const parsed = await sanitize(input, schema);
       return handler(parsed, ...rest);

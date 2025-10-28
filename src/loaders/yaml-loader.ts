@@ -93,7 +93,7 @@ export class SecureYAMLLoader {
    * @returns Parsed object
    * @throws UnsafeYAMLError if parsing fails or detects unsafe content
    */
-  private safeParse(content: string): any {
+  private safeParse(content: string): unknown {
     try {
       // YAML.parse is safe - it doesn't evaluate custom tags
       // Unlike js-yaml's load(), it won't execute code
@@ -115,7 +115,7 @@ export class SecureYAMLLoader {
    * Recursively check for function objects in parsed data
    * This prevents any executable code from being loaded
    */
-  private validateNoFunctions(obj: any, path: string = 'root'): void {
+  private validateNoFunctions(obj: unknown, path: string = 'root'): void {
     if (typeof obj === 'function') {
       throw new UnsafeYAMLError(`Function detected at ${path}`);
     }
@@ -158,7 +158,7 @@ export class SecureYAMLLoader {
    * @returns Parsed and validated data
    * @throws PathTraversalError, UnsafeYAMLError, SchemaValidationError
    */
-  async load<T = any>(filePath: string, schema?: JSONSchema): Promise<T> {
+  async load<T = unknown>(filePath: string, schema?: JSONSchema): Promise<T> {
     // Layer 1: Sanitize path
     const sanitizedPath = this.sanitizePath(filePath);
 
@@ -217,7 +217,7 @@ export class SecureYAMLLoader {
    * @param schema - Optional schema to validate each file
    * @returns Array of parsed data
    */
-  async loadMultiple<T = any>(filePaths: string[], schema?: JSONSchema): Promise<T[]> {
+  async loadMultiple<T = unknown>(filePaths: string[], schema?: JSONSchema): Promise<T[]> {
     return Promise.all(filePaths.map(filePath => this.load<T>(filePath, schema)));
   }
 

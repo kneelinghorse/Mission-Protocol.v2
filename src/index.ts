@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-/* istanbul ignore file */
-
 /**
  * Mission Protocol v2 MCP Server
  *
@@ -26,19 +24,70 @@ import { SecureYAMLLoader } from './loaders/yaml-loader';
 import { RegistryParser } from './registry/registry-parser';
 import { DomainPackLoader } from './domains/domain-pack-loader';
 import { MissionMerger } from './merge/deep-merge';
-import { ListDomainsToolImpl, listDomainsToolDefinition } from './tools/list-domains';
+import {
+  ListDomainsToolImpl,
+  getAvailableDomainsToolDefinition,
+  listAvailableDomainsToolDefinitionDeprecated,
+} from './tools/list-domains';
 import { CreateMissionToolImpl, createMissionToolDefinition } from './tools/create-mission';
-import { mcpToolDefinition as extractTemplateToolDefinition, extractTemplate } from './tools/extract-template';
-import { mcpToolDefinition as importTemplateToolDefinition, importTemplate } from './tools/import-template';
-import { mcpToolDefinition as exportTemplateToolDefinition, exportTemplate } from './tools/export-template';
-import { CombinePacksToolImpl, combinePacksToolDefinition } from './tools/combine-packs';
-import { mcpToolDefinition as analyzeDependenciesToolDefinition, executeAnalyzeDependenciesTool } from './tools/analyze-dependencies';
-import { scoreQualityTool, scoreQuality } from './tools/score-quality';
+import type { CreateMissionParams } from './tools/create-mission';
+import {
+  getTemplateExtractionToolDefinition,
+  extractTemplateToolDefinitionDeprecated,
+  extractTemplate,
+} from './tools/extract-template';
+import type { ExtractTemplateParams } from './tools/extract-template';
+import {
+  createTemplateImportToolDefinition,
+  importTemplateToolDefinitionDeprecated,
+  importTemplate,
+} from './tools/import-template';
+import type { ImportTemplateParams } from './tools/import-template';
+import {
+  getTemplateExportToolDefinition,
+  exportTemplateToolDefinitionDeprecated,
+  exportTemplate,
+} from './tools/export-template';
+import type { ExportTemplateParams } from './tools/export-template';
+import {
+  CombinePacksToolImpl,
+  createCombinedPackToolDefinition,
+  combinePacksToolDefinitionDeprecated,
+} from './tools/combine-packs';
+import type { CombinePacksParams } from './tools/combine-packs';
+import {
+  getDependencyAnalysisToolDefinition,
+  analyzeDependenciesToolDefinitionDeprecated,
+  executeAnalyzeDependenciesTool,
+} from './tools/analyze-dependencies';
+import type { AnalyzeDependenciesArgs } from './tools/analyze-dependencies';
+import {
+  getMissionQualityScoreTool,
+  scoreQualityToolDeprecated,
+  scoreQuality,
+} from './tools/score-quality';
+import type { ScoreQualityInput } from './tools/score-quality';
 import { PackCombiner } from './combination/pack-combiner';
-import { OptimizeTokensToolImpl, optimizeTokensToolDefinition } from './tools/optimize-tokens';
-import { SplitMissionToolImpl, splitMissionToolDefinition } from './tools/split-mission';
-import { SuggestSplitsToolImpl, suggestSplitsToolDefinition } from './tools/suggest-splits';
+import {
+  OptimizeTokensToolImpl,
+  updateTokenOptimizationToolDefinition,
+  optimizeTokensToolDefinitionDeprecated,
+} from './tools/optimize-tokens';
+import type { OptimizeTokensParams } from './tools/optimize-tokens';
+import {
+  SplitMissionToolImpl,
+  createMissionSplitsToolDefinition,
+  splitMissionToolDefinitionDeprecated,
+} from './tools/split-mission';
+import type { SplitMissionParams } from './tools/split-mission';
+import {
+  SuggestSplitsToolImpl,
+  getSplitSuggestionsToolDefinition,
+  suggestSplitsToolDefinitionDeprecated,
+} from './tools/suggest-splits';
+import type { SuggestSplitsParams } from './tools/suggest-splits';
 import { TokenCounter } from './intelligence/token-counters';
+import { ensureTokenizersReady, getTokenizerHealth } from './intelligence/tokenizer-bootstrap';
 import { SupportedModel } from './intelligence/types';
 import { ErrorHandler } from './errors/handler';
 import { ErrorLogger } from './errors/logger';
@@ -93,25 +142,76 @@ export interface MissionProtocolContext {
  */
 let serverContext: MissionProtocolContext | null = null;
 
-const TOOL_DEFINITIONS = [
-  listDomainsToolDefinition,
+const CANONICAL_TOOL_DEFINITIONS = [
+  getAvailableDomainsToolDefinition,
   createMissionToolDefinition,
-  extractTemplateToolDefinition,
-  importTemplateToolDefinition,
-  exportTemplateToolDefinition,
-  combinePacksToolDefinition,
-  analyzeDependenciesToolDefinition,
-  scoreQualityTool,
-  optimizeTokensToolDefinition,
-  splitMissionToolDefinition,
-  suggestSplitsToolDefinition,
+  getTemplateExtractionToolDefinition,
+  createTemplateImportToolDefinition,
+  getTemplateExportToolDefinition,
+  createCombinedPackToolDefinition,
+  getDependencyAnalysisToolDefinition,
+  getMissionQualityScoreTool,
+  updateTokenOptimizationToolDefinition,
+  createMissionSplitsToolDefinition,
+  getSplitSuggestionsToolDefinition,
+  // NOTE: Versioning tools are exported separately via src/tools/version-template
 ] as const;
 
-export function getToolDefinitions() {
+const DEPRECATED_TOOL_DEFINITIONS = [
+  listAvailableDomainsToolDefinitionDeprecated,
+  extractTemplateToolDefinitionDeprecated,
+  importTemplateToolDefinitionDeprecated,
+  exportTemplateToolDefinitionDeprecated,
+  combinePacksToolDefinitionDeprecated,
+  analyzeDependenciesToolDefinitionDeprecated,
+  scoreQualityToolDeprecated,
+  optimizeTokensToolDefinitionDeprecated,
+  splitMissionToolDefinitionDeprecated,
+  suggestSplitsToolDefinitionDeprecated,
+] as const;
+
+const TOOL_DEFINITIONS = [
+  ...CANONICAL_TOOL_DEFINITIONS,
+  ...DEPRECATED_TOOL_DEFINITIONS,
+] as const;
+
+const DEPRECATED_TOOL_ALIASES: Record<string, { replacement: string }> = {
+  list_available_domains: { replacement: 'get_available_domains' },
+  extract_template: { replacement: 'get_template_extraction' },
+  import_template: { replacement: 'create_template_import' },
+  export_template: { replacement: 'get_template_export' },
+  combine_packs: { replacement: 'create_combined_pack' },
+  analyze_dependencies: { replacement: 'get_dependency_analysis' },
+  score_quality: { replacement: 'get_mission_quality_score' },
+  optimize_tokens: { replacement: 'update_token_optimization' },
+  split_mission: { replacement: 'create_mission_splits' },
+  suggest_splits: { replacement: 'get_split_suggestions' },
+};
+
+const emittedDeprecationWarnings = new Set<string>();
+
+function emitDeprecationWarning(toolName: string): void {
+  const alias = DEPRECATED_TOOL_ALIASES[toolName];
+  if (!alias) {
+    return;
+  }
+  const key = `${toolName}->${alias.replacement}`;
+  if (emittedDeprecationWarnings.has(key)) {
+    return;
+  }
+  emittedDeprecationWarnings.add(key);
+  console.warn(
+    `[DEPRECATED] Tool '${toolName}' will be removed in a future release. Use '${alias.replacement}' instead.`
+  );
+}
+
+export type ToolDefinitions = typeof TOOL_DEFINITIONS;
+
+export function getToolDefinitions(): ToolDefinitions {
   return TOOL_DEFINITIONS;
 }
 
-function summarizeValue(value: unknown): JsonValue {
+export function summarizeValue(value: unknown): JsonValue {
   if (value === null || value === undefined) {
     return null;
   }
@@ -127,7 +227,7 @@ function summarizeValue(value: unknown): JsonValue {
   return value as JsonValue;
 }
 
-function sanitizeArgs(args: unknown): Record<string, JsonValue> | undefined {
+export function sanitizeArgs(args: unknown): Record<string, JsonValue> | undefined {
   if (!args || typeof args !== 'object') {
     return undefined;
   }
@@ -187,6 +287,8 @@ export async function buildMissionProtocolContext(options?: {
     tokenCounter,
   };
 }
+
+let contextBuilder: typeof buildMissionProtocolContext = buildMissionProtocolContext;
 
 /**
  * Register tool handlers
@@ -255,7 +357,9 @@ export async function executeMissionProtocolTool(
   const registryFile = 'registry.yaml';
 
   switch (name) {
-    case 'list_available_domains': {
+    case 'list_available_domains':
+      emitDeprecationWarning('list_available_domains');
+    case 'get_available_domains': {
       const domains = await context.listDomainsTool.execute(registryFile);
       const formatted = context.listDomainsTool.formatForLLM(domains);
 
@@ -274,7 +378,7 @@ export async function executeMissionProtocolTool(
     }
 
     case 'create_mission': {
-      const params = args as any;
+      const params = args as CreateMissionParams;
       const registryEntries = await context.registryParser.loadRegistry(registryFile);
       const missionYaml = await context.createMissionTool.execute(params, registryEntries);
       const formatted = context.createMissionTool.formatForLLM(missionYaml);
@@ -293,8 +397,10 @@ export async function executeMissionProtocolTool(
       };
     }
 
-    case 'extract_template': {
-      const params = args as any;
+    case 'extract_template':
+      emitDeprecationWarning('extract_template');
+    case 'get_template_extraction': {
+      const params = args as ExtractTemplateParams;
       const result = await extractTemplate(params);
 
       const summary = result.success
@@ -312,8 +418,10 @@ export async function executeMissionProtocolTool(
       };
     }
 
-    case 'import_template': {
-      const params = args as any;
+    case 'import_template':
+      emitDeprecationWarning('import_template');
+    case 'create_template_import': {
+      const params = args as ImportTemplateParams;
       const result = await importTemplate(params);
 
       const summary = result.success
@@ -334,8 +442,10 @@ export async function executeMissionProtocolTool(
       };
     }
 
-    case 'export_template': {
-      const params = args as any;
+    case 'export_template':
+      emitDeprecationWarning('export_template');
+    case 'get_template_export': {
+      const params = args as ExportTemplateParams;
       const result = await exportTemplate(params);
 
       const summary = result.success
@@ -356,8 +466,10 @@ export async function executeMissionProtocolTool(
       };
     }
 
-    case 'combine_packs': {
-      const params = args as any;
+    case 'combine_packs':
+      emitDeprecationWarning('combine_packs');
+    case 'create_combined_pack': {
+      const params = args as CombinePacksParams;
       const result = await context.combinePacksTool.execute(params, registryFile);
 
       let summary = '';
@@ -398,8 +510,10 @@ export async function executeMissionProtocolTool(
       };
     }
 
-    case 'analyze_dependencies': {
-      const params = args as any;
+    case 'analyze_dependencies':
+      emitDeprecationWarning('analyze_dependencies');
+    case 'get_dependency_analysis': {
+      const params = args as AnalyzeDependenciesArgs;
       const summary = await executeAnalyzeDependenciesTool(params);
       return {
         content: [
@@ -415,8 +529,10 @@ export async function executeMissionProtocolTool(
       };
     }
 
-    case 'score_quality': {
-      const params = args as any;
+    case 'score_quality':
+      emitDeprecationWarning('score_quality');
+    case 'get_mission_quality_score': {
+      const params = args as ScoreQualityInput;
       const result = await scoreQuality(params);
 
       const summary = result.success
@@ -437,8 +553,10 @@ export async function executeMissionProtocolTool(
       };
     }
 
-    case 'optimize_tokens': {
-      const params = args as any;
+    case 'optimize_tokens':
+      emitDeprecationWarning('optimize_tokens');
+    case 'update_token_optimization': {
+      const params = args as OptimizeTokensParams;
       const result = await context.optimizeTokensTool.execute(params);
 
       if (!result.success) {
@@ -461,7 +579,7 @@ export async function executeMissionProtocolTool(
       const stats = result.stats!;
       const tokenUsage = result.tokenUsage;
       if (!tokenUsage) {
-        throw new Error('optimize_tokens succeeded without token usage metrics');
+        throw new Error('update_token_optimization succeeded without token usage metrics');
       }
       let summary = '';
 
@@ -524,8 +642,10 @@ export async function executeMissionProtocolTool(
       };
     }
 
-    case 'split_mission': {
-      const params = args as any;
+    case 'split_mission':
+      emitDeprecationWarning('split_mission');
+    case 'create_mission_splits': {
+      const params = args as SplitMissionParams;
       const result = await context.splitMissionTool.execute(params);
       let formatted = context.splitMissionTool.formatForLLM(result);
 
@@ -559,8 +679,10 @@ export async function executeMissionProtocolTool(
       };
     }
 
-    case 'suggest_splits': {
-      const params = args as any;
+    case 'suggest_splits':
+      emitDeprecationWarning('suggest_splits');
+    case 'get_split_suggestions': {
+      const params = args as SuggestSplitsParams;
       const result = await context.suggestSplitsTool.execute(params);
       let formatted = context.suggestSplitsTool.formatForLLM(result, params.detailed || false);
 
@@ -608,11 +730,18 @@ export async function executeMissionProtocolTool(
 async function initializeServer(): Promise<MissionProtocolContext> {
   try {
     console.error(`[INFO] Initializing MCP server...`);
-    const context = await buildMissionProtocolContext();
+    const context = await contextBuilder();
     serverContext = context;
 
     console.error(`[INFO] Template base directory: ${context.baseDir}`);
     console.error(`[INFO] Default intelligence model: ${context.defaultModel}`);
+    await ensureTokenizersReady();
+    const tokenizerHealth = getTokenizerHealth();
+    console.error(
+      `[INFO] Tokenizer preload status: GPT ready=${tokenizerHealth.models.gpt.ready} (attempts=${tokenizerHealth.models.gpt.attempts}), ` +
+        `Claude ready=${tokenizerHealth.models.claude.ready} (attempts=${tokenizerHealth.models.claude.attempts}), ` +
+        `fallbacks=${JSON.stringify(tokenizerHealth.fallbacks)}`
+    );
     console.error(`[INFO] Server components initialized successfully`);
 
     return context;
@@ -674,6 +803,19 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 }
+
+export const __test__ = {
+  registerToolHandlers,
+  initializeServer,
+  main,
+  server,
+  setContextBuilder: (builder: typeof buildMissionProtocolContext) => {
+    contextBuilder = builder;
+  },
+  resetContextBuilder: () => {
+    contextBuilder = buildMissionProtocolContext;
+  },
+};
 
 // Handle graceful shutdown
 process.on('SIGINT', async () => {

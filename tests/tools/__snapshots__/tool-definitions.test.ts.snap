@@ -1,0 +1,814 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Tool definitions contract registered tool schema stays stable 1`] = `
+[
+  {
+    "description": "[DEPRECATED] Use get_dependency_analysis instead. Returns the same dependency graph report.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "includeInferred": {
+          "description": "Include NLP-based inferred dependencies",
+          "type": "boolean",
+        },
+        "minConfidence": {
+          "description": "Minimum confidence for inferred dependencies",
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number",
+        },
+        "missionDirectory": {
+          "description": "Directory containing mission YAML files",
+          "type": "string",
+        },
+      },
+      "required": [
+        "missionDirectory",
+      ],
+      "type": "object",
+    },
+    "name": "analyze_dependencies",
+  },
+  {
+    "description": "[DEPRECATED] Use create_combined_pack instead. Provides the same multi-pack combination workflow.",
+    "inputSchema": {
+      "properties": {
+        "format": {
+          "default": "yaml",
+          "description": "Output format for the combined pack",
+          "enum": [
+            "yaml",
+            "json",
+          ],
+          "type": "string",
+        },
+        "mergePaths": {
+          "description": "For selective strategy: field paths to merge (e.g., ["spec.dependencies"])",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "overridePaths": {
+          "description": "For selective strategy: field paths to override (e.g., ["spec.resources"])",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "packNames": {
+          "description": "Array of domain pack names to combine (use get_available_domains to see options)",
+          "items": {
+            "type": "string",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+        "resolveDependencies": {
+          "default": true,
+          "description": "Whether to automatically resolve and include dependencies",
+          "type": "boolean",
+        },
+        "strategy": {
+          "default": "deep-merge",
+          "description": "Merge strategy: "deep-merge" (recursive merge), "override" (last wins), or "selective" (user-controlled)",
+          "enum": [
+            "deep-merge",
+            "override",
+            "selective",
+          ],
+          "type": "string",
+        },
+      },
+      "required": [
+        "packNames",
+      ],
+      "type": "object",
+    },
+    "name": "combine_packs",
+  },
+  {
+    "description": "Combines multiple domain packs into a single cohesive pack. Automatically resolves dependencies, detects circular dependencies, and applies the specified merge strategy. Use this tool when you need to create a mission that uses functionality from multiple domain packs.",
+    "inputSchema": {
+      "properties": {
+        "format": {
+          "default": "yaml",
+          "description": "Output format for the combined pack",
+          "enum": [
+            "yaml",
+            "json",
+          ],
+          "type": "string",
+        },
+        "mergePaths": {
+          "description": "For selective strategy: field paths to merge (e.g., ["spec.dependencies"])",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "overridePaths": {
+          "description": "For selective strategy: field paths to override (e.g., ["spec.resources"])",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "packNames": {
+          "description": "Array of domain pack names to combine (use get_available_domains to see options)",
+          "items": {
+            "type": "string",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+        "resolveDependencies": {
+          "default": true,
+          "description": "Whether to automatically resolve and include dependencies",
+          "type": "boolean",
+        },
+        "strategy": {
+          "default": "deep-merge",
+          "description": "Merge strategy: "deep-merge" (recursive merge), "override" (last wins), or "selective" (user-controlled)",
+          "enum": [
+            "deep-merge",
+            "override",
+            "selective",
+          ],
+          "type": "string",
+        },
+      },
+      "required": [
+        "packNames",
+      ],
+      "type": "object",
+    },
+    "name": "create_combined_pack",
+  },
+  {
+    "description": "Use this tool to create a new mission based on a user's request. You must provide a clear and concise objective. You can optionally specify a domain from the list provided by get_available_domains (formerly list_available_domains). If no domain is specified, a generic mission will be created.",
+    "inputSchema": {
+      "properties": {
+        "constraints": {
+          "description": "Optional array of limitations or boundaries",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "domain": {
+          "description": "Optional domain pack name (use get_available_domains to see available options)",
+          "type": "string",
+        },
+        "objective": {
+          "description": "Clear, concise mission goal describing what success looks like",
+          "type": "string",
+        },
+        "successCriteria": {
+          "description": "Optional array of measurable success conditions",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "objective",
+      ],
+      "type": "object",
+    },
+    "name": "create_mission",
+  },
+  {
+    "description": "Automatically splits a large or complex mission into smaller, coherent sub-missions. This tool analyzes mission complexity and decomposes it using semantic-structural analysis while preserving atomic operations and context. Use this when a mission is too large to complete in a single session or has a high complexity score.",
+    "inputSchema": {
+      "properties": {
+        "maxSubMissions": {
+          "description": "Maximum number of sub-missions to create (default: 10)",
+          "type": "number",
+        },
+        "missionFile": {
+          "description": "Path to the mission file (YAML) to analyze and split",
+          "type": "string",
+        },
+        "model": {
+          "description": "Target AI model for token optimization (default: claude)",
+          "enum": [
+            "claude",
+            "gpt",
+            "gemini",
+          ],
+          "type": "string",
+        },
+        "outputDir": {
+          "description": "Directory to save sub-mission files (default: same as mission file)",
+          "type": "string",
+        },
+        "preserveStructure": {
+          "description": "Preserve original mission structure in sub-missions (default: true)",
+          "type": "boolean",
+        },
+      },
+      "required": [
+        "missionFile",
+      ],
+      "type": "object",
+    },
+    "name": "create_mission_splits",
+  },
+  {
+    "description": "Securely import a mission template with 6-layer security validation (path sanitization, safe parsing, schema validation, signature verification, semantic validation, dependency resolution)",
+    "inputSchema": {
+      "properties": {
+        "allowedActions": {
+          "description": "List of allowed actions in the template (optional, empty means all allowed)",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "baseDir": {
+          "description": "Base directory for import operations (optional, defaults to current directory)",
+          "type": "string",
+        },
+        "maxResourceCpu": {
+          "description": "Maximum allowed CPU cores (optional)",
+          "type": "number",
+        },
+        "maxResourceMemory": {
+          "description": "Maximum allowed memory resource in MB (optional)",
+          "type": "number",
+        },
+        "skipSignatureVerification": {
+          "description": "Skip signature verification (TESTING ONLY - NOT for production use)",
+          "type": "boolean",
+        },
+        "templatePath": {
+          "description": "Path to the template file to import (YAML format)",
+          "type": "string",
+        },
+        "trustLevel": {
+          "description": "Trust level for the template: verified-internal (core team), signed-known (known author), untrusted (requires approval)",
+          "enum": [
+            "verified-internal",
+            "signed-known",
+            "untrusted",
+          ],
+          "type": "string",
+        },
+        "urlAllowlist": {
+          "description": "List of allowed URL domains for dependencies (optional, empty means deny all)",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "templatePath",
+      ],
+      "type": "object",
+    },
+    "name": "create_template_import",
+  },
+  {
+    "description": "[DEPRECATED] Use get_template_export instead. Provides the same strict serialization workflow.",
+    "inputSchema": {
+      "properties": {
+        "baseDir": {
+          "description": "Base directory for export operations (optional, defaults to current directory)",
+          "type": "string",
+        },
+        "format": {
+          "description": "Export format: yaml (default) or json",
+          "enum": [
+            "yaml",
+            "json",
+          ],
+          "type": "string",
+        },
+        "includeComments": {
+          "description": "Include header comments in YAML output (default: true)",
+          "type": "boolean",
+        },
+        "outputPath": {
+          "description": "Output file path (relative to baseDir)",
+          "type": "string",
+        },
+        "pretty": {
+          "description": "Pretty print output (default: true)",
+          "type": "boolean",
+        },
+        "template": {
+          "description": "Mission template object conforming to mission-template.v1 schema",
+          "properties": {
+            "apiVersion": {
+              "const": "mission-template.v1",
+              "type": "string",
+            },
+            "dependencies": {
+              "description": "Optional array of template dependencies",
+              "type": "array",
+            },
+            "kind": {
+              "const": "MissionTemplate",
+              "type": "string",
+            },
+            "metadata": {
+              "description": "Template metadata including name, version, author, and signature",
+              "type": "object",
+            },
+            "spec": {
+              "description": "Mission specification (business logic)",
+              "type": "object",
+            },
+          },
+          "required": [
+            "apiVersion",
+            "kind",
+            "metadata",
+            "spec",
+          ],
+          "type": "object",
+        },
+      },
+      "required": [
+        "template",
+        "outputPath",
+      ],
+      "type": "object",
+    },
+    "name": "export_template",
+  },
+  {
+    "description": "[DEPRECATED] Use get_template_extraction instead. Performs the same three-stage extraction workflow.",
+    "inputSchema": {
+      "properties": {
+        "author": {
+          "description": "Author name or email",
+          "type": "string",
+        },
+        "confidenceThreshold": {
+          "description": "Minimum confidence threshold for parameterization (0.0 to 1.0, default 0.6)",
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number",
+        },
+        "missionFile": {
+          "description": "Path to the source mission file or directory",
+          "type": "string",
+        },
+        "outputDir": {
+          "description": "Output directory for the template (optional, defaults to ./templates)",
+          "type": "string",
+        },
+        "templateName": {
+          "description": "Name for the template (used to generate templateId)",
+          "type": "string",
+        },
+      },
+      "required": [
+        "missionFile",
+        "templateName",
+        "author",
+      ],
+      "type": "object",
+    },
+    "name": "extract_template",
+  },
+  {
+    "description": "Get a list of all available domain-specific mission types you can create. Call this when the user asks 'what can you do?' or 'what kinds of missions are there?'.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {},
+      "type": "object",
+    },
+    "name": "get_available_domains",
+  },
+  {
+    "description": "Analyze mission YAML files to construct a dependency graph, validate DAG properties, detect cycles, and compute execution order. Optionally infer implicit dependencies.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "includeInferred": {
+          "description": "Include NLP-based inferred dependencies",
+          "type": "boolean",
+        },
+        "minConfidence": {
+          "description": "Minimum confidence for inferred dependencies",
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number",
+        },
+        "missionDirectory": {
+          "description": "Directory containing mission YAML files",
+          "type": "string",
+        },
+      },
+      "required": [
+        "missionDirectory",
+      ],
+      "type": "object",
+    },
+    "name": "get_dependency_analysis",
+  },
+  {
+    "description": "Assess mission quality using three-dimensional framework (Clarity, Completeness, AI-Readiness)",
+    "inputSchema": {
+      "properties": {
+        "missionFile": {
+          "description": "Path to the mission YAML file to assess",
+          "type": "string",
+        },
+        "verbose": {
+          "default": false,
+          "description": "Include detailed metric breakdown in output",
+          "type": "boolean",
+        },
+      },
+      "required": [
+        "missionFile",
+      ],
+      "type": "object",
+    },
+    "name": "get_mission_quality_score",
+  },
+  {
+    "description": "Analyzes a mission for complexity and suggests optimal split points without actually splitting it. Use this to evaluate whether a mission should be split and where the natural breakpoints are. This is useful for planning and understanding mission structure before committing to a split.",
+    "inputSchema": {
+      "properties": {
+        "detailed": {
+          "description": "Show detailed breakdown of all complexity components (default: false)",
+          "type": "boolean",
+        },
+        "missionFile": {
+          "description": "Path to the mission file (YAML) to analyze",
+          "type": "string",
+        },
+        "model": {
+          "description": "Target AI model for analysis (default: claude)",
+          "enum": [
+            "claude",
+            "gpt",
+            "gemini",
+          ],
+          "type": "string",
+        },
+      },
+      "required": [
+        "missionFile",
+      ],
+      "type": "object",
+    },
+    "name": "get_split_suggestions",
+  },
+  {
+    "description": "Export a mission template to Strict YAML or JSON format. Uses safe serialization with no language-specific tags.",
+    "inputSchema": {
+      "properties": {
+        "baseDir": {
+          "description": "Base directory for export operations (optional, defaults to current directory)",
+          "type": "string",
+        },
+        "format": {
+          "description": "Export format: yaml (default) or json",
+          "enum": [
+            "yaml",
+            "json",
+          ],
+          "type": "string",
+        },
+        "includeComments": {
+          "description": "Include header comments in YAML output (default: true)",
+          "type": "boolean",
+        },
+        "outputPath": {
+          "description": "Output file path (relative to baseDir)",
+          "type": "string",
+        },
+        "pretty": {
+          "description": "Pretty print output (default: true)",
+          "type": "boolean",
+        },
+        "template": {
+          "description": "Mission template object conforming to mission-template.v1 schema",
+          "properties": {
+            "apiVersion": {
+              "const": "mission-template.v1",
+              "type": "string",
+            },
+            "dependencies": {
+              "description": "Optional array of template dependencies",
+              "type": "array",
+            },
+            "kind": {
+              "const": "MissionTemplate",
+              "type": "string",
+            },
+            "metadata": {
+              "description": "Template metadata including name, version, author, and signature",
+              "type": "object",
+            },
+            "spec": {
+              "description": "Mission specification (business logic)",
+              "type": "object",
+            },
+          },
+          "required": [
+            "apiVersion",
+            "kind",
+            "metadata",
+            "spec",
+          ],
+          "type": "object",
+        },
+      },
+      "required": [
+        "template",
+        "outputPath",
+      ],
+      "type": "object",
+    },
+    "name": "get_template_export",
+  },
+  {
+    "description": "Extract a reusable template from a successful mission using the three-stage hybrid extraction algorithm",
+    "inputSchema": {
+      "properties": {
+        "author": {
+          "description": "Author name or email",
+          "type": "string",
+        },
+        "confidenceThreshold": {
+          "description": "Minimum confidence threshold for parameterization (0.0 to 1.0, default 0.6)",
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number",
+        },
+        "missionFile": {
+          "description": "Path to the source mission file or directory",
+          "type": "string",
+        },
+        "outputDir": {
+          "description": "Output directory for the template (optional, defaults to ./templates)",
+          "type": "string",
+        },
+        "templateName": {
+          "description": "Name for the template (used to generate templateId)",
+          "type": "string",
+        },
+      },
+      "required": [
+        "missionFile",
+        "templateName",
+        "author",
+      ],
+      "type": "object",
+    },
+    "name": "get_template_extraction",
+  },
+  {
+    "description": "[DEPRECATED] Use create_template_import instead. Provides the same secure template import workflow.",
+    "inputSchema": {
+      "properties": {
+        "allowedActions": {
+          "description": "List of allowed actions in the template (optional, empty means all allowed)",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "baseDir": {
+          "description": "Base directory for import operations (optional, defaults to current directory)",
+          "type": "string",
+        },
+        "maxResourceCpu": {
+          "description": "Maximum allowed CPU cores (optional)",
+          "type": "number",
+        },
+        "maxResourceMemory": {
+          "description": "Maximum allowed memory resource in MB (optional)",
+          "type": "number",
+        },
+        "skipSignatureVerification": {
+          "description": "Skip signature verification (TESTING ONLY - NOT for production use)",
+          "type": "boolean",
+        },
+        "templatePath": {
+          "description": "Path to the template file to import (YAML format)",
+          "type": "string",
+        },
+        "trustLevel": {
+          "description": "Trust level for the template: verified-internal (core team), signed-known (known author), untrusted (requires approval)",
+          "enum": [
+            "verified-internal",
+            "signed-known",
+            "untrusted",
+          ],
+          "type": "string",
+        },
+        "urlAllowlist": {
+          "description": "List of allowed URL domains for dependencies (optional, empty means deny all)",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "templatePath",
+      ],
+      "type": "object",
+    },
+    "name": "import_template",
+  },
+  {
+    "description": "[DEPRECATED] Use get_available_domains instead. Provides the same list of domain-specific mission types.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {},
+      "type": "object",
+    },
+    "name": "list_available_domains",
+  },
+  {
+    "description": "[DEPRECATED] Use update_token_optimization instead. Applies the same multi-pass token compression pipeline.",
+    "inputSchema": {
+      "properties": {
+        "compressionLevel": {
+          "description": "Compression level (default: balanced)",
+          "enum": [
+            "conservative",
+            "balanced",
+            "aggressive",
+          ],
+          "type": "string",
+        },
+        "dryRun": {
+          "description": "Preview mode - shows stats without applying changes (default: false)",
+          "type": "boolean",
+        },
+        "missionFile": {
+          "description": "Path to the mission file to optimize (YAML format)",
+          "type": "string",
+        },
+        "preserveTags": {
+          "description": "Custom XML tags to preserve from compression (e.g., ["critical", "exact"])",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "targetModel": {
+          "description": "Target AI model for optimization (determines output format)",
+          "enum": [
+            "claude",
+            "gpt",
+            "gemini",
+          ],
+          "type": "string",
+        },
+      },
+      "required": [
+        "missionFile",
+        "targetModel",
+      ],
+      "type": "object",
+    },
+    "name": "optimize_tokens",
+  },
+  {
+    "description": "[DEPRECATED] Use get_mission_quality_score instead. Runs the same quality scoring pipeline.",
+    "inputSchema": {
+      "properties": {
+        "missionFile": {
+          "description": "Path to the mission YAML file to assess",
+          "type": "string",
+        },
+        "verbose": {
+          "default": false,
+          "description": "Include detailed metric breakdown in output",
+          "type": "boolean",
+        },
+      },
+      "required": [
+        "missionFile",
+      ],
+      "type": "object",
+    },
+    "name": "score_quality",
+  },
+  {
+    "description": "[DEPRECATED] Use create_mission_splits instead. Generates the same token-balanced mission segments.",
+    "inputSchema": {
+      "properties": {
+        "maxSubMissions": {
+          "description": "Maximum number of sub-missions to create (default: 10)",
+          "type": "number",
+        },
+        "missionFile": {
+          "description": "Path to the mission file (YAML) to analyze and split",
+          "type": "string",
+        },
+        "model": {
+          "description": "Target AI model for token optimization (default: claude)",
+          "enum": [
+            "claude",
+            "gpt",
+            "gemini",
+          ],
+          "type": "string",
+        },
+        "outputDir": {
+          "description": "Directory to save sub-mission files (default: same as mission file)",
+          "type": "string",
+        },
+        "preserveStructure": {
+          "description": "Preserve original mission structure in sub-missions (default: true)",
+          "type": "boolean",
+        },
+      },
+      "required": [
+        "missionFile",
+      ],
+      "type": "object",
+    },
+    "name": "split_mission",
+  },
+  {
+    "description": "[DEPRECATED] Use get_split_suggestions instead. Produces the same mission split recommendation report.",
+    "inputSchema": {
+      "properties": {
+        "detailed": {
+          "description": "Show detailed breakdown of all complexity components (default: false)",
+          "type": "boolean",
+        },
+        "missionFile": {
+          "description": "Path to the mission file (YAML) to analyze",
+          "type": "string",
+        },
+        "model": {
+          "description": "Target AI model for analysis (default: claude)",
+          "enum": [
+            "claude",
+            "gpt",
+            "gemini",
+          ],
+          "type": "string",
+        },
+      },
+      "required": [
+        "missionFile",
+      ],
+      "type": "object",
+    },
+    "name": "suggest_splits",
+  },
+  {
+    "description": "Optimize mission content for token efficiency. Applies model-aware compression using a 4-pass pipeline: sanitization, structural refactoring, linguistic simplification, and model-specific templating. Target reduction: 20-30% tokens while maintaining semantic integrity.",
+    "inputSchema": {
+      "properties": {
+        "compressionLevel": {
+          "description": "Compression level (default: balanced)",
+          "enum": [
+            "conservative",
+            "balanced",
+            "aggressive",
+          ],
+          "type": "string",
+        },
+        "dryRun": {
+          "description": "Preview mode - shows stats without applying changes (default: false)",
+          "type": "boolean",
+        },
+        "missionFile": {
+          "description": "Path to the mission file to optimize (YAML format)",
+          "type": "string",
+        },
+        "preserveTags": {
+          "description": "Custom XML tags to preserve from compression (e.g., ["critical", "exact"])",
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "targetModel": {
+          "description": "Target AI model for optimization (determines output format)",
+          "enum": [
+            "claude",
+            "gpt",
+            "gemini",
+          ],
+          "type": "string",
+        },
+      },
+      "required": [
+        "missionFile",
+        "targetModel",
+      ],
+      "type": "object",
+    },
+    "name": "update_token_optimization",
+  },
+]
+`;

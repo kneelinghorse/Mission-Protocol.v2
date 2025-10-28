@@ -2,7 +2,7 @@
  * Optimize Tokens Tool Tests
  */
 
-import { describe, test, expect, beforeEach, afterEach } from '@jest/globals';
+import { describe, test, expect, beforeEach, afterEach, jest } from '@jest/globals';
 import { OptimizeTokensToolImpl, OptimizeTokensParams } from '../../src/tools/optimize-tokens';
 import * as fs from 'fs/promises';
 import * as path from 'path';
@@ -12,14 +12,23 @@ describe('OptimizeTokensTool', () => {
   let tool: OptimizeTokensToolImpl;
   let tempDir: string;
   let testFilePath: string;
+  let previousWorkspaceRoot: string | undefined;
 
   beforeEach(async () => {
     tool = new OptimizeTokensToolImpl();
+    previousWorkspaceRoot = process.env.MISSION_PROTOCOL_WORKSPACE_ROOT;
     tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'token-optimizer-test-'));
     testFilePath = path.join(tempDir, 'test-mission.yaml');
+    process.env.MISSION_PROTOCOL_WORKSPACE_ROOT = tempDir;
   });
 
   afterEach(async () => {
+    if (previousWorkspaceRoot !== undefined) {
+      process.env.MISSION_PROTOCOL_WORKSPACE_ROOT = previousWorkspaceRoot;
+    } else {
+      delete process.env.MISSION_PROTOCOL_WORKSPACE_ROOT;
+    }
+    previousWorkspaceRoot = undefined;
     // Clean up temp directory
     try {
       await fs.rm(tempDir, { recursive: true, force: true });
@@ -90,8 +99,9 @@ successCriteria: It is important to note that all tests must pass`;
     });
 
     test('should return error for non-existent file', async () => {
+      const missingPath = path.join(tempDir, 'missing.yaml');
       const params: OptimizeTokensParams = {
-        missionFile: '/non/existent/file.yaml',
+        missionFile: missingPath,
         targetModel: 'claude',
       };
 
@@ -205,13 +215,26 @@ other: Content to compress`;
       expect(result.stats!.passesApplied.length).toBeGreaterThan(0);
     });
 
-    test('should handle file write errors gracefully', async () => {
+    test('rejects mission paths that escape the workspace root', async () => {
+      const params: OptimizeTokensParams = {
+        missionFile: '../outside.yaml',
+        targetModel: 'claude',
+      };
+
+      const result = await tool.execute(params);
+
+      expect(result.success).toBe(false);
+      expect(result.error).toContain('Path cannot contain parent directory traversals');
+    });
+
+    test('propagates write failures without modifying source', async () => {
       const missionContent = 'objective: Test';
       await fs.writeFile(testFilePath, missionContent, 'utf-8');
 
-      // Make file read-only to trigger write error
-      await fs.chmod(testFilePath, 0o444);
-
+      const fsUtils = require('../../src/utils/fs') as typeof import('../../src/utils/fs');
+      const writeSpy = jest
+        .spyOn(fsUtils, 'writeFileAtomic')
+        .mockRejectedValue(new Error('write failed'));
       const params: OptimizeTokensParams = {
         missionFile: testFilePath,
         targetModel: 'claude',
@@ -219,32 +242,45 @@ other: Content to compress`;
 
       const result = await tool.execute(params);
 
-      // Should handle the error
-      if (!result.success) {
-        expect(result.error).toBeDefined();
-      }
+      expect(result.success).toBe(false);
+      expect(result.error).toContain('write failed');
 
-      // Restore permissions for cleanup
-      await fs.chmod(testFilePath, 0o644);
+      const finalContent = await fs.readFile(testFilePath, 'utf-8');
+      expect(finalContent).toBe(missionContent);
+
+      const backupContent = await fs.readFile(`${testFilePath}.backup`, 'utf-8');
+      expect(backupContent).toBe(missionContent);
+
+      writeSpy.mockRestore();
     });
   });
 
   describe('Tool definition', () => {
     test('should have correct tool name', () => {
-      const { optimizeTokensToolDefinition } = require('../../src/tools/optimize-tokens');
-      expect(optimizeTokensToolDefinition.name).toBe('optimize_tokens');
+      const { updateTokenOptimizationToolDefinition } = require('../../src/tools/optimize-tokens');
+      expect(updateTokenOptimizationToolDefinition.name).toBe('update_token_optimization');
+    });
+
+    test('should expose optimizeTokensToolDefinition alias', () => {
+      const {
+        optimizeTokensToolDefinition,
+        updateTokenOptimizationToolDefinition,
+      } = require('../../src/tools/optimize-tokens');
+
+      expect(optimizeTokensToolDefinition).toBe(updateTokenOptimizationToolDefinition);
+      expect(optimizeTokensToolDefinition.name).toBe('update_token_optimization');
     });
 
     test('should require missionFile and targetModel', () => {
-      const { optimizeTokensToolDefinition } = require('../../src/tools/optimize-tokens');
-      expect(optimizeTokensToolDefinition.inputSchema.required).toContain('missionFile');
-      expect(optimizeTokensToolDefinition.inputSchema.required).toContain('targetModel');
+      const { updateTokenOptimizationToolDefinition } = require('../../src/tools/optimize-tokens');
+      expect(updateTokenOptimizationToolDefinition.inputSchema.required).toContain('missionFile');
+      expect(updateTokenOptimizationToolDefinition.inputSchema.required).toContain('targetModel');
     });
 
     test('should support all compression levels', () => {
-      const { optimizeTokensToolDefinition } = require('../../src/tools/optimize-tokens');
+      const { updateTokenOptimizationToolDefinition } = require('../../src/tools/optimize-tokens');
       const compressionLevelEnum =
-        optimizeTokensToolDefinition.inputSchema.properties.compressionLevel.enum;
+        updateTokenOptimizationToolDefinition.inputSchema.properties.compressionLevel.enum;
 
       expect(compressionLevelEnum).toContain('conservative');
       expect(compressionLevelEnum).toContain('balanced');
@@ -252,8 +288,8 @@ other: Content to compress`;
     });
 
     test('should support all target models', () => {
-      const { optimizeTokensToolDefinition } = require('../../src/tools/optimize-tokens');
-      const targetModelEnum = optimizeTokensToolDefinition.inputSchema.properties.targetModel.enum;
+      const { updateTokenOptimizationToolDefinition } = require('../../src/tools/optimize-tokens');
+      const targetModelEnum = updateTokenOptimizationToolDefinition.inputSchema.properties.targetModel.enum;
 
       expect(targetModelEnum).toContain('claude');
       expect(targetModelEnum).toContain('gpt');

@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll, beforeEach, jest } from '@jest/globals
 import { buildMissionProtocolContext } from '../../src/index';
 import { CombinePacksToolImpl, handleCombinePacks } from '../../src/tools/combine-packs';
 
-describe('combine_packs MCP tool', () => {
+describe('create_combined_pack MCP tool', () => {
   let context: Awaited<ReturnType<typeof buildMissionProtocolContext>>;
 
   beforeAll(async () => {

@@ -439,15 +439,16 @@ export class DomainPackLoader {
    * @param schema - Object to validate as JSON Schema
    * @returns True if valid JSON Schema structure
    */
-  private isValidJSONSchema(schema: any): schema is JSONSchema {
+  private isValidJSONSchema(schema: unknown): schema is JSONSchema {
     if (typeof schema !== 'object' || schema === null || Array.isArray(schema)) {
       return false;
     }
 
     // Must have at least a 'type' property or be a schema composition
-    const hasType = 'type' in schema;
-    const hasComposition = 'anyOf' in schema || 'allOf' in schema || 'oneOf' in schema;
-    const hasRef = '$ref' in schema;
+    const candidate = schema as Record<string, unknown>;
+    const hasType = 'type' in candidate;
+    const hasComposition = 'anyOf' in candidate || 'allOf' in candidate || 'oneOf' in candidate;
+    const hasRef = '$ref' in candidate;
 
     return hasType || hasComposition || hasRef;
   }

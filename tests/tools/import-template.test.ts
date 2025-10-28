@@ -2,7 +2,7 @@ import { describe, it, expect, jest } from '@jest/globals';
 import { importTemplate } from '../../src/tools/import-template';
 import { TemplateImporter } from '../../src/import-export/template-importer';
 
-describe('import_template MCP tool', () => {
+describe('create_template_import MCP tool', () => {
   it('rejects missing templatePath parameter', async () => {
     // @ts-expect-error intentionally omitting required parameter
     const result = await importTemplate({});
@@ -73,20 +73,27 @@ describe('import_template MCP tool', () => {
       dependencies: [],
     };
 
-    const importSpy = jest
-      .spyOn(TemplateImporter.prototype, 'import')
-      .mockResolvedValue({
-        template: resolvedTemplate,
-        validationReport: {
-          valid: true,
-          layers: [],
-          errors: [],
-          warnings: [],
-          performanceMs: 12,
-          template: resolvedTemplate,
+    const dependencies = new Map<string, any>([
+      [
+        'core',
+        {
+          metadata: { name: 'core-template', version: '2.1.0', author: 'team' },
         },
-        resolvedDependencies: new Map(),
-      });
+      ],
+    ]);
+
+    const importSpy = jest.spyOn(TemplateImporter.prototype, 'import').mockResolvedValue({
+      template: resolvedTemplate,
+      validationReport: {
+        valid: true,
+        layers: [],
+        errors: [],
+        warnings: [],
+        performanceMs: 12,
+        template: resolvedTemplate,
+      },
+      resolvedDependencies: dependencies as Map<string, any>,
+    });
 
     const result = await importTemplate({
       templatePath: 'stub.yaml',
@@ -96,6 +103,10 @@ describe('import_template MCP tool', () => {
     expect(result.success).toBe(true);
     expect(result.template?.name).toBe('stub-template');
     expect(result.validationReport.valid).toBe(true);
+    expect(result.dependencies?.core).toEqual({
+      name: 'core-template',
+      version: '2.1.0',
+    });
 
     importSpy.mockRestore();
   });

@@ -329,7 +329,7 @@ export class TemplateExtractor {
     literalLocations: Map<string, Candidate[]>
   ): Promise<void> {
     try {
-      let config: any;
+      let config: unknown;
 
       if (filePath.endsWith('.json')) {
         config = jsonContent(content, { maxSize: MAX_CONFIG_SIZE_BYTES });
@@ -338,7 +338,13 @@ export class TemplateExtractor {
       }
 
       if (config && typeof config === 'object') {
-        this.extractConfigValues(config, relativePath, filePath, literalFrequency, literalLocations);
+        this.extractConfigValues(
+          config as Record<string, unknown>,
+          relativePath,
+          filePath,
+          literalFrequency,
+          literalLocations
+        );
       }
     } catch (error) {
       // Skip files that can't be parsed
@@ -346,7 +352,7 @@ export class TemplateExtractor {
   }
 
   private extractConfigValues(
-    obj: any,
+    obj: Record<string, unknown>,
     relativePath: string,
     filePath: string,
     literalFrequency: Map<string, number>,
@@ -378,7 +384,14 @@ export class TemplateExtractor {
           context: currentPath
         });
       } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        this.extractConfigValues(value, relativePath, filePath, literalFrequency, literalLocations, currentPath);
+        this.extractConfigValues(
+          value as Record<string, unknown>,
+          relativePath,
+          filePath,
+          literalFrequency,
+          literalLocations,
+          currentPath
+        );
       }
     }
   }

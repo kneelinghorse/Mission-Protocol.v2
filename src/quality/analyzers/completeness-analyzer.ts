@@ -191,7 +191,8 @@ export class CompletenessAnalyzer {
     // In full implementation, this would use topic modeling or embeddings
     // For now, using heuristic-based scoring
 
-    const missionType = mission.domainFields?.type || '';
+    const missionTypeValue = mission.domainFields?.type;
+    const missionType = typeof missionTypeValue === 'string' ? missionTypeValue : '';
     const fullText = this.extractFullText(mission);
     const words = fullText.toLowerCase();
 
@@ -219,25 +220,25 @@ export class CompletenessAnalyzer {
 
   // Helper methods
 
-  private hasNonEmpty(value: any): boolean {
+  private hasNonEmpty(value: unknown): boolean {
     if (value === undefined || value === null) return false;
     if (typeof value === 'string') return value.trim().length > 0;
     return true;
   }
 
-  private hasArrayOrString(value: any): boolean {
+  private hasArrayOrString(value: unknown): boolean {
     if (Array.isArray(value)) return value.length > 0;
     if (typeof value === 'string') return value.trim().length > 0;
     return false;
   }
 
-  private getArrayLength(value: any): number {
+  private getArrayLength(value: unknown): number {
     if (Array.isArray(value)) return value.length;
     if (typeof value === 'string' && value.trim().length > 0) return 1;
     return 0;
   }
 
-  private wordCount(value: any): number {
+  private wordCount(value: unknown): number {
     if (!value) return 0;
     const text = typeof value === 'string' ? value : JSON.stringify(value);
     return text.split(/\s+/).filter(w => w.length > 0).length;
@@ -322,7 +323,7 @@ export class CompletenessAnalyzer {
     return 0;
   }
 
-  private getStructuralDetails(mission: MissionContent): Record<string, any> {
+  private getStructuralDetails(mission: MissionContent): Record<string, unknown> {
     const missing: string[] = [];
     const present: string[] = [];
 
@@ -337,7 +338,7 @@ export class CompletenessAnalyzer {
     return { present, missing, total: this.REQUIRED_FIELDS.length };
   }
 
-  private getBreadthDetails(mission: MissionContent): Record<string, any> {
+  private getBreadthDetails(mission: MissionContent): Record<string, unknown> {
     return {
       hasSuccessCriteria: this.getArrayLength(mission.successCriteria),
       hasDeliverables: this.getArrayLength(mission.deliverables),
@@ -346,7 +347,7 @@ export class CompletenessAnalyzer {
     };
   }
 
-  private getDensityDetails(mission: MissionContent): Record<string, any> {
+  private getDensityDetails(mission: MissionContent): Record<string, unknown> {
     return {
       objectiveWords: this.wordCount(mission.objective),
       contextWords: this.wordCount(mission.context),

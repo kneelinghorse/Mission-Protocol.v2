@@ -38,7 +38,7 @@ All domain packs are located in the `packs/` directory. Each pack contains:
    - Technical research and architectural investigation
    - Fields: type, researchObjectives, technologiesUnderInvestigation, evaluationCriteria, prototypeRequirements
 
-- The registry also includes discovery sequencing packs (`discovery.*`), engineering workflows (`engineering.*`, `process.*`, `qa.bug-report`), product strategy templates (`product.*`, `market.customer-development`, `design.ux-research-summary`), research scaffolds (`research.general`), and architecture handoffs (`build.architecture-mission`). Run `mission-protocol list_available_domains` to view every pack name and description.
+- The registry also includes discovery sequencing packs (`discovery.*`), engineering workflows (`engineering.*`, `process.*`, `qa.bug-report`), product strategy templates (`product.*`, `market.customer-development`, `design.ux-research-summary`), research scaffolds (`research.general`), and architecture handoffs (`build.architecture-mission`). Run `mission-protocol get_available_domains` (alias `list_available_domains`) to view every pack name and description.
 
 ## Provenance
 
@@ -60,7 +60,7 @@ npm test -- tests/integration/template-runtime-store.test.ts
 ## Usage
 
 Templates are loaded automatically by the MCP server at initialization. They can be accessed via:
-- `list_available_domains` - List all registered domain packs
+- `get_available_domains` (alias `list_available_domains`) - List all registered domain packs
 - `create_mission` - Create a new mission using a domain pack
 
 ## Maintenance
@@ -69,5 +69,20 @@ When adding new domain packs:
 1. Create directory in `packs/`
 2. Add `pack.yaml`, `schema.json`, and `template.yaml`
 3. Register in `registry.yaml`
-4. Run smoke test to verify
-5. Update this README
+4. Author at least one sample mission (under `cmos/missions/`) that exercises the pack
+5. Add automated validation (unit test or smoke test) that loads the pack and checks schema compliance
+6. Update `cmos/missions/backlog.yaml` or sprint plans if the pack introduces new missions
+7. Run smoke tests (`npm test -- tests/integration/template-runtime-store.test.ts`) to verify
+8. Update this README and other relevant docs
+
+### Domain Pack Addition Checklist
+
+When incorporating new domain packs introduced during active development:
+
+- Confirm `pack.yaml`, `template.yaml`, and `schema.json` share the same `name`, `displayName`, and versioning.
+- Add the pack to `templates/registry.yaml` and ensure `get_available_domains` surfaces it.
+- Create a sample mission (Build.Implementation or Planning format) demonstrating how to use the pack.
+- Add or update automated tests (e.g., `tests/domains/` or integration suites) so the pack is exercised in CI.
+- Document the addition in sprint backlog or roadmap notes, and include any dependencies or prerequisites.
+- Run `npm run validate:packs` (if available) or future validation scripts to confirm coverage and metadata consistency.
+- Update documentation references (README, guides) so mission authors can discover and apply the new pack.

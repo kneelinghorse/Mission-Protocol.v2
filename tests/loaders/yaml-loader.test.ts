@@ -9,6 +9,22 @@ import { SecureYAMLLoader } from '../../src/loaders/yaml-loader';
 import { UnsafeYAMLError, SchemaValidationError } from '../../src/types/errors';
 import { JSONSchema } from '../../src/types/schemas';
 import { ensureTempDir, removeDir } from '../../src/utils/fs';
+import {
+  loadYamlFixture,
+  loadYamlFixtures,
+  SimpleYamlFixture,
+  NestedYamlFixture,
+  ItemsYamlFixture,
+  AnchoredEnvYamlFixture,
+  MultilineYamlFixture,
+  NullHandlingYamlFixture,
+  AppConfigFixture,
+  ServerConfigFixture,
+  UsersYamlFixture,
+  EnumYamlFixture,
+  ValueEntryFixture,
+  NamedConfigFixture,
+} from '../utils/secure-yaml-fixtures';
 
 describe('SecureYAMLLoader', () => {
   let tempDir: string;
@@ -36,7 +52,7 @@ enabled: true
 `;
       await writeTempFile('simple.yaml', yamlContent);
 
-      const data = await loader.load('simple.yaml');
+      const data = await loadYamlFixture<SimpleYamlFixture>(loader, 'simple.yaml');
       expect(data).toEqual({
         name: 'Test',
         version: 1.0,
@@ -55,7 +71,7 @@ server:
 `;
       await writeTempFile('nested.yaml', yamlContent);
 
-      const data = await loader.load('nested.yaml');
+      const data = await loadYamlFixture<NestedYamlFixture>(loader, 'nested.yaml');
       expect(data.server.ssl.enabled).toBe(true);
       expect(data.server.port).toBe(8080);
     });
@@ -70,7 +86,7 @@ items:
 `;
       await writeTempFile('array.yaml', yamlContent);
 
-      const data = await loader.load('array.yaml');
+      const data = await loadYamlFixture<ItemsYamlFixture>(loader, 'array.yaml');
       expect(data.items).toHaveLength(2);
       expect(data.items[0].value).toBe(100);
     });
@@ -93,7 +109,7 @@ staging:
 `;
       await writeTempFile('anchors.yaml', yamlContent);
 
-      const data = await loader.load('anchors.yaml');
+      const data = await loadYamlFixture<AnchoredEnvYamlFixture>(loader, 'anchors.yaml');
       expect(data.production.timeout).toBe(30);
       expect(data.staging.retries).toBe(3);
     });
@@ -107,7 +123,7 @@ description: |
 `;
       await writeTempFile('multiline.yaml', yamlContent);
 
-      const data = await loader.load('multiline.yaml');
+      const data = await loadYamlFixture<MultilineYamlFixture>(loader, 'multiline.yaml');
       expect(data.description).toContain('\n');
     });
 
@@ -119,7 +135,7 @@ undefinedValue: ~
 `;
       await writeTempFile('nulls.yaml', yamlContent);
 
-      const data = await loader.load('nulls.yaml');
+      const data = await loadYamlFixture<NullHandlingYamlFixture>(loader, 'nulls.yaml');
       expect(data.nullValue).toBeNull();
       expect(data.emptyValue).toBeNull();
       expect(data.undefinedValue).toBeNull();
@@ -133,7 +149,9 @@ invalid yaml:
 `;
       await writeTempFile('invalid.yaml', yamlContent);
 
-      await expect(loader.load('invalid.yaml')).rejects.toThrow(UnsafeYAMLError);
+      await expect(
+        loadYamlFixture<unknown>(loader, 'invalid.yaml')
+      ).rejects.toThrow(UnsafeYAMLError);
     });
   });
 
@@ -147,7 +165,9 @@ args: ['ls -la']
       await writeTempFile('malicious1.yaml', maliciousYAML);
 
       // The YAML library should reject this or our validation catches it
-      await expect(loader.load('malicious1.yaml')).rejects.toThrow();
+      await expect(
+        loadYamlFixture<unknown>(loader, 'malicious1.yaml')
+      ).rejects.toThrow();
     });
 
     test('should prevent arbitrary code tags', async () => {
@@ -156,7 +176,9 @@ args: ['ls -la']
 `;
       await writeTempFile('malicious2.yaml', maliciousYAML);
 
-      await expect(loader.load('malicious2.yaml')).rejects.toThrow();
+      await expect(
+        loadYamlFixture<unknown>(loader, 'malicious2.yaml')
+      ).rejects.toThrow();
     });
 
     test('should prevent constructor attacks', async () => {
@@ -166,7 +188,9 @@ args: ['ls -la']
 `;
       await writeTempFile('malicious3.yaml', maliciousYAML);
 
-      await expect(loader.load('malicious3.yaml')).rejects.toThrow();
+      await expect(
+        loadYamlFixture<unknown>(loader, 'malicious3.yaml')
+      ).rejects.toThrow();
     });
 
     test('should prevent js regexp tag usage', async () => {
@@ -175,7 +199,9 @@ args: ['ls -la']
 `;
       await writeTempFile('malicious4.yaml', maliciousYAML);
 
-      await expect(loader.load('malicious4.yaml')).rejects.toThrow();
+      await expect(
+        loadYamlFixture<unknown>(loader, 'malicious4.yaml')
+      ).rejects.toThrow();
     });
 
     test('should prevent custom unknown tags', async () => {
@@ -185,7 +211,9 @@ data: attempt
 `;
       await writeTempFile('malicious5.yaml', maliciousYAML);
 
-      await expect(loader.load('malicious5.yaml')).rejects.toThrow();
+      await expect(
+        loadYamlFixture<unknown>(loader, 'malicious5.yaml')
+      ).rejects.toThrow();
     });
 
     test('should prevent python object creation attempts', async () => {
@@ -194,7 +222,9 @@ data: attempt
 `;
       await writeTempFile('malicious6.yaml', maliciousYAML);
 
-      await expect(loader.load('malicious6.yaml')).rejects.toThrow();
+      await expect(
+        loadYamlFixture<unknown>(loader, 'malicious6.yaml')
+      ).rejects.toThrow();
     });
   });
 
@@ -215,7 +245,7 @@ version: 1.0.0
         }
       };
 
-      const data = await loader.load('app.yaml', schema);
+      const data = await loadYamlFixture<AppConfigFixture>(loader, 'app.yaml', schema);
       expect(data.name).toBe('TestApp');
     });
 
@@ -234,7 +264,9 @@ name: TestApp
         }
       };
 
-      await expect(loader.load('incomplete.yaml', schema)).rejects.toThrow(
+      await expect(
+        loadYamlFixture<AppConfigFixture>(loader, 'incomplete.yaml', schema)
+      ).rejects.toThrow(
         SchemaValidationError
       );
     });
@@ -254,7 +286,9 @@ version: 123
         }
       };
 
-      await expect(loader.load('wrongtype.yaml', schema)).rejects.toThrow(
+      await expect(
+        loadYamlFixture<AppConfigFixture>(loader, 'wrongtype.yaml', schema)
+      ).rejects.toThrow(
         SchemaValidationError
       );
     });
@@ -282,7 +316,7 @@ server:
         }
       };
 
-      const data = await loader.load('server.yaml', schema);
+      const data = await loadYamlFixture<ServerConfigFixture>(loader, 'server.yaml', schema);
       expect(data.server.port).toBe(8080);
     });
 
@@ -313,7 +347,7 @@ users:
         }
       };
 
-      const data = await loader.load('users.yaml', schema);
+      const data = await loadYamlFixture<UsersYamlFixture>(loader, 'users.yaml', schema);
       expect(data.users).toHaveLength(2);
     });
 
@@ -333,7 +367,7 @@ status: active
         }
       };
 
-      const data = await loader.load('enum.yaml', schema);
+      const data = await loadYamlFixture<EnumYamlFixture>(loader, 'enum.yaml', schema);
       expect(data.status).toBe('active');
     });
 
@@ -353,7 +387,9 @@ status: invalid
         }
       };
 
-      await expect(loader.load('bad-enum.yaml', schema)).rejects.toThrow(
+      await expect(
+        loadYamlFixture<EnumYamlFixture>(loader, 'bad-enum.yaml', schema)
+      ).rejects.toThrow(
         SchemaValidationError
       );
     });
@@ -365,7 +401,11 @@ status: invalid
       await writeTempFile('file2.yaml', 'value: 2');
       await writeTempFile('file3.yaml', 'value: 3');
 
-      const results = await loader.loadMultiple(['file1.yaml', 'file2.yaml', 'file3.yaml']);
+      const results = await loadYamlFixtures<ValueEntryFixture>(loader, [
+        'file1.yaml',
+        'file2.yaml',
+        'file3.yaml',
+      ]);
       expect(results).toHaveLength(3);
       expect(results[0].value).toBe(1);
       expect(results[2].value).toBe(3);
@@ -384,7 +424,11 @@ status: invalid
         }
       };
 
-      const results = await loader.loadMultiple(['config1.yaml', 'config2.yaml'], schema);
+      const results = await loadYamlFixtures<NamedConfigFixture>(
+        loader,
+        ['config1.yaml', 'config2.yaml'],
+        schema
+      );
       expect(results).toHaveLength(2);
       expect(results[1].name).toBe('Config2');
     });
@@ -392,7 +436,9 @@ status: invalid
 
   describe('Error Handling', () => {
     test('should throw error for non-existent file', async () => {
-      await expect(loader.load('nonexistent.yaml')).rejects.toThrow(/File not found|ENOENT/);
+      await expect(
+        loadYamlFixture<unknown>(loader, 'nonexistent.yaml')
+      ).rejects.toThrow(/File not found|ENOENT/);
     });
 
     test('should provide helpful error messages', async () => {
@@ -410,7 +456,11 @@ version: abc
         }
       };
 
-      const error = await loader.load('error.yaml', schema).catch(err => err);
+      const error = await loadYamlFixture<AppConfigFixture>(
+        loader,
+        'error.yaml',
+        schema
+      ).catch(err => err);
       expect(error).toBeInstanceOf(SchemaValidationError);
       if (error instanceof SchemaValidationError) {
         expect(error.message).toContain('version');

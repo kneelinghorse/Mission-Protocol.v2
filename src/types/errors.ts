@@ -41,9 +41,9 @@ export class PathTraversalError extends YAMLLoaderError {
 }
 
 export class SchemaValidationError extends YAMLLoaderError {
-  public readonly errors: any[];
+  public readonly errors: unknown[];
 
-  constructor(message: string, errors: any[], context: ErrorContext = {}) {
+  constructor(message: string, errors: unknown[], context: ErrorContext = {}) {
     super(
       `Schema validation failed: ${message}`,
       {

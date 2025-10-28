@@ -17,19 +17,19 @@ An AI-powered mission planning and execution system with intelligent optimizatio
 Mission Protocol v2 provides MCP tools for autonomous mission management:
 
 ### Phase 4: Intelligence Layer (Current)
-- **`score_quality`** - Assess mission quality across Clarity, Completeness, AI-Readiness
-- **`optimize_tokens`** - Reduce token usage 20-30% while preserving semantics
-- **`analyze_dependencies`** - Detect and visualize mission dependencies
-- **`split_mission`** / **`suggest_splits`** - Automatically split complex missions
+- **`get_mission_quality_score`** (formerly `score_quality`) - Assess mission quality across Clarity, Completeness, AI-Readiness
+- **`update_token_optimization`** (formerly `optimize_tokens`) - Reduce token usage 20-30% while preserving semantics
+- **`get_dependency_analysis`** (formerly `analyze_dependencies`) - Detect and visualize mission dependencies
+- **`create_mission_splits`** / **`get_split_suggestions`** (formerly `split_mission` / `suggest_splits`) - Automatically split complex missions
 
 ### Phase 3: Extension System
-- **`extract_template`** - Convert missions into reusable templates
-- **`import_template`** / **`export_template`** - Share templates across projects
-- **`combine_packs`** - Merge domain packs with dependency resolution
+- **`get_template_extraction`** (alias `extract_template`) - Convert missions into reusable templates
+- **`create_template_import`** / **`get_template_export`** (aliases `import_template` / `export_template`) - Share templates across projects
+- **`create_combined_pack`** (alias `combine_packs`) - Merge domain packs with dependency resolution
 - **Versioning tools** - Template version management and migrations
 
 ### Phase 1-2: Foundation
-- **`list_available_domains`** - Browse domain packs (5 packs available: foundation, software.technical-task, business.market-research, build.implementation, build.technical-research)
+- **`get_available_domains`** (alias `list_available_domains`) - Browse domain packs (5 packs available: foundation, software.technical-task, business.market-research, build.implementation, build.technical-research)
 - **`create_mission`** - Generate missions from domain templates (operational with restored templates)
 
 ## Documentation

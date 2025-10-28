@@ -103,6 +103,8 @@ export interface CompatibilityCheckResult {
   };
 }
 
+export type TemplateData = Record<string, unknown>;
+
 /**
  * Migration script metadata
  */
@@ -120,10 +122,10 @@ export interface MigrationScript {
   description: string;
 
   /** Migration function */
-  migrate: (template: any) => Promise<MigrationResult>;
+  migrate: (template: TemplateData) => Promise<MigrationResult>;
 
   /** Optional rollback function */
-  rollback?: (template: any) => Promise<any>;
+  rollback?: (template: TemplateData) => Promise<TemplateData>;
 
   /** Estimated time to complete (in seconds) */
   estimatedDuration?: number;
@@ -133,18 +135,9 @@ export interface MigrationScript {
 }
 
 /**
- * Result of a migration operation
+ * Shared result fields for migration operations
  */
-export interface MigrationResult {
-  /** Whether migration succeeded */
-  success: boolean;
-
-  /** The migrated template (if successful) */
-  migratedTemplate?: any;
-
-  /** Errors encountered during migration */
-  errors?: string[];
-
+interface MigrationResultBase {
   /** Warnings (non-fatal issues) */
   warnings?: string[];
 
@@ -153,6 +146,45 @@ export interface MigrationResult {
 
   /** Backup path (for rollback) */
   backupPath?: string;
+}
+
+/**
+ * Successful migration result
+ */
+export interface SuccessfulMigrationResult extends MigrationResultBase {
+  /** Whether migration succeeded */
+  success: true;
+
+  /** The migrated template (always present when success === true) */
+  migratedTemplate: TemplateData;
+}
+
+/**
+ * Failed migration result
+ */
+export interface FailedMigrationResult extends MigrationResultBase {
+  /** Whether migration succeeded */
+  success: false;
+
+  /** Errors encountered during migration */
+  errors: string[];
+
+  /** Partial template payload if the migration produced one before failing */
+  migratedTemplate?: TemplateData;
+}
+
+/**
+ * Result of a migration operation
+ */
+export type MigrationResult = SuccessfulMigrationResult | FailedMigrationResult;
+
+/**
+ * Narrow a migration result to the successful variant
+ */
+export function isSuccessfulMigrationResult(
+  result: MigrationResult
+): result is SuccessfulMigrationResult {
+  return result.success;
 }
 
 /**
@@ -252,28 +284,28 @@ export interface VersionManagerOptions {
  * Error types for versioning operations
  */
 export class VersionError extends Error {
-  constructor(message: string, public code?: string, public details?: any) {
+  constructor(message: string, public code?: string, public details?: Record<string, unknown>) {
     super(message);
     this.name = 'VersionError';
   }
 }
 
 export class IncompatibleVersionError extends VersionError {
-  constructor(message: string, details?: any) {
+  constructor(message: string, details?: Record<string, unknown>) {
     super(message, 'INCOMPATIBLE_VERSION', details);
     this.name = 'IncompatibleVersionError';
   }
 }
 
 export class MigrationError extends VersionError {
-  constructor(message: string, details?: any) {
+  constructor(message: string, details?: Record<string, unknown>) {
     super(message, 'MIGRATION_FAILED', details);
     this.name = 'MigrationError';
   }
 }
 
 export class InvalidVersionError extends VersionError {
-  constructor(message: string, details?: any) {
+  constructor(message: string, details?: Record<string, unknown>) {
     super(message, 'INVALID_VERSION', details);
     this.name = 'InvalidVersionError';
   }

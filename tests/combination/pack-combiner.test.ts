@@ -220,6 +220,25 @@ describe('PackCombiner', () => {
       // Only pack-b is combined (dependencies not resolved)
       expect(result.combinedPack?.template).toEqual({ b: 2 });
     });
+
+    it('fails when dependency resolver references missing packs', () => {
+      const localCombiner = new PackCombiner();
+      const resolver = (localCombiner as any).resolver;
+      const packA = createMockPack('pack-a', { a: 1 });
+      const resolveSpy = jest.spyOn(resolver, 'resolve').mockReturnValue({
+        success: true,
+        loadOrder: ['pack-a', 'missing-pack'],
+        graph: new Map(),
+        circularDependencies: [],
+        errors: [],
+      } as any);
+
+      const result = localCombiner.combine([packA], [packA], { resolveDependencies: true });
+      expect(result.success).toBe(false);
+      expect(result.errors[0]).toContain('Failed to load packs: missing-pack');
+
+      resolveSpy.mockRestore();
+    });
   });
 
   describe('combine() - Validation', () => {
@@ -248,6 +267,81 @@ describe('PackCombiner', () => {
 
       expect(result.success).toBe(false);
       expect(result.errors).toContain('No packs provided for combination');
+    });
+
+    it('bubbles up validation errors returned from validateCombinedPack', () => {
+      const packA = createMockPack('pack-a', { a: 1 });
+      const validateSpy = jest
+        .spyOn(combiner as any, 'validateCombinedPack')
+        .mockReturnValue({
+          valid: false,
+          errors: ['invalid combined pack'],
+          warnings: ['needs attention'],
+        });
+
+      const result = combiner.combine([packA], [packA], {
+        resolveDependencies: false,
+      });
+
+      expect(result.success).toBe(false);
+      expect(result.errors).toContain('invalid combined pack');
+      expect(result.warnings).toContain('needs attention');
+
+      validateSpy.mockRestore();
+    });
+  });
+
+  describe('validateCombinedPack (internal)', () => {
+    it('flags missing manifest metadata and non-object templates as errors', () => {
+      const validate = (combiner as unknown as {
+        validateCombinedPack: (pack: any) => { valid: boolean; errors: string[]; warnings: string[] };
+      }).validateCombinedPack.bind(combiner);
+
+      const outcome = validate({
+        manifest: {
+          name: '',
+          version: '',
+          combinedFrom: [],
+        },
+        template: 'invalid-template' as any,
+        dependencies: [],
+        combinationOrder: [],
+      });
+
+      expect(outcome.valid).toBe(false);
+      expect(outcome.errors).toEqual(
+        expect.arrayContaining([
+          'Combined pack name is required',
+          'Combined pack version is required',
+          'Combined pack must specify source packs',
+          'Combined template must be an object',
+        ])
+      );
+    });
+
+    it('emits warnings when combination order mismatches and template is empty', () => {
+      const validate = (combiner as unknown as {
+        validateCombinedPack: (pack: any) => { valid: boolean; errors: string[]; warnings: string[] };
+      }).validateCombinedPack.bind(combiner);
+
+      const outcome = validate({
+        manifest: {
+          name: 'combined-example',
+          version: '1.0.0',
+          combinedFrom: ['alpha'],
+        },
+        template: {},
+        dependencies: [],
+        combinationOrder: ['beta'],
+      });
+
+      expect(outcome.valid).toBe(true);
+      expect(outcome.warnings).toEqual(
+        expect.arrayContaining([
+          'Combination order does not match manifest source packs',
+          'Combined template is empty',
+        ])
+      );
     });
   });
 
@@ -287,6 +381,23 @@ describe('PackCombiner', () => {
         name: 'dep-2',
         version: '1.0.0',
       });
+    });
+
+    it('deduplicates dependencies by keeping the first version encountered', () => {
+      const packA = createMockPack('pack-a', {}, '1.0.0', [
+        { name: 'shared-dep', version: '1.0.0' },
+      ]);
+      const packB = createMockPack('pack-b', {}, '1.0.0', [
+        { name: 'shared-dep', version: '2.0.0' },
+      ]);
+
+      const result = combiner.combine([packA, packB], [packA, packB], {
+        resolveDependencies: false,
+      });
+
+      expect(result.combinedPack?.dependencies).toEqual([
+        { name: 'shared-dep', version: '1.0.0' },
+      ]);
     });
   });
 

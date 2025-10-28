@@ -128,7 +128,7 @@ export interface CombinationResult {
  * Error classes for pack combination
  */
 export class PackCombinationError extends Error {
-  constructor(message: string, public details?: any) {
+  constructor(message: string, public details?: Record<string, unknown>) {
     super(message);
     this.name = 'PackCombinationError';
   }

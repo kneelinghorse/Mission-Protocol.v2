@@ -2,10 +2,10 @@
  * Phase 4 Integration Tests - Intelligence Layer Full Workflows
  *
  * Tests end-to-end workflows combining:
- * - Token optimization (optimize_tokens)
- * - Dependency analysis (analyze_dependencies)
- * - Mission splitting (split_mission, suggest_splits)
- * - Quality scoring (score_quality)
+ * - Token optimization (update_token_optimization)
+ * - Dependency analysis (get_dependency_analysis)
+ * - Mission splitting (create_mission_splits, get_split_suggestions)
+ * - Quality scoring (get_mission_quality_score)
  *
  * Success criteria: >90% coverage of Phase 4 workflows
  */
@@ -251,7 +251,6 @@ deliverables:
       // Analyze dependencies
       const analysis = await executeAnalyzeDependenciesTool({
         missionDirectory: missionsDir,
-        outputFormat: 'summary',
       });
 
       expect(analysis).toContain('M1');

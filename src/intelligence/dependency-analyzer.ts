@@ -31,6 +31,45 @@ export interface DependencyAnalysisResult {
   criticalPath?: string[];
 }
 
+interface ResearchFoundationEntry {
+  sourceMission?: string;
+}
+
+interface MissionBlocker {
+  missionId?: string;
+}
+
+interface MissionHandoffContext {
+  dependencies?: string[];
+  blockers?: MissionBlocker[];
+}
+
+export interface MissionDomainFields extends Record<string, unknown> {
+  researchFoundation?: ResearchFoundationEntry[];
+  handoffContext?: MissionHandoffContext;
+}
+
+export interface MissionRecord extends Record<string, unknown> {
+  missionId: string;
+  filePath?: string;
+  context?: string;
+  objective?: string;
+  successCriteria?: string[] | string;
+  deliverables?: string[] | string;
+  domainFields?: MissionDomainFields;
+}
+
+export type MissionInput = string | MissionRecord;
+
+export function isMissionRecord(value: unknown): value is MissionRecord {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const record = value as { missionId?: unknown };
+  return typeof record.missionId === 'string';
+}
+
 /**
  * DependencyAnalyzer - Analyzes mission dependencies using graph-based analysis
  * Based on research findings from R4.3_Intelligent_Mission_Sequencing
@@ -50,7 +89,7 @@ export class DependencyAnalyzer {
    * @param missions Array of mission file paths or mission objects
    * @returns DependencyAnalysisResult
    */
-  async analyze(missions: string[] | any[]): Promise<DependencyAnalysisResult> {
+  async analyze(missions: MissionInput[]): Promise<DependencyAnalysisResult> {
     // Clear previous graph
     this.graph = {
       nodes: new Map(),
@@ -68,8 +107,9 @@ export class DependencyAnalyzer {
     let criticalPath: string[] | undefined;
 
     if (!hasCycles) {
-      executionOrder = this.topologicalSort();
-      criticalPath = this.findCriticalPath();
+      const topoOrder = this.topologicalSort();
+      executionOrder = topoOrder;
+      criticalPath = this.findCriticalPath(topoOrder);
     }
 
     return {
@@ -85,71 +125,78 @@ export class DependencyAnalyzer {
    * Build dependency graph from missions
    * @param missions Array of mission file paths or mission objects
    */
-  private async buildGraph(missions: string[] | any[]): Promise<void> {
+  private async buildGraph(missions: MissionInput[]): Promise<void> {
     for (const mission of missions) {
-      let missionData: any;
-      let filePath: string;
+      const { missionData, filePath } = await this.normalizeMissionInput(mission);
 
-      if (typeof mission === 'string') {
-        // Mission is a file path
-        filePath = mission;
-        const content = await fs.readFile(filePath, 'utf-8');
-        missionData = yaml.load(content);
-      } else {
-        // Mission is already an object
-        missionData = mission;
-        filePath = mission.filePath || 'unknown';
-      }
-
-      const missionId = missionData.missionId;
-
-      // Extract explicit dependencies from various fields
       const dependencies = this.extractExplicitDependencies(missionData);
 
-      // Create node
       const node: DependencyNode = {
-        missionId,
+        missionId: missionData.missionId,
         filePath,
         dependencies
       };
 
-      // Add node to graph
-      this.graph.nodes.set(missionId, node);
+      this.graph.nodes.set(missionData.missionId, node);
 
-      // Add edges
-      if (!this.graph.edges.has(missionId)) {
-        this.graph.edges.set(missionId, new Set());
+      if (!this.graph.edges.has(missionData.missionId)) {
+        this.graph.edges.set(missionData.missionId, new Set());
       }
 
       for (const dep of dependencies) {
-        this.graph.edges.get(missionId)!.add(dep);
+        this.graph.edges.get(missionData.missionId)!.add(dep);
       }
     }
+  }
+
+  private async normalizeMissionInput(mission: MissionInput): Promise<{
+    missionData: MissionRecord;
+    filePath: string;
+  }> {
+    if (typeof mission === 'string') {
+      const filePath = mission;
+      const content = await fs.readFile(filePath, 'utf-8');
+      const parsed = yaml.load(content);
+
+      if (!isMissionRecord(parsed)) {
+        throw new Error(`Invalid mission data encountered at ${filePath}`);
+      }
+
+      return {
+        missionData: { ...parsed, filePath },
+        filePath
+      };
+    }
+
+    const filePath = mission.filePath ?? 'unknown';
+
+    return {
+      missionData: { ...mission, filePath },
+      filePath
+    };
   }
 
   /**
    * Extract explicit dependencies from mission data
    * Uses static analysis of mission configuration
    */
-  private extractExplicitDependencies(missionData: any): string[] {
+  private extractExplicitDependencies(missionData: MissionRecord): string[] {
     const dependencies: Set<string> = new Set();
+    const domainFields = missionData.domainFields;
 
-    // Check researchFoundation field
-    if (missionData.domainFields?.researchFoundation) {
-      for (const finding of missionData.domainFields.researchFoundation) {
-        if (finding.sourceMission) {
-          // Extract mission ID from source mission reference
-          const missionId = this.extractMissionId(finding.sourceMission);
-          if (missionId) {
-            dependencies.add(missionId);
-          }
+    const researchFoundation = domainFields?.researchFoundation;
+    if (Array.isArray(researchFoundation)) {
+      for (const finding of researchFoundation) {
+        const missionId = finding?.sourceMission ? this.extractMissionId(finding.sourceMission) : null;
+        if (missionId) {
+          dependencies.add(missionId);
         }
       }
     }
 
-    // Check handoffContext dependencies
-    if (missionData.domainFields?.handoffContext?.dependencies) {
-      for (const dep of missionData.domainFields.handoffContext.dependencies) {
+    const handoffDependencies = domainFields?.handoffContext?.dependencies;
+    if (Array.isArray(handoffDependencies)) {
+      for (const dep of handoffDependencies) {
         const missionId = this.extractMissionId(dep);
         if (missionId) {
           dependencies.add(missionId);
@@ -157,16 +204,17 @@ export class DependencyAnalyzer {
       }
     }
 
-    // Check context field for mission references
-    if (missionData.context) {
+    if (typeof missionData.context === 'string') {
       const contextDeps = this.extractMissionReferencesFromText(missionData.context);
-      contextDeps.forEach(dep => dependencies.add(dep));
+      for (const dep of contextDeps) {
+        dependencies.add(dep);
+      }
     }
 
-    // Check blockers field
-    if (missionData.domainFields?.handoffContext?.blockers) {
-      for (const blocker of missionData.domainFields.handoffContext.blockers) {
-        if (blocker.missionId) {
+    const blockers = domainFields?.handoffContext?.blockers;
+    if (Array.isArray(blockers)) {
+      for (const blocker of blockers) {
+        if (blocker?.missionId) {
           dependencies.add(blocker.missionId);
         }
       }
@@ -313,14 +361,22 @@ export class DependencyAnalyzer {
    */
   private topologicalSort(): string[] {
     const outDegree = new Map<string, number>();
+    const dependents = new Map<string, Set<string>>();
     const result: string[] = [];
     const queue: string[] = [];
 
     // Initialize out-degree for all nodes (count of dependencies)
     for (const nodeId of this.graph.nodes.keys()) {
-      const edges = this.graph.edges.get(nodeId) || new Set();
+      const edges = this.graph.edges.get(nodeId) || new Set<string>();
       const validDeps = Array.from(edges).filter(dep => this.graph.nodes.has(dep));
       outDegree.set(nodeId, validDeps.length);
+
+      for (const dep of validDeps) {
+        if (!dependents.has(dep)) {
+          dependents.set(dep, new Set());
+        }
+        dependents.get(dep)!.add(nodeId);
+      }
     }
 
     // Add all nodes with out-degree 0 to queue (nodes with no dependencies)
@@ -330,21 +386,22 @@ export class DependencyAnalyzer {
       }
     }
 
-    // Process queue
-    while (queue.length > 0) {
-      const nodeId = queue.shift()!;
+    // Process queue using index pointer to avoid O(n^2) shift operations
+    for (let index = 0; index < queue.length; index++) {
+      const nodeId = queue[index];
       result.push(nodeId);
 
-      // Find all nodes that depend on this node
-      for (const [otherId, edges] of this.graph.edges.entries()) {
-        if (edges.has(nodeId)) {
-          // otherId depends on nodeId, so reduce its out-degree
-          const newDegree = (outDegree.get(otherId) || 0) - 1;
-          outDegree.set(otherId, newDegree);
+      const dependentsOfNode = dependents.get(nodeId);
+      if (!dependentsOfNode) {
+        continue;
+      }
 
-          if (newDegree === 0) {
-            queue.push(otherId);
-          }
+      for (const dependentId of dependentsOfNode) {
+        const newDegree = (outDegree.get(dependentId) || 0) - 1;
+        outDegree.set(dependentId, newDegree);
+
+        if (newDegree === 0) {
+          queue.push(dependentId);
         }
       }
     }
@@ -359,7 +416,7 @@ export class DependencyAnalyzer {
    *
    * Critical path is the longest path from any root node to any leaf node
    */
-  private findCriticalPath(): string[] {
+  private findCriticalPath(topoOrder: string[] = this.topologicalSort()): string[] {
     // For this implementation, we'll use longest path in DAG
     // In our graph, edge A->B means A depends on B, so we need to reverse for distance calculation
     const distances = new Map<string, number>();
@@ -370,9 +427,6 @@ export class DependencyAnalyzer {
       distances.set(nodeId, 0);
       parent.set(nodeId, null);
     }
-
-    // Get topological order (dependencies come before dependents)
-    const topoOrder = this.topologicalSort();
 
     // Calculate longest path: iterate in topological order
     // For each node, find max distance from all its dependencies

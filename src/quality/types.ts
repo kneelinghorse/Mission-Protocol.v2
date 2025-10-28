@@ -31,7 +31,7 @@ export interface MetricResult {
   rawValue: number;
   normalizedScore: number;
   weight: number;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
 }
 
 export interface ImprovementSuggestion {
@@ -39,7 +39,7 @@ export interface ImprovementSuggestion {
   category: string;
   message: string;
   metric: string;
-  context?: Record<string, any>;
+  context?: Record<string, unknown>;
   location?: {
     field?: string;
     line?: number;
@@ -91,8 +91,9 @@ export interface MissionContent {
   context?: string;
   successCriteria?: string[] | string;
   deliverables?: string[] | string;
-  domainFields?: Record<string, any>;
-  [key: string]: any;
+  domainFields?: Record<string, unknown>;
+  missionId?: string;
+  [key: string]: unknown;
 }
 
 export const DEFAULT_WEIGHTS: WeightsConfig = {

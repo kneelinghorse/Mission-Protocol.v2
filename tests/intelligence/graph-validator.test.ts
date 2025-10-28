@@ -254,6 +254,51 @@ describe('GraphValidator', () => {
       const executionOrder = ['A']; // Missing B
       expect(validator.validateExecutionOrder(graph, executionOrder)).toBe(false);
     });
+
+    it('continues when dependency node not present in graph', () => {
+      const graph: DependencyGraph = {
+        nodes: new Map([
+          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: [] }],
+        ]),
+        edges: new Map([
+          ['A', new Set(['Ghost'])],
+        ]),
+      };
+
+      const executionOrder = ['A'];
+      expect(validator.validateExecutionOrder(graph, executionOrder)).toBe(true);
+    });
+
+    it('handles nodes without explicit edge sets', () => {
+      const graph: DependencyGraph = {
+        nodes: new Map([
+          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: [] }],
+          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }],
+        ]),
+        edges: new Map([
+          ['B', new Set(['A'])],
+        ]),
+      };
+
+      const executionOrder = ['A', 'B'];
+      expect(validator.validateExecutionOrder(graph, executionOrder)).toBe(true);
+    });
+
+    it('fails when dependency missing from execution order', () => {
+      const graph: DependencyGraph = {
+        nodes: new Map([
+          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: [] }],
+          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }],
+        ]),
+        edges: new Map([
+          ['A', new Set()],
+          ['B', new Set(['A'])],
+        ]),
+      };
+
+      const executionOrder = ['B']; // dependency A omitted
+      expect(validator.validateExecutionOrder(graph, executionOrder)).toBe(false);
+    });
   });
 
   describe('getStronglyConnectedComponents', () => {

@@ -1,5 +1,5 @@
 import { MissionProtocolError } from './mission-error';
-import { ErrorCategory, ErrorCode, ErrorContext, ErrorSeverity } from './types';
+import { ErrorCategory, ErrorCode, ErrorContext, ErrorSeverity, SerializedError } from './types';
 
 interface NormalizeOptions {
   message?: string;
@@ -61,7 +61,7 @@ export function normalizeError(
 /**
  * Convert MissionProtocolError into a deterministic serialisable shape.
  */
-export function serializeMissionError(error: MissionProtocolError) {
+export function serializeMissionError(error: MissionProtocolError): SerializedError {
   return error.toJSON();
 }
 

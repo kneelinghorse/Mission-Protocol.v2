@@ -121,8 +121,10 @@ export async function exportTemplate(
     };
   } catch (error) {
     if (error instanceof InputValidationError) {
-      const dataMessages =
-        Array.isArray((error.data as any)?.messages) ? ((error.data as any).messages as string[]) : undefined;
+      const maybeMessages = error.data?.messages;
+      const dataMessages = Array.isArray(maybeMessages)
+        ? maybeMessages.filter((message): message is string => typeof message === 'string')
+        : undefined;
       const detailMessages = dataMessages && dataMessages.length > 0
         ? dataMessages
         : error.issues?.map((issue) => issue.message).filter(Boolean);
@@ -135,7 +137,7 @@ export async function exportTemplate(
 
     const missionError = ErrorHandler.handle(
       error,
-      'tools.export_template.execute',
+      'tools.get_template_export.execute',
       {
         module: 'tools/export-template',
         data: contextData,
@@ -184,7 +186,7 @@ async function validateParams(params: ExportTemplateParams): Promise<ValidatedEx
  * Useful for converting existing mission files to templates
  */
 export function createTemplateFromMission(
-  missionData: any,
+  missionData: Record<string, unknown>,
   metadata: {
     name: string;
     version: string;
@@ -209,8 +211,8 @@ export function createTemplateFromMission(
  * MCP Tool Registration
  * This would be called by the MCP server to register the tool
  */
-export const mcpToolDefinition = {
-  name: 'export_template',
+export const getTemplateExportToolDefinition = {
+  name: 'get_template_export',
   description:
     'Export a mission template to Strict YAML or JSON format. Uses safe serialization with no language-specific tags.',
   inputSchema: {
@@ -268,4 +270,11 @@ export const mcpToolDefinition = {
     },
     required: ['template', 'outputPath'],
   },
-};
+} as const;
+
+export const exportTemplateToolDefinitionDeprecated = {
+  ...getTemplateExportToolDefinition,
+  name: 'export_template',
+  description:
+    '[DEPRECATED] Use get_template_export instead. Provides the same strict serialization workflow.',
+} as const;

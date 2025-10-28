@@ -46,7 +46,7 @@ Successfully implemented a comprehensive quality scoring system based on the thr
    - Context-aware suggestions
 
 4. **MCP Tool** (`app/src/tools/score-quality.ts`)
-   - Registered as `score_quality` MCP tool
+   - Registered as `get_mission_quality_score` (alias `score_quality`) MCP tool
    - Parameters: `missionFile` (required), `verbose` (optional)
    - Returns formatted quality report with suggestions
 

@@ -102,15 +102,25 @@ export class ListDomainsToolImpl {
 
 /**
  * MCP Tool Definition
- * Specification for the list_available_domains tool
+ * Canonical specification for retrieving available domains
  */
-export const listDomainsToolDefinition = {
-  name: 'list_available_domains',
+export const getAvailableDomainsToolDefinition = {
+  name: 'get_available_domains',
   description:
-    "Use this tool to get a list of all available domain-specific mission types you can create. Call this when the user asks 'what can you do?' or 'what kinds of missions are there?'.",
+    "Get a list of all available domain-specific mission types you can create. Call this when the user asks 'what can you do?' or 'what kinds of missions are there?'.",
   inputSchema: {
     type: 'object',
     properties: {},
     additionalProperties: false,
   },
-};
+} as const;
+
+/**
+ * Legacy alias maintained for one release cycle
+ */
+export const listAvailableDomainsToolDefinitionDeprecated = {
+  ...getAvailableDomainsToolDefinition,
+  name: 'list_available_domains',
+  description:
+    '[DEPRECATED] Use get_available_domains instead. Provides the same list of domain-specific mission types.',
+} as const;

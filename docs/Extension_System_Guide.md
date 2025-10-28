@@ -540,12 +540,12 @@ if (!compat.compatible) {
 All Phase 3 features are available as MCP tools in Claude Desktop:
 
 ### Template Tools
-- `extract_template` - Extract template from mission
-- `import_template` - Import template with validation
-- `export_template` - Export template with signature
+- `get_template_extraction` (alias `extract_template`) - Extract template from mission
+- `create_template_import` (alias `import_template`) - Import template with validation
+- `get_template_export` (alias `export_template`) - Export template with signature
 
 ### Combination Tools
-- `combine_packs` - Combine multiple domain packs
+- `create_combined_pack` (alias `combine_packs`) - Combine multiple domain packs
 
 ### Versioning Tools
 - `check_version_compatibility` - Check version compatibility

@@ -1,0 +1,167 @@
+{
+  "generatedAt": "2025-10-26T19:34:39Z",
+  "overview": {
+    "scope": "MCP tool entry points and public versioning helpers",
+    "totalApis": 16,
+    "apisNeedingRename": 11,
+    "apisAlreadyAligned": 5,
+    "guidingPrinciples": [
+      "All external names use lower_snake_case",
+      "Names follow verb_object[_qualifier] structure",
+      "Retrieval verbs should normalize on get",
+      "Creation verbs should normalize on create",
+      "State-changing verbs should normalize on update or delete"
+    ]
+  },
+  "apis": [
+    {
+      "id": "tool:list_available_domains",
+      "type": "tool",
+      "file": "src/tools/list-domains.ts",
+      "currentName": "list_available_domains",
+      "description": "Returns the registry-backed list of available domain packs",
+      "inconsistencies": ["Uses 'list' instead of standardized 'get' for retrieval verbs"],
+      "proposedName": "get_available_domains"
+    },
+    {
+      "id": "tool:create_mission",
+      "type": "tool",
+      "file": "src/tools/create-mission.ts",
+      "currentName": "create_mission",
+      "description": "Creates a mission from registry entries and user parameters",
+      "inconsistencies": [],
+      "proposedName": "create_mission"
+    },
+    {
+      "id": "tool:extract_template",
+      "type": "tool",
+      "file": "src/tools/extract-template.ts",
+      "currentName": "extract_template",
+      "description": "Performs multi-stage extraction of a mission template from source artifacts",
+      "inconsistencies": ["Verb does not map to the standard action families; treat as retrieval"],
+      "proposedName": "get_template_extraction"
+    },
+    {
+      "id": "tool:import_template",
+      "type": "tool",
+      "file": "src/tools/import-template.ts",
+      "currentName": "import_template",
+      "description": "Imports a template into the registry",
+      "inconsistencies": ["Creation-style operation should use create_* naming"],
+      "proposedName": "create_template_import"
+    },
+    {
+      "id": "tool:export_template",
+      "type": "tool",
+      "file": "src/tools/export-template.ts",
+      "currentName": "export_template",
+      "description": "Exports an existing template to disk",
+      "inconsistencies": ["Retrieval-focused action should normalize on get_*"],
+      "proposedName": "get_template_export"
+    },
+    {
+      "id": "tool:combine_packs",
+      "type": "tool",
+      "file": "src/tools/combine-packs.ts",
+      "currentName": "combine_packs",
+      "description": "Builds a combined pack from multiple domain packs",
+      "inconsistencies": ["Creates a new artifact but lacks create_* prefix"],
+      "proposedName": "create_combined_pack"
+    },
+    {
+      "id": "tool:analyze_dependencies",
+      "type": "tool",
+      "file": "src/tools/analyze-dependencies.ts",
+      "currentName": "analyze_dependencies",
+      "description": "Generates a dependency report for mission templates",
+      "inconsistencies": ["Report retrieval should use get_*"],
+      "proposedName": "get_dependency_analysis"
+    },
+    {
+      "id": "tool:score_quality",
+      "type": "tool",
+      "file": "src/tools/score-quality.ts",
+      "currentName": "score_quality",
+      "description": "Computes a mission quality score across dimensions",
+      "inconsistencies": ["Result-focused workflow should use get_*"],
+      "proposedName": "get_mission_quality_score"
+    },
+    {
+      "id": "tool:optimize_tokens",
+      "type": "tool",
+      "file": "src/tools/optimize-tokens.ts",
+      "currentName": "optimize_tokens",
+      "description": "Updates a mission file to reduce token usage",
+      "inconsistencies": ["State-changing action should use update_* prefix"],
+      "proposedName": "update_token_optimization"
+    },
+    {
+      "id": "tool:split_mission",
+      "type": "tool",
+      "file": "src/tools/split-mission.ts",
+      "currentName": "split_mission",
+      "description": "Generates structured mission splits based on token thresholds",
+      "inconsistencies": ["Creates new outputs, expected create_*"],
+      "proposedName": "create_mission_splits"
+    },
+    {
+      "id": "tool:suggest_splits",
+      "type": "tool",
+      "file": "src/tools/suggest-splits.ts",
+      "currentName": "suggest_splits",
+      "description": "Provides recommended mission split configurations",
+      "inconsistencies": ["Suggestion retrieval should use get_*"],
+      "proposedName": "get_split_suggestions"
+    },
+    {
+      "id": "tool:check_version_compatibility",
+      "type": "versioning-tool",
+      "file": "src/tools/version-template.ts",
+      "currentName": "check_version_compatibility",
+      "description": "Determines compatibility between two template versions",
+      "inconsistencies": ["Compatibility report fits get_*"],
+      "proposedName": "get_version_compatibility"
+    },
+    {
+      "id": "tool:find_migration_path",
+      "type": "versioning-tool",
+      "file": "src/tools/version-template.ts",
+      "currentName": "find_migration_path",
+      "description": "Discovers the migration steps between template versions",
+      "inconsistencies": ["Suggested to use get_* for retrieval"],
+      "proposedName": "get_migration_path"
+    },
+    {
+      "id": "tool:register_template_version",
+      "type": "versioning-tool",
+      "file": "src/tools/version-template.ts",
+      "currentName": "register_template_version",
+      "description": "Registers a new template version and optional migration details",
+      "inconsistencies": ["Creation workflow should use create_*"],
+      "proposedName": "create_template_version"
+    },
+    {
+      "id": "tool:get_latest_version",
+      "type": "versioning-tool",
+      "file": "src/tools/version-template.ts",
+      "currentName": "get_latest_version",
+      "description": "Fetches the most recent template version",
+      "inconsistencies": [],
+      "proposedName": "get_latest_version"
+    },
+    {
+      "id": "tool:compare_versions",
+      "type": "versioning-tool",
+      "file": "src/tools/version-template.ts",
+      "currentName": "compare_versions",
+      "description": "Compares two semantic versions to determine ordering",
+      "inconsistencies": ["Comparison result should normalize on get_*"],
+      "proposedName": "get_version_comparison"
+    }
+  ],
+  "notes": [
+    "Internal helper functions in src/index.ts and supporting modules already follow camelCase conventions and do not require renaming.",
+    "Deprecated aliases will be retained for one release cycle with runtime warnings to support migration.",
+    "Tool descriptions will be updated alongside renames to communicate new naming to clients."
+  ]
+}

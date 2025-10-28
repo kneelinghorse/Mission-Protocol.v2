@@ -95,8 +95,10 @@ export async function extractTemplate(params: ExtractTemplateParams): Promise<Ex
     return result;
   } catch (error) {
     if (error instanceof InputValidationError) {
-      const dataMessages =
-        Array.isArray((error.data as any)?.messages) ? ((error.data as any).messages as string[]) : undefined;
+      const maybeMessages = error.data?.messages;
+      const dataMessages = Array.isArray(maybeMessages)
+        ? maybeMessages.filter((message): message is string => typeof message === 'string')
+        : undefined;
       const detailMessages = dataMessages && dataMessages.length > 0
         ? dataMessages
         : error.issues?.map((issue) => issue.message).filter(Boolean);
@@ -289,37 +291,48 @@ export function generateExtractionReport(result: ExtractionResult): string {
 
 /**
  * MCP Tool Registration
- * This would be called by the MCP server to register the tool
+ * Canonical specification for template extraction
  */
-export const mcpToolDefinition = {
-  name: 'extract_template',
-  description: 'Extract a reusable template from a successful mission using the three-stage hybrid extraction algorithm',
+export const getTemplateExtractionToolDefinition = {
+  name: 'get_template_extraction',
+  description:
+    'Extract a reusable template from a successful mission using the three-stage hybrid extraction algorithm',
   inputSchema: {
     type: 'object',
     properties: {
       missionFile: {
         type: 'string',
-        description: 'Path to the source mission file or directory'
+        description: 'Path to the source mission file or directory',
       },
       templateName: {
         type: 'string',
-        description: 'Name for the template (used to generate templateId)'
+        description: 'Name for the template (used to generate templateId)',
       },
       author: {
         type: 'string',
-        description: 'Author name or email'
+        description: 'Author name or email',
       },
       outputDir: {
         type: 'string',
-        description: 'Output directory for the template (optional, defaults to ./templates)'
+        description: 'Output directory for the template (optional, defaults to ./templates)',
       },
       confidenceThreshold: {
         type: 'number',
         description: 'Minimum confidence threshold for parameterization (0.0 to 1.0, default 0.6)',
         minimum: 0,
-        maximum: 1
-      }
+        maximum: 1,
+      },
     },
-    required: ['missionFile', 'templateName', 'author']
-  }
-};
+    required: ['missionFile', 'templateName', 'author'],
+  },
+} as const;
+
+/**
+ * Legacy alias maintained for one release cycle
+ */
+export const extractTemplateToolDefinitionDeprecated = {
+  ...getTemplateExtractionToolDefinition,
+  name: 'extract_template',
+  description:
+    '[DEPRECATED] Use get_template_extraction instead. Performs the same three-stage extraction workflow.',
+} as const;

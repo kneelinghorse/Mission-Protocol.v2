@@ -1,5 +1,5 @@
 /**
- * optimize_tokens MCP Tool
+ * update_token_optimization (alias optimize_tokens) MCP Tool
  *
  * Optimizes mission content for token efficiency using model-aware compression.
  * Implements the 4-pass pipeline from R4.1 research.
@@ -15,9 +15,10 @@
  */
 
 import * as fs from 'fs/promises';
-import * as path from 'path';
 import { TokenOptimizer } from '../intelligence/token-optimizer';
 import { SupportedModel, CompressionLevel } from '../intelligence/types';
+import { pathExists } from '../utils/fs';
+import { resolveWorkspacePath, writeFileAtomicWithBackup } from '../utils/workspace-io';
 
 /**
  * Parameters for optimize_tokens tool
@@ -40,11 +41,12 @@ export interface OptimizeTokensParams {
 }
 
 /**
- * MCP Tool Definition for optimize_tokens
+ * MCP Tool Definition for token optimization
  */
-export const optimizeTokensToolDefinition = {
-  name: 'optimize_tokens',
-  description: 'Optimize mission content for token efficiency. Applies model-aware compression using a 4-pass pipeline: sanitization, structural refactoring, linguistic simplification, and model-specific templating. Target reduction: 20-30% tokens while maintaining semantic integrity.',
+export const updateTokenOptimizationToolDefinition = {
+  name: 'update_token_optimization',
+  description:
+    'Optimize mission content for token efficiency. Applies model-aware compression using a 4-pass pipeline: sanitization, structural refactoring, linguistic simplification, and model-specific templating. Target reduction: 20-30% tokens while maintaining semantic integrity.',
   inputSchema: {
     type: 'object',
     required: ['missionFile', 'targetModel'],
@@ -74,6 +76,22 @@ export const optimizeTokensToolDefinition = {
       },
     },
   },
+} as const;
+
+/**
+ * Backwards-compatible export preserving the historical optimize_tokens identifier.
+ * Points to the canonical tool definition to avoid contract drift across releases.
+ */
+export const optimizeTokensToolDefinition = updateTokenOptimizationToolDefinition;
+
+/**
+ * Legacy alias maintained for one release cycle
+ */
+export const optimizeTokensToolDefinitionDeprecated = {
+  ...updateTokenOptimizationToolDefinition,
+  name: 'optimize_tokens',
+  description:
+    '[DEPRECATED] Use update_token_optimization instead. Applies the same multi-pass token compression pipeline.',
 } as const;
 
 /**
@@ -116,12 +134,11 @@ export class OptimizeTokensToolImpl {
     error?: string;
   }> {
     try {
-      // Validate mission file exists
-      const absolutePath = path.resolve(params.missionFile);
+      const missionPath = await resolveWorkspacePath(params.missionFile, {
+        allowedExtensions: ['.yaml', '.yml'],
+      });
 
-      try {
-        await fs.access(absolutePath);
-      } catch {
+      if (!(await pathExists(missionPath))) {
         return {
           success: false,
           error: `Mission file not found: ${params.missionFile}`,
@@ -129,7 +146,7 @@ export class OptimizeTokensToolImpl {
       }
 
       // Read mission content
-      const content = await fs.readFile(absolutePath, 'utf-8');
+      const content = await fs.readFile(missionPath, 'utf-8');
 
       // Optimize
       const result = await this.optimizer.optimize(content, {
@@ -141,9 +158,15 @@ export class OptimizeTokensToolImpl {
 
       // Write optimized content back if not dry run
       if (!params.dryRun) {
-        const backupPath = `${absolutePath}.backup`;
-        await fs.copyFile(absolutePath, backupPath);
-        await fs.writeFile(absolutePath, result.optimized, 'utf-8');
+        await writeFileAtomicWithBackup(
+          missionPath,
+          result.optimized,
+          {
+            encoding: 'utf-8',
+            allowedExtensions: ['.yaml', '.yml'],
+            allowRelative: false,
+          }
+        );
       }
 
       return {
@@ -180,10 +203,12 @@ export class OptimizeTokensToolImpl {
   }
 }
 
+export type OptimizeTokensExecutionResult = Awaited<ReturnType<OptimizeTokensToolImpl['execute']>>;
+
 /**
  * Export tool handler
  */
-export async function handleOptimizeTokens(params: OptimizeTokensParams) {
+export async function handleOptimizeTokens(params: OptimizeTokensParams): Promise<OptimizeTokensExecutionResult> {
   const tool = new OptimizeTokensToolImpl();
   return tool.execute(params);
 }

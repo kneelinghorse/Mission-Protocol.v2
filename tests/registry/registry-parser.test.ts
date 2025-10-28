@@ -285,6 +285,26 @@ domains:
       expect(result.valid).toBe(false);
       expect(result.errors.length).toBeGreaterThan(1);
     });
+
+    test('should flag empty path and schema_version fields explicitly', async () => {
+      const entry: DomainPackEntry = {
+        name: 'missing-fields',
+        description: 'Example',
+        version: '1.0.0',
+        path: '',
+        schema_version: '',
+      };
+
+      const result = parser.validateEntry(entry);
+
+      expect(result.valid).toBe(false);
+      expect(result.errors).toEqual(
+        expect.arrayContaining([
+          'path is required and cannot be empty',
+          'schema_version is required and cannot be empty',
+        ])
+      );
+    });
   });
 
   describe('filterBySchemaVersion', () => {

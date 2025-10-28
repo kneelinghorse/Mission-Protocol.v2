@@ -32,6 +32,8 @@ export interface TemplateDependency {
   checksum: string; // SHA-256 checksum
 }
 
+export type TemplateSpec = Record<string, unknown>;
+
 /**
  * Complete mission template structure
  */
@@ -39,7 +41,7 @@ export interface MissionTemplate {
   apiVersion: string;
   kind: string;
   metadata: TemplateMetadata;
-  spec: Record<string, any>;
+  spec: TemplateSpec;
   dependencies?: TemplateDependency[];
 }
 
@@ -50,7 +52,7 @@ export interface ValidationResult {
   layer: string;
   passed: boolean;
   message?: string;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 /**
@@ -99,28 +101,28 @@ export interface ExportOptions {
  * Error types for import/export operations
  */
 export class ImportExportError extends Error {
-  constructor(message: string, public layer?: string, public details?: any) {
+  constructor(message: string, public layer?: string, public details?: Record<string, unknown>) {
     super(message);
     this.name = 'ImportExportError';
   }
 }
 
 export class SignatureVerificationError extends ImportExportError {
-  constructor(message: string, details?: any) {
+  constructor(message: string, details?: Record<string, unknown>) {
     super(message, 'Layer 4: Signature Verification', details);
     this.name = 'SignatureVerificationError';
   }
 }
 
 export class SemanticValidationError extends ImportExportError {
-  constructor(message: string, details?: any) {
+  constructor(message: string, details?: Record<string, unknown>) {
     super(message, 'Layer 5: Semantic Validation', details);
     this.name = 'SemanticValidationError';
   }
 }
 
 export class DependencyResolutionError extends ImportExportError {
-  constructor(message: string, details?: any) {
+  constructor(message: string, details?: Record<string, unknown>) {
     super(message, 'Layer 6: Dependency Resolution', details);
     this.name = 'DependencyResolutionError';
   }

@@ -8,11 +8,11 @@ The Intelligence Layer (Phase 4) adds AI-driven capabilities to Mission Protocol
 
 The Intelligence Layer provides five key MCP tools:
 
-1. **`optimize_tokens`** - Reduce mission token usage while preserving semantics
-2. **`analyze_dependencies`** - Detect and visualize mission dependencies
-3. **`split_mission`** - Automatically split complex missions
-4. **`suggest_splits`** - Get recommendations for mission splitting
-5. **`score_quality`** - Assess mission quality across three dimensions
+1. **`update_token_optimization` (alias `optimize_tokens`)** - Reduce mission token usage while preserving semantics
+2. **`get_dependency_analysis` (alias `analyze_dependencies`)** - Detect and visualize mission dependencies
+3. **`create_mission_splits` (alias `split_mission`)** - Automatically split complex missions
+4. **`get_split_suggestions` (alias `suggest_splits`)** - Get recommendations for mission splitting
+5. **`get_mission_quality_score` (alias `score_quality`)** - Assess mission quality across three dimensions
 
 ### Example Workflow
 
@@ -32,7 +32,7 @@ suggest_splits --missionFile=missions/complex-feature.yaml --maxComplexity=10
 
 ---
 
-## Tool 1: Quality Scoring (`score_quality`)
+## Tool 1: Quality Scoring (`get_mission_quality_score` (alias `score_quality`))
 
 **Purpose**: Assess mission quality using a three-dimensional framework: Clarity, Completeness, and AI-Readiness.
 
@@ -117,7 +117,7 @@ for (const id of missions) {
 
 ---
 
-## Tool 2: Token Optimization (`optimize_tokens`)
+## Tool 2: Token Optimization (`update_token_optimization` (alias `optimize_tokens`))
 
 **Purpose**: Reduce mission token count by 20-30% using model-aware compression while preserving semantic integrity.
 
@@ -218,7 +218,7 @@ for (const id of sprintMissions) {
 
 ---
 
-## Tool 3: Dependency Analysis (`analyze_dependencies`)
+## Tool 3: Dependency Analysis (`get_dependency_analysis` (alias `analyze_dependencies`))
 
 **Purpose**: Detect implicit and explicit dependencies between missions, validate execution order, and identify circular dependencies.
 
@@ -326,7 +326,7 @@ const analysis = await executeAnalyzeDependenciesTool({
 
 ---
 
-## Tool 4: Mission Splitting (`split_mission`, `suggest_splits`)
+## Tool 4: Mission Splitting (`create_mission_splits` (alias `split_mission`), `get_split_suggestions` (alias `suggest_splits`))
 
 **Purpose**: Automatically decompose complex missions into manageable sub-missions using semantic analysis.
 
@@ -378,12 +378,12 @@ result.submissionPaths!.forEach((path, i) => {
 
 ### Parameters
 
-**`suggest_splits`:**
+**`get_split_suggestions` (alias `suggest_splits`):**
 - `missionFile` (required): Path to mission to analyze
 - `maxComplexity` (optional): Complexity threshold (default: 10)
 - `minSubmissionSize` (optional): Minimum sub-missions (default: 2)
 
-**`split_mission`:**
+**`create_mission_splits` (alias `split_mission`):**
 - `missionFile` (required): Path to mission to split
 - `outputDir` (required): Directory for sub-missions
 - `numSubmissions` (required): Number of sub-missions to create
@@ -502,11 +502,11 @@ The Intelligence Layer is optimized for speed:
 
 | Tool | Typical Performance | Maximum Latency |
 |------|---------------------|-----------------|
-| `score_quality` | 5-15ms | <100ms |
-| `optimize_tokens` | 20-50ms | <200ms |
-| `analyze_dependencies` | 10-40ms | <150ms |
-| `suggest_splits` | 15-35ms | <120ms |
-| `split_mission` | 30-80ms | <250ms |
+| `get_mission_quality_score` (alias `score_quality`) | 5-15ms | <100ms |
+| `update_token_optimization` (alias `optimize_tokens`) | 20-50ms | <200ms |
+| `get_dependency_analysis` (alias `analyze_dependencies`) | 10-40ms | <150ms |
+| `get_split_suggestions` (alias `suggest_splits`) | 15-35ms | <120ms |
+| `create_mission_splits` (alias `split_mission`) | 30-80ms | <250ms |
 
 All benchmarks tested with missions of 200-1000 tokens on standard hardware.
 

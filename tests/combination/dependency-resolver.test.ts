@@ -294,4 +294,17 @@ describe('DependencyResolver', () => {
       }
     });
   });
+
+  test('resolve handles non-error throw types when building graph', () => {
+    const resolver = new DependencyResolver();
+    const buildSpy = jest.spyOn(resolver as any, 'buildGraph').mockImplementation(() => {
+      throw 'string failure';
+    });
+
+    const result = resolver.resolve([], []);
+    expect(result.success).toBe(false);
+    expect(result.errors).toEqual([]);
+
+    buildSpy.mockRestore();
+  });
 });

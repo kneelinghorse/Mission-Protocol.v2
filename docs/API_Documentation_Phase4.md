@@ -4,7 +4,7 @@ Complete API reference for Mission Protocol v2 Intelligence Layer tools.
 
 ---
 
-## Tool: `optimize_tokens`
+## Tool: `update_token_optimization` (alias `optimize_tokens`)
 
 Optimize mission content for token efficiency using model-aware compression.
 
@@ -128,7 +128,7 @@ const result = await handleOptimizeTokens(params: OptimizeTokensParams): Promise
 
 ---
 
-## Tool: `score_quality`
+## Tool: `get_mission_quality_score` (alias `score_quality`)
 
 Assess mission quality using three-dimensional framework: Clarity, Completeness, AI-Readiness.
 
@@ -287,7 +287,7 @@ const result = await scoreQuality(input: ScoreQualityInput): Promise<ScoreQualit
 
 ---
 
-## Tool: `analyze_dependencies`
+## Tool: `get_dependency_analysis` (alias `analyze_dependencies`)
 
 Detect and analyze dependencies between missions in a directory or explicit set.
 
@@ -400,7 +400,7 @@ graph TD
 
 ---
 
-## Tool: `split_mission`
+## Tool: `create_mission_splits` (alias `split_mission`)
 
 Automatically split complex mission into multiple sub-missions using semantic analysis.
 
@@ -496,7 +496,7 @@ const result = await executeSplitMissionTool(params: SplitMissionParams): Promis
 
 ---
 
-## Tool: `suggest_splits`
+## Tool: `get_split_suggestions` (alias `suggest_splits`)
 
 Get recommendations for whether and how to split a complex mission.
 
@@ -660,11 +660,11 @@ if (suggestions.shouldSplit) {
 
 | Operation | Time Complexity | Space Complexity | Typical Latency |
 |-----------|----------------|------------------|-----------------|
-| `score_quality` | O(n) | O(n) | 5-15ms |
-| `optimize_tokens` | O(n) | O(n) | 20-50ms |
-| `analyze_dependencies` | O(n² + e) | O(n + e) | 10-40ms |
-| `split_mission` | O(n·m) | O(n·m) | 30-80ms |
-| `suggest_splits` | O(n) | O(n) | 15-35ms |
+| `get_mission_quality_score` (alias `score_quality`) | O(n) | O(n) | 5-15ms |
+| `update_token_optimization` (alias `optimize_tokens`) | O(n) | O(n) | 20-50ms |
+| `get_dependency_analysis` (alias `analyze_dependencies`) | O(n² + e) | O(n + e) | 10-40ms |
+| `create_mission_splits` (alias `split_mission`) | O(n·m) | O(n·m) | 30-80ms |
+| `get_split_suggestions` (alias `suggest_splits`) | O(n) | O(n) | 15-35ms |
 
 Where:
 - n = mission content size (tokens)
@@ -765,10 +765,10 @@ npm test -- tests/quality/
 ## Version History
 
 ### v2.0 (Phase 4) - Intelligence Layer
-- Added `score_quality` tool with 3D quality framework
-- Added `optimize_tokens` tool with 4-pass compression
-- Added `analyze_dependencies` tool with semantic detection
-- Added `split_mission` and `suggest_splits` tools
+- Added `get_mission_quality_score` (alias `score_quality`) tool with 3D quality framework
+- Added `update_token_optimization` (alias `optimize_tokens`) tool with 4-pass compression
+- Added `get_dependency_analysis` (alias `analyze_dependencies`) tool with semantic detection
+- Added `create_mission_splits` (alias `split_mission`) and `get_split_suggestions` (alias `suggest_splits`) tools
 - Performance benchmarks: <100ms quality scoring, <200ms optimization
 
 ### v1.5 (Phase 3) - Extension System

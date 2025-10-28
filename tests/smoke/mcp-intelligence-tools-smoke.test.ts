@@ -44,30 +44,39 @@ describe('MCP Intelligence Tools - Smoke Coverage', () => {
   let context: MissionProtocolContext;
   let tempDir: string;
   let missionFile: string;
+  let previousWorkspaceRoot: string | undefined;
 
   beforeAll(async () => {
+    previousWorkspaceRoot = process.env.MISSION_PROTOCOL_WORKSPACE_ROOT;
     context = await buildMissionProtocolContext({ defaultModel: 'gpt' });
 
     tempDir = await ensureTempDir('mission-protocol-intel-');
+    process.env.MISSION_PROTOCOL_WORKSPACE_ROOT = tempDir;
     missionFile = path.join(tempDir, 'mission.yaml');
     await fs.writeFile(missionFile, SAMPLE_MISSION, 'utf-8');
   });
 
   afterAll(async () => {
+    if (previousWorkspaceRoot !== undefined) {
+      process.env.MISSION_PROTOCOL_WORKSPACE_ROOT = previousWorkspaceRoot;
+    } else {
+      delete process.env.MISSION_PROTOCOL_WORKSPACE_ROOT;
+    }
+    previousWorkspaceRoot = undefined;
     await removeDir(tempDir, { recursive: true, force: true });
   });
 
-  it('list_tools exposes optimize_tokens, split_mission, and suggest_splits', () => {
+  it('list_tools exposes update_token_optimization, create_mission_splits, and get_split_suggestions', () => {
     const toolNames = getToolDefinitions().map(tool => tool.name);
 
     expect(toolNames).toEqual(
-      expect.arrayContaining(['optimize_tokens', 'split_mission', 'suggest_splits'])
+      expect.arrayContaining(['update_token_optimization', 'create_mission_splits', 'get_split_suggestions'])
     );
   });
 
-  it('optimize_tokens executes with token usage metadata', async () => {
+  it('update_token_optimization executes with token usage metadata', async () => {
     const result = await executeMissionProtocolTool(
-      'optimize_tokens',
+      'update_token_optimization',
       {
         missionFile,
         targetModel: 'gpt',
@@ -86,9 +95,9 @@ describe('MCP Intelligence Tools - Smoke Coverage', () => {
     expect(tokenUsage.optimized.count).toBeGreaterThan(0);
   });
 
-  it('split_mission provides complexity summary with token usage', async () => {
+  it('create_mission_splits provides complexity summary with token usage', async () => {
     const result = await executeMissionProtocolTool(
-      'split_mission',
+      'create_mission_splits',
       {
         missionFile,
         outputDir: tempDir,
@@ -105,9 +114,9 @@ describe('MCP Intelligence Tools - Smoke Coverage', () => {
     expect(tokenUsage.totalTokens).toBeGreaterThan(0);
   });
 
-  it('suggest_splits returns recommendations with token usage insight', async () => {
+  it('get_split_suggestions returns recommendations with token usage insight', async () => {
     const result = await executeMissionProtocolTool(
-      'suggest_splits',
+      'get_split_suggestions',
       {
         missionFile,
         detailed: true,
@@ -123,8 +132,8 @@ describe('MCP Intelligence Tools - Smoke Coverage', () => {
     expect(tokenUsage.totalTokens).toBeGreaterThan(0);
   });
 
-  it('list_available_domains enumerates registry packs', async () => {
-    const result = await executeMissionProtocolTool('list_available_domains', undefined, context);
+  it('get_available_domains enumerates registry packs', async () => {
+    const result = await executeMissionProtocolTool('get_available_domains', undefined, context);
 
     expect(result.content?.[0]?.text).toContain('domain pack');
     expect(Array.isArray((result.structuredContent as any)?.domains)).toBe(true);
@@ -141,9 +150,9 @@ describe('MCP Intelligence Tools - Smoke Coverage', () => {
     expect((result.structuredContent as any)?.mission).toContain('objective');
   });
 
-  it('combine_packs merges a single foundation pack', async () => {
+  it('create_combined_pack merges a single foundation pack', async () => {
     const result = await executeMissionProtocolTool(
-      'combine_packs',
+      'create_combined_pack',
       { packNames: ['foundation'], format: 'yaml' },
       context
     );
@@ -152,9 +161,9 @@ describe('MCP Intelligence Tools - Smoke Coverage', () => {
     expect((result.structuredContent as any)?.combinedPack).toContain('Combined: Foundation');
   });
 
-  it('combine_packs surfaces errors for unknown pack', async () => {
+  it('create_combined_pack surfaces errors for unknown pack', async () => {
     const result = await executeMissionProtocolTool(
-      'combine_packs',
+      'create_combined_pack',
       { packNames: ['non-existent-pack'] },
       context
     );
@@ -164,12 +173,17 @@ describe('MCP Intelligence Tools - Smoke Coverage', () => {
   });
 
 
-  it('list_available_domains exposes registry packs', async () => {
+  it('legacy list_available_domains exposes registry packs with warning', async () => {
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     const result = await executeMissionProtocolTool('list_available_domains', undefined, context);
     const text = result.content?.[0]?.text ?? '';
 
     expect(text).toContain('domain pack');
     expect(result.structuredContent).toBeDefined();
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining("Tool 'list_available_domains' will be removed")
+    );
+    warnSpy.mockRestore();
   });
 
   it('create_mission synthesizes a mission YAML', async () => {
@@ -187,9 +201,9 @@ describe('MCP Intelligence Tools - Smoke Coverage', () => {
     expect(text).toContain('missionId');
   });
 
-  it('combine_packs merges a single pack successfully', async () => {
+  it('create_combined_pack merges a single pack successfully', async () => {
     const result = await executeMissionProtocolTool(
-      'combine_packs',
+      'create_combined_pack',
       {
         packNames: ['foundation'],
         format: 'yaml',
@@ -202,9 +216,9 @@ describe('MCP Intelligence Tools - Smoke Coverage', () => {
     expect((result.structuredContent as any)?.success).toBe(true);
   });
 
-  it('combine_packs reports an error for unknown packs', async () => {
+  it('create_combined_pack reports an error for unknown packs', async () => {
     const result = await executeMissionProtocolTool(
-      'combine_packs',
+      'create_combined_pack',
       {
         packNames: ['nonexistent-pack'],
       },

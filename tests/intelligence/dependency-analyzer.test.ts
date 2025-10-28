@@ -1,4 +1,8 @@
+import { promises as fs } from 'fs';
+import path from 'path';
+import yaml from 'js-yaml';
 import { DependencyAnalyzer, DependencyGraph, DependencyNode } from '../../src/intelligence/dependency-analyzer';
+import { ensureTempDir, removeDir } from '../../src/utils/fs';
 
 describe('DependencyAnalyzer', () => {
   let analyzer: DependencyAnalyzer;
@@ -440,6 +444,69 @@ describe('DependencyAnalyzer', () => {
       expect(graph.nodes).toBeDefined();
       expect(graph.edges).toBeDefined();
       expect(graph.nodes.size).toBe(1);
+    });
+  });
+
+  describe('edge cases and fallbacks', () => {
+    let tempDir: string;
+
+    beforeEach(async () => {
+      tempDir = await ensureTempDir('dependency-analyzer-');
+    });
+
+    afterEach(async () => {
+      await removeDir(tempDir, { recursive: true, force: true });
+    });
+
+    it('analyzes mission file paths and records blockers without crashing', async () => {
+      const filePath = path.join(tempDir, 'M9.yaml');
+      const mission = {
+        missionId: 'M9',
+        context: 'References missing mission M8',
+        domainFields: {
+          handoffContext: {
+            dependencies: ['M8'],
+            blockers: [{ missionId: 'M7' }],
+          },
+        },
+      };
+      await fs.writeFile(filePath, yaml.dump(mission), 'utf-8');
+
+      const result = await analyzer.analyze([filePath]);
+
+      const node = result.graph.nodes.get('M9');
+      expect(node?.filePath).toBe(filePath);
+      // Missing dependencies should be ignored gracefully
+      expect(result.hasCycles).toBe(false);
+    });
+
+    it('defaults mission file path to unknown when field omitted', async () => {
+      const missions = [
+        {
+          missionId: 'B',
+          domainFields: { handoffContext: { dependencies: [] } },
+        },
+      ];
+
+      const result = await analyzer.analyze(missions);
+      expect(result.graph.nodes.get('B')?.filePath).toBe('unknown');
+    });
+
+    it('extractMissionId covers simple identifiers and rejects blank strings', () => {
+      const extractMissionId = (analyzer as any).extractMissionId.bind(analyzer);
+      expect(extractMissionId('<A>')).toBe('A');
+      expect(extractMissionId('')).toBeNull();
+    });
+
+    it('detects absence of mission references gracefully', () => {
+      const refs = (analyzer as any).extractMissionReferencesFromText('No IDs present here.');
+      expect(refs).toHaveLength(0);
+    });
+
+    it('handles analyze calls with no missions', async () => {
+      const result = await analyzer.analyze([]);
+      expect(result.criticalPath).toEqual([]);
+      expect(result.executionOrder).toEqual([]);
     });
   });
 });

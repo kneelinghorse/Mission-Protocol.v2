@@ -2,7 +2,9 @@ import { z } from 'zod';
 import { normalizeValidationError } from '../errors';
 import { safeFilePath, SafeFilePathOptions } from '../common';
 
-export function createFilePathSchema(options: SafeFilePathOptions = {}) {
+type SafeFilePathSchema = z.ZodBranded<z.ZodEffects<z.ZodString, string, string>, 'SafeFilePath'>;
+
+export function createFilePathSchema(options: SafeFilePathOptions = {}): SafeFilePathSchema {
   return z
     .string()
     .min(1)

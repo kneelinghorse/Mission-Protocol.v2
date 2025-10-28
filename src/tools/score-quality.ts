@@ -61,7 +61,7 @@ export async function scoreQuality(input: ScoreQualityInput): Promise<ScoreQuali
 /**
  * Format quality score as human-readable summary
  */
-function formatQualitySummary(score: QualityScore, verbose: boolean = false): string {
+export function formatQualitySummary(score: QualityScore, verbose: boolean = false): string {
   const lines: string[] = [];
 
   // Header
@@ -141,7 +141,7 @@ function formatQualitySummary(score: QualityScore, verbose: boolean = false): st
 /**
  * Convert numerical score to letter grade
  */
-function getQualityGrade(score: number): string {
+export function getQualityGrade(score: number): string {
   if (score >= 0.9) return 'A (Excellent)';
   if (score >= 0.8) return 'B (Good)';
   if (score >= 0.7) return 'C (Acceptable)';
@@ -152,8 +152,8 @@ function getQualityGrade(score: number): string {
 /**
  * MCP tool metadata for registration
  */
-export const scoreQualityTool = {
-  name: 'score_quality',
+export const getMissionQualityScoreTool = {
+  name: 'get_mission_quality_score',
   description: 'Assess mission quality using three-dimensional framework (Clarity, Completeness, AI-Readiness)',
   inputSchema: {
     type: 'object',
@@ -171,4 +171,13 @@ export const scoreQualityTool = {
     required: ['missionFile']
   },
   handler: scoreQuality
-};
+} as const;
+
+/**
+ * Legacy alias maintained for one release cycle
+ */
+export const scoreQualityToolDeprecated = {
+  ...getMissionQualityScoreTool,
+  name: 'score_quality',
+  description: '[DEPRECATED] Use get_mission_quality_score instead. Runs the same quality scoring pipeline.'
+} as const;

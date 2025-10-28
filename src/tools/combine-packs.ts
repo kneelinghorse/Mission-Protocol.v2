@@ -20,7 +20,7 @@ import { SecureYAMLLoader } from '../loaders/yaml-loader';
 import { RegistryParser } from '../registry/registry-parser';
 import { DomainPackLoader } from '../domains/domain-pack-loader';
 import { PackCombiner } from '../combination/pack-combiner';
-import { CombinationStrategy } from '../combination/types';
+import { CombinationStrategy, CombinedPack } from '../combination/types';
 import { DomainPackEntry } from '../types/registry';
 
 /**
@@ -47,10 +47,10 @@ export interface CombinePacksParams {
 }
 
 /**
- * MCP Tool Definition for combine_packs
+ * MCP Tool Definition for creating combined packs
  */
-export const combinePacksToolDefinition = {
-  name: 'combine_packs',
+export const createCombinedPackToolDefinition = {
+  name: 'create_combined_pack',
   description:
     'Combines multiple domain packs into a single cohesive pack. Automatically resolves dependencies, ' +
     'detects circular dependencies, and applies the specified merge strategy. Use this tool when you need ' +
@@ -63,7 +63,7 @@ export const combinePacksToolDefinition = {
         type: 'array',
         items: { type: 'string' },
         minItems: 1,
-        description: 'Array of domain pack names to combine (use list_available_domains to see options)',
+        description: 'Array of domain pack names to combine (use get_available_domains to see options)',
       },
       strategy: {
         type: 'string',
@@ -95,6 +95,16 @@ export const combinePacksToolDefinition = {
       },
     },
   },
+} as const;
+
+/**
+ * Legacy alias maintained for one release cycle
+ */
+export const combinePacksToolDefinitionDeprecated = {
+  ...createCombinedPackToolDefinition,
+  name: 'combine_packs',
+  description:
+    '[DEPRECATED] Use create_combined_pack instead. Provides the same multi-pack combination workflow.',
 } as const;
 
 /**
@@ -282,7 +292,7 @@ export class CombinePacksToolImpl {
    * Format combined pack as YAML or JSON
    */
   private formatOutput(
-    combinedPack: any,
+    combinedPack: CombinedPack,
     format: 'yaml' | 'json'
   ): string {
     if (format === 'json') {

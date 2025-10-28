@@ -2,6 +2,8 @@ import { analyzeDependencies, formatAnalysisResult, AnalyzeDependenciesArgs } fr
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import * as yaml from 'js-yaml';
+import { ErrorHandler } from '../../src/errors/handler';
+import { MissionProtocolError } from '../../src/errors/mission-error';
 
 describe('analyzeDependencies', () => {
   const testDir = path.join(__dirname, '../fixtures/test-missions');
@@ -45,6 +47,17 @@ describe('analyzeDependencies', () => {
       const { filePath, ...missionData } = mission;
       await fs.writeFile(filePath, yaml.dump(missionData));
     }
+
+    // Additional mission using .yml extension to exercise alternate branch
+    const altMissionPath = path.join(testDir, 'R4.5.yml');
+    await fs.writeFile(
+      altMissionPath,
+      yaml.dump({
+        missionId: 'R4.5',
+        objective: 'YML extension coverage',
+        context: 'Covers .yml discovery branch',
+      })
+    );
   });
 
   afterAll(async () => {
@@ -58,12 +71,12 @@ describe('analyzeDependencies', () => {
         missionDirectory: testDir
       });
 
-      expect(result.totalMissions).toBe(3);
+      expect(result.totalMissions).toBe(4);
       expect(result.isValid).toBe(true);
       expect(result.isDAG).toBe(true);
       expect(result.hasCycles).toBe(false);
       expect(result.executionOrder).toBeDefined();
-      expect(result.executionOrder!.length).toBe(3);
+      expect(result.executionOrder!.length).toBe(4);
     });
 
     it('should return error for non-existent directory', async () => {
@@ -232,7 +245,7 @@ describe('analyzeDependencies', () => {
 
       const formatted = formatAnalysisResult(result);
 
-      expect(formatted).toContain('Total Missions: 3');
+      expect(formatted).toContain('Total Missions: 4');
       expect(formatted).toContain('Valid: Yes');
       expect(formatted).toContain('Is DAG: Yes');
       expect(formatted).toContain('Execution Order:');
@@ -349,6 +362,108 @@ describe('analyzeDependencies', () => {
       expect(result).toBeDefined();
 
       await fs.rm(invalidDir, { recursive: true, force: true });
+    });
+
+    it('captures loader warnings when mission file cannot be read', async () => {
+      const warningDir = path.join(__dirname, '../fixtures/warning-missions');
+      await fs.mkdir(warningDir, { recursive: true });
+
+      const readableMission = path.join(warningDir, 'valid.yaml');
+      const unreadableMission = path.join(warningDir, 'broken.yaml');
+
+      await fs.writeFile(readableMission, yaml.dump({ missionId: 'A', objective: 'Valid' }));
+      await fs.writeFile(unreadableMission, yaml.dump({ missionId: 'B', objective: 'Broken' }));
+
+      const originalReadFile = fs.readFile.bind(fs);
+      const readSpy = jest.spyOn(fs, 'readFile').mockImplementation(async (target, encoding) => {
+        if (typeof target === 'string' && target.endsWith('broken.yaml')) {
+          throw new Error('simulated read failure');
+        }
+        return originalReadFile(target as any, encoding as any);
+      });
+
+      const handleSpy = jest.spyOn(ErrorHandler, 'handle');
+
+      try {
+        const result = await analyzeDependencies({ missionDirectory: warningDir });
+        expect(handleSpy).toHaveBeenCalledWith(
+          expect.any(Error),
+          'tools.get_dependency_analysis.load_mission_file',
+          expect.objectContaining({
+            module: 'tools/analyze-dependencies',
+            data: expect.objectContaining({ filePath: expect.stringContaining('broken.yaml') }),
+          }),
+          expect.objectContaining({ severity: 'warning' })
+        );
+        expect(result.totalMissions).toBeGreaterThanOrEqual(1);
+      } finally {
+        readSpy.mockRestore();
+        handleSpy.mockRestore();
+        await fs.rm(warningDir, { recursive: true, force: true });
+      }
+    });
+
+    it('wraps unexpected failures via ErrorHandler with correlation id', async () => {
+      const failureDir = path.join(__dirname, '../fixtures/failure-missions');
+      await fs.mkdir(failureDir, { recursive: true });
+
+      const readdirSpy = jest.spyOn(fs, 'readdir').mockRejectedValue(new Error('readdir boom'));
+
+      const missionError = new MissionProtocolError({
+        code: 'INTERNAL_UNEXPECTED',
+        category: 'internal',
+        message: 'wrapped error',
+        context: { module: 'tools/analyze-dependencies' },
+      });
+
+      const handleSpy = jest.spyOn(ErrorHandler, 'handle').mockReturnValue(missionError);
+      const publicSpy = jest.spyOn(ErrorHandler, 'toPublicError').mockReturnValue({
+        code: missionError.code,
+        category: missionError.category,
+        message: 'Dependency analysis failed',
+        correlationId: 'cid-789',
+        retryable: false,
+      });
+
+      try {
+        const result = await analyzeDependencies({ missionDirectory: failureDir });
+        expect(handleSpy).toHaveBeenCalledWith(
+          expect.any(Error),
+          'tools.get_dependency_analysis.execute',
+          expect.objectContaining({
+            module: 'tools/analyze-dependencies',
+            data: expect.objectContaining({ missionDirectory: failureDir }),
+          }),
+          expect.objectContaining({ userMessage: 'Dependency analysis failed.' })
+        );
+        expect(result.errors[0]).toContain('correlationId=cid-789');
+        expect(result.totalMissions).toBe(0);
+      } finally {
+        readdirSpy.mockRestore();
+        handleSpy.mockRestore();
+        publicSpy.mockRestore();
+        await fs.rm(failureDir, { recursive: true, force: true });
+      }
+    });
+  });
+
+  describe('formatAnalysisResult warnings', () => {
+    it('renders warnings section when warnings present', () => {
+      const summary = formatAnalysisResult({
+        totalMissions: 1,
+        isValid: true,
+        isDAG: true,
+        hasCycles: false,
+        errors: [],
+        warnings: ['Mission order differs from dependencies'],
+        performanceMs: 42,
+        executionOrder: ['M1'],
+        criticalPath: [],
+        inferredDependencies: [],
+      });
+
+      expect(summary).toContain('Warnings:');
+      expect(summary).toContain('Mission order differs from dependencies');
     });
   });
 });

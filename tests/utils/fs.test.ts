@@ -1,107 +1,132 @@
-import { promises as fs } from 'fs';
-import * as path from 'path';
-import { pathExists, ensureTempDir, removeDir, writeFileAtomic, removeFile, runWithConcurrency } from '../../src/utils/fs';
+import { describe, expect, test, beforeEach, afterEach, jest } from '@jest/globals';
+import { promises as fsp } from 'fs';
+import path from 'path';
+import os from 'os';
+import {
+  pathExists,
+  writeFileAtomic,
+  removeFile,
+  runWithConcurrency,
+  ensureDir,
+  ensureTempDir,
+  removeDir,
+  chmod,
+} from '../../src/utils/fs';
 
-describe('utils/fs pathExists', () => {
+describe('utils/fs helpers', () => {
   let tempDir: string;
 
-  beforeAll(async () => {
-    tempDir = await ensureTempDir('fs-utils-test-');
+  beforeEach(async () => {
+    tempDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'utils-fs-test-'));
   });
 
-  afterAll(async () => {
-    await removeDir(tempDir, { recursive: true, force: true });
+  afterEach(async () => {
+    jest.restoreAllMocks();
+    await fsp.rm(tempDir, { recursive: true, force: true });
   });
 
-  it('returns true for existing file', async () => {
-    const filePath = path.join(tempDir, 'exists.txt');
-    await fs.writeFile(filePath, 'hello');
+  test('pathExists handles present and missing paths', async () => {
+    const existing = path.join(tempDir, 'file.txt');
+    await fsp.writeFile(existing, 'hello');
 
-    await expect(pathExists(filePath)).resolves.toBe(true);
+    expect(await pathExists(existing)).toBe(true);
+    expect(await pathExists(path.join(tempDir, 'missing.txt'))).toBe(false);
   });
 
-  it('returns false for missing path (ENOENT)', async () => {
-    const missingPath = path.join(tempDir, 'missing.txt');
-    await expect(pathExists(missingPath)).resolves.toBe(false);
-  });
+  test('pathExists rethrows unexpected errors', async () => {
+    const accessSpy = jest.spyOn(fsp, 'access').mockRejectedValueOnce(
+      Object.assign(new Error('permission denied'), { code: 'EACCES' })
+    );
 
-  it('returns false when parent is not a directory (ENOTDIR)', async () => {
-    const filePath = path.join(tempDir, 'afile.txt');
-    await fs.writeFile(filePath, 'content');
-    const childPath = path.join(filePath, 'child.txt');
-
-    await expect(pathExists(childPath)).resolves.toBe(false);
-  });
-
-  it('rethrows unexpected access errors', async () => {
-    const error = new Error('permission denied') as NodeJS.ErrnoException;
-    error.code = 'EACCES';
-
-    const accessSpy = jest.spyOn(fs, 'access').mockRejectedValue(error);
-
-    await expect(pathExists('/protected/path')).rejects.toThrow('permission denied');
-
+    await expect(pathExists('dummy.txt')).rejects.toThrow('permission denied');
     accessSpy.mockRestore();
   });
 
-  it('writeFileAtomic persists data', async () => {
-    const targetDir = path.join(tempDir, 'atomic');
-    await fs.mkdir(targetDir, { recursive: true });
-    const targetFile = path.join(targetDir, 'data.txt');
+  test('pathExists treats message-based ENOENT as missing', async () => {
+    const accessSpy = jest.spyOn(fsp, 'access').mockRejectedValueOnce(
+      new Error('ENOENT: file or directory not found')
+    );
 
-    await writeFileAtomic(targetFile, 'test-data');
-
-    const content = await fs.readFile(targetFile, 'utf-8');
-    expect(content).toBe('test-data');
+    await expect(pathExists('/missing/by/message')).resolves.toBe(false);
+    accessSpy.mockRestore();
   });
 
-  it('writeFileAtomic falls back on EXDEV', async () => {
-    const targetDir = path.join(tempDir, 'atomic-exdev');
-    await fs.mkdir(targetDir, { recursive: true });
-    const targetFile = path.join(targetDir, 'data.txt');
+  test('pathExists treats ENOTDIR conditions as missing targets', async () => {
+    const accessSpy = jest.spyOn(fsp, 'access').mockRejectedValueOnce(
+      Object.assign(new Error('ENOTDIR: not a directory'), { code: 'ENOTDIR' })
+    );
 
-    const exdevError = new Error('cross-device') as NodeJS.ErrnoException;
-    exdevError.code = 'EXDEV';
+    await expect(pathExists('/bad/directory')).resolves.toBe(false);
+    accessSpy.mockRestore();
+  });
 
-    const renameSpy = jest.spyOn(fs, 'rename').mockRejectedValue(exdevError);
-    const copySpy = jest.spyOn(fs, 'copyFile').mockResolvedValue(undefined);
-    const unlinkSpy = jest.spyOn(fs, 'unlink').mockResolvedValue(undefined);
+  test('writeFileAtomic writes file and handles EXDEV fallback', async () => {
+    const target = path.join(tempDir, 'atomic.txt');
 
-    await writeFileAtomic(targetFile, 'fallback-data');
+    const renameSpy = jest.spyOn(fsp, 'rename').mockImplementationOnce(async () => {
+      const err: NodeJS.ErrnoException = Object.assign(new Error('Cross-device'), { code: 'EXDEV' });
+      throw err;
+    });
 
-    expect(copySpy).toHaveBeenCalled();
+    await writeFileAtomic(target, 'content');
+    const saved = await fsp.readFile(target, 'utf8');
+    expect(saved).toBe('content');
+    expect(renameSpy).toHaveBeenCalled();
+  });
 
-    renameSpy.mockRestore();
-    copySpy.mockRestore();
+  test('writeFileAtomic cleans up and rethrows on failure', async () => {
+    const target = path.join(tempDir, 'failure.txt');
+    const renameSpy = jest.spyOn(fsp, 'rename').mockImplementationOnce(async () => {
+      const err: NodeJS.ErrnoException = Object.assign(new Error('rename failed'), { code: 'EACCES' });
+      throw err;
+    });
+    jest.spyOn(fsp, 'unlink').mockImplementationOnce(async () => {
+      throw new Error('cleanup failed');
+    });
+
+    await expect(writeFileAtomic(target, 'data')).rejects.toThrow('rename failed');
+    expect(renameSpy).toHaveBeenCalled();
+  });
+
+  test('removeFile ignores ENOENT errors and rethrows others', async () => {
+    const missing = path.join(tempDir, 'absent.txt');
+    await expect(removeFile(missing)).resolves.toBeUndefined();
+
+    const unlinkSpy = jest.spyOn(fsp, 'unlink').mockRejectedValueOnce(
+      Object.assign(new Error('busy'), { code: 'EBUSY' })
+    );
+    await expect(removeFile(path.join(tempDir, 'locked.txt'))).rejects.toThrow('busy');
     unlinkSpy.mockRestore();
   });
 
-  it('removeFile ignores missing file', async () => {
-    await expect(removeFile(path.join(tempDir, 'missing.txt'))).resolves.toBeUndefined();
-  });
-
-  it('removeFile deletes existing file', async () => {
-    const filePath = path.join(tempDir, 'remove-me.txt');
-    await fs.writeFile(filePath, 'to-remove');
-
-    await removeFile(filePath);
-
-    await expect(pathExists(filePath)).resolves.toBe(false);
-  });
-
-  it('runWithConcurrency executes tasks with limit', async () => {
-    const tasks = [
-      async () => 1,
-      async () => 2,
-      async () => 3,
-    ];
+  test('runWithConcurrency enforces limit and executes tasks', async () => {
+    const order: number[] = [];
+    const tasks = Array.from({ length: 4 }, (_, index) => async () => {
+      order.push(index);
+      return index * 2;
+    });
 
     const results = await runWithConcurrency(tasks, 2);
+    expect(results).toEqual([0, 2, 4, 6]);
+    expect(order).toHaveLength(4);
 
-    expect(results).toEqual([1, 2, 3]);
+    await expect(runWithConcurrency(tasks, 0)).rejects.toThrow('greater than zero');
   });
 
-  it('runWithConcurrency throws when limit is invalid', async () => {
-    await expect(runWithConcurrency([async () => 1], 0)).rejects.toThrow('limit');
+  test('directory helpers create, cleanup, and adjust permissions', async () => {
+    const nestedDir = path.join(tempDir, 'nested');
+    await ensureDir(nestedDir);
+    expect(await pathExists(nestedDir)).toBe(true);
+
+    const scratch = await ensureTempDir('utils-fs-scratch-');
+    const scratchFile = path.join(scratch, 'mode.txt');
+    await fsp.writeFile(scratchFile, 'mode');
+    await expect(chmod(scratchFile, 0o644)).resolves.toBeUndefined();
+
+    await removeDir(nestedDir, { recursive: true, force: true });
+    await removeDir(scratch, { recursive: true, force: true });
+
+    expect(await pathExists(nestedDir)).toBe(false);
+    expect(await pathExists(scratch)).toBe(false);
   });
 });

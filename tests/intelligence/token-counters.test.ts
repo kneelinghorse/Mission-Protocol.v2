@@ -137,3 +137,56 @@ describe('TokenCounter', () => {
     });
   });
 });
+
+describe('TokenCounter internals', () => {
+  test('fallbackCount applies model-specific cost heuristics', () => {
+    const counter = new TokenCounter();
+    const fallback = (counter as unknown as {
+      fallbackCount: (text: string, model: 'gpt' | 'claude' | 'gemini') => {
+        count: number;
+        estimatedCost?: number;
+      };
+    }).fallbackCount.bind(counter);
+
+    const sampleText = 'Mission execution summary with ample characters for estimation.';
+    const gpt = fallback(sampleText, 'gpt');
+    const claude = fallback(sampleText, 'claude');
+    const gemini = fallback(sampleText, 'gemini');
+
+    expect(gpt.estimatedCost).toBeCloseTo((gpt.count / 1_000_000) * 2.5);
+    expect(claude.estimatedCost).toBeCloseTo((claude.count / 1_000_000) * 3.0);
+    expect(gemini.estimatedCost).toBeCloseTo((gemini.count / 1_000_000) * 1.25);
+  });
+});
+
+describe('TokenCounter (Claude tokenizer integration)', () => {
+  afterEach(() => {
+    jest.resetModules();
+    jest.dontMock('@xenova/transformers');
+  });
+
+  test('loads Claude tokenizer lazily and caches the instance', async () => {
+    const tokenizerFn = jest.fn(async () => ({
+      input_ids: { data: new Int32Array([1, 2, 3, 4]) },
+    }));
+    const fromPretrained = jest.fn(async () => tokenizerFn);
+
+    jest.resetModules();
+    jest.doMock('@xenova/transformers', () => ({
+      AutoTokenizer: {
+        from_pretrained: fromPretrained,
+      },
+    }));
+
+    const { TokenCounter: FreshCounter } = await import('../../src/intelligence/token-counters');
+    const counter = new FreshCounter();
+
+    const first = await counter.count('Mission objective: deliver platform uplift.', 'claude');
+    expect(first.count).toBe(4);
+
+    const second = await counter.count('Follow-up mission summary for leadership.', 'claude');
+    expect(second.count).toBe(4);
+    expect(fromPretrained).toHaveBeenCalledTimes(1);
+    expect(tokenizerFn).toHaveBeenCalledTimes(2);
+  });
+});

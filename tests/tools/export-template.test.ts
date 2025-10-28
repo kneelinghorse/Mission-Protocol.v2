@@ -16,13 +16,13 @@ const metadata = {
   },
 };
 
-describe('export_template MCP tool', () => {
+describe('get_template_export MCP tool', () => {
   it('exports a mission template to YAML with preview', async () => {
     const baseDir = await ensureTempDir('export-template-');
     const outputPath = 'smoke-template.yaml';
     const template = createTemplateFromMission(
       {
-        objective: 'Verify export_template success path',
+        objective: 'Verify get_template_export success path',
         context: 'Smoke testing harness',
       },
       metadata

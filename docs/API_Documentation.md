@@ -17,7 +17,7 @@ Complete API reference for all Mission Protocol v2 Extension System (Phase 3) MC
 
 All Phase 3 features are exposed as Model Context Protocol (MCP) tools for use in Claude Desktop and compatible environments.
 
-### extract_template
+### get_template_extraction (alias: extract_template)
 
 Extract a reusable template from an existing mission directory.
 
@@ -73,7 +73,7 @@ Extract a reusable template from an existing mission directory.
 
 ---
 
-### import_template
+### create_template_import (alias: import_template)
 
 Import and validate a template file with full 6-layer security validation.
 
@@ -126,7 +126,7 @@ Import and validate a template file with full 6-layer security validation.
 
 ---
 
-### export_template
+### get_template_export (alias: export_template)
 
 Export a template with optional cryptographic signature.
 
@@ -179,7 +179,7 @@ Export a template with optional cryptographic signature.
 
 ---
 
-### combine_packs
+### create_combined_pack (alias: combine_packs)
 
 Combine multiple domain packs with dependency resolution.
 
@@ -239,7 +239,7 @@ Combine multiple domain packs with dependency resolution.
 
 ---
 
-### check_version_compatibility
+### get_version_compatibility (alias: check_version_compatibility)
 
 Check if two template versions are compatible.
 
@@ -282,7 +282,7 @@ Check if two template versions are compatible.
 
 ---
 
-### find_migration_path
+### get_migration_path (alias: find_migration_path)
 
 Find migration path between two template versions.
 
@@ -333,7 +333,7 @@ Find migration path between two template versions.
 
 ---
 
-### register_template_version
+### create_template_version (alias: register_template_version)
 
 Register a new template version in the registry.
 
@@ -382,7 +382,7 @@ Register a new template version in the registry.
 
 ---
 
-### get_latest_version
+### get_latest_version (alias: get_latest_version)
 
 Get the latest version of a template.
 
@@ -421,7 +421,7 @@ Get the latest version of a template.
 
 ---
 
-### compare_versions
+### get_version_comparison (alias: compare_versions)
 
 Compare two semantic versions.
 

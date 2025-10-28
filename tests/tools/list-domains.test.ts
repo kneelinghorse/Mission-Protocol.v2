@@ -333,13 +333,20 @@ domains: []
 
 describe('listDomainsToolDefinition', () => {
   it('should export valid MCP tool definition', async () => {
-    const { listDomainsToolDefinition } = require('../../src/tools/list-domains');
+    const {
+      getAvailableDomainsToolDefinition,
+      listAvailableDomainsToolDefinitionDeprecated,
+    } = require('../../src/tools/list-domains');
 
-    expect(listDomainsToolDefinition).toBeDefined();
-    expect(listDomainsToolDefinition.name).toBe('list_available_domains');
-    expect(listDomainsToolDefinition.description).toContain('domain-specific mission types');
-    expect(listDomainsToolDefinition.inputSchema).toBeDefined();
-    expect(listDomainsToolDefinition.inputSchema.type).toBe('object');
-    expect(listDomainsToolDefinition.inputSchema.properties).toEqual({});
+    expect(getAvailableDomainsToolDefinition).toBeDefined();
+    expect(getAvailableDomainsToolDefinition.name).toBe('get_available_domains');
+    expect(getAvailableDomainsToolDefinition.description).toContain('domain-specific mission types');
+    expect(getAvailableDomainsToolDefinition.inputSchema).toBeDefined();
+    expect(getAvailableDomainsToolDefinition.inputSchema.type).toBe('object');
+    expect(getAvailableDomainsToolDefinition.inputSchema.properties).toEqual({});
+
+    expect(listAvailableDomainsToolDefinitionDeprecated).toBeDefined();
+    expect(listAvailableDomainsToolDefinitionDeprecated.name).toBe('list_available_domains');
+    expect(listAvailableDomainsToolDefinitionDeprecated.description).toContain('[DEPRECATED]');
   });
 });

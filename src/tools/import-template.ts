@@ -55,7 +55,7 @@ export interface ImportTemplateResult {
     version: string;
     author: string;
     apiVersion: string;
-    spec: any;
+    spec: unknown;
   };
   validationReport: {
     valid: boolean;
@@ -149,8 +149,10 @@ export async function importTemplate(
     };
   } catch (error) {
     if (error instanceof InputValidationError) {
-      const dataMessages =
-        Array.isArray((error.data as any)?.messages) ? ((error.data as any).messages as string[]) : undefined;
+      const maybeMessages = error.data?.messages;
+      const dataMessages = Array.isArray(maybeMessages)
+        ? maybeMessages.filter((message): message is string => typeof message === 'string')
+        : undefined;
       const detailMessages = dataMessages && dataMessages.length > 0
         ? dataMessages
         : error.issues?.map((issue) => issue.message).filter(Boolean);
@@ -222,10 +224,10 @@ async function validateParams(params: ImportTemplateParams): Promise<ValidatedIm
 
 /**
  * MCP Tool Registration
- * This would be called by the MCP server to register the tool
+ * Canonical specification for template import
  */
-export const mcpToolDefinition = {
-  name: 'import_template',
+export const createTemplateImportToolDefinition = {
+  name: 'create_template_import',
   description:
     'Securely import a mission template with 6-layer security validation (path sanitization, safe parsing, schema validation, signature verification, semantic validation, dependency resolution)',
   inputSchema: {
@@ -274,4 +276,14 @@ export const mcpToolDefinition = {
     },
     required: ['templatePath'],
   },
-};
+} as const;
+
+/**
+ * Legacy alias maintained for one release cycle
+ */
+export const importTemplateToolDefinitionDeprecated = {
+  ...createTemplateImportToolDefinition,
+  name: 'import_template',
+  description:
+    '[DEPRECATED] Use create_template_import instead. Provides the same secure template import workflow.',
+} as const;

@@ -1,4 +1,4 @@
-import { DependencyGraph, DependencyNode } from './dependency-analyzer';
+import { DependencyGraph, DependencyNode, MissionRecord } from './dependency-analyzer';
 
 /**
  * Inferred dependency with confidence score
@@ -54,7 +54,7 @@ export class DependencyInferrer {
    * @param missionData The mission data to analyze
    * @returns Array of inferred dependencies
    */
-  inferDependencies(graph: DependencyGraph, missionData: any): InferredDependency[] {
+  inferDependencies(graph: DependencyGraph, missionData: MissionRecord): InferredDependency[] {
     const inferred: InferredDependency[] = [];
 
     // Extract mission ID

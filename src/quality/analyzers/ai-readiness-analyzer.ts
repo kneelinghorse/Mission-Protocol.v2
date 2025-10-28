@@ -219,7 +219,7 @@ export class AIReadinessAnalyzer {
 
   // Helper methods for instruction specificity
 
-  private hasExplicitGoal(objective: any): boolean {
+  private hasExplicitGoal(objective: unknown): boolean {
     if (!objective || typeof objective !== 'string') return false;
 
     const text = objective.toLowerCase();
@@ -239,7 +239,7 @@ export class AIReadinessAnalyzer {
     return isWellFormed && wordCount >= 10;
   }
 
-  private hasDefinedScope(context: any): boolean {
+  private hasDefinedScope(context: unknown): boolean {
     if (!context || typeof context !== 'string') return false;
 
     const text = context.toLowerCase();
@@ -299,7 +299,7 @@ export class AIReadinessAnalyzer {
     return hasNegativeConstraints || hasPositiveConstraints || hasConstraintsField;
   }
 
-  private hasWellDefinedSuccessCriteria(successCriteria: any): boolean {
+  private hasWellDefinedSuccessCriteria(successCriteria: unknown): boolean {
     if (!successCriteria) return false;
 
     if (Array.isArray(successCriteria)) {
@@ -324,7 +324,7 @@ export class AIReadinessAnalyzer {
 
   // Helper methods for linting
 
-  private findEmptyFields(obj: any, path: string = ''): string[] {
+  private findEmptyFields(obj: Record<string, unknown>, path: string = ''): string[] {
     const empty: string[] = [];
 
     for (const key in obj) {
@@ -335,15 +335,15 @@ export class AIReadinessAnalyzer {
         empty.push(currentPath);
       } else if (Array.isArray(value) && value.length === 0) {
         empty.push(currentPath);
-      } else if (typeof value === 'object' && !Array.isArray(value)) {
-        empty.push(...this.findEmptyFields(value, currentPath));
+      } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+        empty.push(...this.findEmptyFields(value as Record<string, unknown>, currentPath));
       }
     }
 
     return empty;
   }
 
-  private getSpecificityDetails(mission: MissionContent): Record<string, any> {
+  private getSpecificityDetails(mission: MissionContent): Record<string, unknown> {
     return {
       hasExplicitGoal: this.hasExplicitGoal(mission.objective),
       hasDefinedScope: this.hasDefinedScope(mission.context),
@@ -353,7 +353,7 @@ export class AIReadinessAnalyzer {
     };
   }
 
-  private getLintingDetails(mission: MissionContent): Record<string, any> {
+  private getLintingDetails(mission: MissionContent): Record<string, unknown> {
     const fullText = JSON.stringify(mission).toLowerCase();
     const vaguePhrasesFound = this.WEAK_PHRASES.filter(phrase =>
       fullText.includes(phrase.toLowerCase())

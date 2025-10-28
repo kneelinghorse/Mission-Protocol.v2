@@ -1,5 +1,5 @@
 /**
- * Integration tests for the extract_template MCP tool
+ * Integration tests for the get_template_extraction MCP tool
  */
 
 import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
@@ -8,7 +8,7 @@ import * as path from 'path';
 import { ensureDir, ensureTempDir, pathExists, removeDir } from '../../src/utils/fs';
 import { extractTemplate, ExtractTemplateParams, writeTemplate, generateExtractionReport } from '../../src/tools/extract-template';
 
-describe('extract_template MCP Tool', () => {
+describe('get_template_extraction MCP Tool', () => {
   let tempDir: string;
   let testMissionDir: string;
   let outputDir: string;

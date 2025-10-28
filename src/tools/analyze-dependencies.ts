@@ -1,9 +1,9 @@
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { z } from 'zod';
-import { DependencyAnalyzer } from '../intelligence/dependency-analyzer';
+import { DependencyAnalyzer, MissionRecord, isMissionRecord } from '../intelligence/dependency-analyzer';
 import { GraphValidator } from '../intelligence/graph-validator';
-import { DependencyInferrer } from '../intelligence/dependency-inferrer';
+import { DependencyInferrer, InferredDependency } from '../intelligence/dependency-inferrer';
 import * as yaml from 'js-yaml';
 import { ValidationError } from '../errors/validation-error';
 import { IOError } from '../errors/io-error';
@@ -85,10 +85,10 @@ export async function analyzeDependencies(args: AnalyzeDependenciesArgs): Promis
     const validationResult = validator.validate(analysisResult.graph);
 
     // Infer implicit dependencies if requested
-    let inferredDependencies: any[] | undefined;
+    let inferredDependencies: InferredDependency[] | undefined;
     if (validated.includeInferred) {
       const inferrer = new DependencyInferrer();
-      const allInferred: any[] = [];
+      const allInferred: InferredDependency[] = [];
 
       for (const mission of missions) {
         const inferred = inferrer.inferDependencies(analysisResult.graph, mission);
@@ -121,7 +121,7 @@ export async function analyzeDependencies(args: AnalyzeDependenciesArgs): Promis
       warnings: validationResult.warnings,
       performanceMs
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     const performanceMs = Date.now() - startTime;
     if (error instanceof MissionProtocolError) {
       return {
@@ -136,7 +136,7 @@ export async function analyzeDependencies(args: AnalyzeDependenciesArgs): Promis
     }
     const missionError = ErrorHandler.handle(
       error,
-      'tools.analyze_dependencies.execute',
+      'tools.get_dependency_analysis.execute',
       {
         module: 'tools/analyze-dependencies',
         data: {
@@ -171,7 +171,7 @@ export async function analyzeDependencies(args: AnalyzeDependenciesArgs): Promis
 async function findMissionFiles(directory: string): Promise<string[]> {
   const missionFiles: string[] = [];
 
-  async function traverse(dir: string) {
+  async function traverse(dir: string): Promise<void> {
     const entries = await fs.readdir(dir, { withFileTypes: true });
 
     for (const entry of entries) {
@@ -200,8 +200,8 @@ async function findMissionFiles(directory: string): Promise<string[]> {
 /**
  * Load mission files and parse YAML
  */
-async function loadMissionFiles(filePaths: string[]): Promise<any[]> {
-  const missions: any[] = [];
+async function loadMissionFiles(filePaths: string[]): Promise<MissionRecord[]> {
+  const missions: MissionRecord[] = [];
 
   for (const filePath of filePaths) {
     try {
@@ -209,15 +209,31 @@ async function loadMissionFiles(filePaths: string[]): Promise<any[]> {
       const content = await fs.readFile(sanitizedPath, 'utf-8');
       const missionData = yaml.load(content);
 
-      if (missionData && typeof missionData === 'object') {
-        // Add file path to mission data
-        (missionData as any).filePath = sanitizedPath;
-        missions.push(missionData);
+      if (!isMissionRecord(missionData)) {
+        ErrorHandler.handle(
+          new ValidationError('Mission file is missing required identifiers', {
+            context: { filePath: sanitizedPath },
+            severity: 'warning',
+          }),
+          'tools.get_dependency_analysis.load_mission_file.invalid',
+          {
+            module: 'tools/analyze-dependencies',
+            data: { filePath: sanitizedPath },
+          },
+          {
+            severity: 'warning',
+            rethrow: false,
+            userMessage: `Mission file ${path.basename(filePath)} is missing required missionId`,
+          }
+        );
+        continue;
       }
+
+      missions.push({ ...missionData, filePath: sanitizedPath });
     } catch (error) {
       ErrorHandler.handle(
         error,
-        'tools.analyze_dependencies.load_mission_file',
+        'tools.get_dependency_analysis.load_mission_file',
         {
           module: 'tools/analyze-dependencies',
           data: { filePath },
@@ -294,10 +310,10 @@ export function formatAnalysisResult(result: AnalyzeDependenciesResult): string 
 }
 
 /**
- * MCP Tool Definition for analyze_dependencies
+ * MCP Tool Definition for dependency analysis
  */
-export const mcpToolDefinition = {
-  name: 'analyze_dependencies',
+export const getDependencyAnalysisToolDefinition = {
+  name: 'get_dependency_analysis',
   description:
     'Analyze mission YAML files to construct a dependency graph, validate DAG properties, detect cycles, and compute execution order. Optionally infer implicit dependencies.',
   inputSchema: {
@@ -310,12 +326,22 @@ export const mcpToolDefinition = {
     required: ['missionDirectory'],
     additionalProperties: false,
   },
-};
+} as const;
+
+/**
+ * Legacy alias maintained for one release cycle
+ */
+export const analyzeDependenciesToolDefinitionDeprecated = {
+  ...getDependencyAnalysisToolDefinition,
+  name: 'analyze_dependencies',
+  description:
+    '[DEPRECATED] Use get_dependency_analysis instead. Returns the same dependency graph report.',
+} as const;
 
 /**
  * Wrap execution for MCP server usage
  */
-export async function executeAnalyzeDependenciesTool(params: any): Promise<string> {
+export async function executeAnalyzeDependenciesTool(params: AnalyzeDependenciesArgs): Promise<string> {
   const result = await analyzeDependencies({
     missionDirectory: params.missionDirectory,
     includeInferred: params.includeInferred,

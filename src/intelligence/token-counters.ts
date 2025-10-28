@@ -10,18 +10,25 @@
 
 import { ITokenCounter, TokenCount, SupportedModel } from './types';
 import { emitTelemetryWarning } from './telemetry';
+import {
+  getClaudeTokenizerInstance,
+  getGPTEncoder,
+  recordTokenizerFallback,
+} from './tokenizer-bootstrap';
 
 /**
  * Type definitions for external libraries
  */
 type GPTTokens = number[];
-type PreTrainedTokenizer = any;
+type ClaudeTokenizer = (text: string) => Promise<{
+  input_ids: { data: { length: number } };
+}>;
 
 /**
  * Token counter implementation using TokenizerFactory pattern
  */
 export class TokenCounter implements ITokenCounter {
-  private static claudeTokenizerCache: PreTrainedTokenizer | null = null;
+  private static claudeTokenizerCache: ClaudeTokenizer | null = null;
 
   /**
    * Count tokens for a given text and model
@@ -47,8 +54,11 @@ export class TokenCounter implements ITokenCounter {
    */
   private async countGPT(text: string): Promise<TokenCount> {
     try {
-      // Dynamic import of gpt-tokenizer
-      const { encode } = await import('gpt-tokenizer');
+      const encode = await getGPTEncoder();
+      if (!encode) {
+        return this.fallbackCount(text, 'gpt');
+      }
+
       const tokens: GPTTokens = encode(text);
       const count = tokens.length;
 
@@ -71,7 +81,19 @@ export class TokenCounter implements ITokenCounter {
    */
   private async countClaude(text: string): Promise<TokenCount> {
     try {
-      const tokenizer = await this.getClaudeTokenizer();
+      let tokenizer = TokenCounter.claudeTokenizerCache;
+
+      if (!tokenizer) {
+        tokenizer = await getClaudeTokenizerInstance();
+        if (!tokenizer) {
+          return this.fallbackCount(text, 'claude');
+        }
+        TokenCounter.claudeTokenizerCache = tokenizer;
+      }
+
+      if (!tokenizer) {
+        return this.fallbackCount(text, 'claude');
+      }
       
       // Tokenize the text
       const encoded = await tokenizer(text);
@@ -91,30 +113,9 @@ export class TokenCounter implements ITokenCounter {
         estimatedCost: this.estimateClaudeCost(count),
       };
     } catch (error) {
+      TokenCounter.claudeTokenizerCache = null;
       // Fallback to heuristic if tokenizer fails to load
       return this.fallbackCount(text, 'claude');
-    }
-  }
-
-  /**
-   * Load and cache the Claude tokenizer from Transformers.js
-   * Uses Xenova/claude-tokenizer from Hugging Face Hub
-   * Downloads model file on first use (~1-2 MB), cached thereafter
-   */
-  private async getClaudeTokenizer(): Promise<PreTrainedTokenizer> {
-    if (TokenCounter.claudeTokenizerCache) {
-      return TokenCounter.claudeTokenizerCache;
-    }
-
-    try {
-      // Use require to support CommonJS environments and Jest mocks
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { AutoTokenizer } = require('@xenova/transformers');
-      const tokenizer = await AutoTokenizer.from_pretrained('Xenova/claude-tokenizer');
-      TokenCounter.claudeTokenizerCache = tokenizer;
-      return tokenizer;
-    } catch (error) {
-      throw new Error(`Failed to load Claude tokenizer: ${error}`);
     }
   }
 
@@ -151,6 +152,7 @@ export class TokenCounter implements ITokenCounter {
    */
   private fallbackCount(text: string, model: SupportedModel): TokenCount {
     const count = Math.ceil(text.length / 4);
+    recordTokenizerFallback(model);
 
     emitTelemetryWarning('token-counter', `Fallback heuristic used for ${model} tokenizer`, {
       model,
@@ -166,6 +168,7 @@ export class TokenCounter implements ITokenCounter {
         estimatedCost = this.estimateGPTCost(count);
         break;
       case 'claude':
+        TokenCounter.claudeTokenizerCache = null;
         estimatedCost = this.estimateClaudeCost(count);
         break;
       case 'gemini':
