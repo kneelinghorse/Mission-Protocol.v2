@@ -17,17 +17,36 @@ describe('get_template_extraction MCP Tool', () => {
   let tempDir: string;
   let testMissionDir: string;
   let outputDir: string;
+  let previousWorkspaceRoot: string | undefined;
+  let previousWorkspaceAllowlist: string | undefined;
 
   beforeEach(async () => {
+    previousWorkspaceRoot = process.env.MISSION_PROTOCOL_WORKSPACE_ROOT;
+    previousWorkspaceAllowlist = process.env.MISSION_PROTOCOL_WORKSPACE_ALLOWLIST;
     tempDir = await ensureTempDir('extract-template-test-');
     testMissionDir = path.join(tempDir, 'test-mission');
     outputDir = path.join(tempDir, 'templates');
 
     await ensureDir(testMissionDir);
     await ensureDir(outputDir);
+    process.env.MISSION_PROTOCOL_WORKSPACE_ROOT = tempDir;
+    process.env.MISSION_PROTOCOL_WORKSPACE_ALLOWLIST = tempDir;
   });
 
   afterEach(async () => {
+    if (previousWorkspaceRoot !== undefined) {
+      process.env.MISSION_PROTOCOL_WORKSPACE_ROOT = previousWorkspaceRoot;
+    } else {
+      delete process.env.MISSION_PROTOCOL_WORKSPACE_ROOT;
+    }
+    if (previousWorkspaceAllowlist !== undefined) {
+      process.env.MISSION_PROTOCOL_WORKSPACE_ALLOWLIST = previousWorkspaceAllowlist;
+    } else {
+      delete process.env.MISSION_PROTOCOL_WORKSPACE_ALLOWLIST;
+    }
+    previousWorkspaceRoot = undefined;
+    previousWorkspaceAllowlist = undefined;
+
     if (tempDir && (await pathExists(tempDir))) {
       await removeDir(tempDir);
     }
@@ -72,8 +91,9 @@ describe('get_template_extraction MCP Tool', () => {
     });
 
     it('should fail when mission file does not exist', async () => {
+      const missingPath = path.join(tempDir, 'missing-mission');
       const params: ExtractTemplateParams = {
-        missionFile: '/nonexistent/path',
+        missionFile: missingPath,
         templateName: 'test-template',
         author: 'test@example.com',
       };
@@ -204,7 +224,7 @@ describe('get_template_extraction MCP Tool', () => {
         author: 'test@example.com',
       };
 
-      const templatesRoot = path.join(process.cwd(), 'templates');
+      const templatesRoot = path.join(tempDir, 'templates');
       const hadTemplatesDir = await pathExists(templatesRoot);
 
       const result = await extractTemplate(params);
@@ -369,6 +389,48 @@ describe('get_template_extraction MCP Tool', () => {
       const templateDir = path.join(outputDir, 'test-template');
       expect(await pathExists(path.join(templateDir, 'node_modules'))).toBe(false);
       expect(await pathExists(path.join(templateDir, 'app.js'))).toBe(true);
+    });
+  });
+
+  describe('Security Guards', () => {
+    it('should reject mission paths outside the workspace allowlist', async () => {
+      const outsideDir = await ensureTempDir('extract-template-outside-');
+
+      try {
+        const params: ExtractTemplateParams = {
+          missionFile: outsideDir,
+          templateName: 'unauthorized',
+          author: 'test@example.com',
+        };
+
+        const result = await extractTemplate(params);
+
+        expect(result.success).toBe(false);
+        expect(result.errors && result.errors[0]).toMatch(/allowed base directory|Path cannot|Path escapes/);
+      } finally {
+        await removeDir(outsideDir, { recursive: true, force: true });
+      }
+    });
+
+    it('should reject output directories outside the workspace allowlist', async () => {
+      await fs.writeFile(path.join(testMissionDir, 'app.js'), 'console.log("secure")');
+      const outsideDir = await ensureTempDir('extract-template-outside-output-');
+
+      try {
+        const params: ExtractTemplateParams = {
+          missionFile: testMissionDir,
+          templateName: 'unsafe-output',
+          author: 'test@example.com',
+          outputDir: outsideDir,
+        };
+
+        const result = await extractTemplate(params);
+
+        expect(result.success).toBe(false);
+        expect(result.errors && result.errors[0]).toMatch(/allowed base directory|Path cannot|Path escapes/);
+      } finally {
+        await removeDir(outsideDir, { recursive: true, force: true });
+      }
     });
   });
 

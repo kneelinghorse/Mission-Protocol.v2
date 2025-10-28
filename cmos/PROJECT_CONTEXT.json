@@ -1,0 +1,90 @@
+{
+  "project": {
+    "name": "CMOS v1.0",
+    "version": "1.0.0",
+    "description": "Context + Mission Orchestration System - Simple, powerful context management for AI-assisted development",
+    "status": "template",
+    "start_date": "",
+    "deployment": {
+      "platform": "Local/Node.js",
+      "integration_target": "Any project",
+      "environment": "development"
+    }
+  },
+  "working_memory": {
+    "active_domain": "main",
+    "active_mission": "B4.5",
+    "session_count": 15,
+    "last_session": "2025-10-28T18:22:37Z",
+    "domains": {
+      "main": {
+        "status": "active",
+        "priority": 1,
+        "critical_facts": [
+          "CMOS provides context management through domain compartmentalization",
+          "Smart compression achieves 4x-10x reduction based on state",
+          "Health monitoring uses statistical metrics for real-time assessment"
+        ],
+        "constraints": [
+          "Zero external dependencies",
+          "File-based storage only",
+          "Single-project focus"
+        ],
+        "decisions_made": [
+          "Removed protocol suite dependency for v1.0 simplicity",
+          "Self-contained statistical metrics for health monitoring",
+          "Graceful degradation for all advanced features",
+          "Hybrid offline token counting: gpt-tokenizer for GPT, Transformers.js for Claude, heuristic for Gemini"
+        ],
+        "files_created": [],
+        "achievements": [
+          "Sprint 1 completed: Template recovery successful",
+          "Sprint 2 completed: MCP surface hardening successful",
+          "801/801 tests passing with 94%+ coverage",
+          "Phase 2 integration tests fully operational",
+          "Documentation refreshed to reflect current state",
+          "Master context exported to JSON for automation consumers",
+          "B2.1 completed: Hybrid offline token counter implemented per R2.1 strategy",
+          "B2.2 completed: Intelligence tools (optimize_tokens, split_mission, suggest_splits) registered in MCP server",
+          "B2.3 completed: Token validation & telemetry pipeline operational with CI workflow and comprehensive documentation",
+          "B3.4 completed: Aligned migration result typing with dependency analysis flows; tests fully passing",
+          "B4.1 completed: Token telemetry hardened with preload bootstrap, configurable verbosity, and health metrics",
+          "B4.2 completed: Quality tooling baseline added with lint/format enforcement, tool snapshots, and metrics reporting",
+          "B4.3 completed: Discovery domain packs integrated with workflow samples, smoke tests, and validation guardrail"
+        ]
+      }
+    }
+  },
+  "technical_context": {
+    "dependencies": [
+      "Python 3.x (required)",
+      "Node.js (optional for advanced features)"
+    ],
+    "cmos_features": {
+      "compression": "4x-10x context reduction",
+      "state_monitoring": "4D vector tracking (Form, Function, Behavior, Context)",
+      "domain_management": "Intelligent compartmentalization",
+      "health_assessment": "Real-time statistical metrics",
+      "anti_patterns": "Automated detection and recovery"
+    },
+    "integration_points": [
+      "project_context.py - main Python interface",
+      "context/cmos/ - JavaScript modules for advanced features",
+      "smart_migrate.js - migration tool for existing projects"
+    ]
+  },
+  "context_health": {
+    "size_kb": 0,
+    "size_limit_kb": 100,
+    "sessions_since_reset": 0,
+    "last_reset": "",
+    "compression_enabled": true,
+    "anti_pattern_detection": true
+  },
+  "ai_instructions": {
+    "preferred_language": "javascript",
+    "code_style": "modular_zero_dependency",
+    "testing_required": true,
+    "documentation_level": "concise"
+  }
+}

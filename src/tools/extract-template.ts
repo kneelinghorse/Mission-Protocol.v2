@@ -10,11 +10,11 @@ import * as path from 'path';
 import { z } from 'zod';
 import { TemplateExtractor } from '../extraction/template-extractor';
 import { ExtractionConfig, ExtractionResult } from '../extraction/types';
-import { safeFilePath } from '../validation/common';
 import { validateAndSanitize } from '../validation/middleware';
 import { createFilePathSchema } from '../validation/schemas/file-path-schema';
 import { ValidationError as InputValidationError } from '../validation/errors';
 import { chmod, ensureDir, pathExists, runWithConcurrency, writeFileAtomic } from '../utils/fs';
+import { resolveWorkspacePath } from '../utils/workspace-io';
 
 /**
  * MCP Tool Interface for Template Extraction
@@ -43,12 +43,7 @@ export async function extractTemplate(params: ExtractTemplateParams): Promise<Ex
   try {
     const validated = await validateParams(params);
 
-    // Resolve the mission path
-    const missionFile = await safeFilePath(validated.missionFile, {
-      allowRelative: true,
-      maxLength: 2048,
-    });
-    const missionPath = path.resolve(missionFile);
+    const missionPath = validated.missionFile;
 
     // Determine if it's a file or directory
     const stats = await fs.stat(missionPath);
@@ -77,11 +72,12 @@ export async function extractTemplate(params: ExtractTemplateParams): Promise<Ex
 
     // If successful, write the template to disk
     if (result.success && result.template) {
-      const outputDir = validated.outputDir
-        ? await safeFilePath(validated.outputDir, { allowRelative: true })
-        : './templates';
-      const templateDir = await safeFilePath(path.join(outputDir, validated.templateName), {
+      const outputDir =
+        validated.outputDir ??
+        (await resolveWorkspacePath('templates', { allowRelative: true }));
+      const templateDir = await resolveWorkspacePath(validated.templateName, {
         allowRelative: true,
+        baseDir: outputDir,
       });
 
       await writeTemplate(templateDir, result);
@@ -154,11 +150,26 @@ async function validateParams(
 ): Promise<ValidatedExtractTemplateParams> {
   const validated = await validateAndSanitize(params, ExtractTemplateParamsSchema);
 
-  if (!(await pathExists(validated.missionFile))) {
+  const sanitizedMissionFile = (await resolveWorkspacePath(validated.missionFile, {
+    allowRelative: true,
+    maxLength: 2048,
+  })) as typeof validated.missionFile;
+
+  if (!(await pathExists(sanitizedMissionFile))) {
     throw new Error(`Mission file does not exist: ${validated.missionFile}`);
   }
 
-  return validated;
+  const sanitizedOutputDir = validated.outputDir
+    ? ((await resolveWorkspacePath(validated.outputDir, {
+        allowRelative: true,
+      })) as typeof validated.outputDir)
+    : undefined;
+
+  return {
+    ...validated,
+    missionFile: sanitizedMissionFile,
+    outputDir: sanitizedOutputDir,
+  };
 }
 
 /**
@@ -172,11 +183,11 @@ export async function writeTemplate(templateDir: string, result: ExtractionResul
   const { template } = result;
 
   // Create template directory
-  const sanitizedDir = await safeFilePath(path.resolve(templateDir), { allowRelative: false });
+  const sanitizedDir = await resolveWorkspacePath(templateDir, { allowRelative: true });
   await ensureDir(sanitizedDir);
 
   const writeTasks = template.fileStructure.map((file) => async () => {
-    const filePath = await safeFilePath(file.path, {
+    const filePath = await resolveWorkspacePath(file.path, {
       allowRelative: true,
       baseDir: sanitizedDir,
       maxLength: 4096,
@@ -189,7 +200,7 @@ export async function writeTemplate(templateDir: string, result: ExtractionResul
   }
 
   // Write metadata file
-  const metadataPath = await safeFilePath('template-metadata.json', {
+  const metadataPath = await resolveWorkspacePath('template-metadata.json', {
     allowRelative: true,
     baseDir: sanitizedDir,
   });
@@ -198,7 +209,7 @@ export async function writeTemplate(templateDir: string, result: ExtractionResul
   });
 
   // Write extraction report
-  const reportPath = await safeFilePath('EXTRACTION_REPORT.md', {
+  const reportPath = await resolveWorkspacePath('EXTRACTION_REPORT.md', {
     allowRelative: true,
     baseDir: sanitizedDir,
   });
@@ -207,7 +218,7 @@ export async function writeTemplate(templateDir: string, result: ExtractionResul
 
   // Write hooks if present
   if (template.hooks?.preGenerate) {
-    const preHookPath = await safeFilePath(path.join('hooks', 'pre_gen_project.sh'), {
+    const preHookPath = await resolveWorkspacePath(path.join('hooks', 'pre_gen_project.sh'), {
       allowRelative: true,
       baseDir: sanitizedDir,
     });
@@ -217,7 +228,7 @@ export async function writeTemplate(templateDir: string, result: ExtractionResul
   }
 
   if (template.hooks?.postGenerate) {
-    const postHookPath = await safeFilePath(path.join('hooks', 'post_gen_project.sh'), {
+    const postHookPath = await resolveWorkspacePath(path.join('hooks', 'post_gen_project.sh'), {
       allowRelative: true,
       baseDir: sanitizedDir,
     });

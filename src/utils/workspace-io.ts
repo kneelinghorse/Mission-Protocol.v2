@@ -1,37 +1,16 @@
-import path from 'path';
 import { promises as fs } from 'fs';
-import { safeFilePath, SafeFilePathOptions } from '../validation/common';
 import { pathExists, writeFileAtomic } from './fs';
+import { resolveWorkspacePath as guardResolveWorkspacePath, WorkspacePathOptions } from '../security/workspace-guard';
 
-const WORKSPACE_ROOT_ENV_VARS = [
-  'MISSION_PROTOCOL_WORKSPACE_ROOT',
-  'MCP_WORKSPACE_ROOT',
-  'WORKSPACE_ROOT',
-] as const;
+export { getWorkspaceRoot } from '../security/workspace-guard';
 
-export function getWorkspaceRoot(): string {
-  for (const envVar of WORKSPACE_ROOT_ENV_VARS) {
-    const value = process.env[envVar];
-    if (value && value.trim().length > 0) {
-      return path.resolve(value);
-    }
-  }
-  return process.cwd();
-}
-
-export interface ResolveWorkspacePathOptions extends SafeFilePathOptions {
-  readonly allowRelative?: boolean;
-}
+export type ResolveWorkspacePathOptions = WorkspacePathOptions;
 
 export async function resolveWorkspacePath(
   inputPath: string,
   options: ResolveWorkspacePathOptions = {}
 ): Promise<string> {
-  const workspaceRoot = options.baseDir ? path.resolve(options.baseDir) : getWorkspaceRoot();
-  return safeFilePath(inputPath, {
-    ...options,
-    baseDir: workspaceRoot,
-  });
+  return guardResolveWorkspacePath(inputPath, options);
 }
 
 export interface AtomicWorkspaceWriteOptions {
@@ -51,7 +30,7 @@ export async function writeFileAtomicWithBackup(
   options: AtomicWorkspaceWriteOptions = {}
 ): Promise<{ backupPath?: string }> {
   const { backupSuffix, allowedExtensions, allowRelative, baseDir, ...writeOptions } = options;
-  const sanitizedTarget = await resolveWorkspacePath(targetPath, {
+  const sanitizedTarget = await guardResolveWorkspacePath(targetPath, {
     allowRelative: allowRelative ?? true,
     allowedExtensions,
     baseDir,
