@@ -103,9 +103,7 @@ domainFields: {}
       deliverables: ['y'],
       domainFields: {},
     } as any;
-    const tmplSpy = jest
-      .spyOn(tool as any, 'loadGenericTemplate')
-      .mockReturnValue(fakeTemplate);
+    const tmplSpy = jest.spyOn(tool as any, 'loadGenericTemplate').mockReturnValue(fakeTemplate);
 
     const guardSpy = jest.spyOn(schema, 'isGenericMission').mockReturnValue(false as any);
 

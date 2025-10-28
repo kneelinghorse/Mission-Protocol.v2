@@ -181,7 +181,9 @@ domains:
       `.trim()
       );
 
-      await expect(parser.loadRegistry('invalid-path-traversal.yaml')).rejects.toThrow(/path.*\.\./);
+      await expect(parser.loadRegistry('invalid-path-traversal.yaml')).rejects.toThrow(
+        /path.*\.\./
+      );
     });
 
     test('should reject registry with absolute path', async () => {
@@ -268,7 +270,7 @@ domains:
       const result = parser.validateEntry(entry);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some(e => e.includes('version'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('version'))).toBe(true);
     });
 
     test('should collect multiple validation errors', async () => {
@@ -343,8 +345,8 @@ domains:
       const filtered = parser.filterBySchemaVersion(entries, '1.0.0');
 
       expect(filtered).toHaveLength(2);
-      expect(filtered.map(e => e.name)).toContain('v1-domain');
-      expect(filtered.map(e => e.name)).toContain('v1-minor');
+      expect(filtered.map((e) => e.name)).toContain('v1-domain');
+      expect(filtered.map((e) => e.name)).toContain('v1-minor');
     });
 
     test('should handle version 2.x.x filtering', async () => {

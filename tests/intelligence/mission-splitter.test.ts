@@ -36,7 +36,7 @@ describe('MissionSplitter', () => {
       agentTimeHorizon: 60,
       thresholds: {
         compositeScore: 5.0, // Lower threshold for testing
-        tokenPercentage: 0.80,
+        tokenPercentage: 0.8,
         timeHorizonMultiplier: 1.5,
       },
     });
@@ -100,8 +100,8 @@ describe('MissionSplitter', () => {
 
       // Verify dependencies are tracked (if split occurred)
       if (result.subMissions.length > 1) {
-        const hasSequentialDeps = result.subMissions.some((sm, i) =>
-          i > 0 && sm.dependencies.length > 0
+        const hasSequentialDeps = result.subMissions.some(
+          (sm, i) => i > 0 && sm.dependencies.length > 0
         );
         expect(hasSequentialDeps).toBe(true);
       }
@@ -151,7 +151,7 @@ describe('MissionSplitter', () => {
 
       const result = await splitter.split(mission);
 
-      const ids = result.subMissions.map(sm => sm.id);
+      const ids = result.subMissions.map((sm) => sm.id);
       const uniqueIds = new Set(ids);
 
       expect(uniqueIds.size).toBe(ids.length);
@@ -187,7 +187,7 @@ describe('MissionSplitter', () => {
 
       const result = await splitter.split(missionText);
 
-      const allDeliverables = result.subMissions.flatMap(sm => sm.deliverables);
+      const allDeliverables = result.subMissions.flatMap((sm) => sm.deliverables);
       expect(allDeliverables.length).toBeGreaterThan(0);
     });
   });
@@ -261,9 +261,15 @@ describe('MissionSplitter', () => {
         objective: 'Large complex project with many phases and substantial context',
         context: {
           background: [
-            para('First topic: Setup the development environment. Install dependencies and configure tools.'),
-            para('Second topic: Implement the core algorithm. Write extensive tests for the algorithm with multiple cases.'),
-            para('Third topic: Deploy to production. Setup monitoring and alerts. Validate SLOs and rollbacks.'),
+            para(
+              'First topic: Setup the development environment. Install dependencies and configure tools.'
+            ),
+            para(
+              'Second topic: Implement the core algorithm. Write extensive tests for the algorithm with multiple cases.'
+            ),
+            para(
+              'Third topic: Deploy to production. Setup monitoring and alerts. Validate SLOs and rollbacks.'
+            ),
           ].join('\n\n'),
           dependencies: Array(8).fill('Dependency'),
           constraints: Array(5).fill('Constraint'),
@@ -409,9 +415,7 @@ describe('MissionSplitter', () => {
       const result = await splitter.split(missionText);
 
       // Code block should stay intact
-      const hasCodeBlock = result.subMissions.some(sm =>
-        sm.instructions.includes('```')
-      );
+      const hasCodeBlock = result.subMissions.some((sm) => sm.instructions.includes('```'));
 
       expect(hasCodeBlock).toBe(true);
     });
@@ -528,7 +532,7 @@ describe('MissionSplitter', () => {
       const result = await splitter.split(mission);
 
       expect(result).toBeDefined();
-      result.subMissions.forEach(sm => {
+      result.subMissions.forEach((sm) => {
         expect(Array.isArray(sm.deliverables)).toBe(true);
       });
     });

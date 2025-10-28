@@ -1,7 +1,11 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
-import { DependencyAnalyzer, DependencyGraph, DependencyNode } from '../../src/intelligence/dependency-analyzer';
+import {
+  DependencyAnalyzer,
+  DependencyGraph,
+  DependencyNode,
+} from '../../src/intelligence/dependency-analyzer';
 import { ensureTempDir, removeDir } from '../../src/utils/fs';
 
 describe('DependencyAnalyzer', () => {
@@ -17,18 +21,16 @@ describe('DependencyAnalyzer', () => {
         {
           missionId: 'R4.3',
           context: 'Research mission',
-          filePath: 'missions/R4.3.yaml'
+          filePath: 'missions/R4.3.yaml',
         },
         {
           missionId: 'B4.3',
           context: 'Build mission based on R4.3',
           domainFields: {
-            researchFoundation: [
-              { finding: 'Use DAGs', sourceMission: 'R4.3' }
-            ]
+            researchFoundation: [{ finding: 'Use DAGs', sourceMission: 'R4.3' }],
           },
-          filePath: 'missions/B4.3.yaml'
-        }
+          filePath: 'missions/B4.3.yaml',
+        },
       ];
 
       const result = await analyzer.analyze(missions);
@@ -43,18 +45,18 @@ describe('DependencyAnalyzer', () => {
       const missions = [
         {
           missionId: 'A',
-          filePath: 'missions/A.yaml'
+          filePath: 'missions/A.yaml',
         },
         {
           missionId: 'B',
           context: 'Depends on A',
-          filePath: 'missions/B.yaml'
+          filePath: 'missions/B.yaml',
         },
         {
           missionId: 'C',
           context: 'Depends on B',
-          filePath: 'missions/C.yaml'
-        }
+          filePath: 'missions/C.yaml',
+        },
       ];
 
       const result = await analyzer.analyze(missions);
@@ -70,29 +72,29 @@ describe('DependencyAnalyzer', () => {
           missionId: 'A',
           domainFields: {
             handoffContext: {
-              dependencies: ['C']
-            }
+              dependencies: ['C'],
+            },
           },
-          filePath: 'missions/A.yaml'
+          filePath: 'missions/A.yaml',
         },
         {
           missionId: 'B',
           domainFields: {
             handoffContext: {
-              dependencies: ['A']
-            }
+              dependencies: ['A'],
+            },
           },
-          filePath: 'missions/B.yaml'
+          filePath: 'missions/B.yaml',
         },
         {
           missionId: 'C',
           domainFields: {
             handoffContext: {
-              dependencies: ['B']
-            }
+              dependencies: ['B'],
+            },
           },
-          filePath: 'missions/C.yaml'
-        }
+          filePath: 'missions/C.yaml',
+        },
       ];
 
       const result = await analyzer.analyze(missions);
@@ -108,24 +110,24 @@ describe('DependencyAnalyzer', () => {
           missionId: 'B',
           domainFields: {
             handoffContext: {
-              dependencies: ['A']
-            }
+              dependencies: ['A'],
+            },
           },
-          filePath: 'missions/B.yaml'
+          filePath: 'missions/B.yaml',
         },
         {
           missionId: 'C',
           domainFields: {
             handoffContext: {
-              dependencies: ['B']
-            }
+              dependencies: ['B'],
+            },
           },
-          filePath: 'missions/C.yaml'
+          filePath: 'missions/C.yaml',
         },
         {
           missionId: 'A',
-          filePath: 'missions/A.yaml'
-        }
+          filePath: 'missions/A.yaml',
+        },
       ];
 
       const result = await analyzer.analyze(missions);
@@ -143,35 +145,35 @@ describe('DependencyAnalyzer', () => {
       const missions = [
         {
           missionId: 'A',
-          filePath: 'missions/A.yaml'
+          filePath: 'missions/A.yaml',
         },
         {
           missionId: 'B',
           domainFields: {
             handoffContext: {
-              dependencies: ['A']
-            }
+              dependencies: ['A'],
+            },
           },
-          filePath: 'missions/B.yaml'
+          filePath: 'missions/B.yaml',
         },
         {
           missionId: 'C',
           domainFields: {
             handoffContext: {
-              dependencies: ['B']
-            }
+              dependencies: ['B'],
+            },
           },
-          filePath: 'missions/C.yaml'
+          filePath: 'missions/C.yaml',
         },
         {
           missionId: 'D',
           domainFields: {
             handoffContext: {
-              dependencies: ['A']
-            }
+              dependencies: ['A'],
+            },
           },
-          filePath: 'missions/D.yaml'
-        }
+          filePath: 'missions/D.yaml',
+        },
       ];
 
       const result = await analyzer.analyze(missions);
@@ -189,17 +191,17 @@ describe('DependencyAnalyzer', () => {
       const missions = [
         {
           missionId: 'R4.3',
-          filePath: 'missions/R4.3.yaml'
+          filePath: 'missions/R4.3.yaml',
         },
         {
           missionId: 'B4.3',
           domainFields: {
             researchFoundation: [
-              { finding: 'Finding 1', sourceMission: '<R4.3_Intelligent_Mission_Sequencing>' }
-            ]
+              { finding: 'Finding 1', sourceMission: '<R4.3_Intelligent_Mission_Sequencing>' },
+            ],
           },
-          filePath: 'missions/B4.3.yaml'
-        }
+          filePath: 'missions/B4.3.yaml',
+        },
       ];
 
       const result = await analyzer.analyze(missions);
@@ -213,17 +215,17 @@ describe('DependencyAnalyzer', () => {
       const missions = [
         {
           missionId: 'A',
-          filePath: 'missions/A.yaml'
+          filePath: 'missions/A.yaml',
         },
         {
           missionId: 'B',
           domainFields: {
             handoffContext: {
-              dependencies: ['A']
-            }
+              dependencies: ['A'],
+            },
           },
-          filePath: 'missions/B.yaml'
-        }
+          filePath: 'missions/B.yaml',
+        },
       ];
 
       const result = await analyzer.analyze(missions);
@@ -237,13 +239,13 @@ describe('DependencyAnalyzer', () => {
       const missions = [
         {
           missionId: 'R4.3',
-          filePath: 'missions/R4.3.yaml'
+          filePath: 'missions/R4.3.yaml',
         },
         {
           missionId: 'B4.3',
           context: 'This mission implements findings from R4.3 research',
-          filePath: 'missions/B4.3.yaml'
-        }
+          filePath: 'missions/B4.3.yaml',
+        },
       ];
 
       const result = await analyzer.analyze(missions);
@@ -261,20 +263,20 @@ describe('DependencyAnalyzer', () => {
           missionId: 'A',
           domainFields: {
             handoffContext: {
-              dependencies: ['B']
-            }
+              dependencies: ['B'],
+            },
           },
-          filePath: 'missions/A.yaml'
+          filePath: 'missions/A.yaml',
         },
         {
           missionId: 'B',
           domainFields: {
             handoffContext: {
-              dependencies: ['A']
-            }
+              dependencies: ['A'],
+            },
           },
-          filePath: 'missions/B.yaml'
-        }
+          filePath: 'missions/B.yaml',
+        },
       ];
 
       const result = await analyzer.analyze(missions);
@@ -290,38 +292,38 @@ describe('DependencyAnalyzer', () => {
           missionId: 'A',
           domainFields: {
             handoffContext: {
-              dependencies: ['B']
-            }
+              dependencies: ['B'],
+            },
           },
-          filePath: 'missions/A.yaml'
+          filePath: 'missions/A.yaml',
         },
         {
           missionId: 'B',
           domainFields: {
             handoffContext: {
-              dependencies: ['C']
-            }
+              dependencies: ['C'],
+            },
           },
-          filePath: 'missions/B.yaml'
+          filePath: 'missions/B.yaml',
         },
         {
           missionId: 'C',
           domainFields: {
             handoffContext: {
-              dependencies: ['D']
-            }
+              dependencies: ['D'],
+            },
           },
-          filePath: 'missions/C.yaml'
+          filePath: 'missions/C.yaml',
         },
         {
           missionId: 'D',
           domainFields: {
             handoffContext: {
-              dependencies: ['B']
-            }
+              dependencies: ['B'],
+            },
           },
-          filePath: 'missions/D.yaml'
-        }
+          filePath: 'missions/D.yaml',
+        },
       ];
 
       const result = await analyzer.analyze(missions);
@@ -340,11 +342,11 @@ describe('DependencyAnalyzer', () => {
           missionId: 'A',
           domainFields: {
             handoffContext: {
-              dependencies: ['A']
-            }
+              dependencies: ['A'],
+            },
           },
-          filePath: 'missions/A.yaml'
-        }
+          filePath: 'missions/A.yaml',
+        },
       ];
 
       const result = await analyzer.analyze(missions);
@@ -360,33 +362,33 @@ describe('DependencyAnalyzer', () => {
           missionId: 'D',
           domainFields: {
             handoffContext: {
-              dependencies: ['B', 'C']
-            }
+              dependencies: ['B', 'C'],
+            },
           },
-          filePath: 'missions/D.yaml'
+          filePath: 'missions/D.yaml',
         },
         {
           missionId: 'B',
           domainFields: {
             handoffContext: {
-              dependencies: ['A']
-            }
+              dependencies: ['A'],
+            },
           },
-          filePath: 'missions/B.yaml'
+          filePath: 'missions/B.yaml',
         },
         {
           missionId: 'C',
           domainFields: {
             handoffContext: {
-              dependencies: ['A']
-            }
+              dependencies: ['A'],
+            },
           },
-          filePath: 'missions/C.yaml'
+          filePath: 'missions/C.yaml',
         },
         {
           missionId: 'A',
-          filePath: 'missions/A.yaml'
-        }
+          filePath: 'missions/A.yaml',
+        },
       ];
 
       const result = await analyzer.analyze(missions);
@@ -409,16 +411,16 @@ describe('DependencyAnalyzer', () => {
       const missions = [
         {
           missionId: 'A',
-          filePath: 'missions/A.yaml'
+          filePath: 'missions/A.yaml',
         },
         {
           missionId: 'B',
-          filePath: 'missions/B.yaml'
+          filePath: 'missions/B.yaml',
         },
         {
           missionId: 'C',
-          filePath: 'missions/C.yaml'
-        }
+          filePath: 'missions/C.yaml',
+        },
       ];
 
       const result = await analyzer.analyze(missions);
@@ -433,8 +435,8 @@ describe('DependencyAnalyzer', () => {
       const missions = [
         {
           missionId: 'A',
-          filePath: 'missions/A.yaml'
-        }
+          filePath: 'missions/A.yaml',
+        },
       ];
 
       await analyzer.analyze(missions);

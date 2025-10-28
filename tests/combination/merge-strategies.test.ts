@@ -127,10 +127,12 @@ describe('merge strategies', () => {
         matchesPattern: (path: string, pattern: string) => boolean;
       };
 
-      expect(selective.matchesPattern('metadata.annotations.summary', 'metadata.annotations.*')).toBe(
-        true
+      expect(
+        selective.matchesPattern('metadata.annotations.summary', 'metadata.annotations.*')
+      ).toBe(true);
+      expect(selective.matchesPattern('metadata.annotations', 'metadata.annotations.*')).toBe(
+        false
       );
-      expect(selective.matchesPattern('metadata.annotations', 'metadata.annotations.*')).toBe(false);
       expect(selective.matchesPattern('metadata.annotations.summary', '*')).toBe(true);
     });
   });

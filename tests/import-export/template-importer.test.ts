@@ -67,9 +67,7 @@ spec:
     it('T-02: should reject path traversal attempts', async () => {
       await writeTemplateFile('safe.yaml', createValidTemplateYAML());
 
-      await expect(
-        importer.import('../../../etc/passwd')
-      ).rejects.toThrow(/path traversal/i);
+      await expect(importer.import('../../../etc/passwd')).rejects.toThrow(/path traversal/i);
     });
 
     it('should load valid YAML files', async () => {
@@ -223,10 +221,7 @@ dependencies:
 
     it('should validate dependency checksums', async () => {
       // Create a dependency file
-      const depContent = createValidTemplateYAML().replace(
-        'test-template',
-        'dependency-template'
-      );
+      const depContent = createValidTemplateYAML().replace('test-template', 'dependency-template');
       await writeTemplateFile('dep.yaml', depContent);
 
       // Create incorrect checksum - needs URL allowlist

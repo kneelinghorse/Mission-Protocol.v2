@@ -16,26 +16,26 @@ jobs:
   validate:
     name: Validate Token Counters
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Run token validation
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GOOGLE_GEMINI_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
         run: npx ts-node scripts/validate-token-counts.ts
-      
+
       - name: Report results
         if: failure()
         uses: actions/github-script@v7
@@ -55,4 +55,3 @@ jobs:
               See \`docs/Token_Validation_Setup.md\` for mitigation strategies.`,
               labels: ['tokenization', 'accuracy', 'automated']
             });
-

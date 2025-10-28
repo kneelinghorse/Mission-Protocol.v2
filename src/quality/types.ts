@@ -99,28 +99,28 @@ export interface MissionContent {
 export const DEFAULT_WEIGHTS: WeightsConfig = {
   clarity: 0.35,
   completeness: 0.35,
-  aiReadiness: 0.20,
-  benchmark: 0.10
+  aiReadiness: 0.2,
+  benchmark: 0.1,
 };
 
 export const DEFAULT_CLARITY_WEIGHTS: Record<keyof ClarityMetrics, number> = {
   fleschKincaidGradeLevel: 0.15,
   lexicalDensity: 0.15,
-  lexicalAmbiguity: 0.20,
-  syntacticAmbiguity: 0.20,
-  referentialAmbiguity: 0.10,
-  missionCyclomaticComplexity: 0.20
+  lexicalAmbiguity: 0.2,
+  syntacticAmbiguity: 0.2,
+  referentialAmbiguity: 0.1,
+  missionCyclomaticComplexity: 0.2,
 };
 
 export const DEFAULT_COMPLETENESS_WEIGHTS: Record<keyof CompletenessMetrics, number> = {
-  structuralCompleteness: 0.40,
+  structuralCompleteness: 0.4,
   informationBreadth: 0.25,
   informationDensity: 0.15,
-  semanticCoverage: 0.20
+  semanticCoverage: 0.2,
 };
 
 export const DEFAULT_AI_READINESS_WEIGHTS: Record<keyof AIReadinessMetrics, number> = {
-  syntacticValidity: 0.50,
-  instructionSpecificity: 0.50,
-  lintingScore: 0.00 // Added as extension, not in original framework
+  syntacticValidity: 0.5,
+  instructionSpecificity: 0.5,
+  lintingScore: 0.0, // Added as extension, not in original framework
 };

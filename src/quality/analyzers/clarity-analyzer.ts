@@ -8,7 +8,7 @@ import {
   MetricResult,
   ClarityMetrics,
   MissionContent,
-  DEFAULT_CLARITY_WEIGHTS
+  DEFAULT_CLARITY_WEIGHTS,
 } from '../types';
 
 export class ClarityAnalyzer {
@@ -28,7 +28,7 @@ export class ClarityAnalyzer {
       lexicalAmbiguity: this.detectLexicalAmbiguity(text),
       syntacticAmbiguity: this.detectSyntacticAmbiguity(text),
       referentialAmbiguity: this.detectReferentialAmbiguity(text),
-      missionCyclomaticComplexity: this.calculateMCC(mission)
+      missionCyclomaticComplexity: this.calculateMCC(mission),
     };
 
     // Normalize and create metric results
@@ -38,33 +38,38 @@ export class ClarityAnalyzer {
         rawValue: metrics.fleschKincaidGradeLevel,
         normalizedScore: this.normalizeFleschKincaid(metrics.fleschKincaidGradeLevel),
         weight: this.weights.fleschKincaidGradeLevel,
-        details: { target: '10-12', interpretation: this.interpretFKGL(metrics.fleschKincaidGradeLevel) }
+        details: {
+          target: '10-12',
+          interpretation: this.interpretFKGL(metrics.fleschKincaidGradeLevel),
+        },
       },
       {
         name: 'Lexical Density',
         rawValue: metrics.lexicalDensity,
         normalizedScore: this.normalizeLexicalDensity(metrics.lexicalDensity),
         weight: this.weights.lexicalDensity,
-        details: { target: '>50%', percentage: `${metrics.lexicalDensity.toFixed(1)}%` }
+        details: { target: '>50%', percentage: `${metrics.lexicalDensity.toFixed(1)}%` },
       },
       {
         name: 'Lexical Ambiguity',
         rawValue: metrics.lexicalAmbiguity,
         normalizedScore: metrics.lexicalAmbiguity,
         weight: this.weights.lexicalAmbiguity,
-        details: { ambiguousWordCount: Math.round((1 - metrics.lexicalAmbiguity) * text.split(/\s+/).length) }
+        details: {
+          ambiguousWordCount: Math.round((1 - metrics.lexicalAmbiguity) * text.split(/\s+/).length),
+        },
       },
       {
         name: 'Syntactic Ambiguity',
         rawValue: metrics.syntacticAmbiguity,
         normalizedScore: metrics.syntacticAmbiguity,
-        weight: this.weights.syntacticAmbiguity
+        weight: this.weights.syntacticAmbiguity,
       },
       {
         name: 'Referential Ambiguity',
         rawValue: metrics.referentialAmbiguity,
         normalizedScore: metrics.referentialAmbiguity,
-        weight: this.weights.referentialAmbiguity
+        weight: this.weights.referentialAmbiguity,
       },
       {
         name: 'Mission Cyclomatic Complexity',
@@ -73,9 +78,9 @@ export class ClarityAnalyzer {
         weight: this.weights.missionCyclomaticComplexity,
         details: {
           riskLevel: this.getMCCRiskLevel(metrics.missionCyclomaticComplexity),
-          decisionPoints: metrics.missionCyclomaticComplexity - 1
-        }
-      }
+          decisionPoints: metrics.missionCyclomaticComplexity - 1,
+        },
+      },
     ];
 
     // Calculate weighted dimension score
@@ -87,7 +92,7 @@ export class ClarityAnalyzer {
     return {
       score,
       weight: 0.35, // Default clarity dimension weight
-      metrics: metricResults
+      metrics: metricResults,
     };
   }
 
@@ -113,21 +118,82 @@ export class ClarityAnalyzer {
    * LD = (Number of lexical items / Total words) * 100
    */
   private calculateLexicalDensity(text: string): number {
-    const words = text.toLowerCase().split(/\s+/).filter(w => w.length > 0);
+    const words = text
+      .toLowerCase()
+      .split(/\s+/)
+      .filter((w) => w.length > 0);
     if (words.length === 0) return 0;
 
     // Function words (articles, prepositions, pronouns, conjunctions)
     const functionWords = new Set([
-      'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
-      'of', 'with', 'from', 'by', 'as', 'is', 'was', 'are', 'were', 'be',
-      'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will',
-      'would', 'should', 'could', 'may', 'might', 'can', 'must', 'shall',
-      'this', 'that', 'these', 'those', 'i', 'you', 'he', 'she', 'it',
-      'we', 'they', 'them', 'their', 'my', 'your', 'his', 'her', 'its',
-      'our', 'who', 'what', 'where', 'when', 'why', 'how', 'if', 'than'
+      'the',
+      'a',
+      'an',
+      'and',
+      'or',
+      'but',
+      'in',
+      'on',
+      'at',
+      'to',
+      'for',
+      'of',
+      'with',
+      'from',
+      'by',
+      'as',
+      'is',
+      'was',
+      'are',
+      'were',
+      'be',
+      'been',
+      'being',
+      'have',
+      'has',
+      'had',
+      'do',
+      'does',
+      'did',
+      'will',
+      'would',
+      'should',
+      'could',
+      'may',
+      'might',
+      'can',
+      'must',
+      'shall',
+      'this',
+      'that',
+      'these',
+      'those',
+      'i',
+      'you',
+      'he',
+      'she',
+      'it',
+      'we',
+      'they',
+      'them',
+      'their',
+      'my',
+      'your',
+      'his',
+      'her',
+      'its',
+      'our',
+      'who',
+      'what',
+      'where',
+      'when',
+      'why',
+      'how',
+      'if',
+      'than',
     ]);
 
-    const lexicalItems = words.filter(word => !functionWords.has(word.toLowerCase()));
+    const lexicalItems = words.filter((word) => !functionWords.has(word.toLowerCase()));
     return (lexicalItems.length / words.length) * 100;
   }
 
@@ -136,18 +202,40 @@ export class ClarityAnalyzer {
    * Simplified heuristic-based approach
    */
   private detectLexicalAmbiguity(text: string): number {
-    const words = text.toLowerCase().split(/\s+/).filter(w => w.length > 0);
+    const words = text
+      .toLowerCase()
+      .split(/\s+/)
+      .filter((w) => w.length > 0);
     if (words.length === 0) return 1;
 
     // Common ambiguous words in technical contexts
     const ambiguousWords = new Set([
-      'bank', 'record', 'table', 'field', 'file', 'run', 'execute',
-      'process', 'service', 'object', 'class', 'type', 'value', 'set',
-      'get', 'check', 'test', 'case', 'base', 'model', 'view', 'state'
+      'bank',
+      'record',
+      'table',
+      'field',
+      'file',
+      'run',
+      'execute',
+      'process',
+      'service',
+      'object',
+      'class',
+      'type',
+      'value',
+      'set',
+      'get',
+      'check',
+      'test',
+      'case',
+      'base',
+      'model',
+      'view',
+      'state',
     ]);
 
-    const ambiguousCount = words.filter(w => ambiguousWords.has(w)).length;
-    return 1 - (ambiguousCount / words.length);
+    const ambiguousCount = words.filter((w) => ambiguousWords.has(w)).length;
+    return 1 - ambiguousCount / words.length;
   }
 
   /**
@@ -165,15 +253,15 @@ export class ClarityAnalyzer {
         /\b(saw|watched|heard)\s+\w+\s+(duck|bear|fish|fly)\b/i, // "saw her duck"
         /\b\w+\s+and\s+\w+\s+(or|and)\s+\w+\b/, // Multiple conjunctions
         /\b(more|less)\s+\w+\s+(than|or)\b/, // Comparative ambiguity
-        /\b(without|with)\s+\w+\s+(and|or)\b/ // Prepositional phrase attachment
+        /\b(without|with)\s+\w+\s+(and|or)\b/, // Prepositional phrase attachment
       ];
 
-      if (patterns.some(pattern => pattern.test(sentence))) {
+      if (patterns.some((pattern) => pattern.test(sentence))) {
         ambiguousCount++;
       }
     }
 
-    return 1 - (ambiguousCount / sentences.length);
+    return 1 - ambiguousCount / sentences.length;
   }
 
   /**
@@ -204,7 +292,7 @@ export class ClarityAnalyzer {
     }
 
     if (totalPronouns === 0) return 1;
-    return 1 - (unresolvedCount / totalPronouns);
+    return 1 - unresolvedCount / totalPronouns;
   }
 
   /**
@@ -218,23 +306,27 @@ export class ClarityAnalyzer {
 
     // Conditional keywords
     const conditionalKeywords = [
-      /\bif\b/g, /\bwhen\b/g, /\bunless\b/g, /\botherwise\b/g,
-      /\balternatively\b/g, /\bin case of\b/g, /\bdepending on\b/g,
-      /\bshould\b/g, /\bmay\b/g, /\bcan\b/g, /\bmight\b/g
+      /\bif\b/g,
+      /\bwhen\b/g,
+      /\bunless\b/g,
+      /\botherwise\b/g,
+      /\balternatively\b/g,
+      /\bin case of\b/g,
+      /\bdepending on\b/g,
+      /\bshould\b/g,
+      /\bmay\b/g,
+      /\bcan\b/g,
+      /\bmight\b/g,
     ];
 
     // Logical operators
-    const logicalOperators = [
-      /\band\b/g, /\bor\b/g
-    ];
+    const logicalOperators = [/\band\b/g, /\bor\b/g];
 
     // Implicit loops
-    const loopPatterns = [
-      /\bfor each\b/g, /\brepeat for\b/g, /\ball\b/g
-    ];
+    const loopPatterns = [/\bfor each\b/g, /\brepeat for\b/g, /\ball\b/g];
 
     // Count decision points
-    [...conditionalKeywords, ...logicalOperators, ...loopPatterns].forEach(pattern => {
+    [...conditionalKeywords, ...logicalOperators, ...loopPatterns].forEach((pattern) => {
       const matches = text.match(pattern);
       if (matches) decisionPoints += matches.length;
     });
@@ -243,7 +335,7 @@ export class ClarityAnalyzer {
     if (mission.domainFields) {
       // Optional sections add complexity
       const optionalSections = ['assumptions', 'blockers', 'nextMission'];
-      optionalSections.forEach(section => {
+      optionalSections.forEach((section) => {
         if (section in mission.domainFields!) decisionPoints++;
       });
     }
@@ -259,25 +351,27 @@ export class ClarityAnalyzer {
     if (mission.objective) textParts.push(mission.objective);
     if (mission.context) textParts.push(mission.context);
     if (mission.successCriteria) {
-      textParts.push(Array.isArray(mission.successCriteria)
-        ? mission.successCriteria.join(' ')
-        : mission.successCriteria);
+      textParts.push(
+        Array.isArray(mission.successCriteria)
+          ? mission.successCriteria.join(' ')
+          : mission.successCriteria
+      );
     }
     if (mission.deliverables) {
-      textParts.push(Array.isArray(mission.deliverables)
-        ? mission.deliverables.join(' ')
-        : mission.deliverables);
+      textParts.push(
+        Array.isArray(mission.deliverables) ? mission.deliverables.join(' ') : mission.deliverables
+      );
     }
 
     return textParts.join(' ');
   }
 
   private countSentences(text: string): number {
-    return text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+    return text.split(/[.!?]+/).filter((s) => s.trim().length > 0).length;
   }
 
   private countWords(text: string): number {
-    return text.split(/\s+/).filter(w => w.length > 0).length;
+    return text.split(/\s+/).filter((w) => w.length > 0).length;
   }
 
   private countSyllables(text: string): number {
@@ -305,12 +399,12 @@ export class ClarityAnalyzer {
   }
 
   private getSentences(text: string): string[] {
-    return text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+    return text.split(/[.!?]+/).filter((s) => s.trim().length > 0);
   }
 
   private hasNoNearbyNoun(words: string[]): boolean {
     const nounsIndicators = ['the', 'a', 'an', 'this', 'that'];
-    return !words.some(w => nounsIndicators.includes(w.toLowerCase()));
+    return !words.some((w) => nounsIndicators.includes(w.toLowerCase()));
   }
 
   // Normalization functions

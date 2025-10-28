@@ -22,6 +22,7 @@ All Phase 3 features are exposed as Model Context Protocol (MCP) tools for use i
 Extract a reusable template from an existing mission directory.
 
 **Input Schema:**
+
 ```json
 {
   "type": "object",
@@ -52,6 +53,7 @@ Extract a reusable template from an existing mission directory.
 ```
 
 **Response:**
+
 ```typescript
 {
   success: boolean;
@@ -78,6 +80,7 @@ Extract a reusable template from an existing mission directory.
 Import and validate a template file with full 6-layer security validation.
 
 **Input Schema:**
+
 ```json
 {
   "type": "object",
@@ -104,6 +107,7 @@ Import and validate a template file with full 6-layer security validation.
 ```
 
 **Response:**
+
 ```typescript
 {
   success: boolean;
@@ -131,6 +135,7 @@ Import and validate a template file with full 6-layer security validation.
 Export a template with optional cryptographic signature.
 
 **Input Schema:**
+
 ```json
 {
   "type": "object",
@@ -167,6 +172,7 @@ Export a template with optional cryptographic signature.
 ```
 
 **Response:**
+
 ```typescript
 {
   success: boolean;
@@ -184,6 +190,7 @@ Export a template with optional cryptographic signature.
 Combine multiple domain packs with dependency resolution.
 
 **Input Schema:**
+
 ```json
 {
   "type": "object",
@@ -222,6 +229,7 @@ Combine multiple domain packs with dependency resolution.
 ```
 
 **Response:**
+
 ```typescript
 {
   success: boolean;
@@ -244,6 +252,7 @@ Combine multiple domain packs with dependency resolution.
 Check if two template versions are compatible.
 
 **Input Schema:**
+
 ```json
 {
   "type": "object",
@@ -266,6 +275,7 @@ Check if two template versions are compatible.
 ```
 
 **Response:**
+
 ```typescript
 {
   success: boolean;
@@ -287,6 +297,7 @@ Check if two template versions are compatible.
 Find migration path between two template versions.
 
 **Input Schema:**
+
 ```json
 {
   "type": "object",
@@ -309,6 +320,7 @@ Find migration path between two template versions.
 ```
 
 **Response:**
+
 ```typescript
 {
   success: boolean;
@@ -338,6 +350,7 @@ Find migration path between two template versions.
 Register a new template version in the registry.
 
 **Input Schema:**
+
 ```json
 {
   "type": "object",
@@ -368,6 +381,7 @@ Register a new template version in the registry.
 ```
 
 **Response:**
+
 ```typescript
 {
   success: boolean;
@@ -387,6 +401,7 @@ Register a new template version in the registry.
 Get the latest version of a template.
 
 **Input Schema:**
+
 ```json
 {
   "type": "object",
@@ -405,6 +420,7 @@ Get the latest version of a template.
 ```
 
 **Response:**
+
 ```typescript
 {
   success: boolean;
@@ -426,6 +442,7 @@ Get the latest version of a template.
 Compare two semantic versions.
 
 **Input Schema:**
+
 ```json
 {
   "type": "object",
@@ -444,6 +461,7 @@ Compare two semantic versions.
 ```
 
 **Response:**
+
 ```typescript
 {
   success: boolean;
@@ -480,12 +498,12 @@ class TemplateExtractor {
 
 ```typescript
 interface ExtractionConfig {
-  sourceMissionPath: string;      // Path to mission directory
-  author: string;                  // Template author
-  templateName?: string;           // Optional custom name
-  description?: string;            // Template description
-  confidenceThreshold?: number;    // Min confidence (0.0-1.0, default: 0.6)
-  excludePatterns?: string[];      // Additional exclude patterns
+  sourceMissionPath: string; // Path to mission directory
+  author: string; // Template author
+  templateName?: string; // Optional custom name
+  description?: string; // Template description
+  confidenceThreshold?: number; // Min confidence (0.0-1.0, default: 0.6)
+  excludePatterns?: string[]; // Additional exclude patterns
 }
 ```
 
@@ -521,10 +539,10 @@ interface Stage2Result {
 interface Candidate {
   value: string | number | boolean;
   type: 'string' | 'number' | 'boolean' | 'path-segment';
-  context: string;          // Where the value was found
-  confidence: number;       // 0.0 - 1.0
-  frequency: number;        // How many times it appears
-  locations: string[];      // File paths where found
+  context: string; // Where the value was found
+  confidence: number; // 0.0 - 1.0
+  frequency: number; // How many times it appears
+  locations: string[]; // File paths where found
 }
 ```
 
@@ -539,16 +557,10 @@ class TemplateImporter {
   constructor(baseDir: string);
 
   // Import from file
-  async import(
-    filePath: string,
-    options?: ImportOptions
-  ): Promise<ImportResult>;
+  async import(filePath: string, options?: ImportOptions): Promise<ImportResult>;
 
   // Import from string
-  async importFromString(
-    yamlContent: string,
-    options?: ImportOptions
-  ): Promise<ImportResult>;
+  async importFromString(yamlContent: string, options?: ImportOptions): Promise<ImportResult>;
 }
 ```
 
@@ -557,10 +569,7 @@ class TemplateImporter {
 ```typescript
 class TemplateExporter {
   // Export template
-  async export(
-    template: MissionTemplate,
-    options: ExportOptions
-  ): Promise<ExportResult>;
+  async export(template: MissionTemplate, options: ExportOptions): Promise<ExportResult>;
 }
 ```
 
@@ -568,9 +577,9 @@ class TemplateExporter {
 
 ```typescript
 interface ImportOptions {
-  skipSignatureVerification?: boolean;  // Default: false
-  allowUntrusted?: boolean;             // Default: false
-  maxFileSize?: number;                 // Max file size in bytes
+  skipSignatureVerification?: boolean; // Default: false
+  allowUntrusted?: boolean; // Default: false
+  maxFileSize?: number; // Max file size in bytes
 }
 ```
 
@@ -578,11 +587,11 @@ interface ImportOptions {
 
 ```typescript
 interface ExportOptions {
-  outputPath: string;               // Output directory
-  format?: 'yaml' | 'json';        // Default: 'yaml'
-  includeSignature?: boolean;       // Default: false
-  keyId?: string;                   // Required if includeSignature
-  algorithm?: 'RS256' | 'ES256';   // Default: 'RS256'
+  outputPath: string; // Output directory
+  format?: 'yaml' | 'json'; // Default: 'yaml'
+  includeSignature?: boolean; // Default: false
+  keyId?: string; // Required if includeSignature
+  algorithm?: 'RS256' | 'ES256'; // Default: 'RS256'
 }
 ```
 
@@ -597,10 +606,7 @@ class SecurityValidator {
   static clearTrustedKeys(): void;
 
   // Validate template
-  async validate(
-    template: any,
-    options?: ValidationOptions
-  ): Promise<ValidationReport>;
+  async validate(template: any, options?: ValidationOptions): Promise<ValidationReport>;
 }
 
 interface TrustedKey {
@@ -665,10 +671,7 @@ class PackCombiner {
 ```typescript
 class DependencyResolver {
   // Resolve dependencies
-  resolve(
-    packs: DomainPack[],
-    availablePacks: DomainPack[]
-  ): DependencyResolutionResult;
+  resolve(packs: DomainPack[], availablePacks: DomainPack[]): DependencyResolutionResult;
 
   // Build dependency graph
   buildGraph(packs: DomainPack[]): DependencyGraph;
@@ -685,11 +688,11 @@ class DependencyResolver {
 
 ```typescript
 interface CombinationOptions {
-  strategy?: CombinationStrategy;      // Default: 'deep-merge'
-  resolveDependencies?: boolean;       // Default: true
-  validate?: boolean;                  // Default: true
-  mergePaths?: string[];               // For selective strategy
-  overridePaths?: string[];            // For selective strategy
+  strategy?: CombinationStrategy; // Default: 'deep-merge'
+  resolveDependencies?: boolean; // Default: true
+  validate?: boolean; // Default: true
+  mergePaths?: string[]; // For selective strategy
+  overridePaths?: string[]; // For selective strategy
 }
 
 type CombinationStrategy = 'deep-merge' | 'override' | 'selective';
@@ -791,7 +794,7 @@ interface SemanticVersion {
 enum VersionComparison {
   LESS_THAN = -1,
   EQUAL = 0,
-  GREATER_THAN = 1
+  GREATER_THAN = 1,
 }
 ```
 
@@ -799,7 +802,7 @@ enum VersionComparison {
 
 ```typescript
 type VersionRange =
-  | { expression: string }           // '^1.0.0', '~1.2.0', '>=1.5.0'
+  | { expression: string } // '^1.0.0', '~1.2.0', '>=1.5.0'
   | { min: SemanticVersion; max?: SemanticVersion };
 ```
 
@@ -814,7 +817,7 @@ interface Migration {
   description: string;
   transform: (data: any) => any | Promise<any>;
   reversible: boolean;
-  estimatedDuration?: number;        // In seconds
+  estimatedDuration?: number; // In seconds
   validate?: (data: any) => boolean;
 }
 
@@ -935,7 +938,10 @@ All APIs follow consistent error handling patterns:
 
 ```typescript
 class ExtractionError extends Error {
-  constructor(message: string, public stage?: 1 | 2) {
+  constructor(
+    message: string,
+    public stage?: 1 | 2
+  ) {
     super(message);
   }
 }
@@ -981,15 +987,15 @@ interface ErrorResponse {
 
 ## Performance Benchmarks
 
-| Operation | Target | Actual (Typical) |
-|-----------|--------|------------------|
-| Template Extraction (50 files) | < 15s | ~8s |
-| Template Export | < 500ms | ~200ms |
-| Template Import (6-layer validation) | < 1s | ~600ms |
-| Pack Combination (3 packs) | < 500ms | ~250ms |
-| Version Comparison | < 10ms | ~2ms |
-| Migration Path Search | < 100ms | ~40ms |
-| Migration Execution | < 2s | ~1s |
+| Operation                            | Target  | Actual (Typical) |
+| ------------------------------------ | ------- | ---------------- |
+| Template Extraction (50 files)       | < 15s   | ~8s              |
+| Template Export                      | < 500ms | ~200ms           |
+| Template Import (6-layer validation) | < 1s    | ~600ms           |
+| Pack Combination (3 packs)           | < 500ms | ~250ms           |
+| Version Comparison                   | < 10ms  | ~2ms             |
+| Migration Path Search                | < 100ms | ~40ms            |
+| Migration Execution                  | < 2s    | ~1s              |
 
 ---
 
@@ -1009,6 +1015,7 @@ All imported templates pass through:
 ### Best Practices
 
 ✅ **Always:**
+
 - Verify signatures for external templates
 - Use trusted keys only
 - Validate version compatibility before migrations
@@ -1016,6 +1023,7 @@ All imported templates pass through:
 - Set appropriate resource limits
 
 ❌ **Never:**
+
 - Skip signature verification in production
 - Register untrusted keys
 - Execute migrations without validation
@@ -1030,6 +1038,7 @@ See the [Extension System Guide](./Extension_System_Guide.md) for comprehensive 
 ## Changelog
 
 ### Phase 3 (v2.0.0)
+
 - ✅ Template Extraction (B3.1)
 - ✅ Import/Export System with 6-layer security (B3.2)
 - ✅ Pack Combination with dependency resolution (B3.3)
@@ -1041,6 +1050,7 @@ See the [Extension System Guide](./Extension_System_Guide.md) for comprehensive 
 ## Support
 
 For API-related questions:
+
 - Review this documentation
 - Check the [User Guide](./Extension_System_Guide.md)
 - Refer to the [Cookbook](./Extension_Patterns_Cookbook.md)

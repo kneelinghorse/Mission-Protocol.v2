@@ -46,7 +46,7 @@ describe('MissionProtocolError', () => {
       ...baseOptions,
       cause: circular,
     }).toJSON();
-    expect((circularCause.cause as string)).toMatch(/Unserializable cause/);
+    expect(circularCause.cause as string).toMatch(/Unserializable cause/);
   });
 
   test('toPublicObject hides stack and cause', () => {

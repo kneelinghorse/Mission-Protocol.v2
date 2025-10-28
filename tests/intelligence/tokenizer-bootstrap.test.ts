@@ -11,6 +11,7 @@ jest.mock(
 jest.mock(
   '@xenova/transformers',
   () => ({
+    __esModule: true,
     AutoTokenizer: {
       from_pretrained: jest.fn(),
     },
@@ -46,7 +47,9 @@ describe('tokenizer-bootstrap', () => {
     gptTokenizerMock.encode.mockImplementation((text: string) =>
       Array(Math.max(1, Math.ceil(text.length / 4))).fill(0)
     );
-    transformersMock.AutoTokenizer.from_pretrained.mockImplementation(async () => claudeTokenizerFn);
+    transformersMock.AutoTokenizer.from_pretrained.mockImplementation(
+      async () => claudeTokenizerFn
+    );
 
     bootstrap = await import('../../src/intelligence/tokenizer-bootstrap');
     bootstrap.__test__.reset();

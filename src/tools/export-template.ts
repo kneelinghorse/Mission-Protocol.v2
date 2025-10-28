@@ -56,9 +56,7 @@ export interface ExportTemplateResult {
 /**
  * Main entry point for the export_template MCP tool
  */
-export async function exportTemplate(
-  params: ExportTemplateParams
-): Promise<ExportTemplateResult> {
+export async function exportTemplate(params: ExportTemplateParams): Promise<ExportTemplateResult> {
   let contextData = {
     outputPath: params.outputPath,
     format: params.format ?? 'yaml',
@@ -125,10 +123,12 @@ export async function exportTemplate(
       const dataMessages = Array.isArray(maybeMessages)
         ? maybeMessages.filter((message): message is string => typeof message === 'string')
         : undefined;
-      const detailMessages = dataMessages && dataMessages.length > 0
-        ? dataMessages
-        : error.issues?.map((issue) => issue.message).filter(Boolean);
-      const detail = detailMessages && detailMessages.length > 0 ? detailMessages[0] : error.message;
+      const detailMessages =
+        dataMessages && dataMessages.length > 0
+          ? dataMessages
+          : error.issues?.map((issue) => issue.message).filter(Boolean);
+      const detail =
+        detailMessages && detailMessages.length > 0 ? detailMessages[0] : error.message;
       return {
         success: false,
         message: `Export failed: ${detail}`,
@@ -177,7 +177,9 @@ const ExportTemplateParamsSchema = z
 
 type ValidatedExportTemplateParams = z.infer<typeof ExportTemplateParamsSchema>;
 
-async function validateParams(params: ExportTemplateParams): Promise<ValidatedExportTemplateParams> {
+async function validateParams(
+  params: ExportTemplateParams
+): Promise<ValidatedExportTemplateParams> {
   return validateAndSanitize(params, ExportTemplateParamsSchema);
 }
 

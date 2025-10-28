@@ -8,9 +8,8 @@ import type {
 
 const ensureManifest = (manifest: DomainPackManifest): DomainPackManifest => manifest;
 const ensurePack = (pack: DomainPack): DomainPack => pack;
-const ensureValidation = (
-  validation: DomainPackValidationResult
-): DomainPackValidationResult => validation;
+const ensureValidation = (validation: DomainPackValidationResult): DomainPackValidationResult =>
+  validation;
 const ensureLoaderOptions = (options: DomainPackLoaderOptions): DomainPackLoaderOptions => options;
 
 describe('domains/types', () => {

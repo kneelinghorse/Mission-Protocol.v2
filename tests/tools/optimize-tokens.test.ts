@@ -289,7 +289,8 @@ other: Content to compress`;
 
     test('should support all target models', () => {
       const { updateTokenOptimizationToolDefinition } = require('../../src/tools/optimize-tokens');
-      const targetModelEnum = updateTokenOptimizationToolDefinition.inputSchema.properties.targetModel.enum;
+      const targetModelEnum =
+        updateTokenOptimizationToolDefinition.inputSchema.properties.targetModel.enum;
 
       expect(targetModelEnum).toContain('claude');
       expect(targetModelEnum).toContain('gpt');

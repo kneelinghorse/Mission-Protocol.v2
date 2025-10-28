@@ -414,6 +414,7 @@ exports[`Tool definitions contract registered tool schema stays stable 1`] = `
   },
   {
     "description": "Assess mission quality using three-dimensional framework (Clarity, Completeness, AI-Readiness)",
+    "handler": "[Function scoreQuality]",
     "inputSchema": {
       "properties": {
         "missionFile": {
@@ -679,6 +680,7 @@ exports[`Tool definitions contract registered tool schema stays stable 1`] = `
   },
   {
     "description": "[DEPRECATED] Use get_mission_quality_score instead. Runs the same quality scoring pipeline.",
+    "handler": "[Function scoreQuality]",
     "inputSchema": {
       "properties": {
         "missionFile": {

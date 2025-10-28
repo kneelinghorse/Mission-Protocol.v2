@@ -140,9 +140,7 @@ describe('Mission Protocol entry lifecycle', () => {
     moduleData.indexModule.__test__.setContextBuilder(async () => {
       throw failure;
     });
-    const handleSpy = jest
-      .spyOn(moduleData.ErrorHandler, 'handle')
-      .mockReturnValue(wrapped);
+    const handleSpy = jest.spyOn(moduleData.ErrorHandler, 'handle').mockReturnValue(wrapped);
 
     try {
       await expect(moduleData.indexModule.__test__.initializeServer()).rejects.toBe(wrapped);
@@ -181,9 +179,7 @@ describe('Mission Protocol entry lifecycle', () => {
       message: 'wrapped',
       context: { module: 'server' },
     });
-    const handleSpy = jest
-      .spyOn(ErrorHandler, 'handle')
-      .mockReturnValue(missionError);
+    const handleSpy = jest.spyOn(ErrorHandler, 'handle').mockReturnValue(missionError);
     const publicSpy = jest.spyOn(ErrorHandler, 'toPublicError').mockReturnValue({
       code: 'INTERNAL_UNEXPECTED',
       category: 'internal',
@@ -203,7 +199,9 @@ describe('Mission Protocol entry lifecycle', () => {
       expect(Array.isArray(listResponse.tools)).toBe(true);
       expect(listResponse.tools.length).toBeGreaterThan(0);
 
-      const callHandler = mockServer.setRequestHandler.mock.calls[1][1] as (request: any) => Promise<unknown>;
+      const callHandler = mockServer.setRequestHandler.mock.calls[1][1] as (
+        request: any
+      ) => Promise<unknown>;
       await expect(
         callHandler({
           params: {
@@ -268,7 +266,9 @@ describe('Mission Protocol entry lifecycle', () => {
 
     try {
       indexModule.__test__.registerToolHandlers(context);
-      const callHandler = mockServer.setRequestHandler.mock.calls[1][1] as (request: any) => Promise<unknown>;
+      const callHandler = mockServer.setRequestHandler.mock.calls[1][1] as (
+        request: any
+      ) => Promise<unknown>;
 
       await expect(
         callHandler({
@@ -300,7 +300,9 @@ describe('Mission Protocol entry lifecycle', () => {
 
     try {
       indexModule.__test__.registerToolHandlers(null as unknown as any);
-      const callHandler = mockServer.setRequestHandler.mock.calls[1][1] as (request: any) => Promise<unknown>;
+      const callHandler = mockServer.setRequestHandler.mock.calls[1][1] as (
+        request: any
+      ) => Promise<unknown>;
 
       await expect(
         callHandler({ params: { name: 'get_available_domains', arguments: {} } })
@@ -388,11 +390,9 @@ describe('Mission Protocol entry lifecycle', () => {
     const moduleData = await loadIndexModule();
     const { mockServer, newSigint } = moduleData;
 
-    const exitSpy = jest
-      .spyOn(process, 'exit')
-      .mockImplementation(((code?: number) => {
-        throw new Error(`exit:${code}`);
-      }) as never);
+    const exitSpy = jest.spyOn(process, 'exit').mockImplementation(((code?: number) => {
+      throw new Error(`exit:${code}`);
+    }) as never);
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     try {
@@ -414,11 +414,9 @@ describe('Mission Protocol entry lifecycle', () => {
     const moduleData = await loadIndexModule();
     const { mockServer, newSigterm } = moduleData;
 
-    const exitSpy = jest
-      .spyOn(process, 'exit')
-      .mockImplementation(((code?: number) => {
-        throw new Error(`exit:${code}`);
-      }) as never);
+    const exitSpy = jest.spyOn(process, 'exit').mockImplementation(((code?: number) => {
+      throw new Error(`exit:${code}`);
+    }) as never);
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     try {

@@ -35,7 +35,7 @@ describe('ListDomainsToolImpl', () => {
   afterEach(async () => {
     // Clean up test files
     const files = await fs.readdir(testDataDir);
-    await Promise.all(files.map(file => fs.unlink(path.join(testDataDir, file))));
+    await Promise.all(files.map((file) => fs.unlink(path.join(testDataDir, file))));
   });
 
   describe('execute', () => {
@@ -340,7 +340,9 @@ describe('listDomainsToolDefinition', () => {
 
     expect(getAvailableDomainsToolDefinition).toBeDefined();
     expect(getAvailableDomainsToolDefinition.name).toBe('get_available_domains');
-    expect(getAvailableDomainsToolDefinition.description).toContain('domain-specific mission types');
+    expect(getAvailableDomainsToolDefinition.description).toContain(
+      'domain-specific mission types'
+    );
     expect(getAvailableDomainsToolDefinition.inputSchema).toBeDefined();
     expect(getAvailableDomainsToolDefinition.inputSchema.type).toBe('object');
     expect(getAvailableDomainsToolDefinition.inputSchema.properties).toEqual({});

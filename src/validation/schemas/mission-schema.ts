@@ -23,4 +23,3 @@ export const MissionSchema = z.object({
 
 export type MissionInput = z.input<typeof MissionSchema>;
 export type Mission = z.infer<typeof MissionSchema>;
-

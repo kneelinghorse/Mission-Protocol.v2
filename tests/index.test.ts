@@ -54,11 +54,7 @@ describe('Mission Protocol entry point', () => {
     });
 
     test('get_available_domains returns structured domain list', async () => {
-      const result = await executeMissionProtocolTool(
-        'get_available_domains',
-        {},
-        context
-      );
+      const result = await executeMissionProtocolTool('get_available_domains', {}, context);
 
       expect(result.structuredContent?.success).toBe(true);
       expect(Array.isArray((result.structuredContent as any).domains)).toBe(true);
@@ -69,11 +65,7 @@ describe('Mission Protocol entry point', () => {
     test('legacy list_available_domains alias resolves with warning', async () => {
       const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
       try {
-        const result = await executeMissionProtocolTool(
-          'list_available_domains',
-          {},
-          context
-        );
+        const result = await executeMissionProtocolTool('list_available_domains', {}, context);
 
         expect(result.structuredContent?.success).toBe(true);
         expect(warnSpy).toHaveBeenCalledWith(
@@ -85,16 +77,13 @@ describe('Mission Protocol entry point', () => {
     });
 
     test('throws MCP error for unknown tool names', async () => {
-      await expect(
-        executeMissionProtocolTool('unknown_tool', {}, context)
-      ).rejects.toMatchObject({
+      await expect(executeMissionProtocolTool('unknown_tool', {}, context)).rejects.toMatchObject({
         code: ErrorCode.MethodNotFound,
       });
-      await expect(
-        executeMissionProtocolTool('unknown_tool', {}, context)
-      ).rejects.toBeInstanceOf(McpError);
+      await expect(executeMissionProtocolTool('unknown_tool', {}, context)).rejects.toBeInstanceOf(
+        McpError
+      );
     });
-
   });
 
   describe('sanitization helpers', () => {
@@ -130,7 +119,9 @@ describe('Mission Protocol entry point', () => {
       };
 
       const sanitized = sanitizeArgs(args)!;
-      expect(Object.keys(sanitized)).toEqual(expect.arrayContaining(['payload', 'hugeText', 'nested']));
+      expect(Object.keys(sanitized)).toEqual(
+        expect.arrayContaining(['payload', 'hugeText', 'nested'])
+      );
       expect((sanitized.payload as unknown[]).length).toBe(5);
       expect((sanitized.hugeText as string).endsWith('…')).toBe(true);
       expect(sanitized.nested).toBe('[object]');
@@ -142,7 +133,9 @@ describe('Mission Protocol entry point', () => {
     });
 
     test('sanitizeArgs limits entries to first ten keys', () => {
-      const args = Object.fromEntries(Array.from({ length: 12 }, (_, index) => [`key${index}`, index]));
+      const args = Object.fromEntries(
+        Array.from({ length: 12 }, (_, index) => [`key${index}`, index])
+      );
       const sanitized = sanitizeArgs(args)!;
       expect(Object.keys(sanitized)).toHaveLength(10);
       expect(sanitized.key0).toBe(0);
@@ -151,27 +144,23 @@ describe('Mission Protocol entry point', () => {
   });
 
   test('create_mission_splits responses include heuristic warning for Gemini token usage', async () => {
-    const result = await executeMissionProtocolTool(
-      'create_mission_splits',
-      {},
-      {
-        splitMissionTool: {
-          execute: jest.fn().mockResolvedValue({
-            shouldSplit: true,
-            summary: 'summary',
-            complexity: { score: 7.2, reasons: ['complex'] },
-            tokenUsage: {
-              model: 'gemini',
-              totalTokens: 1500,
-              estimatedCost: 1.0,
-              contextWindow: 1000000,
-              utilization: 0.0015,
-            },
-          }),
-          formatForLLM: jest.fn().mockReturnValue('formatted'),
-        },
-      } as any
-    );
+    const result = await executeMissionProtocolTool('create_mission_splits', {}, {
+      splitMissionTool: {
+        execute: jest.fn().mockResolvedValue({
+          shouldSplit: true,
+          summary: 'summary',
+          complexity: { score: 7.2, reasons: ['complex'] },
+          tokenUsage: {
+            model: 'gemini',
+            totalTokens: 1500,
+            estimatedCost: 1.0,
+            contextWindow: 1000000,
+            utilization: 0.0015,
+          },
+        }),
+        formatForLLM: jest.fn().mockReturnValue('formatted'),
+      },
+    } as any);
 
     const warning = (result.structuredContent as any).tokenUsage?.heuristicWarning;
     expect(warning).toContain('Gemini token counts');

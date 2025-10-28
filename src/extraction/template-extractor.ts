@@ -10,7 +10,6 @@
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import * as yaml from 'yaml';
-import * as crypto from 'crypto';
 import { jsonContent } from '../validation/common';
 import {
   Candidate,
@@ -22,7 +21,7 @@ import {
   ExtractionConfig,
   Stage1Result,
   Stage2Result,
-  ExtractionResult
+  ExtractionResult,
 } from './types';
 import { pathExists, runWithConcurrency } from '../utils/fs';
 
@@ -38,7 +37,7 @@ export class TemplateExtractor {
       confidenceThreshold: 0.6,
       enableASTAnalysis: true,
       excludePatterns: ['node_modules/**', '.git/**', 'dist/**', 'build/**', '*.log'],
-      ...config
+      ...config,
     };
   }
 
@@ -68,14 +67,15 @@ export class TemplateExtractor {
         template: stage2Result.template,
         stage1: stage1Result,
         stage2: stage2Result,
-        totalTime
+        totalTime,
       };
-    } catch (error) {
-      errors.push(error instanceof Error ? error.message : String(error));
+    } catch (_error) {
+      const message = _error instanceof Error ? _error.message : String(_error);
+      errors.push(message);
       return {
         success: false,
         errors,
-        totalTime: Math.round(performance.now() - totalStartTime)
+        totalTime: Math.round(performance.now() - totalStartTime),
       };
     }
   }
@@ -99,7 +99,7 @@ export class TemplateExtractor {
     const literalFrequency = new Map<string, number>();
     const literalLocations = new Map<string, Candidate[]>();
 
-    const fileAnalysisTasks = files.map(filePath => async () => {
+    const fileAnalysisTasks = files.map((filePath) => async () => {
       if (this.shouldExcludeFile(filePath)) {
         return;
       }
@@ -109,9 +109,21 @@ export class TemplateExtractor {
       const relativePath = path.relative(missionPath, filePath);
 
       if (this.isConfigFile(filePath)) {
-        await this.analyzeConfigFile(filePath, relativePath, content, literalFrequency, literalLocations);
+        await this.analyzeConfigFile(
+          filePath,
+          relativePath,
+          content,
+          literalFrequency,
+          literalLocations
+        );
       } else if (this.isCodeFile(filePath)) {
-        await this.analyzeCodeFile(filePath, relativePath, content, literalFrequency, literalLocations);
+        await this.analyzeCodeFile(
+          filePath,
+          relativePath,
+          content,
+          literalFrequency,
+          literalLocations
+        );
       }
 
       this.analyzeFilePath(filePath, relativePath, literalFrequency, literalLocations);
@@ -134,11 +146,13 @@ export class TemplateExtractor {
           candidates[paramName] = [];
         }
 
-        candidates[paramName].push(...locations.map(loc => ({
-          ...loc,
-          frequency,
-          confidence
-        })));
+        candidates[paramName].push(
+          ...locations.map((loc) => ({
+            ...loc,
+            frequency,
+            confidence,
+          }))
+        );
       }
     }
 
@@ -154,11 +168,13 @@ export class TemplateExtractor {
           candidates[paramName] = [];
         }
 
-        candidates[paramName].push(...locations.map(loc => ({
-          ...loc,
-          frequency,
-          confidence
-        })));
+        candidates[paramName].push(
+          ...locations.map((loc) => ({
+            ...loc,
+            frequency,
+            confidence,
+          }))
+        );
       }
     }
 
@@ -168,7 +184,7 @@ export class TemplateExtractor {
     return {
       candidates,
       executionTime,
-      filesAnalyzed
+      filesAnalyzed,
     };
   }
 
@@ -199,7 +215,7 @@ export class TemplateExtractor {
     const contentReplacements = this.buildContentReplacementsByFile(candidates);
 
     const processedFiles = await runWithConcurrency(
-      files.map(filePath => async () => {
+      files.map((filePath) => async () => {
         if (this.shouldExcludeFile(filePath)) {
           return null;
         }
@@ -225,7 +241,7 @@ export class TemplateExtractor {
 
         return {
           path: templatePath,
-          content
+          content,
         } as TemplateFile;
       }),
       Math.min(8, files.length || 1)
@@ -245,7 +261,7 @@ export class TemplateExtractor {
 
     const template: ExtractedTemplate = {
       fileStructure,
-      metadata
+      metadata,
     };
 
     const rawDuration = Math.round(performance.now() - this.stage2StartTime);
@@ -254,7 +270,7 @@ export class TemplateExtractor {
     return {
       template,
       executionTime,
-      parametersGenerated
+      parametersGenerated,
     };
   }
 
@@ -281,7 +297,7 @@ export class TemplateExtractor {
       creationDate: now,
       lastUpdatedDate: now,
       usageCount: 0,
-      generatedSuccessRate: 0
+      generatedSuccessRate: 0,
     };
   }
 
@@ -305,7 +321,7 @@ export class TemplateExtractor {
 
   private shouldExcludeFile(filePath: string): boolean {
     const patterns = this.config.excludePatterns || [];
-    return patterns.some(pattern => {
+    return patterns.some((pattern) => {
       const regex = new RegExp(pattern.replace('**', '.*').replace('*', '[^/]*'));
       return regex.test(filePath);
     });
@@ -313,12 +329,12 @@ export class TemplateExtractor {
 
   private isConfigFile(filePath: string): boolean {
     const configExtensions = ['.yaml', '.yml', '.json', '.toml', '.properties', '.env'];
-    return configExtensions.some(ext => filePath.endsWith(ext));
+    return configExtensions.some((ext) => filePath.endsWith(ext));
   }
 
   private isCodeFile(filePath: string): boolean {
     const codeExtensions = ['.ts', '.js', '.py', '.java', '.go', '.rs', '.rb', '.php'];
-    return codeExtensions.some(ext => filePath.endsWith(ext));
+    return codeExtensions.some((ext) => filePath.endsWith(ext));
   }
 
   private async analyzeConfigFile(
@@ -346,7 +362,7 @@ export class TemplateExtractor {
           literalLocations
         );
       }
-    } catch (error) {
+    } catch (_error) {
       // Skip files that can't be parsed
     }
   }
@@ -359,12 +375,24 @@ export class TemplateExtractor {
     literalLocations: Map<string, Candidate[]>,
     keyPath: string = ''
   ): void {
-    const metadataKeys = ['name', 'version', 'author', 'email', 'description', 'host', 'port', 'title'];
+    const metadataKeys = [
+      'name',
+      'version',
+      'author',
+      'email',
+      'description',
+      'host',
+      'port',
+      'title',
+    ];
 
     for (const [key, value] of Object.entries(obj)) {
       const currentPath = keyPath ? `${keyPath}.${key}` : key;
 
-      if (metadataKeys.includes(key.toLowerCase()) && (typeof value === 'string' || typeof value === 'number')) {
+      if (
+        metadataKeys.includes(key.toLowerCase()) &&
+        (typeof value === 'string' || typeof value === 'number')
+      ) {
         const actualValue = value; // Keep original type
         const valueStr = String(value);
 
@@ -381,7 +409,7 @@ export class TemplateExtractor {
           lineNumber: 0, // Would need line-aware parser for exact line
           frequency: 0,
           confidence: 0,
-          context: currentPath
+          context: currentPath,
         });
       } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
         this.extractConfigValues(
@@ -432,7 +460,7 @@ export class TemplateExtractor {
             lineNumber,
             frequency: 0,
             confidence: 0,
-            context: line.trim()
+            context: line.trim(),
           });
         }
       }
@@ -467,29 +495,33 @@ export class TemplateExtractor {
           lineNumber: 0,
           frequency: 0,
           confidence: 0,
-          context: 'file-path'
+          context: 'file-path',
         });
       }
     }
   }
 
-  private calculateConfidence(frequency: number, locationCount: number, totalFiles: number): number {
+  private calculateConfidence(
+    frequency: number,
+    locationCount: number,
+    totalFiles: number
+  ): number {
     // Low frequency = likely project-specific = high confidence for parameterization
     // High frequency = likely boilerplate = low confidence
 
     // For small projects (few files), be more lenient
     const baseThreshold = Math.max(totalFiles, 5);
 
-    const frequencyScore = Math.max(0, 1 - (frequency / baseThreshold));
+    const frequencyScore = Math.max(0, 1 - frequency / baseThreshold);
     const locationScore = Math.min(1, locationCount / 2); // Multiple locations increase confidence
 
-    return (frequencyScore * 0.6) + (locationScore * 0.4);
+    return frequencyScore * 0.6 + locationScore * 0.4;
   }
 
   private suggestParameterName(literal: string, candidate: Candidate): string {
     // Use context to suggest better parameter names
     if (candidate.type === 'config-value' && candidate.context) {
-      const parts = candidate.context.split('.').filter(p => p.length > 0);
+      const parts = candidate.context.split('.').filter((p) => p.length > 0);
       return parts[parts.length - 1].replace(/[^a-zA-Z0-9_]/g, '_').toLowerCase();
     }
 
@@ -498,10 +530,12 @@ export class TemplateExtractor {
     }
 
     // Generate from literal value
-    return literal
-      .replace(/[^a-zA-Z0-9]+/g, '_')
-      .replace(/^_+|_+$/g, '')
-      .toLowerCase() || 'param';
+    return (
+      literal
+        .replace(/[^a-zA-Z0-9]+/g, '_')
+        .replace(/^_+|_+$/g, '')
+        .toLowerCase() || 'param'
+    );
   }
 
   private generateParameter(paramName: string, candidates: Candidate[]): TemplateParameter {
@@ -522,14 +556,13 @@ export class TemplateExtractor {
       valueCounts.set(val, (valueCounts.get(val) || 0) + 1);
     }
 
-    const defaultValue = Array.from(valueCounts.entries())
-      .sort((a, b) => b[1] - a[1])[0][0];
+    const defaultValue = Array.from(valueCounts.entries()).sort((a, b) => b[1] - a[1])[0][0];
 
     return {
       type,
       description: `Parameter for ${paramName}`,
       default: defaultValue,
-      required: true
+      required: true,
     };
   }
 
@@ -543,7 +576,7 @@ export class TemplateExtractor {
   private generateTemplateName(missionName: string): string {
     return missionName
       .split(/[-_]/)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   }
 
@@ -553,10 +586,11 @@ export class TemplateExtractor {
 
     const files = await this.getAllFiles(sourcePath);
 
-    if (files.some(f => f.endsWith('.py'))) tags.push('python');
-    if (files.some(f => f.endsWith('.ts') || f.endsWith('.js'))) tags.push('typescript', 'javascript');
-    if (files.some(f => f.endsWith('.java'))) tags.push('java');
-    if (files.some(f => f.endsWith('.go'))) tags.push('go');
+    if (files.some((f) => f.endsWith('.py'))) tags.push('python');
+    if (files.some((f) => f.endsWith('.ts') || f.endsWith('.js')))
+      tags.push('typescript', 'javascript');
+    if (files.some((f) => f.endsWith('.java'))) tags.push('java');
+    if (files.some((f) => f.endsWith('.go'))) tags.push('go');
 
     if (baseName.includes('api')) tags.push('api');
     if (baseName.includes('service')) tags.push('service');
@@ -566,12 +600,37 @@ export class TemplateExtractor {
   }
 
   private isCommonKeyword(str: string): boolean {
-    const keywords = ['id', 'name', 'type', 'value', 'data', 'error', 'success', 'true', 'false', 'null', 'undefined'];
+    const keywords = [
+      'id',
+      'name',
+      'type',
+      'value',
+      'data',
+      'error',
+      'success',
+      'true',
+      'false',
+      'null',
+      'undefined',
+    ];
     return keywords.includes(str.toLowerCase());
   }
 
   private isCommonDirectoryName(name: string): boolean {
-    const common = ['src', 'lib', 'test', 'tests', 'bin', 'dist', 'build', 'public', 'static', 'assets', 'docs', 'config'];
+    const common = [
+      'src',
+      'lib',
+      'test',
+      'tests',
+      'bin',
+      'dist',
+      'build',
+      'public',
+      'static',
+      'assets',
+      'docs',
+      'config',
+    ];
     return common.includes(name.toLowerCase());
   }
 
@@ -591,7 +650,7 @@ export class TemplateExtractor {
 
           replacements.push({
             search,
-            replacement: `{{ ${paramName} }}`
+            replacement: `{{ ${paramName} }}`,
           });
         }
       }
@@ -619,7 +678,7 @@ export class TemplateExtractor {
         const entry = replacements.get(candidate.filePath) ?? [];
         entry.push({
           regex: new RegExp(`\\b${this.escapeRegex(value)}\\b`, 'g'),
-          replacement: `{{ ${paramName} }}`
+          replacement: `{{ ${paramName} }}`,
         });
         replacements.set(candidate.filePath, entry);
       }

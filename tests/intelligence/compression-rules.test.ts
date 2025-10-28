@@ -18,11 +18,27 @@ import {
 describe('compression-rules', () => {
   describe('sanitization', () => {
     test('applies regex replacement rules', () => {
-      const input = 'It is important to note that in order to proceed, please provide a detailed explanation of X.';
+      const input =
+        'It is important to note that in order to proceed, please provide a detailed explanation of X.';
       const rules = [
-        { type: 'regex_replace' as const, pattern: /it is important to note that/gi, replacement: 'note:', enabled: true },
-        { type: 'regex_replace' as const, pattern: /in order to/gi, replacement: 'to', enabled: true },
-        { type: 'regex_replace' as const, pattern: /provide a detailed explanation of/gi, replacement: 'explain', enabled: true },
+        {
+          type: 'regex_replace' as const,
+          pattern: /it is important to note that/gi,
+          replacement: 'note:',
+          enabled: true,
+        },
+        {
+          type: 'regex_replace' as const,
+          pattern: /in order to/gi,
+          replacement: 'to',
+          enabled: true,
+        },
+        {
+          type: 'regex_replace' as const,
+          pattern: /provide a detailed explanation of/gi,
+          replacement: 'explain',
+          enabled: true,
+        },
       ];
       const out = applySanitization(input, rules);
       expect(out).toContain('note:');
@@ -33,7 +49,13 @@ describe('compression-rules', () => {
     test('supports string-based pattern definitions', () => {
       const input = 'Reduce   excessive   whitespace.';
       const rules = [
-        { type: 'regex_replace' as const, pattern: '\\s+', replacement: ' ', flags: 'g', enabled: true },
+        {
+          type: 'regex_replace' as const,
+          pattern: '\\s+',
+          replacement: ' ',
+          flags: 'g',
+          enabled: true,
+        },
       ];
       const out = applySanitization(input, rules);
       expect(out).toBe('Reduce excessive whitespace.');
@@ -42,7 +64,12 @@ describe('compression-rules', () => {
     test('skips disabled or patternless rules', () => {
       const input = 'Formatting should stay the same.';
       const rules = [
-        { type: 'regex_replace' as const, pattern: /Formatting/, replacement: 'Changed', enabled: false },
+        {
+          type: 'regex_replace' as const,
+          pattern: /Formatting/,
+          replacement: 'Changed',
+          enabled: false,
+        },
         { type: 'regex_replace' as const, enabled: true } as any,
       ];
       const out = applySanitization(input, rules);
@@ -51,9 +78,7 @@ describe('compression-rules', () => {
 
     test('falls back to empty replacement when pattern matches and replacement omitted', () => {
       const input = 'Remove secret token ABC123.';
-      const rules = [
-        { type: 'regex_replace' as const, pattern: /token\s+\w+/i, enabled: true },
-      ];
+      const rules = [{ type: 'regex_replace' as const, pattern: /token\s+\w+/i, enabled: true }];
       const out = applySanitization(input, rules as any);
       expect(out).toBe('Remove secret .');
     });
@@ -88,7 +113,12 @@ describe('compression-rules', () => {
     test('ignores unrelated rule types during structural refactoring', () => {
       const input = 'Content should remain unchanged.';
       const rules = [
-        { type: 'regex_replace' as const, enabled: true, pattern: /unchanged/gi, replacement: 'modified' },
+        {
+          type: 'regex_replace' as const,
+          enabled: true,
+          pattern: /unchanged/gi,
+          replacement: 'modified',
+        },
       ];
       expect(applyStructuralRefactoring(input, rules as any)).toBe(input);
     });
@@ -104,8 +134,18 @@ describe('compression-rules', () => {
     test('applyLinguisticSimplification runs regex and passive conversions', () => {
       const input = 'The system is able to run and has the ability to stop.';
       const rules = [
-        { type: 'regex_replace' as const, pattern: /is able to/gi, replacement: 'can', enabled: true },
-        { type: 'regex_replace' as const, pattern: /has the ability to/gi, replacement: 'can', enabled: true },
+        {
+          type: 'regex_replace' as const,
+          pattern: /is able to/gi,
+          replacement: 'can',
+          enabled: true,
+        },
+        {
+          type: 'regex_replace' as const,
+          pattern: /has the ability to/gi,
+          replacement: 'can',
+          enabled: true,
+        },
         { type: 'convert_passive_to_active' as const, enabled: true },
       ];
       const out = applyLinguisticSimplification(input, rules);
@@ -116,7 +156,12 @@ describe('compression-rules', () => {
     test('ignores disabled linguistic rules', () => {
       const input = 'This work is able to continue.';
       const rules = [
-        { type: 'regex_replace' as const, pattern: /is able to/gi, replacement: 'can', enabled: false },
+        {
+          type: 'regex_replace' as const,
+          pattern: /is able to/gi,
+          replacement: 'can',
+          enabled: false,
+        },
         { type: 'convert_passive_to_active' as const, enabled: false },
       ];
       expect(applyLinguisticSimplification(input, rules)).toBe(input);
@@ -125,7 +170,13 @@ describe('compression-rules', () => {
     test('builds regex from string definition and applies fallback replacement', () => {
       const input = 'The system will be tested by engineers.';
       const rules = [
-        { type: 'regex_replace' as const, pattern: '(system)', flags: 'i', enabled: true, replacement: 'platform' },
+        {
+          type: 'regex_replace' as const,
+          pattern: '(system)',
+          flags: 'i',
+          enabled: true,
+          replacement: 'platform',
+        },
         { type: 'convert_passive_to_active' as const, enabled: true },
       ];
       const out = applyLinguisticSimplification(input, rules);
@@ -179,7 +230,7 @@ custom: <preserve>INLINE</preserve>
       const ruleset = getDefaultRuleset('conservative');
       expect(ruleset.structuralRules).toHaveLength(0);
       expect(ruleset.linguisticRules).toHaveLength(0);
-      expect(ruleset.sanitizationRules.every(r => r.type === 'regex_replace')).toBe(true);
+      expect(ruleset.sanitizationRules.every((r) => r.type === 'regex_replace')).toBe(true);
     });
 
     test('aggressive level retains linguistic rules and preserve patterns', () => {

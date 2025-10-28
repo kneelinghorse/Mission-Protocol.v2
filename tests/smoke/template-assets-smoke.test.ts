@@ -30,7 +30,9 @@ describe('Template Assets Smoke Test', () => {
     const genericTemplatePath = path.join(templatesDir, 'generic_mission.yaml');
 
     if (!(await pathExists(registryPath))) {
-      throw new Error(`Registry not found at ${registryPath}. Restore template assets before running smoke tests.`);
+      throw new Error(
+        `Registry not found at ${registryPath}. Restore template assets before running smoke tests.`
+      );
     }
 
     if (!(await pathExists(genericTemplatePath))) {
@@ -42,7 +44,12 @@ describe('Template Assets Smoke Test', () => {
     loader = new SecureYAMLLoader({ baseDir: templatesDir });
     registry = new RegistryParser(loader);
     packLoader = new DomainPackLoader(loader, registry);
-    createMissionTool = new CreateMissionToolImpl(packLoader, new MissionMerger(), registry, loader);
+    createMissionTool = new CreateMissionToolImpl(
+      packLoader,
+      new MissionMerger(),
+      registry,
+      loader
+    );
   });
 
   it('loads the canonical software domain pack', async () => {

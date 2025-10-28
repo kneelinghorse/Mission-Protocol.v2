@@ -3,7 +3,11 @@
  */
 
 import { describe, test, expect } from '@jest/globals';
-import { ModelTranspiler, isAlreadyFormatted, getModelConfig } from '../../src/intelligence/model-transpilers';
+import {
+  ModelTranspiler,
+  isAlreadyFormatted,
+  getModelConfig,
+} from '../../src/intelligence/model-transpilers';
 
 describe('ModelTranspiler', () => {
   let transpiler: ModelTranspiler;

@@ -101,7 +101,11 @@ export interface ExportOptions {
  * Error types for import/export operations
  */
 export class ImportExportError extends Error {
-  constructor(message: string, public layer?: string, public details?: Record<string, unknown>) {
+  constructor(
+    message: string,
+    public layer?: string,
+    public details?: Record<string, unknown>
+  ) {
     super(message);
     this.name = 'ImportExportError';
   }

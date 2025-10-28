@@ -21,7 +21,12 @@ export async function pathExists(targetPath: PathLike): Promise<boolean> {
     const code = typeof err.code === 'string' ? err.code.toUpperCase() : undefined;
     const message = (err.message || '').toUpperCase();
 
-    if (code === 'ENOENT' || code === 'ENOTDIR' || message.includes('ENOENT') || message.includes('ENOTDIR')) {
+    if (
+      code === 'ENOENT' ||
+      code === 'ENOTDIR' ||
+      message.includes('ENOENT') ||
+      message.includes('ENOTDIR')
+    ) {
       return false;
     }
     throw err;
@@ -78,7 +83,10 @@ export async function removeFile(targetPath: PathLike): Promise<void> {
   }
 }
 
-export async function removeDir(targetPath: PathLike, options: RmOptions = { recursive: true, force: true }): Promise<void> {
+export async function removeDir(
+  targetPath: PathLike,
+  options: RmOptions = { recursive: true, force: true }
+): Promise<void> {
   await fs.rm(targetPath, options);
 }
 
@@ -98,7 +106,10 @@ export async function ensureTempDir(prefix: string): Promise<string> {
 
 export type ConcurrencyTask<T> = () => Promise<T>;
 
-export async function runWithConcurrency<T>(tasks: readonly ConcurrencyTask<T>[], limit = 8): Promise<T[]> {
+export async function runWithConcurrency<T>(
+  tasks: readonly ConcurrencyTask<T>[],
+  limit = 8
+): Promise<T[]> {
   if (limit <= 0) {
     throw new Error('Concurrency limit must be greater than zero');
   }

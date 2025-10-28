@@ -15,14 +15,22 @@ describe('Phase 1 Integration', () => {
       const tmp = await ensureTempDir('p1-fixtures-');
       baseDir = path.join(tmp, 'templates');
       await ensureDir(path.join(baseDir, 'packs', 'foundation'));
-      await fs.writeFile(path.join(baseDir, 'registry.yaml'),
-        `domains:\n  - name: foundation\n    description: Core baseline\n    version: 1.0.0\n    author: core-team\n    path: packs/foundation\n    schema_version: 1.0.0\n`);
-      await fs.writeFile(path.join(baseDir, 'packs', 'foundation', 'pack.yaml'),
-        `name: foundation\nversion: 1.0.0\ndisplayName: Foundation\ndescription: Core\nauthor: core-team\nschema: schema.json\n`);
-      await fs.writeFile(path.join(baseDir, 'packs', 'foundation', 'schema.json'),
-        `{"$schema":"http://json-schema.org/draft-07/schema#","type":"object"}`);
-      await fs.writeFile(path.join(baseDir, 'packs', 'foundation', 'template.yaml'),
-        `governanceChecklist: []\n`);
+      await fs.writeFile(
+        path.join(baseDir, 'registry.yaml'),
+        `domains:\n  - name: foundation\n    description: Core baseline\n    version: 1.0.0\n    author: core-team\n    path: packs/foundation\n    schema_version: 1.0.0\n`
+      );
+      await fs.writeFile(
+        path.join(baseDir, 'packs', 'foundation', 'pack.yaml'),
+        `name: foundation\nversion: 1.0.0\ndisplayName: Foundation\ndescription: Core\nauthor: core-team\nschema: schema.json\n`
+      );
+      await fs.writeFile(
+        path.join(baseDir, 'packs', 'foundation', 'schema.json'),
+        `{"$schema":"http://json-schema.org/draft-07/schema#","type":"object"}`
+      );
+      await fs.writeFile(
+        path.join(baseDir, 'packs', 'foundation', 'template.yaml'),
+        `governanceChecklist: []\n`
+      );
     }
     const loader = new SecureYAMLLoader({ baseDir });
     const registry = new RegistryParser(loader);

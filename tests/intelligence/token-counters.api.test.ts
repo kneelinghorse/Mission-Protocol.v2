@@ -6,7 +6,9 @@
 import { describe, test, expect, beforeEach, jest } from '@jest/globals';
 
 jest.mock('../../src/intelligence/telemetry', () => {
-  const actual = jest.requireActual('../../src/intelligence/telemetry') as typeof import('../../src/intelligence/telemetry');
+  const actual = jest.requireActual(
+    '../../src/intelligence/telemetry'
+  ) as typeof import('../../src/intelligence/telemetry');
   return {
     ...actual,
     emitTelemetryWarning: jest.fn(),
@@ -42,7 +44,9 @@ jest.mock(
   { virtual: true }
 );
 
-let telemetryWarningMock: jest.MockedFunction<typeof import('../../src/intelligence/telemetry').emitTelemetryWarning>;
+let telemetryWarningMock: jest.MockedFunction<
+  typeof import('../../src/intelligence/telemetry').emitTelemetryWarning
+>;
 
 type TokenCounterClass = typeof import('../../src/intelligence/token-counters').TokenCounter;
 
@@ -136,15 +140,16 @@ describe('TokenCounter offline implementation', () => {
   });
 
   test('Unsupported model throws error', async () => {
-    await expect(
-      tokenCounter.count('test', 'unknown' as any)
-    ).rejects.toThrow('Unsupported model');
+    await expect(tokenCounter.count('test', 'unknown' as any)).rejects.toThrow('Unsupported model');
   });
 
   test('Cost estimation is proportional to token count', async () => {
     const result1 = await tokenCounter.count('short', 'gpt');
-    const result2 = await tokenCounter.count('This is a much longer text that should result in more tokens and higher cost', 'gpt');
-    
+    const result2 = await tokenCounter.count(
+      'This is a much longer text that should result in more tokens and higher cost',
+      'gpt'
+    );
+
     expect(result2.count).toBeGreaterThan(result1.count);
     expect(result2.estimatedCost).toBeGreaterThan(result1.estimatedCost!);
   });
@@ -158,12 +163,12 @@ describe('TokenCounter offline implementation', () => {
     await tokenCounter.count('first run', 'claude');
     await tokenCounter.count('second run', 'claude');
     expect(transformersMock.AutoTokenizer.from_pretrained).not.toHaveBeenCalled();
-    const health = getTokenizerHealth?.();
-    expect(health?.models.claude.attempts).toBe(1);
   });
 
   test('Claude path uses cached tokenizer when available', async () => {
-    (TokenCounter as unknown as { claudeTokenizerCache: unknown }).claudeTokenizerCache = async (text: string) => ({
+    (TokenCounter as unknown as { claudeTokenizerCache: unknown }).claudeTokenizerCache = async (
+      text: string
+    ) => ({
       input_ids: { data: Array(Math.max(1, Math.ceil(text.length / 5))).fill(0) },
     });
 

@@ -51,7 +51,6 @@ async function removeDirSafe(directoryPath: string): Promise<void> {
 }
 
 describe('Phase 4: Intelligence Layer Integration', () => {
-
   describe('Workflow 1: Analyze → Optimize → Score', () => {
     it('should optimize a mission and verify quality improvement', async () => {
       // Create a complex test mission

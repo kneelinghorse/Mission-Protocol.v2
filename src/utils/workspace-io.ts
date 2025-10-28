@@ -72,9 +72,7 @@ export async function writeFileAtomicWithBackup(
     return backupCreated ? { backupPath } : {};
   } catch (error) {
     if (backupCreated) {
-      await fs
-        .copyFile(backupPath, sanitizedTarget)
-        .catch(() => undefined);
+      await fs.copyFile(backupPath, sanitizedTarget).catch(() => undefined);
     }
     throw error;
   }

@@ -67,10 +67,14 @@ describe('MCP Intelligence Tools - Smoke Coverage', () => {
   });
 
   it('list_tools exposes update_token_optimization, create_mission_splits, and get_split_suggestions', () => {
-    const toolNames = getToolDefinitions().map(tool => tool.name);
+    const toolNames = getToolDefinitions().map((tool) => tool.name);
 
     expect(toolNames).toEqual(
-      expect.arrayContaining(['update_token_optimization', 'create_mission_splits', 'get_split_suggestions'])
+      expect.arrayContaining([
+        'update_token_optimization',
+        'create_mission_splits',
+        'get_split_suggestions',
+      ])
     );
   });
 
@@ -171,7 +175,6 @@ describe('MCP Intelligence Tools - Smoke Coverage', () => {
     expect(result.structuredContent?.success).toBe(false);
     expect((result.structuredContent as any)?.errors?.[0]).toContain('non-existent-pack');
   });
-
 
   it('legacy list_available_domains exposes registry packs with warning', async () => {
     const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});

@@ -3,12 +3,7 @@
  * Maps metric scores to specific, context-aware recommendations
  */
 
-import {
-  ImprovementSuggestion,
-  DimensionScore,
-  MissionContent,
-  MetricResult
-} from './types';
+import { ImprovementSuggestion, DimensionScore, MissionContent, MetricResult } from './types';
 
 interface FeedbackRule {
   condition: (metricValue: number, details?: Record<string, unknown>) => boolean;
@@ -80,7 +75,7 @@ export class ImprovementEngine {
           category: rule.category,
           message: rule.messageTemplate(metric.rawValue, metric.details, mission),
           metric: metricName,
-          context: metric.details
+          context: metric.details,
         });
       }
     }
@@ -92,22 +87,34 @@ export class ImprovementEngine {
    * Initialize all feedback rules
    */
   private initializeRules(): void {
-    const getNumberDetail = (detail: Record<string, unknown> | undefined, key: string): number | undefined => {
+    const getNumberDetail = (
+      detail: Record<string, unknown> | undefined,
+      key: string
+    ): number | undefined => {
       const value = detail?.[key];
       return typeof value === 'number' ? value : undefined;
     };
 
-    const getStringDetail = (detail: Record<string, unknown> | undefined, key: string): string | undefined => {
+    const getStringDetail = (
+      detail: Record<string, unknown> | undefined,
+      key: string
+    ): string | undefined => {
       const value = detail?.[key];
       return typeof value === 'string' ? value : undefined;
     };
 
-    const getBooleanDetail = (detail: Record<string, unknown> | undefined, key: string): boolean | undefined => {
+    const getBooleanDetail = (
+      detail: Record<string, unknown> | undefined,
+      key: string
+    ): boolean | undefined => {
       const value = detail?.[key];
       return typeof value === 'boolean' ? value : undefined;
     };
 
-    const getStringArrayDetail = (detail: Record<string, unknown> | undefined, key: string): string[] => {
+    const getStringArrayDetail = (
+      detail: Record<string, unknown> | undefined,
+      key: string
+    ): string[] => {
       const value = detail?.[key];
       if (!Array.isArray(value)) {
         return [];
@@ -121,7 +128,7 @@ export class ImprovementEngine {
       severity: 'critical',
       category: 'Structure',
       messageTemplate: () =>
-        'The mission structure is invalid. Ensure all required fields are present and properly formatted.'
+        'The mission structure is invalid. Ensure all required fields are present and properly formatted.',
     });
 
     // Structural Completeness
@@ -132,7 +139,7 @@ export class ImprovementEngine {
       messageTemplate: (value, details) => {
         const missing = getStringArrayDetail(details, 'missing');
         return `Mission is missing required fields: ${missing.join(', ')}. All required fields must be present.`;
-      }
+      },
     });
 
     // Mission Cyclomatic Complexity
@@ -149,15 +156,15 @@ export class ImprovementEngine {
           `This mission's logical complexity is very high (MCC: ${value}, Risk: ${riskLevel}). ` +
           `Consider refactoring into multiple, smaller missions to reduce the number of decision points (${decisionPointsText}).`
         );
-      }
+      },
     });
 
     this.addRule('Mission Cyclomatic Complexity', {
       condition: (value) => value > 10 && value <= 20,
       severity: 'info',
       category: 'Clarity',
-      messageTemplate: (value, details) =>
-        `Mission complexity is moderate (MCC: ${value}). Consider simplifying conditional logic if possible.`
+      messageTemplate: (value, _details) =>
+        `Mission complexity is moderate (MCC: ${value}). Consider simplifying conditional logic if possible.`,
     });
 
     // Flesch-Kincaid Grade Level
@@ -165,8 +172,8 @@ export class ImprovementEngine {
       condition: (value) => value > 15,
       severity: 'info',
       category: 'Clarity',
-      messageTemplate: (value, details) =>
-        `Text readability is low (Grade Level: ${value.toFixed(1)}). Consider simplifying sentence structure and word choice.`
+      messageTemplate: (value, _details) =>
+        `Text readability is low (Grade Level: ${value.toFixed(1)}). Consider simplifying sentence structure and word choice.`,
     });
 
     this.addRule('Flesch-Kincaid Grade Level', {
@@ -174,7 +181,7 @@ export class ImprovementEngine {
       severity: 'info',
       category: 'Clarity',
       messageTemplate: (value) =>
-        `Text may be overly simplified for technical content (Grade Level: ${value.toFixed(1)}). Ensure sufficient technical detail.`
+        `Text may be overly simplified for technical content (Grade Level: ${value.toFixed(1)}). Ensure sufficient technical detail.`,
     });
 
     // Lexical Density
@@ -185,7 +192,7 @@ export class ImprovementEngine {
       messageTemplate: (value, details) => {
         const percentage = getStringDetail(details, 'percentage') ?? 'N/A';
         return `Information density is low (${percentage}). Consider reducing filler words and increasing content-bearing terms.`;
-      }
+      },
     });
 
     // Referential Ambiguity
@@ -195,7 +202,7 @@ export class ImprovementEngine {
       category: 'Clarity',
       messageTemplate: (value) =>
         `Mission contains pronouns with unclear antecedents (Score: ${(value * 100).toFixed(0)}%). ` +
-        `Replace ambiguous pronouns (it, they, this) with specific nouns for clarity.`
+        `Replace ambiguous pronouns (it, they, this) with specific nouns for clarity.`,
     });
 
     // Lexical Ambiguity
@@ -210,7 +217,7 @@ export class ImprovementEngine {
           `Mission contains ${countText} potentially ambiguous words. ` +
           `Review context-dependent terms for clarity.`
         );
-      }
+      },
     });
 
     // Information Density
@@ -228,7 +235,7 @@ export class ImprovementEngine {
         if ((successCriteriaCount ?? 0) < 3) issues.push('insufficient success criteria');
 
         return `Mission lacks sufficient detail: ${issues.join(', ')}. Add more specific information.`;
-      }
+      },
     });
 
     // Information Breadth
@@ -236,9 +243,9 @@ export class ImprovementEngine {
       condition: (value) => value < 0.6,
       severity: 'important',
       category: 'Completeness',
-      messageTemplate: (value, details) =>
+      messageTemplate: (value, _details) =>
         `Mission lacks diverse information types (Score: ${(value * 100).toFixed(0)}%). ` +
-        `Consider adding more context, examples, or domain-specific details.`
+        `Consider adding more context, examples, or domain-specific details.`,
     });
 
     // Semantic Coverage
@@ -248,7 +255,7 @@ export class ImprovementEngine {
       category: 'Completeness',
       messageTemplate: (value) =>
         `Mission content may not fully align with its stated objective (Coverage: ${(value * 100).toFixed(0)}%). ` +
-        `Ensure all relevant topics are addressed.`
+        `Ensure all relevant topics are addressed.`,
     });
 
     // Instruction Specificity
@@ -258,7 +265,7 @@ export class ImprovementEngine {
       category: 'AI-Readiness',
       messageTemplate: () =>
         `The objective should contain a clear, action-oriented goal starting with "To [verb]..." ` +
-        `and be at least 10 words.`
+        `and be at least 10 words.`,
     });
 
     this.addRule('Instruction Specificity', {
@@ -267,7 +274,7 @@ export class ImprovementEngine {
       category: 'AI-Readiness',
       messageTemplate: () =>
         `Mission does not specify a desired output format. Consider adding phrases like ` +
-        `"Present output as JSON" or "Summarize in bullet points" for more predictable results.`
+        `"Present output as JSON" or "Summarize in bullet points" for more predictable results.`,
     });
 
     this.addRule('Instruction Specificity', {
@@ -276,7 +283,7 @@ export class ImprovementEngine {
       category: 'AI-Readiness',
       messageTemplate: () =>
         `Mission lacks explicit constraints. Consider adding "must/must not" statements ` +
-        `or defining what is out-of-scope.`
+        `or defining what is out-of-scope.`,
     });
 
     this.addRule('Instruction Specificity', {
@@ -285,7 +292,7 @@ export class ImprovementEngine {
       category: 'AI-Readiness',
       messageTemplate: () =>
         `Success criteria are not well-defined. Include at least 3 specific, measurable criteria ` +
-        `with at least 5 words each.`
+        `with at least 5 words each.`,
     });
 
     // Linting Score
@@ -301,7 +308,7 @@ export class ImprovementEngine {
           `Mission contains ${vagueCount} vague phrases ` +
           `(e.g., ${phrasesText}). Replace with specific, measurable terms.`
         );
-      }
+      },
     });
 
     this.addRule('Linting Score', {
@@ -311,7 +318,7 @@ export class ImprovementEngine {
       messageTemplate: (value, details) => {
         const emptyFieldsCount = getNumberDetail(details, 'emptyFieldsCount') ?? 0;
         return `Mission has ${emptyFieldsCount} empty fields. Remove unused fields or populate with content.`;
-      }
+      },
     });
   }
 

@@ -73,7 +73,7 @@ export class ContextPropagator {
   async propagateContext(
     originalMission: string,
     completedResults: SubMissionResult[],
-    currentSubMission: string
+    _currentSubMission: string
   ): Promise<ContextSummary> {
     const strategy = this.determineStrategy(completedResults);
 
@@ -210,7 +210,7 @@ export class ContextPropagator {
     completedResults: SubMissionResult[]
   ): string {
     // Map phase: Summarize each result individually
-    const individualSummaries = completedResults.map(result => {
+    const individualSummaries = completedResults.map((result) => {
       const extracted = this.extractKeyInfo(result.output);
       return {
         missionId: result.missionId,
@@ -245,11 +245,11 @@ export class ContextPropagator {
   private extractKeyInfo(text: string): ExtractiveSummary {
     const sentences = text
       .split(/[.!?]+/)
-      .map(s => s.trim())
-      .filter(s => s.length > 20); // Filter out very short sentences
+      .map((s) => s.trim())
+      .filter((s) => s.length > 20); // Filter out very short sentences
 
     // Score sentences by importance
-    const scoredSentences = sentences.map(sentence => {
+    const scoredSentences = sentences.map((sentence) => {
       let score = 0;
 
       // Keywords indicating importance
@@ -288,7 +288,7 @@ export class ContextPropagator {
     const keySentences = scoredSentences
       .sort((a, b) => b.score - a.score)
       .slice(0, 5)
-      .map(s => s.sentence);
+      .map((s) => s.sentence);
 
     // Extract key phrases (simple noun phrase extraction)
     const keyPhrases = this.extractKeyPhrases(text);
@@ -308,7 +308,7 @@ export class ContextPropagator {
 
     // Extract quoted text
     const quoted = text.match(/"([^"]+)"/g) || [];
-    phrases.push(...quoted.map(q => q.replace(/"/g, '')));
+    phrases.push(...quoted.map((q) => q.replace(/"/g, '')));
 
     // Extract capitalized multi-word terms
     const capitalized = text.match(/\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+\b/g) || [];

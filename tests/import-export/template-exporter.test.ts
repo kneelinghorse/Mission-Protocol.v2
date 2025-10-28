@@ -190,9 +190,9 @@ describe('TemplateExporter - Strict YAML Export', () => {
     it('rejects output paths that escape the base directory', async () => {
       const template = createValidTemplate();
 
-      await expect(
-        exporter.export(template, '../evil.yaml')
-      ).rejects.toThrow('Output path escapes base directory');
+      await expect(exporter.export(template, '../evil.yaml')).rejects.toThrow(
+        'Output path escapes base directory'
+      );
     });
 
     it('rejects templates with invalid apiVersion', async () => {
@@ -212,9 +212,7 @@ describe('TemplateExporter - Strict YAML Export', () => {
         kind: 'NotMissionTemplate',
       };
 
-      await expect(exporter.export(template, 'invalid-kind.yaml')).rejects.toThrow(
-        'Invalid kind'
-      );
+      await expect(exporter.export(template, 'invalid-kind.yaml')).rejects.toThrow('Invalid kind');
     });
 
     it('rejects templates missing metadata', async () => {
@@ -251,11 +249,9 @@ describe('TemplateExporter - Strict YAML Export', () => {
 
       const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined);
 
-      const count = await exporter.exportMultiple(
-        [validTemplate, invalidTemplate],
-        'bulk',
-        { format: 'yaml' }
-      );
+      const count = await exporter.exportMultiple([validTemplate, invalidTemplate], 'bulk', {
+        format: 'yaml',
+      });
 
       expect(count).toBe(1);
       expect(errorSpy).toHaveBeenCalled();
@@ -290,9 +286,7 @@ describe('TemplateExporter - Strict YAML Export', () => {
       const template = createValidTemplate();
       template.apiVersion = 'wrong-version';
 
-      await expect(exporter.export(template, 'invalid.yaml')).rejects.toThrow(
-        /apiVersion/i
-      );
+      await expect(exporter.export(template, 'invalid.yaml')).rejects.toThrow(/apiVersion/i);
     });
 
     it('should reject templates with invalid kind', async () => {
@@ -306,9 +300,7 @@ describe('TemplateExporter - Strict YAML Export', () => {
       const template = createValidTemplate();
       (template as any).metadata = undefined;
 
-      await expect(exporter.export(template, 'invalid.yaml')).rejects.toThrow(
-        /metadata/i
-      );
+      await expect(exporter.export(template, 'invalid.yaml')).rejects.toThrow(/metadata/i);
     });
 
     it('should reject templates without spec', async () => {
@@ -323,9 +315,7 @@ describe('TemplateExporter - Strict YAML Export', () => {
     it('should reject path traversal attempts', async () => {
       const template = createValidTemplate();
 
-      await expect(
-        exporter.export(template, '../../../etc/passwd')
-      ).rejects.toThrow(/path/i);
+      await expect(exporter.export(template, '../../../etc/passwd')).rejects.toThrow(/path/i);
     });
 
     it('should create nested directories as needed', async () => {
@@ -334,9 +324,7 @@ describe('TemplateExporter - Strict YAML Export', () => {
       const success = await exporter.export(template, 'nested/dir/template.yaml');
 
       expect(success).toBe(true);
-      expect(
-        await pathExists(path.join(testDir, 'nested/dir/template.yaml'))
-      ).toBe(true);
+      expect(await pathExists(path.join(testDir, 'nested/dir/template.yaml'))).toBe(true);
     });
   });
 

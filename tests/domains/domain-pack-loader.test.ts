@@ -61,9 +61,7 @@ describe('DomainPackLoader', () => {
         description: 'A test domain pack',
         author: 'Test Author',
         schema: 'schema.yaml',
-        dependencies: [
-          { name: 'other-pack', version: '2.0.0' },
-        ],
+        dependencies: [{ name: 'other-pack', version: '2.0.0' }],
       };
 
       const result = packLoader.validateManifest(manifest);
@@ -82,10 +80,10 @@ describe('DomainPackLoader', () => {
 
       expect(result.valid).toBe(false);
       expect(result.errors.length).toBeGreaterThan(0);
-      expect(result.errors.some(e => e.includes('version'))).toBe(true);
-      expect(result.errors.some(e => e.includes('displayName'))).toBe(true);
-      expect(result.errors.some(e => e.includes('description'))).toBe(true);
-      expect(result.errors.some(e => e.includes('schema'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('version'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('displayName'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('description'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('schema'))).toBe(true);
     });
 
     it('should reject manifest with empty required fields', () => {
@@ -115,7 +113,7 @@ describe('DomainPackLoader', () => {
       const result = packLoader.validateManifest(manifest);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some(e => e.includes('SemVer'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('SemVer'))).toBe(true);
     });
 
     it('should reject manifest with path traversal in schema', () => {
@@ -130,7 +128,7 @@ describe('DomainPackLoader', () => {
       const result = packLoader.validateManifest(manifest);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some(e => e.includes('relative'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('relative'))).toBe(true);
     });
 
     it('should reject manifest with absolute schema path', () => {
@@ -145,7 +143,7 @@ describe('DomainPackLoader', () => {
       const result = packLoader.validateManifest(manifest);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some(e => e.includes('relative'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('relative'))).toBe(true);
     });
 
     it('should reject manifest with empty author field', () => {
@@ -161,7 +159,7 @@ describe('DomainPackLoader', () => {
       const result = packLoader.validateManifest(manifest);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some(e => e.includes('author'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('author'))).toBe(true);
     });
 
     it('should reject manifest with invalid dependency versions', () => {
@@ -180,7 +178,7 @@ describe('DomainPackLoader', () => {
       const result = packLoader.validateManifest(manifest);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some(e => e.includes('dependency'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('dependency'))).toBe(true);
     });
   });
 
@@ -201,10 +199,7 @@ describe('DomainPackLoader', () => {
 
     it('should accept valid JSON Schema with composition', () => {
       const schema = {
-        anyOf: [
-          { type: 'string' },
-          { type: 'number' },
-        ],
+        anyOf: [{ type: 'string' }, { type: 'number' }],
       };
 
       const isValid = (packLoader as any).isValidJSONSchema(schema);
@@ -318,7 +313,7 @@ describe('DomainPackLoader', () => {
       const result = packLoader.validatePack(pack);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some(e => e.includes('Schema'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('Schema'))).toBe(true);
     });
 
     it('should reject pack with non-object template', () => {
@@ -339,7 +334,7 @@ describe('DomainPackLoader', () => {
       const result = packLoader.validatePack(pack);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some(e => e.includes('Template'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('Template'))).toBe(true);
     });
 
     it('should reject pack with null template', () => {
@@ -360,7 +355,7 @@ describe('DomainPackLoader', () => {
       const result = packLoader.validatePack(pack);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some(e => e.includes('Template'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('Template'))).toBe(true);
     });
   });
 
@@ -376,9 +371,9 @@ describe('DomainPackLoader', () => {
         },
       ];
 
-      await expect(
-        packLoader.loadPack('nonexistent-pack', registryEntries)
-      ).rejects.toThrow('not found in registry');
+      await expect(packLoader.loadPack('nonexistent-pack', registryEntries)).rejects.toThrow(
+        'not found in registry'
+      );
     });
 
     it('should handle missing manifest file gracefully', async () => {
@@ -416,9 +411,9 @@ describe('DomainPackLoader', () => {
     it('should throw for nonexistent pack', async () => {
       const registryEntries: DomainPackEntry[] = [];
 
-      await expect(
-        packLoader.getDomainFields('nonexistent', registryEntries)
-      ).rejects.toThrow('not found in registry');
+      await expect(packLoader.getDomainFields('nonexistent', registryEntries)).rejects.toThrow(
+        'not found in registry'
+      );
     });
   });
 
@@ -501,7 +496,7 @@ describe('DomainPackLoader', () => {
           name: 'test-pack',
           version: '1.0.0',
           description: 'Test pack',
-          path: 'templates',  // Use existing directory
+          path: 'templates', // Use existing directory
           schema_version: '1.0.0',
         },
       ];
@@ -559,7 +554,7 @@ describe('DomainPackLoader', () => {
       const result = packLoader.validateManifest(manifest);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some(e => e.includes('displayName'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('displayName'))).toBe(true);
     });
 
     it('should validate all dependency errors are reported', () => {
@@ -569,16 +564,14 @@ describe('DomainPackLoader', () => {
         displayName: 'Test Pack',
         description: 'Test',
         schema: 'schema.yaml',
-        dependencies: [
-          { name: '', version: '' },
-        ],
+        dependencies: [{ name: '', version: '' }],
       };
 
       const result = packLoader.validateManifest(manifest);
 
       expect(result.valid).toBe(false);
       // Should have errors for both name and version
-      const depErrors = result.errors.filter(e => e.includes('dependency 0'));
+      const depErrors = result.errors.filter((e) => e.includes('dependency 0'));
       expect(depErrors.length).toBeGreaterThanOrEqual(2);
     });
   });
@@ -586,10 +579,7 @@ describe('DomainPackLoader', () => {
   describe('Schema Edge Cases', () => {
     it('should accept schema with allOf composition', () => {
       const schema = {
-        allOf: [
-          { type: 'object' },
-          { properties: { field1: { type: 'string' } } },
-        ],
+        allOf: [{ type: 'object' }, { properties: { field1: { type: 'string' } } }],
       };
 
       const isValid = (packLoader as any).isValidJSONSchema(schema);
@@ -599,10 +589,7 @@ describe('DomainPackLoader', () => {
 
     it('should accept schema with oneOf composition', () => {
       const schema = {
-        oneOf: [
-          { type: 'string' },
-          { type: 'number' },
-        ],
+        oneOf: [{ type: 'string' }, { type: 'number' }],
       };
 
       const isValid = (packLoader as any).isValidJSONSchema(schema);
@@ -682,7 +669,9 @@ describe('DomainPackLoader', () => {
     });
 
     it('should handle loader errors in template loading', async () => {
-      const mockLoad = jest.spyOn(loader, 'load').mockRejectedValueOnce(new Error('File not found'));
+      const mockLoad = jest
+        .spyOn(loader, 'load')
+        .mockRejectedValueOnce(new Error('File not found'));
 
       await expect((packLoader as any).loadTemplate('test.yaml')).rejects.toThrow(
         'Failed to load domain template: File not found'
@@ -704,9 +693,7 @@ describe('DomainPackLoader', () => {
 
   describe('Schema Loading Edge Cases', () => {
     it('should reject invalid schema structure', async () => {
-      const mockLoad = jest
-        .spyOn(loader, 'load')
-        .mockResolvedValueOnce({ properties: {} } as any);
+      const mockLoad = jest.spyOn(loader, 'load').mockResolvedValueOnce({ properties: {} } as any);
 
       await expect((packLoader as any).loadSchema('test.yaml')).rejects.toThrow(
         'Invalid JSON Schema structure'
@@ -716,9 +703,7 @@ describe('DomainPackLoader', () => {
     });
 
     it('should handle loader errors in schema loading', async () => {
-      const mockLoad = jest
-        .spyOn(loader, 'load')
-        .mockRejectedValueOnce(new Error('Parse error'));
+      const mockLoad = jest.spyOn(loader, 'load').mockRejectedValueOnce(new Error('Parse error'));
 
       await expect((packLoader as any).loadSchema('test.yaml')).rejects.toThrow(
         'Failed to load domain schema: Parse error'
@@ -797,7 +782,7 @@ describe('DomainPackLoader', () => {
       const mockLoad = jest
         .spyOn(loader, 'load')
         .mockResolvedValueOnce(validManifest) // manifest
-        .mockResolvedValueOnce(validSchema)   // schema
+        .mockResolvedValueOnce(validSchema) // schema
         .mockResolvedValueOnce(validTemplate); // template
 
       const pack = await packLoader.loadPack('test-pack', registryEntries);
@@ -811,8 +796,8 @@ describe('DomainPackLoader', () => {
 
     it('should throw error when manifest validation fails after loading', async () => {
       const invalidManifest: DomainPackManifest = {
-        name: '',  // Invalid: empty name
-        version: 'not-semver',  // Invalid: bad version
+        name: '', // Invalid: empty name
+        version: 'not-semver', // Invalid: bad version
         displayName: 'Test Pack',
         description: 'Test',
         schema: 'schema.yaml',
@@ -870,7 +855,7 @@ describe('DomainPackLoader', () => {
       const mockLoad = jest
         .spyOn(loader, 'load')
         .mockResolvedValueOnce(manifest) // manifest
-        .mockResolvedValueOnce(schema)   // schema
+        .mockResolvedValueOnce(schema) // schema
         .mockResolvedValueOnce(invalidTemplate); // template (invalid per schema)
 
       await expect(packLoader.loadPack('test-pack', registryEntries)).rejects.toThrow(

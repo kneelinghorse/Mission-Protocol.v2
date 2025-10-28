@@ -59,7 +59,7 @@ describe('Quality Scoring Integration', () => {
 
     it('should handle non-existent file gracefully', async () => {
       const result = await scoreQuality({
-        missionFile: '/path/to/nonexistent/mission.yaml'
+        missionFile: '/path/to/nonexistent/mission.yaml',
       });
 
       expect(result.success).toBe(false);
@@ -71,25 +71,27 @@ describe('Quality Scoring Integration', () => {
     it('should score research mission template', async () => {
       const mission = {
         missionId: 'R-TEST-001',
-        objective: 'To research and define a comprehensive framework for scoring mission quality, including metrics for clarity, completeness, and AI-readiness.',
-        context: 'This mission investigates methods for quantitatively assessing mission quality. The goal is to provide actionable feedback to improve mission effectiveness. The findings will inform the quality scoring engine in Phase 4.',
+        objective:
+          'To research and define a comprehensive framework for scoring mission quality, including metrics for clarity, completeness, and AI-readiness.',
+        context:
+          'This mission investigates methods for quantitatively assessing mission quality. The goal is to provide actionable feedback to improve mission effectiveness. The findings will inform the quality scoring engine in Phase 4.',
         successCriteria: [
           'All research questions in the domainFields are answered.',
           'The buildImplications section is populated with clear, actionable recommendations.',
           'All key findings are supported by cited sources in the evidenceCollection.',
-          'Contradictions or areas of uncertainty are explicitly documented.'
+          'Contradictions or areas of uncertainty are explicitly documented.',
         ],
         deliverables: [
           'This completed and validated mission file.',
-          'A structured buildImplications object ready for use in a build mission.'
+          'A structured buildImplications object ready for use in a build mission.',
         ],
         domainFields: {
           type: 'Build.TechnicalResearch.v1',
           researchQuestions: [
             'What metrics effectively measure mission clarity for AI consumption?',
-            'How can we quantify mission completeness and coverage?'
-          ]
-        }
+            'How can we quantify mission completeness and coverage?',
+          ],
+        },
       };
 
       const result = await scorer.score(mission, mission.missionId);
@@ -102,32 +104,34 @@ describe('Quality Scoring Integration', () => {
     it('should score implementation mission template', async () => {
       const mission = {
         missionId: 'B-TEST-001',
-        objective: 'To implement the comprehensive quality scoring system using the three-dimensional framework from research mission R4.4.',
-        context: 'This mission implements the findings from Technical Research mission R4.4. The system will assess missions on Clarity, Completeness, and AI-Readiness dimensions. The scope includes multiple metrics, weighted scoring, and improvement suggestions.',
+        objective:
+          'To implement the comprehensive quality scoring system using the three-dimensional framework from research mission R4.4.',
+        context:
+          'This mission implements the findings from Technical Research mission R4.4. The system will assess missions on Clarity, Completeness, and AI-Readiness dimensions. The scope includes multiple metrics, weighted scoring, and improvement suggestions.',
         successCriteria: [
           'Three-dimensional quality model implemented (Clarity, Completeness, AI-Readiness).',
           'All specified metrics functional and accurate.',
           'Unified Quality Score calculation with configurable weights.',
           'Quality assessment completes in <3 seconds per mission.',
           'The get_mission_quality_score MCP tool is functional.',
-          'Actionable improvement suggestions generated.'
+          'Actionable improvement suggestions generated.',
         ],
         deliverables: [
           'The implemented QualityScorer class with all metric calculations.',
           'Unified scoring algorithm with weighted dimensions.',
           'Improvement suggestion engine.',
           'The get_mission_quality_score MCP tool.',
-          'Benchmarking against successful mission patterns.'
+          'Benchmarking against successful mission patterns.',
         ],
         domainFields: {
           type: 'Build.Implementation.v1',
           researchFoundation: [
             {
               finding: 'Use three-dimensional model: Clarity, Completeness, AI-Readiness.',
-              sourceMission: 'R4.4_Mission_Quality_metrics'
-            }
-          ]
-        }
+              sourceMission: 'R4.4_Mission_Quality_metrics',
+            },
+          ],
+        },
       };
 
       const result = await scorer.score(mission, mission.missionId);
@@ -138,7 +142,7 @@ describe('Quality Scoring Integration', () => {
       expect(result.dimensions.aiReadiness.score).toBeGreaterThan(0.7);
 
       // Should have few critical suggestions
-      const critical = result.suggestions.filter(s => s.severity === 'critical');
+      const critical = result.suggestions.filter((s) => s.severity === 'critical');
       expect(critical.length).toBe(0);
     });
 
@@ -147,7 +151,7 @@ describe('Quality Scoring Integration', () => {
         objective: 'Fix bugs',
         context: 'There are some bugs. Fix them if possible.',
         successCriteria: 'No bugs',
-        deliverables: 'Fixed code'
+        deliverables: 'Fixed code',
       };
 
       const result = await scorer.score(poorMission);
@@ -157,7 +161,7 @@ describe('Quality Scoring Integration', () => {
 
       // Should flag multiple issues
       const suggestions = result.suggestions;
-      const categories = new Set(suggestions.map(s => s.category));
+      const categories = new Set(suggestions.map((s) => s.category));
 
       expect(categories.size).toBeGreaterThan(1); // Multiple categories
     });
@@ -169,7 +173,7 @@ describe('Quality Scoring Integration', () => {
         objective: 'To test performance.',
         context: 'Simple mission for performance testing.',
         successCriteria: ['Fast', 'Accurate'],
-        deliverables: ['Result']
+        deliverables: ['Result'],
       };
 
       const start = Date.now();
@@ -195,7 +199,7 @@ describe('Quality Scoring Integration', () => {
           'Documentation complete and accurate.',
           'Code review approved by senior engineers.',
           'Security audit passed.',
-          'Accessibility standards met.'
+          'Accessibility standards met.',
         ],
         deliverables: [
           'Complete implementation with all components.',
@@ -203,16 +207,16 @@ describe('Quality Scoring Integration', () => {
           'Performance benchmarks and optimization report.',
           'Integration documentation.',
           'API documentation.',
-          'Deployment guide.'
+          'Deployment guide.',
         ],
         domainFields: {
           type: 'Build.Implementation.v1',
           constraints: [
             'Must maintain backward compatibility.',
             'No breaking changes to public API.',
-            'Memory footprint under 100MB.'
-          ]
-        }
+            'Memory footprint under 100MB.',
+          ],
+        },
       };
 
       const start = Date.now();
@@ -230,7 +234,7 @@ describe('Quality Scoring Integration', () => {
         objective: 'Implement it properly.',
         context: 'Do the thing.',
         successCriteria: 'Works',
-        deliverables: 'Code'
+        deliverables: 'Code',
       };
 
       const result = await scorer.score(mission);
@@ -238,7 +242,7 @@ describe('Quality Scoring Integration', () => {
       expect(result.suggestions.length).toBeGreaterThan(0);
 
       // All suggestions should have actionable messages
-      result.suggestions.forEach(suggestion => {
+      result.suggestions.forEach((suggestion) => {
         expect(suggestion.message.length).toBeGreaterThan(20);
         expect(suggestion.message).not.toMatch(/^undefined/);
         expect(suggestion.category).toBeDefined();
@@ -250,7 +254,7 @@ describe('Quality Scoring Integration', () => {
         objective: 'Test',
         context: 'T',
         successCriteria: [],
-        deliverables: []
+        deliverables: [],
       };
 
       const result = await scorer.score(mission);
@@ -258,9 +262,9 @@ describe('Quality Scoring Integration', () => {
 
       // Group by severity
       const bySeverity = {
-        critical: suggestions.filter(s => s.severity === 'critical'),
-        important: suggestions.filter(s => s.severity === 'important'),
-        info: suggestions.filter(s => s.severity === 'info')
+        critical: suggestions.filter((s) => s.severity === 'critical'),
+        important: suggestions.filter((s) => s.severity === 'important'),
+        info: suggestions.filter((s) => s.severity === 'info'),
       };
 
       // Critical issues should be present for missing fields

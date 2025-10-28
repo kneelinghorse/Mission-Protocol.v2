@@ -35,10 +35,7 @@ export class TokenOptimizer {
   private tokenCounter: TokenCounter;
   private transpiler: ModelTranspiler;
 
-  constructor(
-    tokenCounter?: TokenCounter,
-    transpiler?: ModelTranspiler
-  ) {
+  constructor(tokenCounter?: TokenCounter, transpiler?: ModelTranspiler) {
     this.tokenCounter = tokenCounter || new TokenCounter();
     this.transpiler = transpiler || new ModelTranspiler();
   }
@@ -61,9 +58,7 @@ export class TokenOptimizer {
     // Add custom preserve tags if provided
     if (preserveTags && preserveTags.length > 0) {
       for (const tag of preserveTags) {
-        finalRuleset.preservePatterns.push(
-          new RegExp(`<${tag}>.*?</${tag}>`, 'gs')
-        );
+        finalRuleset.preservePatterns.push(new RegExp(`<${tag}>.*?</${tag}>`, 'gs'));
       }
     }
 
@@ -77,10 +72,7 @@ export class TokenOptimizer {
 
     try {
       // Extract and preserve protected sections
-      const preserved = extractPreservedSections(
-        result,
-        finalRuleset.preservePatterns
-      );
+      const preserved = extractPreservedSections(result, finalRuleset.preservePatterns);
       result = replaceWithPlaceholders(result, preserved);
 
       // Pass 1: Sanitization & Normalization
@@ -153,17 +145,16 @@ export class TokenOptimizer {
         warnings: warnings.length > 0 ? warnings : undefined,
       };
     } catch (error) {
-      throw new Error(`Optimization failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Optimization failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     }
   }
 
   /**
    * Optimize a mission file
    */
-  async optimizeFile(
-    filePath: string,
-    config: TokenOptimizerConfig
-  ): Promise<OptimizationResult> {
+  async optimizeFile(filePath: string, config: TokenOptimizerConfig): Promise<OptimizationResult> {
     const fs = await import('fs/promises');
     const content = await fs.readFile(filePath, 'utf-8');
     return this.optimize(content, config);

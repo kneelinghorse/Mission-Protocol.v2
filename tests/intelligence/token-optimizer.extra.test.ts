@@ -91,11 +91,9 @@ describe('TokenOptimizer extra', () => {
 
   test('wraps errors from sanitization pass', async () => {
     const optimizer = new TokenOptimizer();
-    const sanitizeSpy = jest
-      .spyOn(compressionRules, 'applySanitization')
-      .mockImplementation(() => {
-        throw new Error('sanitization busted');
-      });
+    const sanitizeSpy = jest.spyOn(compressionRules, 'applySanitization').mockImplementation(() => {
+      throw new Error('sanitization busted');
+    });
 
     await expect(
       optimizer.optimize('content', { model: 'claude', level: 'balanced' })
@@ -132,7 +130,10 @@ describe('TokenOptimizer extra', () => {
       { model: 'claude', count: 40, estimatedCost: 0.4 },
       { model: 'claude', count: 0, estimatedCost: 0 },
     ]);
-    const optimizer = new TokenOptimizer(tokenCounter as unknown as any, { transpile: (value: string) => value } as any);
+    const optimizer = new TokenOptimizer(
+      tokenCounter as unknown as any,
+      { transpile: (value: string) => value } as any
+    );
 
     const result = await optimizer.optimize('tiny mission', {
       model: 'claude',

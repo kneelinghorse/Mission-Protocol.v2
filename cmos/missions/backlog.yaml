@@ -80,8 +80,11 @@ domainFields:
           notes: "Token telemetry preloads, verbosity controls, and health metrics implemented with tests updated."
         - id: "B4.2"
           name: "Quality Tooling + Tool Snapshots"
-          status: "Current"
-        - { id: "B4.3", name: "Domain Pack Integration - Phase 1 (Discovery)", status: "Queued" }
+          status: "Completed"
+          started_at: "2025-10-28T17:07:59Z"
+          completed_at: "2025-10-28T17:20:49Z"
+          notes: "Established linting/formatting baseline, tool definition snapshots, and automated quality metrics."
+        - { id: "B4.3", name: "Domain Pack Integration - Phase 1 (Discovery)", status: "Current" }
         - { id: "B4.4", name: "Security Hardening - Workspace Validation", status: "Queued" }
         - { id: "B4.5", name: "Domain Pack Integration - Phase 2 (Engineering)", status: "Queued" }
         - { id: "B4.6", name: "README & Documentation Refresh", status: "Queued" }

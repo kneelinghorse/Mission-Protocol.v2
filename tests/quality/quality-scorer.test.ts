@@ -16,22 +16,24 @@ describe('QualityScorer', () => {
     it('should score a high-quality mission', async () => {
       const mission: MissionContent = {
         missionId: 'TEST-001',
-        objective: 'To implement a comprehensive quality scoring system using the three-dimensional framework from research mission R4.4.',
-        context: 'This mission implements the findings from Technical Research mission R4.4. The system will assess missions on Clarity, Completeness, and AI-Readiness dimensions. The scope includes multiple metrics, weighted scoring, and improvement suggestions.',
+        objective:
+          'To implement a comprehensive quality scoring system using the three-dimensional framework from research mission R4.4.',
+        context:
+          'This mission implements the findings from Technical Research mission R4.4. The system will assess missions on Clarity, Completeness, and AI-Readiness dimensions. The scope includes multiple metrics, weighted scoring, and improvement suggestions.',
         successCriteria: [
           'Three-dimensional quality model implemented (Clarity, Completeness, AI-Readiness).',
           'All specified metrics functional and accurate.',
           'Unified Quality Score calculation with configurable weights.',
-          'Quality assessment completes in <3 seconds per mission.'
+          'Quality assessment completes in <3 seconds per mission.',
         ],
         deliverables: [
           'The implemented QualityScorer class with all metric calculations.',
           'Unified scoring algorithm with weighted dimensions.',
-          'Improvement suggestion engine.'
+          'Improvement suggestion engine.',
         ],
         domainFields: {
-          type: 'Build.Implementation.v1'
-        }
+          type: 'Build.Implementation.v1',
+        },
       };
 
       const result = await scorer.score(mission, mission.missionId);
@@ -50,7 +52,7 @@ describe('QualityScorer', () => {
         objective: 'Do stuff',
         context: 'Maybe',
         successCriteria: 'Whatever works',
-        deliverables: 'Some output'
+        deliverables: 'Some output',
       };
 
       const result = await scorer.score(poorMission);
@@ -64,7 +66,7 @@ describe('QualityScorer', () => {
         objective: 'To test performance of quality scoring system.',
         context: 'This mission tests whether the scoring completes within 3 seconds.',
         successCriteria: ['Fast execution', 'Accurate results'],
-        deliverables: ['Performance report']
+        deliverables: ['Performance report'],
       };
 
       const result = await scorer.score(mission);
@@ -77,15 +79,15 @@ describe('QualityScorer', () => {
         objective: 'Test',
         context: 'Short',
         successCriteria: ['One'],
-        deliverables: []
+        deliverables: [],
       };
 
       const result = await scorer.score(mission);
 
       expect(result.suggestions.length).toBeGreaterThan(0);
 
-      const critical = result.suggestions.filter(s => s.severity === 'critical');
-      const important = result.suggestions.filter(s => s.severity === 'important');
+      const critical = result.suggestions.filter((s) => s.severity === 'critical');
+      const important = result.suggestions.filter((s) => s.severity === 'important');
 
       // Should have suggestions due to missing/insufficient content
       expect(critical.length + important.length).toBeGreaterThan(0);
@@ -97,15 +99,15 @@ describe('QualityScorer', () => {
           clarity: 0.5,
           completeness: 0.3,
           aiReadiness: 0.1,
-          benchmark: 0.1
-        }
+          benchmark: 0.1,
+        },
       });
 
       const mission: MissionContent = {
         objective: 'To implement a comprehensive quality scoring system.',
         context: 'This tests custom weighting.',
         successCriteria: ['Weighted correctly'],
-        deliverables: ['Custom weights applied']
+        deliverables: ['Custom weights applied'],
       };
 
       const result = await customScorer.score(mission);
@@ -122,7 +124,7 @@ describe('QualityScorer', () => {
         objective: 'Implement it',
         context: 'Do it properly',
         successCriteria: 'Works',
-        deliverables: 'Code'
+        deliverables: 'Code',
       };
 
       const suggestions = await scorer.suggestImprovements(mission);
@@ -130,7 +132,7 @@ describe('QualityScorer', () => {
       expect(suggestions.length).toBeGreaterThan(0);
 
       // Check that suggestions have required fields
-      suggestions.forEach(suggestion => {
+      suggestions.forEach((suggestion) => {
         expect(suggestion.severity).toMatch(/^(critical|important|info)$/);
         expect(suggestion.category).toBeDefined();
         expect(suggestion.message).toBeDefined();
@@ -142,7 +144,7 @@ describe('QualityScorer', () => {
       const mission: MissionContent = {
         // Missing required fields
         successCriteria: [],
-        deliverables: []
+        deliverables: [],
       };
 
       const suggestions = await scorer.suggestImprovements(mission);

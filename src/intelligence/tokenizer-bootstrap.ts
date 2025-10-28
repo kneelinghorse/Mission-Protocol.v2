@@ -1,8 +1,5 @@
 import type { SupportedModel } from './types';
-import {
-  emitTelemetryInfo,
-  emitTelemetryWarning,
-} from './telemetry';
+import { emitTelemetryInfo, emitTelemetryWarning } from './telemetry';
 
 type GPTEncodeFn = (text: string) => number[];
 type ClaudeTokenizer = (text: string) => Promise<{
@@ -122,15 +119,21 @@ async function loadClaudeTokenizer(): Promise<ClaudeTokenizer | null> {
       try {
         const module = await import('@xenova/transformers');
         const autoTokenizer =
-          (module as { AutoTokenizer?: { from_pretrained?: (...args: unknown[]) => unknown } }).AutoTokenizer ??
-          (module as { default?: { AutoTokenizer?: { from_pretrained?: (...args: unknown[]) => unknown } } }).default
-            ?.AutoTokenizer;
+          (module as { AutoTokenizer?: { from_pretrained?: (...args: unknown[]) => unknown } })
+            .AutoTokenizer ??
+          (
+            module as {
+              default?: { AutoTokenizer?: { from_pretrained?: (...args: unknown[]) => unknown } };
+            }
+          ).default?.AutoTokenizer;
 
         if (!autoTokenizer || typeof autoTokenizer.from_pretrained !== 'function') {
           throw new Error('AutoTokenizer.from_pretrained is not available');
         }
 
-        const tokenizer = (await autoTokenizer.from_pretrained('Xenova/claude-tokenizer')) as ClaudeTokenizer;
+        const tokenizer = (await autoTokenizer.from_pretrained(
+          'Xenova/claude-tokenizer'
+        )) as ClaudeTokenizer;
         claudeTokenizer = tokenizer;
         updateStatus('claude', {
           ready: true,

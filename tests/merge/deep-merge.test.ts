@@ -42,14 +42,14 @@ describe('MissionMerger', () => {
       const base = {
         context: {
           background: 'Generic background',
-          dependencies: ['dep1']
-        }
+          dependencies: ['dep1'],
+        },
       };
       const extension = {
         context: {
           background: 'Domain background',
-          constraints: ['constraint1']
-        }
+          constraints: ['constraint1'],
+        },
       };
       const result = merger.merge(base, extension);
 
@@ -57,8 +57,8 @@ describe('MissionMerger', () => {
         context: {
           background: 'Domain background',
           dependencies: ['dep1'],
-          constraints: ['constraint1']
-        }
+          constraints: ['constraint1'],
+        },
       });
     });
 
@@ -67,19 +67,19 @@ describe('MissionMerger', () => {
         level1: {
           level2: {
             level3: {
-              value: 'base'
-            }
-          }
-        }
+              value: 'base',
+            },
+          },
+        },
       };
       const extension = {
         level1: {
           level2: {
             level3: {
-              newValue: 'extension'
-            }
-          }
-        }
+              newValue: 'extension',
+            },
+          },
+        },
       };
       const result = merger.merge(base, extension);
 
@@ -88,10 +88,10 @@ describe('MissionMerger', () => {
           level2: {
             level3: {
               value: 'base',
-              newValue: 'extension'
-            }
-          }
-        }
+              newValue: 'extension',
+            },
+          },
+        },
       });
     });
   });
@@ -140,7 +140,7 @@ describe('MissionMerger', () => {
       const result = merger.merge(base, extension);
 
       expect(result).toEqual({
-        items: [{ id: 1 }, { id: 2 }, { id: 3 }]
+        items: [{ id: 1 }, { id: 2 }, { id: 3 }],
       });
     });
   });
@@ -185,20 +185,20 @@ describe('MissionMerger', () => {
       const base = {
         context: {
           background: 'text',
-          dependencies: ['dep1']
-        }
+          dependencies: ['dep1'],
+        },
       };
       const extension = {
         context: {
-          dependencies: null
-        }
+          dependencies: null,
+        },
       };
       const result = merger.merge(base, extension);
 
       expect(result).toEqual({
         context: {
-          background: 'text'
-        }
+          background: 'text',
+        },
       });
     });
 
@@ -316,11 +316,11 @@ describe('MissionMerger', () => {
       const base = {
         a: 1,
         b: { c: 2 },
-        d: [1, 2, 3]
+        d: [1, 2, 3],
       };
       const extension = {
         b: { e: 4 },
-        d: [4, 5]
+        d: [4, 5],
       };
 
       const result1 = merger.merge(base, extension);
@@ -350,24 +350,24 @@ describe('MissionMerger', () => {
         objective: 'Complete a technical task',
         context: {
           background: 'Generic background',
-          dependencies: []
+          dependencies: [],
         },
         successCriteria: ['Generic criterion'],
         deliverables: ['Generic deliverable'],
-        domainFields: {}
+        domainFields: {},
       };
 
       const domainPack = {
         context: {
           background: 'Software development task',
-          constraints: ['Use TypeScript', 'Follow coding standards']
+          constraints: ['Use TypeScript', 'Follow coding standards'],
         },
         successCriteria: ['All tests pass', 'Code reviewed'],
         domainFields: {
           techStack: 'TypeScript',
           framework: 'Node.js',
-          testingFramework: 'Jest'
-        }
+          testingFramework: 'Jest',
+        },
       };
 
       const result = merger.merge(genericMission, domainPack);
@@ -380,38 +380,35 @@ describe('MissionMerger', () => {
         context: {
           background: 'Software development task',
           dependencies: [],
-          constraints: ['Use TypeScript', 'Follow coding standards']
+          constraints: ['Use TypeScript', 'Follow coding standards'],
         },
         successCriteria: ['Generic criterion', 'All tests pass', 'Code reviewed'],
         deliverables: ['Generic deliverable'],
         domainFields: {
           techStack: 'TypeScript',
           framework: 'Node.js',
-          testingFramework: 'Jest'
-        }
+          testingFramework: 'Jest',
+        },
       });
     });
 
     it('should merge context objects correctly', () => {
       const baseContext = {
         background: 'Base context',
-        dependencies: ['dep1', 'dep2']
+        dependencies: ['dep1', 'dep2'],
       };
 
       const domainContext = {
         background: 'Domain context',
-        constraints: ['constraint1']
+        constraints: ['constraint1'],
       };
 
-      const result = merger.merge(
-        { context: baseContext },
-        { context: domainContext }
-      );
+      const result = merger.merge({ context: baseContext }, { context: domainContext });
 
       expect(result.context).toEqual({
         background: 'Domain context',
         dependencies: ['dep1', 'dep2'],
-        constraints: ['constraint1']
+        constraints: ['constraint1'],
       });
     });
   });

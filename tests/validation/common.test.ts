@@ -29,9 +29,7 @@ describe('validation/common', () => {
 
     it('rejects paths exceeding max length', async () => {
       const longName = 'a'.repeat(20);
-      await expect(
-        safeFilePath(longName, { maxLength: 10 })
-      ).rejects.toThrow(SanitizationError);
+      await expect(safeFilePath(longName, { maxLength: 10 })).rejects.toThrow(SanitizationError);
     });
 
     it('rejects parent directory traversals', async () => {
@@ -39,9 +37,9 @@ describe('validation/common', () => {
     });
 
     it('requires absolute path when allowRelative=false', async () => {
-      await expect(
-        safeFilePath('relative/path.yaml', { allowRelative: false })
-      ).rejects.toThrow(SanitizationError);
+      await expect(safeFilePath('relative/path.yaml', { allowRelative: false })).rejects.toThrow(
+        SanitizationError
+      );
     });
 
     it('enforces allowed extensions when provided', async () => {
@@ -79,7 +77,6 @@ describe('validation/common', () => {
       expect(sanitized).toContain(path.join(baseDir, 'nested', 'file.txt'));
       await removeDir(baseDir, { recursive: true, force: true });
     });
-
 
     it('rejects paths that resolve outside the base directory via symlink', async () => {
       const tempRoot = await ensureTempDir('safe-path-');
@@ -263,9 +260,9 @@ describe('validation/common', () => {
 
     it('throws SchemaError when JSON schema validation fails', () => {
       const schema = z.object({ id: z.string().uuid() });
-      expect(() =>
-        jsonContent(JSON.stringify({ id: 'not-a-uuid' }), { schema })
-      ).toThrow(SchemaError);
+      expect(() => jsonContent(JSON.stringify({ id: 'not-a-uuid' }), { schema })).toThrow(
+        SchemaError
+      );
     });
   });
 

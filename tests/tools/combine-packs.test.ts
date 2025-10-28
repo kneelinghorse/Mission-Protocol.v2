@@ -115,7 +115,9 @@ describe('CombinePacksToolImpl (mocked dependencies)', () => {
     );
 
     registryMock.loadRegistry.mockResolvedValue([{ name: 'a' }]);
-    packLoaderMock.loadPack.mockImplementation(async (name: string) => ({ manifest: { name } } as any));
+    packLoaderMock.loadPack.mockImplementation(
+      async (name: string) => ({ manifest: { name } }) as any
+    );
     combinerMock.combine.mockReturnValue({
       success: true,
       combinedPack: { manifest: { name: 'combined' } },
@@ -139,7 +141,9 @@ describe('CombinePacksToolImpl (mocked dependencies)', () => {
     );
 
     registryMock.loadRegistry.mockResolvedValue([{ name: 'a' }]);
-    packLoaderMock.loadPack.mockImplementation(async (name: string) => ({ manifest: { name } } as any));
+    packLoaderMock.loadPack.mockImplementation(
+      async (name: string) => ({ manifest: { name } }) as any
+    );
     combinerMock.combine.mockReturnValue({
       success: false,
       errors: ['conflict detected'],
@@ -155,15 +159,13 @@ describe('CombinePacksToolImpl (mocked dependencies)', () => {
 
 describe('handleCombinePacks formatting', () => {
   it('includes warnings and combined pack output', async () => {
-    const executeSpy = jest
-      .spyOn(CombinePacksToolImpl.prototype, 'execute')
-      .mockResolvedValue({
-        success: true,
-        combinedPack: 'manifest:\n  name: combined-pack',
-        loadOrder: ['alpha', 'beta'],
-        warnings: ['size warning'],
-        errors: [],
-      });
+    const executeSpy = jest.spyOn(CombinePacksToolImpl.prototype, 'execute').mockResolvedValue({
+      success: true,
+      combinedPack: 'manifest:\n  name: combined-pack',
+      loadOrder: ['alpha', 'beta'],
+      warnings: ['size warning'],
+      errors: [],
+    });
 
     const response = await handleCombinePacks(
       { packNames: ['alpha', 'beta'], format: 'yaml' },
@@ -181,22 +183,14 @@ describe('handleCombinePacks formatting', () => {
   });
 
   it('throws when execution fails', async () => {
-    const executeSpy = jest
-      .spyOn(CombinePacksToolImpl.prototype, 'execute')
-      .mockResolvedValue({
-        success: false,
-        errors: ['dependency failure'],
-        warnings: [],
-      } as any);
+    const executeSpy = jest.spyOn(CombinePacksToolImpl.prototype, 'execute').mockResolvedValue({
+      success: false,
+      errors: ['dependency failure'],
+      warnings: [],
+    } as any);
 
     await expect(
-      handleCombinePacks(
-        { packNames: ['alpha'] },
-        'registry.yaml',
-        {} as any,
-        {} as any,
-        {} as any
-      )
+      handleCombinePacks({ packNames: ['alpha'] }, 'registry.yaml', {} as any, {} as any, {} as any)
     ).rejects.toThrow('dependency failure');
 
     executeSpy.mockRestore();

@@ -70,7 +70,8 @@ describe('TokenCounter', () => {
 
   describe('Fallback counting', () => {
     test('should provide reasonable estimates', async () => {
-      const text = 'This is a test sentence with approximately twenty characters per word on average.';
+      const text =
+        'This is a test sentence with approximately twenty characters per word on average.';
       const result = await tokenCounter.count(text, 'claude');
 
       // Fallback uses ~4 chars per token
@@ -108,9 +109,9 @@ describe('TokenCounter', () => {
     test('should throw error for unsupported model', async () => {
       const text = 'Test text';
 
-      await expect(
-        tokenCounter.count(text, 'unsupported' as any)
-      ).rejects.toThrow('Unsupported model');
+      await expect(tokenCounter.count(text, 'unsupported' as any)).rejects.toThrow(
+        'Unsupported model'
+      );
     });
 
     test('should handle null or undefined text gracefully', async () => {
@@ -141,12 +142,17 @@ describe('TokenCounter', () => {
 describe('TokenCounter internals', () => {
   test('fallbackCount applies model-specific cost heuristics', () => {
     const counter = new TokenCounter();
-    const fallback = (counter as unknown as {
-      fallbackCount: (text: string, model: 'gpt' | 'claude' | 'gemini') => {
-        count: number;
-        estimatedCost?: number;
-      };
-    }).fallbackCount.bind(counter);
+    const fallback = (
+      counter as unknown as {
+        fallbackCount: (
+          text: string,
+          model: 'gpt' | 'claude' | 'gemini'
+        ) => {
+          count: number;
+          estimatedCost?: number;
+        };
+      }
+    ).fallbackCount.bind(counter);
 
     const sampleText = 'Mission execution summary with ample characters for estimation.';
     const gpt = fallback(sampleText, 'gpt');
@@ -173,6 +179,7 @@ describe('TokenCounter (Claude tokenizer integration)', () => {
 
     jest.resetModules();
     jest.doMock('@xenova/transformers', () => ({
+      __esModule: true,
       AutoTokenizer: {
         from_pretrained: fromPretrained,
       },

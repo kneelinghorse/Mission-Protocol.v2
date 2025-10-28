@@ -74,15 +74,17 @@ domainFields: {}
     }
 
     const files = await fs.readdir(testDataDir);
-    await Promise.all(files.map(async (file) => {
-      const filePath = path.join(testDataDir, file);
-      const stat = await fs.stat(filePath);
-      if (stat.isDirectory()) {
-        await fs.rm(filePath, { recursive: true, force: true });
-      } else {
-        await fs.unlink(filePath);
-      }
-    }));
+    await Promise.all(
+      files.map(async (file) => {
+        const filePath = path.join(testDataDir, file);
+        const stat = await fs.stat(filePath);
+        if (stat.isDirectory()) {
+          await fs.rm(filePath, { recursive: true, force: true });
+        } else {
+          await fs.unlink(filePath);
+        }
+      })
+    );
   });
 
   describe('Generic Mission Creation', () => {
@@ -106,10 +108,7 @@ domainFields: {}
     it('should create generic mission with successCriteria', async () => {
       const params = {
         objective: 'Optimize database queries',
-        successCriteria: [
-          'Query response time < 100ms',
-          'No N+1 query problems',
-        ],
+        successCriteria: ['Query response time < 100ms', 'No N+1 query problems'],
       };
 
       const result = await tool.execute(params, []);
@@ -125,10 +124,7 @@ domainFields: {}
     it('should create generic mission with constraints', async () => {
       const params = {
         objective: 'Implement new feature',
-        constraints: [
-          'Must maintain backward compatibility',
-          'No breaking changes to API',
-        ],
+        constraints: ['Must maintain backward compatibility', 'No breaking changes to API'],
       };
 
       const result = await tool.execute(params, []);
@@ -267,7 +263,9 @@ domains:
         domain: 'nonexistent-domain',
       };
 
-      await expect(tool.execute(params, registryEntries)).rejects.toThrow(/not found.*get_available_domains/i);
+      await expect(tool.execute(params, registryEntries)).rejects.toThrow(
+        /not found.*get_available_domains/i
+      );
     });
   });
 
@@ -596,9 +594,7 @@ objective: "test"
     test('throws when schemaType missing or incorrect', () => {
       const mission = createValidMission();
       (mission as any).schemaType = 'Task';
-      const guardSpy = jest
-        .spyOn(GenericMissionSchema, 'isGenericMission')
-        .mockReturnValue(true);
+      const guardSpy = jest.spyOn(GenericMissionSchema, 'isGenericMission').mockReturnValue(true);
       try {
         expect(() => (tool as any).validateMission(mission)).toThrow('Invalid schemaType');
       } finally {
@@ -609,9 +605,7 @@ objective: "test"
     test('throws when schemaVersion missing or incorrect', () => {
       const mission = createValidMission();
       (mission as any).schemaVersion = '1.0';
-      const guardSpy = jest
-        .spyOn(GenericMissionSchema, 'isGenericMission')
-        .mockReturnValue(true);
+      const guardSpy = jest.spyOn(GenericMissionSchema, 'isGenericMission').mockReturnValue(true);
       try {
         expect(() => (tool as any).validateMission(mission)).toThrow('Invalid schemaVersion');
       } finally {
@@ -622,9 +616,7 @@ objective: "test"
     test('throws when missionId missing', () => {
       const mission = createValidMission();
       mission.missionId = '';
-      const guardSpy = jest
-        .spyOn(GenericMissionSchema, 'isGenericMission')
-        .mockReturnValue(true);
+      const guardSpy = jest.spyOn(GenericMissionSchema, 'isGenericMission').mockReturnValue(true);
       try {
         expect(() => (tool as any).validateMission(mission)).toThrow('Invalid missionId');
       } finally {
@@ -635,9 +627,7 @@ objective: "test"
     test('throws when objective missing', () => {
       const mission = createValidMission();
       mission.objective = '';
-      const guardSpy = jest
-        .spyOn(GenericMissionSchema, 'isGenericMission')
-        .mockReturnValue(true);
+      const guardSpy = jest.spyOn(GenericMissionSchema, 'isGenericMission').mockReturnValue(true);
       try {
         expect(() => (tool as any).validateMission(mission)).toThrow('Invalid objective');
       } finally {
@@ -648,9 +638,7 @@ objective: "test"
     test('throws when successCriteria empty', () => {
       const mission = createValidMission();
       mission.successCriteria = [];
-      const guardSpy = jest
-        .spyOn(GenericMissionSchema, 'isGenericMission')
-        .mockReturnValue(true);
+      const guardSpy = jest.spyOn(GenericMissionSchema, 'isGenericMission').mockReturnValue(true);
       try {
         expect(() => (tool as any).validateMission(mission)).toThrow(
           'successCriteria must be a non-empty array'
@@ -663,9 +651,7 @@ objective: "test"
     test('throws when deliverables empty', () => {
       const mission = createValidMission();
       mission.deliverables = [];
-      const guardSpy = jest
-        .spyOn(GenericMissionSchema, 'isGenericMission')
-        .mockReturnValue(true);
+      const guardSpy = jest.spyOn(GenericMissionSchema, 'isGenericMission').mockReturnValue(true);
       try {
         expect(() => (tool as any).validateMission(mission)).toThrow(
           'deliverables must be a non-empty array'

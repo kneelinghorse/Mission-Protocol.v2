@@ -38,7 +38,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -58,7 +58,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -70,7 +70,7 @@ describe('TemplateExtractor', () => {
       // Check that config values were identified
       const candidateValues = Object.values(result.candidates)
         .flat()
-        .map(c => c.value);
+        .map((c) => c.value);
 
       expect(candidateValues).toContain('my-service');
       expect(candidateValues).toContain(8080);
@@ -80,16 +80,20 @@ describe('TemplateExtractor', () => {
       const packageJson = path.join(testMissionDir, 'package.json');
       await fs.writeFile(
         packageJson,
-        JSON.stringify({
-          name: 'test-project',
-          version: '1.0.0',
-          description: 'A test project'
-        }, null, 2)
+        JSON.stringify(
+          {
+            name: 'test-project',
+            version: '1.0.0',
+            description: 'A test project',
+          },
+          null,
+          2
+        )
       );
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -99,7 +103,7 @@ describe('TemplateExtractor', () => {
 
       const candidateValues = Object.values(result.candidates)
         .flat()
-        .map(c => c.value);
+        .map((c) => c.value);
 
       expect(candidateValues).toContain('test-project');
     });
@@ -113,7 +117,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -121,10 +125,10 @@ describe('TemplateExtractor', () => {
 
       const pathCandidates = Object.values(result.candidates)
         .flat()
-        .filter(c => c.type === 'path-segment');
+        .filter((c) => c.type === 'path-segment');
 
       expect(pathCandidates.length).toBeGreaterThan(0);
-      expect(pathCandidates.some(c => c.value === 'my-custom-app')).toBe(true);
+      expect(pathCandidates.some((c) => c.value === 'my-custom-app')).toBe(true);
     });
 
     it('should exclude files based on exclude patterns', async () => {
@@ -138,7 +142,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -158,15 +162,12 @@ describe('TemplateExtractor', () => {
         path.join(testMissionDir, 'file2.py'),
         'NAME = "unique-project"\nCOMMON = "common-value"\n'
       );
-      await fs.writeFile(
-        path.join(testMissionDir, 'file3.py'),
-        'COMMON = "common-value"\n'
-      );
+      await fs.writeFile(path.join(testMissionDir, 'file3.py'), 'COMMON = "common-value"\n');
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
         author: 'test@example.com',
-        confidenceThreshold: 0.3
+        confidenceThreshold: 0.3,
       };
 
       const extractor = new TemplateExtractor(config);
@@ -175,11 +176,11 @@ describe('TemplateExtractor', () => {
       // "unique-project" should have higher confidence than "common-value"
       const uniqueCandidates = Object.values(result.candidates)
         .flat()
-        .filter(c => c.value === 'unique-project');
+        .filter((c) => c.value === 'unique-project');
 
       const commonCandidates = Object.values(result.candidates)
         .flat()
-        .filter(c => c.value === 'common-value');
+        .filter((c) => c.value === 'common-value');
 
       if (uniqueCandidates.length > 0 && commonCandidates.length > 0) {
         expect(uniqueCandidates[0].confidence).toBeGreaterThan(commonCandidates[0].confidence);
@@ -196,7 +197,7 @@ describe('TemplateExtractor', () => {
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
         author: 'test@example.com',
-        confidenceThreshold: 1.0 // Force initial filter to exclude all
+        confidenceThreshold: 1.0, // Force initial filter to exclude all
       };
 
       const extractor = new TemplateExtractor(config);
@@ -221,7 +222,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -235,14 +236,11 @@ describe('TemplateExtractor', () => {
   describe('Stage 2: Template Generation', () => {
     it('should generate a complete template from candidates', async () => {
       const appPy = path.join(testMissionDir, 'app.py');
-      await fs.writeFile(
-        appPy,
-        'from flask import Flask\n\napp = Flask("my-service")\n'
-      );
+      await fs.writeFile(appPy, 'from flask import Flask\n\napp = Flask("my-service")\n');
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -257,21 +255,18 @@ describe('TemplateExtractor', () => {
 
     it('should replace literals with Jinja2 placeholders', async () => {
       const appPy = path.join(testMissionDir, 'app.py');
-      await fs.writeFile(
-        appPy,
-        'PROJECT = "customer-api"\nprint("Welcome to customer-api")\n'
-      );
+      await fs.writeFile(appPy, 'PROJECT = "customer-api"\nprint("Welcome to customer-api")\n');
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
       const stage1Result = await extractor.identifyCandidates(testMissionDir);
       const stage2Result = await extractor.generateTemplate(stage1Result.candidates);
 
-      const appFile = stage2Result.template.fileStructure.find(f => f.path.includes('app.py'));
+      const appFile = stage2Result.template.fileStructure.find((f) => f.path.includes('app.py'));
       expect(appFile).toBeDefined();
 
       // Should contain Jinja2 placeholders
@@ -285,7 +280,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test-author@example.com'
+        author: 'test-author@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -306,14 +301,11 @@ describe('TemplateExtractor', () => {
     it('should generate parameters with correct types', async () => {
       // Use JSON with a boolean-like string for name to exercise boolean branch
       const configJson = path.join(testMissionDir, 'config.json');
-      await fs.writeFile(
-        configJson,
-        JSON.stringify({ name: 'true', port: 8080 }, null, 2)
-      );
+      await fs.writeFile(configJson, JSON.stringify({ name: 'true', port: 8080 }, null, 2));
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -323,11 +315,11 @@ describe('TemplateExtractor', () => {
       const params = stage2Result.template.metadata.parameters;
 
       // Find parameter with number type
-      const numberParam = Object.values(params).find(p => p.type === 'number');
+      const numberParam = Object.values(params).find((p) => p.type === 'number');
       expect(numberParam).toBeDefined();
 
       // Find parameter with boolean type (name: 'true' should infer boolean)
-      const booleanParam = Object.values(params).find(p => p.type === 'boolean');
+      const booleanParam = Object.values(params).find((p) => p.type === 'boolean');
       expect(booleanParam).toBeDefined();
     });
 
@@ -343,7 +335,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -352,7 +344,7 @@ describe('TemplateExtractor', () => {
 
       // Check if file paths contain Jinja2 placeholders
       const hasTemplatedPath = stage2Result.template.fileStructure.some(
-        f => f.path.includes('{{') && f.path.includes('}}')
+        (f) => f.path.includes('{{') && f.path.includes('}}')
       );
 
       expect(hasTemplatedPath).toBe(true);
@@ -375,7 +367,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -394,11 +386,15 @@ describe('TemplateExtractor', () => {
       // Create a realistic test mission
       await fs.writeFile(
         path.join(testMissionDir, 'package.json'),
-        JSON.stringify({
-          name: 'my-microservice',
-          version: '1.0.0',
-          description: 'A test microservice'
-        }, null, 2)
+        JSON.stringify(
+          {
+            name: 'my-microservice',
+            version: '1.0.0',
+            description: 'A test microservice',
+          },
+          null,
+          2
+        )
       );
 
       await fs.writeFile(
@@ -408,7 +404,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -424,7 +420,7 @@ describe('TemplateExtractor', () => {
     it('should handle extraction errors gracefully', async () => {
       const config: ExtractionConfig = {
         sourceMissionPath: '/nonexistent/path',
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -444,7 +440,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -459,18 +455,21 @@ describe('TemplateExtractor', () => {
     it('should generate valid template metadata', async () => {
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
-      const metadata = await extractor.extractMetadata({
-        project_name: {
-          type: 'string',
-          description: 'Project name',
-          default: 'my-project',
-          required: true
-        }
-      }, testMissionDir);
+      const metadata = await extractor.extractMetadata(
+        {
+          project_name: {
+            type: 'string',
+            description: 'Project name',
+            default: 'my-project',
+            required: true,
+          },
+        },
+        testMissionDir
+      );
 
       expect(metadata.templateId).toBeDefined();
       expect(metadata.name).toBeDefined();
@@ -487,7 +486,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -508,7 +507,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -516,7 +515,7 @@ describe('TemplateExtractor', () => {
 
       const candidateValues = Object.values(result.candidates)
         .flat()
-        .map(c => c.value);
+        .map((c) => c.value);
 
       expect(candidateValues).toContain('nested-app');
       expect(candidateValues).toContain('1.2.3');
@@ -531,7 +530,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: specialDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);
@@ -548,7 +547,7 @@ describe('TemplateExtractor', () => {
 
       const config: ExtractionConfig = {
         sourceMissionPath: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const extractor = new TemplateExtractor(config);

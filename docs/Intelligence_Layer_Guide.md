@@ -41,7 +41,7 @@ suggest_splits --missionFile=missions/complex-feature.yaml --maxComplexity=10
 ```typescript
 const result = await scoreQuality({
   missionFile: 'missions/sprint-04/B4.1_token-optimization.yaml',
-  verbose: true
+  verbose: true,
 });
 
 console.log(result.summary);
@@ -73,13 +73,13 @@ Improvement Suggestions:
 
 ### Quality Score Interpretation
 
-| Score Range | Grade | Meaning |
-|-------------|-------|---------|
-| 90-100% | A | Excellent - Ready for execution |
-| 80-89% | B | Good - Minor improvements suggested |
-| 70-79% | C | Acceptable - Some revisions recommended |
-| 60-69% | D | Fair - Significant improvements needed |
-| < 60% | F | Poor - Requires major revision |
+| Score Range | Grade | Meaning                                 |
+| ----------- | ----- | --------------------------------------- |
+| 90-100%     | A     | Excellent - Ready for execution         |
+| 80-89%      | B     | Good - Minor improvements suggested     |
+| 70-79%      | C     | Acceptable - Some revisions recommended |
+| 60-69%      | D     | Fair - Significant improvements needed  |
+| < 60%       | F     | Poor - Requires major revision          |
 
 ### Parameters
 
@@ -89,27 +89,29 @@ Improvement Suggestions:
 ### Use Cases
 
 **Before Starting a Mission**
+
 ```typescript
 // Validate mission quality before execution
 const quality = await scoreQuality({
   missionFile: 'missions/current.yaml',
-  verbose: true
+  verbose: true,
 });
 
 if (quality.score!.total < 0.7) {
   console.log('⚠️  Mission quality below threshold. Review suggestions:');
-  quality.score!.suggestions.forEach(s => console.log(`  - ${s.message}`));
+  quality.score!.suggestions.forEach((s) => console.log(`  - ${s.message}`));
 }
 ```
 
 **During Mission Planning**
+
 ```typescript
 // Compare quality across sprint missions
 const missions = ['B4.1', 'B4.2', 'B4.3', 'B4.4', 'B4.5'];
 for (const id of missions) {
   const result = await scoreQuality({
     missionFile: `missions/sprint-04/${id}_*.yaml`,
-    verbose: false
+    verbose: false,
   });
   console.log(`${id}: ${(result.score!.total * 100).toFixed(1)}%`);
 }
@@ -128,7 +130,7 @@ const result = await handleOptimizeTokens({
   missionFile: 'missions/verbose-mission.yaml',
   targetModel: 'claude',
   compressionLevel: 'balanced',
-  dryRun: false
+  dryRun: false,
 });
 
 console.log(`Tokens saved: ${result.stats!.originalTokens - result.stats!.compressedTokens}`);
@@ -138,16 +140,19 @@ console.log(`Reduction: ${result.stats!.reductionPercentage.toFixed(1)}%`);
 ### Compression Levels
 
 **Conservative** (5-15% reduction)
+
 - Minimal changes
 - High semantic preservation
 - Best for critical missions
 
 **Balanced** (15-25% reduction) - **Recommended**
+
 - Moderate compression
 - Good semantic preservation
 - Best for most missions
 
 **Aggressive** (25-40% reduction)
+
 - Maximum compression
 - May use model-specific syntax
 - Best for context-constrained scenarios
@@ -168,7 +173,7 @@ const preview = await handleOptimizeTokens({
   missionFile: 'missions/important-mission.yaml',
   targetModel: 'claude',
   compressionLevel: 'balanced',
-  dryRun: true
+  dryRun: true,
 });
 
 console.log('Before:', preview.stats!.originalTokens, 'tokens');
@@ -178,20 +183,21 @@ console.log('\nPasses applied:', preview.stats!.passesApplied.join(', '));
 
 if (preview.warnings && preview.warnings.length > 0) {
   console.log('\n⚠️  Warnings:');
-  preview.warnings.forEach(w => console.log(`  - ${w}`));
+  preview.warnings.forEach((w) => console.log(`  - ${w}`));
 }
 ```
 
 ### Use Cases
 
 **Before Long Context Sessions**
+
 ```typescript
 // Optimize mission to fit within context window
 const mission = await handleOptimizeTokens({
   missionFile: 'missions/large-refactor.yaml',
   targetModel: 'claude',
   compressionLevel: 'aggressive',
-  dryRun: false
+  dryRun: false,
 });
 
 // Verify it fits within budget
@@ -201,6 +207,7 @@ if (mission.stats!.compressedTokens < 50000) {
 ```
 
 **Batch Optimization**
+
 ```typescript
 // Optimize all missions in a sprint
 const sprintMissions = ['B4.1', 'B4.2', 'B4.3', 'B4.4', 'B4.5'];
@@ -210,7 +217,7 @@ for (const id of sprintMissions) {
     missionFile: path,
     targetModel: 'claude',
     compressionLevel: 'balanced',
-    dryRun: false
+    dryRun: false,
   });
   console.log(`✓ Optimized ${id}`);
 }
@@ -227,7 +234,7 @@ for (const id of sprintMissions) {
 ```typescript
 const analysis = await executeAnalyzeDependenciesTool({
   missionDirectory: 'missions/sprint-04',
-  outputFormat: 'detailed'
+  outputFormat: 'detailed',
 });
 
 console.log(analysis);
@@ -282,11 +289,12 @@ Execution Order (Topological Sort):
 ### Use Cases
 
 **Sprint Planning**
+
 ```typescript
 // Analyze dependencies before sprint starts
 const analysis = await executeAnalyzeDependenciesTool({
   missionDirectory: 'missions/sprint-05',
-  outputFormat: 'detailed'
+  outputFormat: 'detailed',
 });
 
 // Check for circular dependencies
@@ -296,11 +304,12 @@ if (analysis.includes('Has Cycles: Yes')) {
 ```
 
 **Visualize Dependency Graph**
+
 ```typescript
 // Generate Mermaid diagram
 const graph = await executeAnalyzeDependenciesTool({
   missionDirectory: 'missions/sprint-04',
-  outputFormat: 'mermaid'
+  outputFormat: 'mermaid',
 });
 
 console.log(graph);
@@ -308,6 +317,7 @@ console.log(graph);
 ```
 
 **Validate Execution Order**
+
 ```typescript
 // Get optimal execution sequence
 const analysis = await executeAnalyzeDependenciesTool({
@@ -316,9 +326,9 @@ const analysis = await executeAnalyzeDependenciesTool({
     'missions/sprint-04/B4.2_mission-splitting.yaml',
     'missions/sprint-04/B4.3_dependency-detection.yaml',
     'missions/sprint-04/B4.4_quality-scoring.yaml',
-    'missions/sprint-04/B4.5_integration.yaml'
+    'missions/sprint-04/B4.5_integration.yaml',
   ],
-  outputFormat: 'summary'
+  outputFormat: 'summary',
 });
 
 // Execution order is in topological sort section
@@ -336,7 +346,7 @@ const analysis = await executeAnalyzeDependenciesTool({
 const suggestions = await executeSuggestSplitsTool({
   missionFile: 'missions/complex-feature.yaml',
   maxComplexity: 10,
-  minSubmissionSize: 2
+  minSubmissionSize: 2,
 });
 
 if (suggestions.shouldSplit) {
@@ -352,7 +362,7 @@ const result = await executeSplitMissionTool({
   missionFile: 'missions/complex-feature.yaml',
   outputDir: 'missions/sprint-05',
   numSubmissions: 3,
-  splitStrategy: 'semantic'
+  splitStrategy: 'semantic',
 });
 
 console.log(`Created ${result.submissionCount} sub-missions:`);
@@ -364,26 +374,31 @@ result.submissionPaths!.forEach((path, i) => {
 ### Split Strategies
 
 **Semantic** (Recommended)
+
 - Splits based on functional cohesion
 - Preserves related deliverables together
 - Best for feature-oriented missions
 
 **Balanced**
+
 - Even distribution of complexity
 - Best for large refactoring missions
 
 **Sequential**
+
 - Splits into ordered sequence
 - Best for multi-step workflows
 
 ### Parameters
 
 **`get_split_suggestions` (alias `suggest_splits`):**
+
 - `missionFile` (required): Path to mission to analyze
 - `maxComplexity` (optional): Complexity threshold (default: 10)
 - `minSubmissionSize` (optional): Minimum sub-missions (default: 2)
 
 **`create_mission_splits` (alias `split_mission`):**
+
 - `missionFile` (required): Path to mission to split
 - `outputDir` (required): Directory for sub-missions
 - `numSubmissions` (required): Number of sub-missions to create
@@ -392,13 +407,14 @@ result.submissionPaths!.forEach((path, i) => {
 ### Use Cases
 
 **Large Feature Development**
+
 ```typescript
 // Mission: "Implement complete authentication system"
 // Too complex for single session
 
 const suggestions = await executeSuggestSplitsTool({
   missionFile: 'missions/auth-system.yaml',
-  maxComplexity: 8
+  maxComplexity: 8,
 });
 
 if (suggestions.shouldSplit) {
@@ -406,7 +422,7 @@ if (suggestions.shouldSplit) {
     missionFile: 'missions/auth-system.yaml',
     outputDir: 'missions/sprint-06',
     numSubmissions: suggestions.suggestions[0].proposedSplits,
-    splitStrategy: 'semantic'
+    splitStrategy: 'semantic',
   });
 
   // Now you have: B6.1 (OAuth), B6.2 (Sessions), B6.3 (Middleware)
@@ -414,6 +430,7 @@ if (suggestions.shouldSplit) {
 ```
 
 **Complexity Management**
+
 ```typescript
 import { promises as fs } from 'fs';
 
@@ -423,7 +440,7 @@ const backlog = await fs.readdir('missions/backlog');
 for (const file of backlog) {
   const suggestions = await executeSuggestSplitsTool({
     missionFile: `missions/backlog/${file}`,
-    maxComplexity: 10
+    maxComplexity: 10,
   });
 
   if (suggestions.shouldSplit) {
@@ -446,7 +463,7 @@ Here's how to use the Intelligence Layer for a complete sprint:
 // Step 1: Analyze sprint dependencies
 const depAnalysis = await executeAnalyzeDependenciesTool({
   missionDirectory: 'missions/sprint-05',
-  outputFormat: 'detailed'
+  outputFormat: 'detailed',
 });
 
 console.log('📊 Dependency Analysis:');
@@ -458,7 +475,7 @@ const missionFiles = ['B5.1', 'B5.2', 'B5.3', 'B5.4'];
 for (const id of missionFiles) {
   const quality = await scoreQuality({
     missionFile: `missions/sprint-05/${id}_*.yaml`,
-    verbose: false
+    verbose: false,
   });
 
   const grade = quality.score!.total >= 0.8 ? '✓' : '⚠';
@@ -470,11 +487,13 @@ console.log('\n🔍 Complexity Analysis:');
 for (const id of missionFiles) {
   const suggestions = await executeSuggestSplitsTool({
     missionFile: `missions/sprint-05/${id}_*.yaml`,
-    maxComplexity: 10
+    maxComplexity: 10,
   });
 
   if (suggestions.shouldSplit) {
-    console.log(`⚠️  ${id} should be split into ${suggestions.suggestions[0].proposedSplits} missions`);
+    console.log(
+      `⚠️  ${id} should be split into ${suggestions.suggestions[0].proposedSplits} missions`
+    );
   }
 }
 
@@ -485,7 +504,7 @@ for (const id of missionFiles) {
     missionFile: `missions/sprint-05/${id}_*.yaml`,
     targetModel: 'claude',
     compressionLevel: 'balanced',
-    dryRun: false
+    dryRun: false,
   });
 
   console.log(`✓ ${id}: Saved ${optimization.stats!.reductionPercentage.toFixed(1)}% tokens`);
@@ -500,13 +519,13 @@ console.log('\n✅ Sprint 5 analysis complete! Ready for execution.');
 
 The Intelligence Layer is optimized for speed:
 
-| Tool | Typical Performance | Maximum Latency |
-|------|---------------------|-----------------|
-| `get_mission_quality_score` (alias `score_quality`) | 5-15ms | <100ms |
-| `update_token_optimization` (alias `optimize_tokens`) | 20-50ms | <200ms |
-| `get_dependency_analysis` (alias `analyze_dependencies`) | 10-40ms | <150ms |
-| `get_split_suggestions` (alias `suggest_splits`) | 15-35ms | <120ms |
-| `create_mission_splits` (alias `split_mission`) | 30-80ms | <250ms |
+| Tool                                                     | Typical Performance | Maximum Latency |
+| -------------------------------------------------------- | ------------------- | --------------- |
+| `get_mission_quality_score` (alias `score_quality`)      | 5-15ms              | <100ms          |
+| `update_token_optimization` (alias `optimize_tokens`)    | 20-50ms             | <200ms          |
+| `get_dependency_analysis` (alias `analyze_dependencies`) | 10-40ms             | <150ms          |
+| `get_split_suggestions` (alias `suggest_splits`)         | 15-35ms             | <120ms          |
+| `create_mission_splits` (alias `split_mission`)          | 30-80ms             | <250ms          |
 
 All benchmarks tested with missions of 200-1000 tokens on standard hardware.
 
@@ -517,6 +536,7 @@ All benchmarks tested with missions of 200-1000 tokens on standard hardware.
 ### 1. Quality-First Approach
 
 Always check quality before execution:
+
 ```typescript
 const quality = await scoreQuality({ missionFile: 'missions/current.yaml', verbose: true });
 if (quality.score!.total < 0.75) {
@@ -527,20 +547,27 @@ if (quality.score!.total < 0.75) {
 ### 2. Optimize Early
 
 Optimize missions during planning, not during execution:
+
 ```typescript
 // During sprint planning
 for (const mission of sprintMissions) {
-  await handleOptimizeTokens({ missionFile: mission, targetModel: 'claude', compressionLevel: 'balanced', dryRun: false });
+  await handleOptimizeTokens({
+    missionFile: mission,
+    targetModel: 'claude',
+    compressionLevel: 'balanced',
+    dryRun: false,
+  });
 }
 ```
 
 ### 3. Validate Dependencies
 
 Always analyze dependencies before starting a sprint:
+
 ```typescript
 const analysis = await executeAnalyzeDependenciesTool({
   missionDirectory: 'missions/current-sprint',
-  outputFormat: 'detailed'
+  outputFormat: 'detailed',
 });
 
 // Check for circular dependencies or missing prerequisites
@@ -549,10 +576,11 @@ const analysis = await executeAnalyzeDependenciesTool({
 ### 4. Split Proactively
 
 Check complexity during mission creation:
+
 ```typescript
 const suggestions = await executeSuggestSplitsTool({
   missionFile: newMission,
-  maxComplexity: 10
+  maxComplexity: 10,
 });
 
 if (suggestions.shouldSplit) {
@@ -569,9 +597,10 @@ if (suggestions.shouldSplit) {
 **Cause**: Mission may lack specificity or have structural issues.
 
 **Solution**:
+
 ```typescript
 const quality = await scoreQuality({ missionFile: mission, verbose: true });
-quality.score!.suggestions.forEach(s => {
+quality.score!.suggestions.forEach((s) => {
   if (s.severity === 'critical' || s.severity === 'important') {
     console.log(`Fix: ${s.message}`);
   }
@@ -583,12 +612,13 @@ quality.score!.suggestions.forEach(s => {
 **Cause**: Model-specific transpilers may add syntax for better parsing.
 
 **Solution**: Use `conservative` compression level or disable model-specific transpilers:
+
 ```typescript
 await handleOptimizeTokens({
   missionFile: mission,
   targetModel: 'claude',
   compressionLevel: 'conservative', // Less aggressive
-  dryRun: false
+  dryRun: false,
 });
 ```
 
@@ -597,10 +627,11 @@ await handleOptimizeTokens({
 **Cause**: Missions have mutual dependencies.
 
 **Solution**:
+
 ```typescript
 const analysis = await executeAnalyzeDependenciesTool({
   missionDirectory: 'missions/sprint',
-  outputFormat: 'detailed'
+  outputFormat: 'detailed',
 });
 
 // Review dependency chain and restructure missions
@@ -624,6 +655,7 @@ All Intelligence Layer tools are available as MCP tools in Claude Desktop:
 ```
 
 Then use in Claude:
+
 ```
 Can you score the quality of missions/current.yaml?
 Can you optimize missions/sprint-04/*.yaml for tokens?
@@ -641,5 +673,5 @@ Can you analyze dependencies in missions/sprint-04?
 
 ---
 
-*Intelligence Layer - Mission Protocol v2.0*
-*Generated with [Claude Code](https://claude.com/claude-code)*
+_Intelligence Layer - Mission Protocol v2.0_
+_Generated with [Claude Code](https://claude.com/claude-code)_

@@ -100,12 +100,7 @@ const result = await handleOptimizeTokens(params: OptimizeTokensParams): Promise
     "compressedTokens": 975,
     "reductionPercentage": 22.0,
     "compressionRatio": 0.78,
-    "passesApplied": [
-      "sanitization",
-      "structural",
-      "linguistic",
-      "model-specific"
-    ]
+    "passesApplied": ["sanitization", "structural", "linguistic", "model-specific"]
   },
   "warnings": []
 }
@@ -120,11 +115,11 @@ const result = await handleOptimizeTokens(params: OptimizeTokensParams): Promise
 
 ### Error Handling
 
-| Error | Cause | Solution |
-|-------|-------|----------|
-| `Mission file not found` | Invalid path | Verify file path |
-| `Invalid YAML format` | Malformed YAML | Fix YAML syntax |
-| `Compression failed` | Algorithm error | Try conservative level |
+| Error                    | Cause           | Solution               |
+| ------------------------ | --------------- | ---------------------- |
+| `Mission file not found` | Invalid path    | Verify file path       |
+| `Invalid YAML format`    | Malformed YAML  | Fix YAML syntax        |
+| `Compression failed`     | Algorithm error | Try conservative level |
 
 ---
 
@@ -267,6 +262,7 @@ const result = await scoreQuality(input: ScoreQualityInput): Promise<ScoreQualit
 ### Quality Dimensions
 
 **Clarity (35% weight)**
+
 - Flesch-Kincaid Grade Level (readability)
 - Lexical Density (vocabulary richness)
 - Lexical Ambiguity (word-level clarity)
@@ -275,12 +271,14 @@ const result = await scoreQuality(input: ScoreQualityInput): Promise<ScoreQualit
 - Mission Cyclomatic Complexity (logical complexity)
 
 **Completeness (35% weight)**
+
 - Structural Completeness (required fields present)
 - Information Breadth (coverage of key aspects)
 - Information Density (content richness)
 - Semantic Coverage (topic completeness)
 
 **AI-Readiness (30% weight)**
+
 - Syntactic Validity (YAML correctness)
 - Instruction Specificity (actionable detail)
 - Linting Score (structural quality)
@@ -591,7 +589,7 @@ const result = await executeSuggestSplitsTool(params: SuggestSplitsParams): Prom
 // 1. Score initial quality
 const initialQuality = await scoreQuality({
   missionFile: 'mission.yaml',
-  verbose: true
+  verbose: true,
 });
 
 // 2. Optimize if quality is acceptable
@@ -600,13 +598,13 @@ if (initialQuality.score!.total > 0.7) {
     missionFile: 'mission.yaml',
     targetModel: 'claude',
     compressionLevel: 'balanced',
-    dryRun: false
+    dryRun: false,
   });
 
   // 3. Re-score after optimization
   const finalQuality = await scoreQuality({
     missionFile: 'mission.yaml',
-    verbose: false
+    verbose: false,
   });
 
   console.log(`Quality delta: ${finalQuality.score!.total - initialQuality.score!.total}`);
@@ -619,7 +617,7 @@ if (initialQuality.score!.total > 0.7) {
 // 1. Analyze dependencies
 const analysis = await executeAnalyzeDependenciesTool({
   missionDirectory: 'missions/sprint-04',
-  outputFormat: 'summary'
+  outputFormat: 'summary',
 });
 
 // 2. Extract execution order
@@ -638,7 +636,7 @@ for (const missionId of executionOrder) {
 // 1. Check if split needed
 const suggestions = await executeSuggestSplitsTool({
   missionFile: 'mission.yaml',
-  maxComplexity: 10
+  maxComplexity: 10,
 });
 
 // 2. Split if recommended
@@ -647,7 +645,7 @@ if (suggestions.shouldSplit) {
     missionFile: 'mission.yaml',
     outputDir: 'missions/sprint',
     numSubmissions: suggestions.suggestions![0].proposedSplits,
-    splitStrategy: 'semantic'
+    splitStrategy: 'semantic',
   });
 
   console.log(`Split into ${split.submissionCount} missions`);
@@ -658,15 +656,16 @@ if (suggestions.shouldSplit) {
 
 ## Performance Characteristics
 
-| Operation | Time Complexity | Space Complexity | Typical Latency |
-|-----------|----------------|------------------|-----------------|
-| `get_mission_quality_score` (alias `score_quality`) | O(n) | O(n) | 5-15ms |
-| `update_token_optimization` (alias `optimize_tokens`) | O(n) | O(n) | 20-50ms |
-| `get_dependency_analysis` (alias `analyze_dependencies`) | O(n² + e) | O(n + e) | 10-40ms |
-| `create_mission_splits` (alias `split_mission`) | O(n·m) | O(n·m) | 30-80ms |
-| `get_split_suggestions` (alias `suggest_splits`) | O(n) | O(n) | 15-35ms |
+| Operation                                                | Time Complexity | Space Complexity | Typical Latency |
+| -------------------------------------------------------- | --------------- | ---------------- | --------------- |
+| `get_mission_quality_score` (alias `score_quality`)      | O(n)            | O(n)             | 5-15ms          |
+| `update_token_optimization` (alias `optimize_tokens`)    | O(n)            | O(n)             | 20-50ms         |
+| `get_dependency_analysis` (alias `analyze_dependencies`) | O(n² + e)       | O(n + e)         | 10-40ms         |
+| `create_mission_splits` (alias `split_mission`)          | O(n·m)          | O(n·m)           | 30-80ms         |
+| `get_split_suggestions` (alias `suggest_splits`)         | O(n)            | O(n)             | 15-35ms         |
 
 Where:
+
 - n = mission content size (tokens)
 - e = number of dependency edges
 - m = number of sub-missions
@@ -675,13 +674,13 @@ Where:
 
 ## Error Codes
 
-| Code | Message | Resolution |
-|------|---------|------------|
-| `MISSION_NOT_FOUND` | Mission file not found | Verify file path |
-| `INVALID_YAML` | Invalid YAML format | Check YAML syntax |
+| Code                  | Message                      | Resolution                       |
+| --------------------- | ---------------------------- | -------------------------------- |
+| `MISSION_NOT_FOUND`   | Mission file not found       | Verify file path                 |
+| `INVALID_YAML`        | Invalid YAML format          | Check YAML syntax                |
 | `CIRCULAR_DEPENDENCY` | Circular dependency detected | Restructure mission dependencies |
-| `COMPLEXITY_TOO_LOW` | Mission too simple to split | Execute as single mission |
-| `OPTIMIZATION_FAILED` | Token optimization failed | Try conservative compression |
+| `COMPLEXITY_TOO_LOW`  | Mission too simple to split  | Execute as single mission        |
+| `OPTIMIZATION_FAILED` | Token optimization failed    | Try conservative compression     |
 
 ---
 
@@ -765,6 +764,7 @@ npm test -- tests/quality/
 ## Version History
 
 ### v2.0 (Phase 4) - Intelligence Layer
+
 - Added `get_mission_quality_score` (alias `score_quality`) tool with 3D quality framework
 - Added `update_token_optimization` (alias `optimize_tokens`) tool with 4-pass compression
 - Added `get_dependency_analysis` (alias `analyze_dependencies`) tool with semantic detection
@@ -772,16 +772,18 @@ npm test -- tests/quality/
 - Performance benchmarks: <100ms quality scoring, <200ms optimization
 
 ### v1.5 (Phase 3) - Extension System
+
 - Template extraction, import/export
 - Pack combination
 - Version management
 
 ### v1.0 (Phases 1-2) - Foundation
+
 - MCP server infrastructure
 - Domain pack system
 - Mission creation and validation
 
 ---
 
-*Phase 4 API Documentation - Mission Protocol v2.0*
-*Generated with [Claude Code](https://claude.com/claude-code)*
+_Phase 4 API Documentation - Mission Protocol v2.0_
+_Generated with [Claude Code](https://claude.com/claude-code)_

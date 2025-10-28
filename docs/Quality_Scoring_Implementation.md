@@ -70,15 +70,18 @@ Weights are configurable via `QualityScorerConfig`.
 ## Test Results
 
 **Unit Tests:** 15 passing
+
 - `tests/quality/quality-scorer.test.ts`: 9 tests
 - `tests/quality/clarity-analyzer.test.ts`: 6 tests
 
 **Integration Tests:** 10 passing
+
 - `tests/integration/quality-scoring.test.ts`: 10 tests
 - Tests against real mission files
 - Performance benchmarks validated
 
 **Coverage:**
+
 - Statements: 90%
 - Branches: 80%
 - Functions: 91%
@@ -86,11 +89,11 @@ Weights are configurable via `QualityScorerConfig`.
 
 ## Performance Metrics
 
-| Mission Type | Processing Time | Status |
-|-------------|----------------|---------|
-| Simple      | <1ms           | ✅      |
-| Complex     | 1-3ms          | ✅      |
-| Target      | <3000ms        | ✅ 99.9% under target |
+| Mission Type | Processing Time | Status                |
+| ------------ | --------------- | --------------------- |
+| Simple       | <1ms            | ✅                    |
+| Complex      | 1-3ms           | ✅                    |
+| Target       | <3000ms         | ✅ 99.9% under target |
 
 ## Example Output
 
@@ -130,6 +133,7 @@ console.log(`Suggestions: ${score.suggestions.length}`);
 ```
 
 Via MCP Tool:
+
 ```json
 {
   "missionFile": "/path/to/mission.yaml",
@@ -140,6 +144,7 @@ Via MCP Tool:
 ## Files Created/Modified
 
 **New Files:**
+
 - `app/src/quality/types.ts`
 - `app/src/quality/quality-scorer.ts`
 - `app/src/quality/improvement-engine.ts`
@@ -152,6 +157,7 @@ Via MCP Tool:
 - `app/tests/integration/quality-scoring.test.ts`
 
 **Modified Files:**
+
 - `app/src/index.ts` - Registered score_quality tool
 
 ## Known Limitations

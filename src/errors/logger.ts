@@ -44,9 +44,7 @@ export class ErrorLogger {
    * Emit a structured log entry for an error.
    */
   logError(error: MissionProtocolError, contextOverride?: ErrorContext): string {
-    const correlationId = this.ensureCorrelationId(
-      contextOverride ?? error.context
-    );
+    const correlationId = this.ensureCorrelationId(contextOverride ?? error.context);
     const mergedContext: ErrorContext = {
       ...error.context,
       ...contextOverride,
@@ -95,9 +93,7 @@ export class ErrorLogger {
     if (contextString) {
       this.sink.warn(contextString);
     } else {
-      this.sink.warn(
-        `[${payload.timestamp}] [WARN] ${message} (correlationId=${correlationId})`
-      );
+      this.sink.warn(`[${payload.timestamp}] [WARN] ${message} (correlationId=${correlationId})`);
     }
     return correlationId;
   }

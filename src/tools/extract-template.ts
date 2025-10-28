@@ -67,8 +67,8 @@ export async function extractTemplate(params: ExtractTemplateParams): Promise<Ex
         'build/**',
         '*.log',
         '.env',
-        '.env.*'
-      ]
+        '.env.*',
+      ],
     };
 
     // Run the extraction
@@ -99,10 +99,12 @@ export async function extractTemplate(params: ExtractTemplateParams): Promise<Ex
       const dataMessages = Array.isArray(maybeMessages)
         ? maybeMessages.filter((message): message is string => typeof message === 'string')
         : undefined;
-      const detailMessages = dataMessages && dataMessages.length > 0
-        ? dataMessages
-        : error.issues?.map((issue) => issue.message).filter(Boolean);
-      const detail = detailMessages && detailMessages.length > 0 ? detailMessages[0] : error.message;
+      const detailMessages =
+        dataMessages && dataMessages.length > 0
+          ? dataMessages
+          : error.issues?.map((issue) => issue.message).filter(Boolean);
+      const detail =
+        detailMessages && detailMessages.length > 0 ? detailMessages[0] : error.message;
       const errorsList = detailMessages && detailMessages.length > 0 ? detailMessages : [detail];
       return {
         success: false,
@@ -116,7 +118,7 @@ export async function extractTemplate(params: ExtractTemplateParams): Promise<Ex
     return {
       success: false,
       errors: [errorMessage],
-      totalTime: 0
+      totalTime: 0,
     };
   }
 }
@@ -128,7 +130,10 @@ const ExtractTemplateParamsSchema = z
       .string()
       .min(3)
       .max(64)
-      .regex(/^[a-zA-Z0-9-_]+$/, 'templateName must contain only alphanumeric characters, hyphens, and underscores'),
+      .regex(
+        /^[a-zA-Z0-9-_]+$/,
+        'templateName must contain only alphanumeric characters, hyphens, and underscores'
+      ),
     author: z.string().min(1).max(128),
     outputDir: createFilePathSchema({ allowRelative: true }).optional(),
     confidenceThreshold: z
@@ -144,7 +149,9 @@ const ExtractTemplateParamsSchema = z
 
 type ValidatedExtractTemplateParams = z.infer<typeof ExtractTemplateParamsSchema>;
 
-async function validateParams(params: ExtractTemplateParams): Promise<ValidatedExtractTemplateParams> {
+async function validateParams(
+  params: ExtractTemplateParams
+): Promise<ValidatedExtractTemplateParams> {
   const validated = await validateAndSanitize(params, ExtractTemplateParamsSchema);
 
   if (!(await pathExists(validated.missionFile))) {
@@ -168,7 +175,7 @@ export async function writeTemplate(templateDir: string, result: ExtractionResul
   const sanitizedDir = await safeFilePath(path.resolve(templateDir), { allowRelative: false });
   await ensureDir(sanitizedDir);
 
-  const writeTasks = template.fileStructure.map(file => async () => {
+  const writeTasks = template.fileStructure.map((file) => async () => {
     const filePath = await safeFilePath(file.path, {
       allowRelative: true,
       baseDir: sanitizedDir,
@@ -186,11 +193,9 @@ export async function writeTemplate(templateDir: string, result: ExtractionResul
     allowRelative: true,
     baseDir: sanitizedDir,
   });
-  await writeFileAtomic(
-    metadataPath,
-    JSON.stringify(template.metadata, null, 2),
-    { encoding: 'utf-8' }
-  );
+  await writeFileAtomic(metadataPath, JSON.stringify(template.metadata, null, 2), {
+    encoding: 'utf-8',
+  });
 
   // Write extraction report
   const reportPath = await safeFilePath('EXTRACTION_REPORT.md', {

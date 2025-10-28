@@ -14,12 +14,7 @@
  */
 
 import { DomainPack } from '../domains/types';
-import {
-  DependencyNode,
-  ResolvedDependencies,
-  CircularDependencyError,
-  DependencyNotFoundError,
-} from './types';
+import { DependencyNode, ResolvedDependencies, DependencyNotFoundError } from './types';
 
 /**
  * DependencyResolver
@@ -34,10 +29,7 @@ export class DependencyResolver {
    * @param availablePacks - All available packs (for dependency lookup)
    * @returns Resolved dependencies with load order
    */
-  resolve(
-    packs: DomainPack[],
-    availablePacks: DomainPack[]
-  ): ResolvedDependencies {
+  resolve(packs: DomainPack[], availablePacks: DomainPack[]): ResolvedDependencies {
     const errors: string[] = [];
     const graph = new Map<string, DependencyNode>();
 
@@ -60,7 +52,7 @@ export class DependencyResolver {
     // Step 2: Detect circular dependencies
     const circularDeps = this.detectCircularDependencies(graph);
     if (circularDeps.length > 0) {
-      const cycles = circularDeps.map(cycle => cycle.join(' -> ')).join('; ');
+      const cycles = circularDeps.map((cycle) => cycle.join(' -> ')).join('; ');
       errors.push(`Circular dependencies detected: ${cycles}`);
       return {
         loadOrder: [],
@@ -167,9 +159,7 @@ export class DependencyResolver {
    * @param graph - Dependency graph
    * @returns Array of circular dependency cycles
    */
-  private detectCircularDependencies(
-    graph: Map<string, DependencyNode>
-  ): string[][] {
+  private detectCircularDependencies(graph: Map<string, DependencyNode>): string[][] {
     const cycles: string[][] = [];
     const visited = new Set<string>();
     const recursionStack = new Set<string>();
@@ -295,9 +285,7 @@ export class DependencyResolver {
       return { valid: true, errors: [] };
     }
 
-    const availablePackMap = new Map(
-      availablePacks.map(p => [p.manifest.name, p])
-    );
+    const availablePackMap = new Map(availablePacks.map((p) => [p.manifest.name, p]));
 
     for (const dep of pack.manifest.dependencies) {
       const availablePack = availablePackMap.get(dep.name);
@@ -312,7 +300,7 @@ export class DependencyResolver {
       if (availablePack.manifest.version !== dep.version) {
         errors.push(
           `Dependency "${dep.name}" version mismatch: ` +
-          `required ${dep.version}, found ${availablePack.manifest.version}`
+            `required ${dep.version}, found ${availablePack.manifest.version}`
         );
       }
     }
@@ -330,18 +318,12 @@ export class DependencyResolver {
    * @param availablePacks - All available packs
    * @returns Array of all dependencies (direct and transitive)
    */
-  getTransitiveDependencies(
-    packName: string,
-    availablePacks: DomainPack[]
-  ): string[] {
-    const packMap = new Map(availablePacks.map(p => [p.manifest.name, p]));
+  getTransitiveDependencies(packName: string, availablePacks: DomainPack[]): string[] {
+    const packMap = new Map(availablePacks.map((p) => [p.manifest.name, p]));
     const pack = packMap.get(packName);
 
     if (!pack) {
-      throw new DependencyNotFoundError(
-        `Pack "${packName}" not found`,
-        packName
-      );
+      throw new DependencyNotFoundError(`Pack "${packName}" not found`, packName);
     }
 
     const dependencies = new Set<string>();

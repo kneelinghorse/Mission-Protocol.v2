@@ -36,4 +36,3 @@ dependencies: []
     expect(elapsed).toBeLessThan(1000);
   });
 });
-

@@ -158,15 +158,11 @@ export class OptimizeTokensToolImpl {
 
       // Write optimized content back if not dry run
       if (!params.dryRun) {
-        await writeFileAtomicWithBackup(
-          missionPath,
-          result.optimized,
-          {
-            encoding: 'utf-8',
-            allowedExtensions: ['.yaml', '.yml'],
-            allowRelative: false,
-          }
-        );
+        await writeFileAtomicWithBackup(missionPath, result.optimized, {
+          encoding: 'utf-8',
+          allowedExtensions: ['.yaml', '.yml'],
+          allowRelative: false,
+        });
       }
 
       return {
@@ -208,7 +204,9 @@ export type OptimizeTokensExecutionResult = Awaited<ReturnType<OptimizeTokensToo
 /**
  * Export tool handler
  */
-export async function handleOptimizeTokens(params: OptimizeTokensParams): Promise<OptimizeTokensExecutionResult> {
+export async function handleOptimizeTokens(
+  params: OptimizeTokensParams
+): Promise<OptimizeTokensExecutionResult> {
   const tool = new OptimizeTokensToolImpl();
   return tool.execute(params);
 }

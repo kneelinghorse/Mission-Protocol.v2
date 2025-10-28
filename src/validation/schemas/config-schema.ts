@@ -20,4 +20,3 @@ export const MissionProtocolConfigSchema = z
   .strict();
 
 export type MissionProtocolConfig = z.infer<typeof MissionProtocolConfigSchema>;
-

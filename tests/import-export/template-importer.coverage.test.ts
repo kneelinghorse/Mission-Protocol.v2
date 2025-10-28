@@ -64,7 +64,6 @@ describe('TemplateImporter coverage scenarios', () => {
     const importer = new TemplateImporter(BASE_DIR);
 
     await expect(importer.import('template.yaml')).rejects.toThrow('Template validation failed');
-
   });
 
   it('bubbles dependency resolution failures', async () => {

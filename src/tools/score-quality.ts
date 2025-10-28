@@ -31,7 +31,7 @@ export async function scoreQuality(input: ScoreQualityInput): Promise<ScoreQuali
 
     const loader = new SecureYAMLLoader({
       baseDir,
-      maxFileSize: 5 * 1024 * 1024 // 5MB
+      maxFileSize: 5 * 1024 * 1024, // 5MB
     });
 
     const mission = await loader.load<MissionContent>(path.basename(missionFile));
@@ -48,12 +48,12 @@ export async function scoreQuality(input: ScoreQualityInput): Promise<ScoreQuali
     return {
       success: true,
       score,
-      summary
+      summary,
     };
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : String(error)
+      error: error instanceof Error ? error.message : String(error),
     };
   }
 }
@@ -87,9 +87,9 @@ export function formatQualitySummary(score: QualityScore, verbose: boolean = fal
   if (score.suggestions.length > 0) {
     lines.push('Improvement Suggestions:');
 
-    const criticalSuggestions = score.suggestions.filter(s => s.severity === 'critical');
-    const importantSuggestions = score.suggestions.filter(s => s.severity === 'important');
-    const infoSuggestions = score.suggestions.filter(s => s.severity === 'info');
+    const criticalSuggestions = score.suggestions.filter((s) => s.severity === 'critical');
+    const importantSuggestions = score.suggestions.filter((s) => s.severity === 'important');
+    const infoSuggestions = score.suggestions.filter((s) => s.severity === 'info');
 
     if (criticalSuggestions.length > 0) {
       lines.push('\n  CRITICAL:');
@@ -120,18 +120,24 @@ export function formatQualitySummary(score: QualityScore, verbose: boolean = fal
     lines.push('\n=== Detailed Metrics ===\n');
 
     lines.push('Clarity Metrics:');
-    score.dimensions.clarity.metrics.forEach(m => {
-      lines.push(`  ${m.name}: ${(m.normalizedScore * 100).toFixed(1)}% (raw: ${m.rawValue.toFixed(2)})`);
+    score.dimensions.clarity.metrics.forEach((m) => {
+      lines.push(
+        `  ${m.name}: ${(m.normalizedScore * 100).toFixed(1)}% (raw: ${m.rawValue.toFixed(2)})`
+      );
     });
 
     lines.push('\nCompleteness Metrics:');
-    score.dimensions.completeness.metrics.forEach(m => {
-      lines.push(`  ${m.name}: ${(m.normalizedScore * 100).toFixed(1)}% (raw: ${m.rawValue.toFixed(2)})`);
+    score.dimensions.completeness.metrics.forEach((m) => {
+      lines.push(
+        `  ${m.name}: ${(m.normalizedScore * 100).toFixed(1)}% (raw: ${m.rawValue.toFixed(2)})`
+      );
     });
 
     lines.push('\nAI-Readiness Metrics:');
-    score.dimensions.aiReadiness.metrics.forEach(m => {
-      lines.push(`  ${m.name}: ${(m.normalizedScore * 100).toFixed(1)}% (raw: ${m.rawValue.toFixed(2)})`);
+    score.dimensions.aiReadiness.metrics.forEach((m) => {
+      lines.push(
+        `  ${m.name}: ${(m.normalizedScore * 100).toFixed(1)}% (raw: ${m.rawValue.toFixed(2)})`
+      );
     });
   }
 
@@ -154,23 +160,24 @@ export function getQualityGrade(score: number): string {
  */
 export const getMissionQualityScoreTool = {
   name: 'get_mission_quality_score',
-  description: 'Assess mission quality using three-dimensional framework (Clarity, Completeness, AI-Readiness)',
+  description:
+    'Assess mission quality using three-dimensional framework (Clarity, Completeness, AI-Readiness)',
   inputSchema: {
     type: 'object',
     properties: {
       missionFile: {
         type: 'string',
-        description: 'Path to the mission YAML file to assess'
+        description: 'Path to the mission YAML file to assess',
       },
       verbose: {
         type: 'boolean',
         description: 'Include detailed metric breakdown in output',
-        default: false
-      }
+        default: false,
+      },
     },
-    required: ['missionFile']
+    required: ['missionFile'],
   },
-  handler: scoreQuality
+  handler: scoreQuality,
 } as const;
 
 /**
@@ -179,5 +186,6 @@ export const getMissionQualityScoreTool = {
 export const scoreQualityToolDeprecated = {
   ...getMissionQualityScoreTool,
   name: 'score_quality',
-  description: '[DEPRECATED] Use get_mission_quality_score instead. Runs the same quality scoring pipeline.'
+  description:
+    '[DEPRECATED] Use get_mission_quality_score instead. Runs the same quality scoring pipeline.',
 } as const;

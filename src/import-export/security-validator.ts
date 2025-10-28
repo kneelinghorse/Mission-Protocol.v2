@@ -13,7 +13,6 @@
  * @module import-export/security-validator
  */
 
-import * as crypto from 'crypto';
 import { JSONSchema } from '../types/schemas';
 import {
   MissionTemplate,
@@ -21,8 +20,6 @@ import {
   SecurityValidationReport,
   SemanticValidationRules,
   SignatureVerificationError,
-  SemanticValidationError,
-  DependencyResolutionError,
   TemplateDependency,
   TemplateSpec,
 } from './types';
@@ -146,7 +143,10 @@ export class SecurityValidator {
       // These are handled by SecureYAMLLoader
 
       // Layer 4: Cryptographic Signature Verification
-      const signatureResult = await this.verifySignature(template as MissionTemplate, skipSignature);
+      const signatureResult = await this.verifySignature(
+        template as MissionTemplate,
+        skipSignature
+      );
       layers.push(signatureResult);
       if (!signatureResult.passed) {
         errors.push(signatureResult.message || 'Signature verification failed');
@@ -215,10 +215,9 @@ export class SecurityValidator {
       // Look up public key in trusted registry
       const publicKey = TRUSTED_KEYS.get(signature.keyId);
       if (!publicKey) {
-        throw new SignatureVerificationError(
-          `Untrusted or unknown key: ${signature.keyId}`,
-          { keyId: signature.keyId }
-        );
+        throw new SignatureVerificationError(`Untrusted or unknown key: ${signature.keyId}`, {
+          keyId: signature.keyId,
+        });
       }
 
       // Verify algorithm matches
@@ -283,7 +282,7 @@ export class SecurityValidator {
     content: string,
     signature: string,
     publicKey: string,
-    algorithm: string
+    _algorithm: string
   ): boolean {
     // Simplified implementation - in production use proper crypto
     // For now, just check that signature is non-empty

@@ -20,7 +20,9 @@ jest.mock('../../src/import-export/security-validator', () => {
   return { SecurityValidator };
 });
 
-const loaderModule = jest.requireMock('../../src/loaders/yaml-loader') as { SecureYAMLLoader: jest.Mock };
+const loaderModule = jest.requireMock('../../src/loaders/yaml-loader') as {
+  SecureYAMLLoader: jest.Mock;
+};
 const validatorModule = jest.requireMock('../../src/import-export/security-validator') as {
   SecurityValidator: jest.Mock & { getSchema: jest.Mock };
 };
@@ -92,7 +94,9 @@ describe('TemplateImporter core flow', () => {
     loaderMock.load.mockRejectedValue(new Error('bad yaml'));
 
     const importer = createImporter();
-    await expect(importer.import('template.yaml')).rejects.toThrow('Failed to load template structure');
+    await expect(importer.import('template.yaml')).rejects.toThrow(
+      'Failed to load template structure'
+    );
   });
 
   test('wraps unexpected validator errors', async () => {
@@ -100,7 +104,9 @@ describe('TemplateImporter core flow', () => {
     validatorMock.validate.mockRejectedValue(new Error('validator crashed'));
 
     const importer = createImporter();
-    await expect(importer.import('template.yaml')).rejects.toThrow('Import failed: validator crashed');
+    await expect(importer.import('template.yaml')).rejects.toThrow(
+      'Import failed: validator crashed'
+    );
   });
 
   test('emits performance warning when import exceeds target', async () => {

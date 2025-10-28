@@ -8,7 +8,12 @@ import {
 
 describe('types/errors compatibility layer', () => {
   test('YAMLLoaderError preserves message and context', () => {
-    const error = new YAMLLoaderError('Base failure', { file: 'test.yaml' }, 'CONFIG_INVALID', 'config');
+    const error = new YAMLLoaderError(
+      'Base failure',
+      { file: 'test.yaml' },
+      'CONFIG_INVALID',
+      'config'
+    );
     expect(error.message).toBe('Base failure');
     expect(error.code).toBe('CONFIG_INVALID');
     expect(error.category).toBe('config');

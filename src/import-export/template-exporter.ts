@@ -42,7 +42,11 @@ export class TemplateExporter {
    * @returns true if export succeeded
    * @throws ImportExportError if export fails
    */
-  async export(template: MissionTemplate, outputPath: string, options?: ExportOptions): Promise<boolean> {
+  async export(
+    template: MissionTemplate,
+    outputPath: string,
+    options?: ExportOptions
+  ): Promise<boolean> {
     try {
       // Validate template structure
       this.validateTemplateForExport(template);
@@ -140,7 +144,6 @@ export class TemplateExporter {
    * @returns YAML string
    */
   private serializeToYAML(template: MissionTemplate, options?: ExportOptions): string {
-    const pretty = options?.pretty !== false; // Default to pretty
     const includeComments = options?.includeComments !== false; // Default to include comments
 
     // Use YAML.stringify for safe, strict serialization
@@ -228,7 +231,7 @@ export class TemplateExporter {
     outputDir: string,
     options?: ExportOptions
   ): Promise<number> {
-    const tasks = templates.map(template => async () => {
+    const tasks = templates.map((template) => async () => {
       try {
         const filename = `${template.metadata.name}-${template.metadata.version}.${options?.format || 'yaml'}`;
         const outputPath = path.join(outputDir, filename);

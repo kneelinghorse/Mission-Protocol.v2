@@ -1,11 +1,6 @@
 import { MissionProtocolError } from './mission-error';
 import { ErrorLogger } from './logger';
-import {
-  ErrorCategory,
-  ErrorCode,
-  ErrorContext,
-  ErrorSeverity,
-} from './types';
+import { ErrorCategory, ErrorCode, ErrorContext, ErrorSeverity } from './types';
 import { normalizeError } from './utils';
 
 export interface WrapOptions {

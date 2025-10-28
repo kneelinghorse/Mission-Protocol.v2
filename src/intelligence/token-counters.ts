@@ -67,7 +67,7 @@ export class TokenCounter implements ITokenCounter {
         count,
         estimatedCost: this.estimateGPTCost(count),
       };
-    } catch (error) {
+    } catch (_error) {
       // Fallback to heuristic if library fails
       return this.fallbackCount(text, 'gpt');
     }
@@ -94,25 +94,30 @@ export class TokenCounter implements ITokenCounter {
       if (!tokenizer) {
         return this.fallbackCount(text, 'claude');
       }
-      
+
       // Tokenize the text
       const encoded = await tokenizer(text);
       const count = encoded.input_ids.data.length;
 
       // Emit telemetry warning about potential drift
-      emitTelemetryWarning('token-counter', 'Claude token count using unofficial tokenizer (Transformers.js)', {
-        tokenizer: 'Xenova/claude-tokenizer',
-        textLength: text.length,
-        estimatedTokens: count,
-        accuracyNote: 'May drift up to 50% from official Anthropic API. Weekly validation recommended.',
-      });
+      emitTelemetryWarning(
+        'token-counter',
+        'Claude token count using unofficial tokenizer (Transformers.js)',
+        {
+          tokenizer: 'Xenova/claude-tokenizer',
+          textLength: text.length,
+          estimatedTokens: count,
+          accuracyNote:
+            'May drift up to 50% from official Anthropic API. Weekly validation recommended.',
+        }
+      );
 
       return {
         model: 'claude',
         count,
         estimatedCost: this.estimateClaudeCost(count),
       };
-    } catch (error) {
+    } catch (_error) {
       TokenCounter.claudeTokenizerCache = null;
       // Fallback to heuristic if tokenizer fails to load
       return this.fallbackCount(text, 'claude');

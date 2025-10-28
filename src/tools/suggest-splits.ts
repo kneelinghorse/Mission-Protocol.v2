@@ -117,10 +117,7 @@ export class SuggestSplitsToolImpl {
   private complexityScorer: ComplexityScorer;
   private model: SupportedModel;
 
-  constructor(
-    tokenCounter: ITokenCounter,
-    model: SupportedModel = 'claude'
-  ) {
+  constructor(tokenCounter: ITokenCounter, model: SupportedModel = 'claude') {
     this.model = model;
     // Initialize complexity scorer
     const contextWindow = this.getContextWindow(model);
@@ -167,7 +164,7 @@ export class SuggestSplitsToolImpl {
     if (suggestion.shouldSplit && suggestion.suggestedSplits.length > 0) {
       const missionText = typeof mission === 'string' ? mission : this.serializeMission(mission);
 
-      result.suggestedBreakpoints = suggestion.suggestedSplits.map(split => ({
+      result.suggestedBreakpoints = suggestion.suggestedSplits.map((split) => ({
         position: split.position,
         reason: split.reason,
         confidence: split.confidence,
@@ -336,7 +333,9 @@ export class SuggestSplitsToolImpl {
     if (result.tokenUsage) {
       parts.push(`**Token Usage (${result.tokenUsage.model}):**`);
       parts.push(`- Mission tokens: ${result.tokenUsage.totalTokens}`);
-      parts.push(`- Context utilization: ${(result.tokenUsage.utilization * 100).toFixed(1)}% of ${result.tokenUsage.contextWindow.toLocaleString()} tokens`);
+      parts.push(
+        `- Context utilization: ${(result.tokenUsage.utilization * 100).toFixed(1)}% of ${result.tokenUsage.contextWindow.toLocaleString()} tokens`
+      );
       if (result.tokenUsage.estimatedCost !== undefined) {
         parts.push(`- Estimated input cost: $${result.tokenUsage.estimatedCost.toFixed(4)}`);
       }
@@ -365,7 +364,7 @@ export class SuggestSplitsToolImpl {
 
     if (result.reasons.length > 0) {
       parts.push('**Key Factors:**');
-      parts.push(...result.reasons.map(r => `- ${r}`));
+      parts.push(...result.reasons.map((r) => `- ${r}`));
       parts.push('');
     }
 
@@ -389,7 +388,9 @@ export class SuggestSplitsToolImpl {
 
       parts.push('---');
       parts.push('');
-      parts.push(`Use \`split_mission\` tool to automatically split this mission into ${result.estimatedSubMissions} sub-missions.`);
+      parts.push(
+        `Use \`split_mission\` tool to automatically split this mission into ${result.estimatedSubMissions} sub-missions.`
+      );
     }
 
     return parts.join('\n');

@@ -94,7 +94,12 @@ describe('ImprovementEngine', () => {
       domainFields: {},
     } as any;
 
-    const suggestions = engine.generateSuggestions(clarityScore as any, completenessScore as any, aiReadinessScore as any, mission);
+    const suggestions = engine.generateSuggestions(
+      clarityScore as any,
+      completenessScore as any,
+      aiReadinessScore as any,
+      mission
+    );
     expect(suggestions.length).toBeGreaterThan(0);
 
     const categories = suggestions.reduce<Record<string, number>>((map, suggestion) => {

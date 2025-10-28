@@ -2,10 +2,7 @@ import { describe, it, expect, beforeAll, afterAll } from '@jest/globals';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import * as YAML from 'yaml';
-import {
-  buildMissionProtocolContext,
-  executeMissionProtocolTool,
-} from '../../src/index';
+import { buildMissionProtocolContext, executeMissionProtocolTool } from '../../src/index';
 import type { MissionProtocolContext } from '../../src/index';
 import { createTemplateFromMission } from '../../src/tools/export-template';
 import { resolveTemplatesDir } from '../utils/template-path';
@@ -86,9 +83,7 @@ describe('Mission Protocol Tools Integration', () => {
           missionId: 'B4.3',
           objective: 'Build dependency insights',
           domainFields: {
-            researchFoundation: [
-              { finding: 'Use DAG validation', sourceMission: 'R4.3' },
-            ],
+            researchFoundation: [{ finding: 'Use DAG validation', sourceMission: 'R4.3' }],
           },
         },
       },
@@ -155,14 +150,13 @@ describe('Mission Protocol Tools Integration', () => {
       missionId: 'INTEGRATION-LARGE',
       objective: `Scale test mission ${'X'.repeat(256)}`,
       context: `Ensures update_token_optimization handles large payloads ${'Y'.repeat(512)}`,
-      successCriteria: Array.from({ length: 20 }, (_, index) => `Criterion ${index + 1}: ${'Z'.repeat(12)}`),
+      successCriteria: Array.from(
+        { length: 20 },
+        (_, index) => `Criterion ${index + 1}: ${'Z'.repeat(12)}`
+      ),
       constraints: Array.from({ length: 10 }, (_, index) => `Constraint ${index + 1}`),
     };
-    await fs.writeFile(
-      largeMissionFile,
-      YAML.stringify(largeMissionData),
-      'utf-8'
-    );
+    await fs.writeFile(largeMissionFile, YAML.stringify(largeMissionData), 'utf-8');
   });
 
   afterAll(async () => {
@@ -222,9 +216,7 @@ describe('Mission Protocol Tools Integration', () => {
 
       const missionYaml = structured.mission as string;
       const mission = YAML.parse(missionYaml);
-      expect(mission.successCriteria).toEqual(
-        expect.arrayContaining(params.successCriteria)
-      );
+      expect(mission.successCriteria).toEqual(expect.arrayContaining(params.successCriteria));
     });
 
     it('combines packs with dependency resolution', async () => {

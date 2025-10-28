@@ -68,10 +68,7 @@ export function serializeMissionError(error: MissionProtocolError): SerializedEr
 /**
  * Helper to attach extra context to an error in a fluent manner.
  */
-export function attachContext<T extends MissionProtocolError>(
-  error: T,
-  context: ErrorContext
-): T {
+export function attachContext<T extends MissionProtocolError>(error: T, context: ErrorContext): T {
   error.context = {
     ...error.context,
     ...context,

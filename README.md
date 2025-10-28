@@ -17,33 +17,39 @@ An AI-powered mission planning and execution system with intelligent optimizatio
 Mission Protocol v2 provides MCP tools for autonomous mission management:
 
 ### Phase 4: Intelligence Layer (Current)
+
 - **`get_mission_quality_score`** (formerly `score_quality`) - Assess mission quality across Clarity, Completeness, AI-Readiness
 - **`update_token_optimization`** (formerly `optimize_tokens`) - Reduce token usage 20-30% while preserving semantics
 - **`get_dependency_analysis`** (formerly `analyze_dependencies`) - Detect and visualize mission dependencies
 - **`create_mission_splits`** / **`get_split_suggestions`** (formerly `split_mission` / `suggest_splits`) - Automatically split complex missions
 
 ### Phase 3: Extension System
+
 - **`get_template_extraction`** (alias `extract_template`) - Convert missions into reusable templates
 - **`create_template_import`** / **`get_template_export`** (aliases `import_template` / `export_template`) - Share templates across projects
 - **`create_combined_pack`** (alias `combine_packs`) - Merge domain packs with dependency resolution
 - **Versioning tools** - Template version management and migrations
 
 ### Phase 1-2: Foundation
+
 - **`get_available_domains`** (alias `list_available_domains`) - Browse domain packs (5 packs available: foundation, software.technical-task, business.market-research, build.implementation, build.technical-research)
 - **`create_mission`** - Generate missions from domain templates (operational with restored templates)
 
 ## Documentation
 
 ### User Guides
+
 - **[Intelligence Layer Guide](docs/Intelligence_Layer_Guide.md)** - Phase 4 tools with workflows and examples
 - **[Extension System Guide](docs/Extension_System_Guide.md)** - Phase 3 template management
 - **[Extension Patterns Cookbook](docs/Extension_Patterns_Cookbook.md)** - Common patterns and recipes
 
 ### API References
+
 - **[Phase 4 API Documentation](docs/API_Documentation_Phase4.md)** - Intelligence Layer complete API
 - **[Phase 3 API Documentation](docs/API_Documentation.md)** - Extension System complete API
 
 ### Project Planning
+
 - **`cmos/Phase_4_Completion_Report.md`** – Intelligence Layer report with the February 2025 post-assessment update
 - **`cmos/roadmap.md`** – Product roadmap and design principles
 - **`cmos/research/`** – Research archives from prior phases
@@ -64,6 +70,13 @@ Mission Protocol v2 provides MCP tools for autonomous mission management:
    npm test
    ```
 
+### Quality Tooling
+
+- `npm run lint` / `npm run lint:fix` enforce the TypeScript/ESLint baseline introduced in Sprint 4.
+- `npm run format:check` validates Prettier style; use `npm run format` to apply fixes.
+- `npm run snapshots` verifies MCP tool definition contracts via Jest snapshots (R15 guardrail).
+- `npm run metrics` captures lightweight complexity metrics at `artifacts/quality-metrics/latest.json` for CI artifacts.
+
 ### MCP Integration
 
 Configure in Claude Desktop (`claude_desktop_config.json`):
@@ -80,6 +93,7 @@ Configure in Claude Desktop (`claude_desktop_config.json`):
 ```
 
 Then use in Claude:
+
 ```
 Can you score the quality of missions/current.yaml?
 Can you optimize missions/sprint-04/*.yaml for tokens?
@@ -94,6 +108,7 @@ Can you analyze dependencies in missions/sprint-04?
 - Token usage metrics reflect the target model supplied in tool arguments (`targetModel` for `optimize_tokens`, implicit model for splitting tools). Adjust the model parameter if you need GPT vs. Claude baselines.
 
 **Accuracy & Monitoring:**
+
 - **GPT**: 100% accurate using `gpt-tokenizer` (reference implementation, no API required)
 - **Claude**: Uses unofficial `Xenova/claude-tokenizer` from Transformers.js. May drift up to 50% from official Anthropic API. Weekly CI validation monitors drift.
 - **Gemini**: Heuristic-based (1.5x safety margin) until official JS tokenizer becomes available. May overestimate by up to 100%.
@@ -120,3 +135,4 @@ mission-protocol-v2/
 ├── templates/                    # Domain packs, registry, and generic mission template (restored in Sprint 1)
 ├── package.json
 └── tsconfig.json
+```

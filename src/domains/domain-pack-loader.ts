@@ -29,7 +29,6 @@ import {
 import Ajv from 'ajv';
 import { ErrorHandler } from '../errors/handler';
 import { DomainError } from '../errors/domain-error';
-import { ValidationError } from '../errors/validation-error';
 import { MissionProtocolError } from '../errors/mission-error';
 
 /**
@@ -121,16 +120,13 @@ export class DomainPackLoader {
       // Step 3: Validate manifest
       const validationResult = this.validateManifest(manifest);
       if (!validationResult.valid) {
-        throw new DomainError(
-          `Invalid manifest for pack "${packName}"`,
-          {
-            code: 'DOMAIN_INVALID',
-            context: {
-              ...contextData,
-              errors: validationResult.errors,
-            },
-          }
-        );
+        throw new DomainError(`Invalid manifest for pack "${packName}"`, {
+          code: 'DOMAIN_INVALID',
+          context: {
+            ...contextData,
+            errors: validationResult.errors,
+          },
+        });
       }
 
       // Step 4: Load domain schema
@@ -228,9 +224,7 @@ export class DomainPackLoader {
     if (!manifest.version || manifest.version.trim().length === 0) {
       errors.push('version is required and cannot be empty');
     } else if (!isValidSemVer(manifest.version)) {
-      errors.push(
-        `version "${manifest.version}" is not valid SemVer (expected format: X.Y.Z)`
-      );
+      errors.push(`version "${manifest.version}" is not valid SemVer (expected format: X.Y.Z)`);
     }
 
     if (!manifest.displayName || manifest.displayName.trim().length === 0) {
@@ -264,9 +258,7 @@ export class DomainPackLoader {
         if (!dep.version || dep.version.trim().length === 0) {
           errors.push(`dependency ${index}: version is required`);
         } else if (!isValidSemVer(dep.version)) {
-          errors.push(
-            `dependency ${index}: version "${dep.version}" is not valid SemVer`
-          );
+          errors.push(`dependency ${index}: version "${dep.version}" is not valid SemVer`);
         }
       });
     }
@@ -358,7 +350,7 @@ export class DomainPackLoader {
       const validate = this.ajv.compile(schema);
       const ok = validate(template);
       if (!ok) {
-        const errs = (validate.errors || []).map(e => this.ajv.errorsText([e]));
+        const errs = (validate.errors || []).map((e) => this.ajv.errorsText([e]));
         return { valid: false, errors: errs };
       }
       return { valid: true, errors: [] };
@@ -405,7 +397,7 @@ export class DomainPackLoader {
     // Validate template conforms to schema
     const schemaValidation = this.validateTemplateAgainstSchema(pack.template, pack.schema);
     if (!schemaValidation.valid) {
-      errors.push(...schemaValidation.errors.map(e => `Template schema validation: ${e}`));
+      errors.push(...schemaValidation.errors.map((e) => `Template schema validation: ${e}`));
     }
 
     if (errors.length > 0) {
@@ -425,7 +417,10 @@ export class DomainPackLoader {
    * @param registryEntries - Registry entries to search
    * @returns Domain-specific fields ready for merging
    */
-  async getDomainFields(packName: string, registryEntries: DomainPackEntry[]): Promise<Record<string, unknown>> {
+  async getDomainFields(
+    packName: string,
+    registryEntries: DomainPackEntry[]
+  ): Promise<Record<string, unknown>> {
     const pack = await this.loadPack(packName, registryEntries);
     return pack.template;
   }

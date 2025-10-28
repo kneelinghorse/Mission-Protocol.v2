@@ -193,8 +193,6 @@ export function getModelConfig(model: SupportedModel): ModelConfig {
  * Check if content is already formatted for target model
  */
 export function isAlreadyFormatted(content: string, targetModel: SupportedModel): boolean {
-  const config = modelConfigs[targetModel];
-
   switch (targetModel) {
     case 'claude':
       // Check for XML tags

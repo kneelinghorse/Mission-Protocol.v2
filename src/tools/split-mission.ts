@@ -305,7 +305,7 @@ export class SplitMissionToolImpl {
   ): Promise<string[]> {
     await ensureDir(outputDir);
 
-    const writes = splitResult.subMissions.map(async subMission => {
+    const writes = splitResult.subMissions.map(async (subMission) => {
       const fileName = `${baseName}_sub${subMission.order}.yaml`;
       const filePath = path.join(outputDir, fileName);
 
@@ -337,9 +337,10 @@ export class SplitMissionToolImpl {
         'All deliverables produced',
         'Pass to next sub-mission if applicable',
       ],
-      deliverables: subMission.deliverables.length > 0
-        ? subMission.deliverables
-        : ['Sub-mission completion report'],
+      deliverables:
+        subMission.deliverables.length > 0
+          ? subMission.deliverables
+          : ['Sub-mission completion report'],
       domainFields: {
         order: subMission.order,
         instructions: subMission.instructions,
@@ -451,10 +452,7 @@ export class SplitMissionToolImpl {
               ? [`- Estimated input cost: $${tokenUsage.estimatedCost.toFixed(4)}`]
               : []),
           ]
-        : [
-            '**Token Usage:**',
-            '- Token metrics unavailable for this result.',
-          ];
+        : ['**Token Usage:**', '- Token metrics unavailable for this result.'];
 
       return `# Mission Analysis Complete
 
@@ -474,10 +472,7 @@ The mission can be executed as-is without splitting.`;
             ? [`- Estimated input cost: $${tokenUsage.estimatedCost.toFixed(4)}`]
             : []),
         ]
-      : [
-          '**Token Usage:**',
-          '- Token metrics unavailable for this result.',
-        ];
+      : ['**Token Usage:**', '- Token metrics unavailable for this result.'];
 
     return `# Mission Successfully Split
 
@@ -491,9 +486,12 @@ ${result.subMissionFiles?.map((f, i) => `${i + 1}. \`${f}\``).join('\n')}
 
 ## Execution Plan
 
-${result.executionPlan?.map(ep =>
-  `**Step ${ep.order}:** ${ep.objective}\n- File: \`${ep.file}\`\n- Dependencies: ${ep.dependencies.length > 0 ? ep.dependencies.join(', ') : 'None'}`
-).join('\n\n')}
+${result.executionPlan
+  ?.map(
+    (ep) =>
+      `**Step ${ep.order}:** ${ep.objective}\n- File: \`${ep.file}\`\n- Dependencies: ${ep.dependencies.length > 0 ? ep.dependencies.join(', ') : 'None'}`
+  )
+  .join('\n\n')}
 
 You can now execute these sub-missions sequentially, starting with step 1.`;
   }

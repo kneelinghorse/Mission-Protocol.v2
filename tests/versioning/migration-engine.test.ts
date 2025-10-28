@@ -302,12 +302,7 @@ describe('MigrationEngine', () => {
       );
 
       const template = { name: 'test' };
-      const result = await migrationEngine.migrate(
-        'test-template',
-        template,
-        path!,
-        testDir
-      );
+      const result = await migrationEngine.migrate('test-template', template, path!, testDir);
 
       const success = expectSuccessfulResult(result);
       expect(success.migratedTemplate).toEqual({
@@ -352,12 +347,7 @@ describe('MigrationEngine', () => {
       );
 
       const template = { name: 'test' };
-      const result = await migrationEngine.migrate(
-        'test-template',
-        template,
-        path!,
-        testDir
-      );
+      const result = await migrationEngine.migrate('test-template', template, path!, testDir);
 
       const success = expectSuccessfulResult(result);
       expect(success.migratedTemplate).toEqual({
@@ -385,12 +375,7 @@ describe('MigrationEngine', () => {
       );
 
       const template = { name: 'test' };
-      const result = await migrationEngine.migrate(
-        'test-template',
-        template,
-        path!,
-        testDir
-      );
+      const result = await migrationEngine.migrate('test-template', template, path!, testDir);
 
       expect(result.success).toBe(true);
       expect(result.backupPath).toBeDefined();
@@ -456,22 +441,19 @@ describe('MigrationEngine', () => {
     });
 
     test('should record warnings from successful steps', async () => {
-      migrationEngine.registerMigration(
-        'test-template',
-        {
-          id: 'warn-step',
-          fromVersion: versionManager.parseVersion('1.0.0'),
-          toVersion: versionManager.parseVersion('1.1.0'),
-          description: 'Warns but succeeds',
-          migrate: async () => ({
-            success: true,
-            migratedTemplate: { migrated: true },
-            warnings: ['manual review recommended'],
-            executionTime: 5,
-          }),
-          reversible: false,
-        }
-      );
+      migrationEngine.registerMigration('test-template', {
+        id: 'warn-step',
+        fromVersion: versionManager.parseVersion('1.0.0'),
+        toVersion: versionManager.parseVersion('1.1.0'),
+        description: 'Warns but succeeds',
+        migrate: async () => ({
+          success: true,
+          migratedTemplate: { migrated: true },
+          warnings: ['manual review recommended'],
+          executionTime: 5,
+        }),
+        reversible: false,
+      });
 
       const path = migrationEngine.findMigrationPath(
         'test-template',
@@ -542,12 +524,7 @@ describe('MigrationEngine', () => {
         versionManager.parseVersion('1.1.0')
       );
 
-      const result = await nonStrictEngine.migrate(
-        'test-template',
-        { id: 'y' },
-        path!,
-        testDir
-      );
+      const result = await nonStrictEngine.migrate('test-template', { id: 'y' }, path!, testDir);
 
       const failure = expectFailedResult(result);
       expect(failure.errors).toEqual([
@@ -664,7 +641,7 @@ describe('MigrationEngine', () => {
 
       const validation = migrationEngine.validateMigration(migration);
       expect(validation.valid).toBe(false);
-      expect(validation.errors.some(e => e.includes('must be different'))).toBe(true);
+      expect(validation.errors.some((e) => e.includes('must be different'))).toBe(true);
     });
 
     test('should reject downgrade migration', () => {
@@ -678,7 +655,7 @@ describe('MigrationEngine', () => {
 
       const validation = migrationEngine.validateMigration(migration);
       expect(validation.valid).toBe(false);
-      expect(validation.errors.some(e => e.includes('no downgrades'))).toBe(true);
+      expect(validation.errors.some((e) => e.includes('no downgrades'))).toBe(true);
     });
 
     test('should reject reversible migration without rollback', () => {
@@ -697,7 +674,7 @@ describe('MigrationEngine', () => {
 
       const validation = migrationEngine.validateMigration(migration);
       expect(validation.valid).toBe(false);
-      expect(validation.errors.some(e => e.includes('rollback function'))).toBe(true);
+      expect(validation.errors.some((e) => e.includes('rollback function'))).toBe(true);
     });
   });
 
@@ -768,7 +745,7 @@ describe('MigrationEngine', () => {
       );
 
       expect(result.success).toBe(true);
-      expect(result.warnings!.some(w => w.includes('already at the latest version'))).toBe(true);
+      expect(result.warnings!.some((w) => w.includes('already at the latest version'))).toBe(true);
     });
 
     test('should fail if no migration path exists', async () => {

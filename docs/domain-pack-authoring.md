@@ -33,15 +33,16 @@ mkdir -p app/templates/domains/your-domain
 The manifest defines metadata about your domain pack:
 
 ```yaml
-name: "category.domain-name"
-version: "1.0.0"
-displayName: "Human-Readable Name"
+name: 'category.domain-name'
+version: '1.0.0'
+displayName: 'Human-Readable Name'
 description: "Brief description of the domain pack's purpose"
-author: "core-team"
-schema: "schema.json"
+author: 'core-team'
+schema: 'schema.json'
 ```
 
 **Field Requirements:**
+
 - `name`: Unique identifier (use dot notation for categorization)
 - `version`: SemVer format (e.g., "1.0.0")
 - `displayName`: User-friendly name shown in tools
@@ -86,6 +87,7 @@ Define the structure and validation rules for your domain-specific fields:
 ```
 
 **Best Practices:**
+
 - Use JSON Schema Draft 7 format
 - Include descriptions for all fields
 - Mark required fields explicitly
@@ -98,13 +100,14 @@ Define the structure and validation rules for your domain-specific fields:
 Provide default values matching your schema:
 
 ```yaml
-yourField: ""
+yourField: ''
 yourArray: []
 yourObject:
-  nestedField: ""
+  nestedField: ''
 ```
 
 **Requirements:**
+
 - All schema properties must have defaults
 - Use empty strings for required string fields
 - Use empty arrays for array fields
@@ -115,16 +118,18 @@ yourObject:
 Here's a complete example of a production-ready domain pack:
 
 ### pack.yaml
+
 ```yaml
-name: "software.technical-task"
-version: "1.0.0"
-displayName: "Software Development Task"
-description: "Missions for designing and implementing software features"
-author: "core-team"
-schema: "schema.json"
+name: 'software.technical-task'
+version: '1.0.0'
+displayName: 'Software Development Task'
+description: 'Missions for designing and implementing software features'
+author: 'core-team'
+schema: 'schema.json'
 ```
 
 ### schema.json
+
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -173,8 +178,9 @@ schema: "schema.json"
 ```
 
 ### template.yaml
+
 ```yaml
-userStory: ""
+userStory: ''
 technicalApproach: []
 nonFunctionalRequirements: []
 outOfScope: []
@@ -259,6 +265,7 @@ Before considering your domain pack production-ready:
 ## Common Patterns
 
 ### Arrays of Strings
+
 ```json
 {
   "items": {
@@ -269,6 +276,7 @@ Before considering your domain pack production-ready:
 ```
 
 ### Arrays of Objects
+
 ```json
 {
   "steps": {
@@ -286,6 +294,7 @@ Before considering your domain pack production-ready:
 ```
 
 ### Optional Fields
+
 ```json
 {
   "properties": {
@@ -296,6 +305,7 @@ Before considering your domain pack production-ready:
 ```
 
 ### Enum Values
+
 ```json
 {
   "priority": {
@@ -329,16 +339,19 @@ Study these examples when creating your own domain packs.
 ## Troubleshooting
 
 ### Pack Not Found
+
 - Verify pack is registered in registry.yaml
 - Check path in registry matches directory name
 - Ensure pack.yaml exists in the directory
 
 ### Schema Validation Errors
+
 - Validate schema at https://www.jsonschemavalidator.net/
 - Ensure all required fields are in template
 - Check for typos in field names
 
 ### Template Merge Errors
+
 - Verify template.yaml structure matches schema
 - Check for YAML syntax errors
 - Ensure all arrays and objects are initialized
@@ -376,6 +389,7 @@ For complex domains, you can split schemas into multiple files and reference the
 ## Support
 
 For questions or issues:
+
 1. Check existing domain packs for examples
 2. Review integration tests in `app/tests/integration/`
 3. Consult the Mission Protocol documentation

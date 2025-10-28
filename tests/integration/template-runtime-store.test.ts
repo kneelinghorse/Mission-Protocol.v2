@@ -49,9 +49,9 @@ describe('Template Runtime Store - Smoke Test', () => {
     it('should list all restored domain packs', async () => {
       const entries = await registry.loadRegistry('registry.yaml');
       expect(entries.length).toBeGreaterThan(0);
-      
+
       // Check that expected domain packs are present
-      const domainNames = entries.map(d => d.name);
+      const domainNames = entries.map((d) => d.name);
       expect(domainNames).toContain('foundation');
       expect(domainNames).toContain('software.technical-task');
       expect(domainNames).toContain('build.implementation');
@@ -133,10 +133,10 @@ describe('Template Runtime Store - Smoke Test', () => {
   describe('End-to-End Template Loading', () => {
     it('should successfully load generic template and merge with a domain pack', async () => {
       const entries = await registry.loadRegistry('registry.yaml');
-      
+
       const genericTemplate = await loader.load('generic_mission.yaml');
       const pack = await packLoader.loadPack('foundation', entries);
-      
+
       expect(genericTemplate).toBeDefined();
       expect(pack).toBeDefined();
       expect(pack.template).toBeDefined();

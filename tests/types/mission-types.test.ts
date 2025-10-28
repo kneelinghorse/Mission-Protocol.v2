@@ -4,7 +4,10 @@ import {
   isGenericMission as reExportedIsGenericMission,
 } from '../../src/types/mission-types';
 import type { GenericMission } from '../../src/types/mission-types';
-import { genericMissionSchema as sourceSchema, isGenericMission } from '../../src/schemas/generic-mission';
+import {
+  genericMissionSchema as sourceSchema,
+  isGenericMission,
+} from '../../src/schemas/generic-mission';
 
 const makeMission = (mission: GenericMission): GenericMission => mission;
 

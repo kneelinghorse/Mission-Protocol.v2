@@ -1,4 +1,8 @@
-import { analyzeDependencies, formatAnalysisResult, AnalyzeDependenciesArgs } from '../../src/tools/analyze-dependencies';
+import {
+  analyzeDependencies,
+  formatAnalysisResult,
+  AnalyzeDependenciesArgs,
+} from '../../src/tools/analyze-dependencies';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import * as yaml from 'js-yaml';
@@ -17,18 +21,16 @@ describe('analyzeDependencies', () => {
         missionId: 'R4.3',
         objective: 'Research mission for dependency analysis',
         context: 'This is a research mission',
-        filePath: path.join(testDir, 'R4.3.yaml')
+        filePath: path.join(testDir, 'R4.3.yaml'),
       },
       {
         missionId: 'B4.3',
         objective: 'Build dependency detection system',
         context: 'This mission implements findings from R4.3',
         domainFields: {
-          researchFoundation: [
-            { finding: 'Use DAGs', sourceMission: 'R4.3' }
-          ]
+          researchFoundation: [{ finding: 'Use DAGs', sourceMission: 'R4.3' }],
         },
-        filePath: path.join(testDir, 'B4.3.yaml')
+        filePath: path.join(testDir, 'B4.3.yaml'),
       },
       {
         missionId: 'B4.4',
@@ -36,11 +38,11 @@ describe('analyzeDependencies', () => {
         context: 'This mission depends on B4.3',
         domainFields: {
           handoffContext: {
-            dependencies: ['B4.3']
-          }
+            dependencies: ['B4.3'],
+          },
         },
-        filePath: path.join(testDir, 'B4.4.yaml')
-      }
+        filePath: path.join(testDir, 'B4.4.yaml'),
+      },
     ];
 
     for (const mission of missions) {
@@ -68,7 +70,7 @@ describe('analyzeDependencies', () => {
   describe('analyzeDependencies', () => {
     it('should analyze dependencies in a mission directory', async () => {
       const result = await analyzeDependencies({
-        missionDirectory: testDir
+        missionDirectory: testDir,
       });
 
       expect(result.totalMissions).toBe(4);
@@ -81,7 +83,7 @@ describe('analyzeDependencies', () => {
 
     it('should return error for non-existent directory', async () => {
       const result = await analyzeDependencies({
-        missionDirectory: '/nonexistent/path'
+        missionDirectory: '/nonexistent/path',
       });
 
       expect(result.totalMissions).toBe(0);
@@ -95,7 +97,7 @@ describe('analyzeDependencies', () => {
       await fs.mkdir(emptyDir, { recursive: true });
 
       const result = await analyzeDependencies({
-        missionDirectory: emptyDir
+        missionDirectory: emptyDir,
       });
 
       expect(result.errors.length).toBeGreaterThan(0);
@@ -106,7 +108,7 @@ describe('analyzeDependencies', () => {
 
     it('should compute correct execution order', async () => {
       const result = await analyzeDependencies({
-        missionDirectory: testDir
+        missionDirectory: testDir,
       });
 
       expect(result.executionOrder).toBeDefined();
@@ -120,7 +122,7 @@ describe('analyzeDependencies', () => {
 
     it('should compute critical path', async () => {
       const result = await analyzeDependencies({
-        missionDirectory: testDir
+        missionDirectory: testDir,
       });
 
       expect(result.criticalPath).toBeDefined();
@@ -132,7 +134,7 @@ describe('analyzeDependencies', () => {
 
     it('should complete analysis within performance threshold', async () => {
       const result = await analyzeDependencies({
-        missionDirectory: testDir
+        missionDirectory: testDir,
       });
 
       // Should complete in less than 5 seconds (5000ms)
@@ -144,7 +146,7 @@ describe('analyzeDependencies', () => {
     it('should infer dependencies when requested', async () => {
       const result = await analyzeDependencies({
         missionDirectory: testDir,
-        includeInferred: true
+        includeInferred: true,
       });
 
       expect(result.inferredDependencies).toBeDefined();
@@ -154,7 +156,7 @@ describe('analyzeDependencies', () => {
       const result = await analyzeDependencies({
         missionDirectory: testDir,
         includeInferred: true,
-        minConfidence: 0.8
+        minConfidence: 0.8,
       });
 
       if (result.inferredDependencies && result.inferredDependencies.length > 0) {
@@ -166,7 +168,7 @@ describe('analyzeDependencies', () => {
 
     it('should not include inferred dependencies by default', async () => {
       const result = await analyzeDependencies({
-        missionDirectory: testDir
+        missionDirectory: testDir,
       });
 
       expect(result.inferredDependencies).toBeUndefined();
@@ -184,26 +186,26 @@ describe('analyzeDependencies', () => {
           missionId: 'A',
           domainFields: {
             handoffContext: {
-              dependencies: ['B']
-            }
-          }
+              dependencies: ['B'],
+            },
+          },
         },
         {
           missionId: 'B',
           domainFields: {
             handoffContext: {
-              dependencies: ['C']
-            }
-          }
+              dependencies: ['C'],
+            },
+          },
         },
         {
           missionId: 'C',
           domainFields: {
             handoffContext: {
-              dependencies: ['A']
-            }
-          }
-        }
+              dependencies: ['A'],
+            },
+          },
+        },
       ];
 
       for (const mission of missions) {
@@ -218,7 +220,7 @@ describe('analyzeDependencies', () => {
 
     it('should detect circular dependencies', async () => {
       const result = await analyzeDependencies({
-        missionDirectory: cyclicDir
+        missionDirectory: cyclicDir,
       });
 
       expect(result.hasCycles).toBe(true);
@@ -230,7 +232,7 @@ describe('analyzeDependencies', () => {
 
     it('should not compute execution order for cyclic graphs', async () => {
       const result = await analyzeDependencies({
-        missionDirectory: cyclicDir
+        missionDirectory: cyclicDir,
       });
 
       expect(result.executionOrder).toBeUndefined();
@@ -240,7 +242,7 @@ describe('analyzeDependencies', () => {
   describe('formatAnalysisResult', () => {
     it('should format valid result with execution order', async () => {
       const result = await analyzeDependencies({
-        missionDirectory: testDir
+        missionDirectory: testDir,
       });
 
       const formatted = formatAnalysisResult(result);
@@ -261,18 +263,18 @@ describe('analyzeDependencies', () => {
           missionId: 'A',
           domainFields: {
             handoffContext: {
-              dependencies: ['B']
-            }
-          }
+              dependencies: ['B'],
+            },
+          },
         },
         {
           missionId: 'B',
           domainFields: {
             handoffContext: {
-              dependencies: ['A']
-            }
-          }
-        }
+              dependencies: ['A'],
+            },
+          },
+        },
       ];
 
       for (const mission of missions) {
@@ -281,7 +283,7 @@ describe('analyzeDependencies', () => {
       }
 
       const result = await analyzeDependencies({
-        missionDirectory: cyclicDirForFormat
+        missionDirectory: cyclicDirForFormat,
       });
 
       const formatted = formatAnalysisResult(result);
@@ -295,7 +297,7 @@ describe('analyzeDependencies', () => {
 
     it('should format result with errors', async () => {
       const result = await analyzeDependencies({
-        missionDirectory: '/nonexistent'
+        missionDirectory: '/nonexistent',
       });
 
       const formatted = formatAnalysisResult(result);
@@ -307,7 +309,7 @@ describe('analyzeDependencies', () => {
     it('should format result with inferred dependencies', async () => {
       const result = await analyzeDependencies({
         missionDirectory: testDir,
-        includeInferred: true
+        includeInferred: true,
       });
 
       const formatted = formatAnalysisResult(result);
@@ -319,7 +321,7 @@ describe('analyzeDependencies', () => {
 
     it('should include performance metrics', async () => {
       const result = await analyzeDependencies({
-        missionDirectory: testDir
+        missionDirectory: testDir,
       });
 
       const formatted = formatAnalysisResult(result);
@@ -336,7 +338,7 @@ describe('analyzeDependencies', () => {
       await fs.writeFile(path.join(emptyMissionDir, 'empty.yaml'), '');
 
       const result = await analyzeDependencies({
-        missionDirectory: emptyMissionDir
+        missionDirectory: emptyMissionDir,
       });
 
       // Should handle gracefully - empty YAML is parsed as null
@@ -355,7 +357,7 @@ describe('analyzeDependencies', () => {
       );
 
       const result = await analyzeDependencies({
-        missionDirectory: invalidDir
+        missionDirectory: invalidDir,
       });
 
       // Should handle gracefully

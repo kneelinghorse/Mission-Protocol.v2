@@ -132,9 +132,7 @@ describe('SecurityValidator - 6-Layer Defense', () => {
       const template = createValidTemplate();
       const result = await validator.validate(template, false);
 
-      const signatureLayer = result.layers.find((l) =>
-        l.layer.includes('Signature')
-      );
+      const signatureLayer = result.layers.find((l) => l.layer.includes('Signature'));
       expect(signatureLayer?.passed).toBe(true);
     });
 
@@ -143,9 +141,7 @@ describe('SecurityValidator - 6-Layer Defense', () => {
 
       const result = await validator.validate(template, true);
 
-      const signatureLayer = result.layers.find((l) =>
-        l.layer.includes('Signature')
-      );
+      const signatureLayer = result.layers.find((l) => l.layer.includes('Signature'));
       expect(signatureLayer?.passed).toBe(true);
       expect(signatureLayer?.message).toContain('Skipped');
     });
@@ -166,9 +162,7 @@ describe('SecurityValidator - 6-Layer Defense', () => {
 
       const result = await validator.validate(template, false);
 
-      const signatureLayer = result.layers.find((l) =>
-        l.layer.includes('Signature')
-      );
+      const signatureLayer = result.layers.find((l) => l.layer.includes('Signature'));
       expect(signatureLayer?.passed).toBe(false);
       expect(signatureLayer?.message).toContain('Algorithm mismatch');
     });
@@ -242,9 +236,7 @@ describe('SecurityValidator - 6-Layer Defense', () => {
       const result = await validatorWithAllowlist.validate(template, true);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some((e) => e.includes('Disallowed action'))).toBe(
-        true
-      );
+      expect(result.errors.some((e) => e.includes('Disallowed action'))).toBe(true);
     });
 
     it('should enforce cross-field consistency (endDate > startDate)', async () => {
@@ -255,9 +247,7 @@ describe('SecurityValidator - 6-Layer Defense', () => {
       const result = await validator.validate(template, true);
 
       expect(result.valid).toBe(false);
-      expect(
-        result.errors.some((e) => e.includes('End date must be after start date'))
-      ).toBe(true);
+      expect(result.errors.some((e) => e.includes('End date must be after start date'))).toBe(true);
     });
 
     it('should accept valid resource requests', async () => {
@@ -269,9 +259,7 @@ describe('SecurityValidator - 6-Layer Defense', () => {
 
       const result = await validator.validate(template, true);
 
-      const semanticLayer = result.layers.find((l) =>
-        l.layer.includes('Semantic')
-      );
+      const semanticLayer = result.layers.find((l) => l.layer.includes('Semantic'));
       expect(semanticLayer?.passed).toBe(true);
     });
   });
@@ -312,9 +300,7 @@ describe('SecurityValidator - 6-Layer Defense', () => {
       const result = await validator.validate(template, true);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some((e) => e.includes('Too many dependencies'))).toBe(
-        true
-      );
+      expect(result.errors.some((e) => e.includes('Too many dependencies'))).toBe(true);
     });
 
     it('T-03: should reject URLs not in allowlist (SSRF prevention)', async () => {
@@ -394,9 +380,7 @@ describe('SecurityValidator - 6-Layer Defense', () => {
       const result = await validator.validate(template, true);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some((e) => e.includes('Invalid checksum format'))).toBe(
-        true
-      );
+      expect(result.errors.some((e) => e.includes('Invalid checksum format'))).toBe(true);
     });
 
     it('should validate version format (semver)', async () => {
@@ -413,9 +397,7 @@ describe('SecurityValidator - 6-Layer Defense', () => {
       const result = await validator.validate(template, true);
 
       expect(result.valid).toBe(false);
-      expect(result.errors.some((e) => e.includes('Invalid version format'))).toBe(
-        true
-      );
+      expect(result.errors.some((e) => e.includes('Invalid version format'))).toBe(true);
     });
   });
 

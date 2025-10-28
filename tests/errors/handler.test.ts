@@ -35,12 +35,17 @@ describe('ErrorHandler', () => {
   });
 
   test('wrap merges context and applies fallback message', () => {
-    const wrapped = ErrorHandler.wrap(new Error('boom'), 'operation.test', { module: 'tests' }, {
-      userMessage: 'User facing',
-      fallbackMessage: 'Fallback applied',
-      category: 'system',
-      code: 'SYSTEM_INTERNAL_FAILURE',
-    });
+    const wrapped = ErrorHandler.wrap(
+      new Error('boom'),
+      'operation.test',
+      { module: 'tests' },
+      {
+        userMessage: 'User facing',
+        fallbackMessage: 'Fallback applied',
+        category: 'system',
+        code: 'SYSTEM_INTERNAL_FAILURE',
+      }
+    );
 
     expect(wrapped.message).toBe('Fallback applied');
     expect(wrapped.context?.operation).toBe('operation.test');
@@ -49,18 +54,28 @@ describe('ErrorHandler', () => {
   });
 
   test('wrap attaches module context when provided in options', () => {
-    const wrapped = ErrorHandler.wrap(new Error('oops'), 'operation.mod', {}, {
-      module: 'module-name',
-    });
+    const wrapped = ErrorHandler.wrap(
+      new Error('oops'),
+      'operation.mod',
+      {},
+      {
+        module: 'module-name',
+      }
+    );
 
     expect(wrapped.context?.module).toBe('module-name');
   });
 
   test('handle logs error and returns when rethrow disabled', () => {
-    const result = ErrorHandler.handle(new Error('boom'), 'operation', { module: 'tests' }, {
-      rethrow: false,
-      userMessage: 'Failure encountered',
-    });
+    const result = ErrorHandler.handle(
+      new Error('boom'),
+      'operation',
+      { module: 'tests' },
+      {
+        rethrow: false,
+        userMessage: 'Failure encountered',
+      }
+    );
 
     expect(result).toBeInstanceOf(MissionProtocolError);
     expect(stubLogger.errors).toHaveLength(1);

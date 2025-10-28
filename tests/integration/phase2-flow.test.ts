@@ -41,31 +41,47 @@ describe('Phase 2 End-to-End Integration Tests', () => {
       await ensureDir(path.join(localTemplates, 'packs', 'business.market-research'));
 
       // Write registry
-      await fs.writeFile(path.join(localTemplates, 'registry.yaml'),
-        `domains:\n  - name: software.technical-task\n    description: Software development tasks and feature implementation\n    version: 1.0.0\n    author: core-team\n    path: packs/software.technical-task\n    schema_version: 1.0.0\n  - name: business.market-research\n    description: Business analysis and market research missions\n    version: 1.0.0\n    author: core-team\n    path: packs/business.market-research\n    schema_version: 1.0.0\n`);
+      await fs.writeFile(
+        path.join(localTemplates, 'registry.yaml'),
+        `domains:\n  - name: software.technical-task\n    description: Software development tasks and feature implementation\n    version: 1.0.0\n    author: core-team\n    path: packs/software.technical-task\n    schema_version: 1.0.0\n  - name: business.market-research\n    description: Business analysis and market research missions\n    version: 1.0.0\n    author: core-team\n    path: packs/business.market-research\n    schema_version: 1.0.0\n`
+      );
 
       // Write software pack
-      await fs.writeFile(path.join(localTemplates, 'packs', 'software.technical-task', 'pack.yaml'),
-        `name: software.technical-task\nversion: 1.0.0\ndisplayName: "Software Development Task"\ndescription: "Software development tasks and feature implementation"\nauthor: "core-team"\nschema: "schema.json"\n`);
-      await fs.writeFile(path.join(localTemplates, 'packs', 'software.technical-task', 'schema.json'),
-        `{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","properties":{"userStory":{"type":"string"},"technicalApproach":{"type":"array","items":{"type":"string"}}},"required":["userStory","technicalApproach"],"additionalProperties":true}`);
-      await fs.writeFile(path.join(localTemplates, 'packs', 'software.technical-task', 'template.yaml'),
+      await fs.writeFile(
+        path.join(localTemplates, 'packs', 'software.technical-task', 'pack.yaml'),
+        `name: software.technical-task\nversion: 1.0.0\ndisplayName: "Software Development Task"\ndescription: "Software development tasks and feature implementation"\nauthor: "core-team"\nschema: "schema.json"\n`
+      );
+      await fs.writeFile(
+        path.join(localTemplates, 'packs', 'software.technical-task', 'schema.json'),
+        `{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","properties":{"userStory":{"type":"string"},"technicalApproach":{"type":"array","items":{"type":"string"}}},"required":["userStory","technicalApproach"],"additionalProperties":true}`
+      );
+      await fs.writeFile(
+        path.join(localTemplates, 'packs', 'software.technical-task', 'template.yaml'),
         `userStory: "As a user, I can log in"\n` +
-        `technicalApproach:\n  - "Implement secure password hashing"\n` +
-        `nonFunctionalRequirements:\n  - "99.9% uptime"\n` +
-        `outOfScope:\n  - "Third-party SSO"\n`);
+          `technicalApproach:\n  - "Implement secure password hashing"\n` +
+          `nonFunctionalRequirements:\n  - "99.9% uptime"\n` +
+          `outOfScope:\n  - "Third-party SSO"\n`
+      );
 
       // Write business pack
-      await fs.writeFile(path.join(localTemplates, 'packs', 'business.market-research', 'pack.yaml'),
-        `name: business.market-research\nversion: 1.0.0\ndisplayName: "Market Research Mission"\ndescription: "Business analysis and market research missions"\nauthor: "core-team"\nschema: "schema.json"\n`);
-      await fs.writeFile(path.join(localTemplates, 'packs', 'business.market-research', 'schema.json'),
-        `{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","properties":{"stakeholders":{"type":"array","items":{"type":"string"}},"keyMetrics":{"type":"array","items":{"type":"string"}},"dataSources":{"type":"array","items":{"type":"string"}}},"required":["stakeholders","keyMetrics","dataSources"],"additionalProperties":true}`);
-      await fs.writeFile(path.join(localTemplates, 'packs', 'business.market-research', 'template.yaml'),
-        `stakeholders:\n  - "Product"\nkeyMetrics:\n  - "CAC"\n  - "LTV"\ndataSources:\n  - "Reports"\n`);
+      await fs.writeFile(
+        path.join(localTemplates, 'packs', 'business.market-research', 'pack.yaml'),
+        `name: business.market-research\nversion: 1.0.0\ndisplayName: "Market Research Mission"\ndescription: "Business analysis and market research missions"\nauthor: "core-team"\nschema: "schema.json"\n`
+      );
+      await fs.writeFile(
+        path.join(localTemplates, 'packs', 'business.market-research', 'schema.json'),
+        `{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","properties":{"stakeholders":{"type":"array","items":{"type":"string"}},"keyMetrics":{"type":"array","items":{"type":"string"}},"dataSources":{"type":"array","items":{"type":"string"}}},"required":["stakeholders","keyMetrics","dataSources"],"additionalProperties":true}`
+      );
+      await fs.writeFile(
+        path.join(localTemplates, 'packs', 'business.market-research', 'template.yaml'),
+        `stakeholders:\n  - "Product"\nkeyMetrics:\n  - "CAC"\n  - "LTV"\ndataSources:\n  - "Reports"\n`
+      );
 
       // Write generic mission template used by create_mission tool
-      await fs.writeFile(path.join(localTemplates, 'generic_mission.yaml'),
-        `schemaType: "Mission"\nschemaVersion: "2.0"\nmissionId: "mission-00000000-000000-000"\nobjective: "Placeholder"\ncontext:\n  background: ""\n  dependencies: []\n  constraints: []\nsuccessCriteria:\n  - "Mission objective achieved"\ndeliverables:\n  - "Mission completion report"\ndomainFields: {}\n`);
+      await fs.writeFile(
+        path.join(localTemplates, 'generic_mission.yaml'),
+        `schemaType: "Mission"\nschemaVersion: "2.0"\nmissionId: "mission-00000000-000000-000"\nobjective: "Placeholder"\ncontext:\n  background: ""\n  dependencies: []\n  constraints: []\nsuccessCriteria:\n  - "Mission objective achieved"\ndeliverables:\n  - "Mission completion report"\ndomainFields: {}\n`
+      );
 
       templatesDir = localTemplates;
     }
@@ -73,7 +89,7 @@ describe('Phase 2 End-to-End Integration Tests', () => {
     if (!(await pathExists(genericTemplatePath))) {
       throw new Error(
         `Required template missing: ${genericTemplatePath}. ` +
-        'Restore generic_mission.yaml to keep Phase 2 flow healthy.'
+          'Restore generic_mission.yaml to keep Phase 2 flow healthy.'
       );
     }
     // Initialize all components
@@ -246,11 +262,17 @@ describe('Phase 2 End-to-End Integration Tests', () => {
       const entries = await registry.loadRegistry('registry.yaml');
 
       // Find software and business packs
-      const softwarePack = entries.find((e: DomainPackEntry) => e.name === 'software.technical-task');
-      const businessPack = entries.find((e: DomainPackEntry) => e.name === 'business.market-research');
+      const softwarePack = entries.find(
+        (e: DomainPackEntry) => e.name === 'software.technical-task'
+      );
+      const businessPack = entries.find(
+        (e: DomainPackEntry) => e.name === 'business.market-research'
+      );
 
       expect(softwarePack).toBeDefined();
-      expect(softwarePack?.description).toBe('Software development tasks and feature implementation');
+      expect(softwarePack?.description).toBe(
+        'Software development tasks and feature implementation'
+      );
       expect(softwarePack?.version).toBe('1.0.0');
 
       expect(businessPack).toBeDefined();
@@ -262,8 +284,9 @@ describe('Phase 2 End-to-End Integration Tests', () => {
       const entries = await registry.loadRegistry('registry.yaml');
 
       // Filter to only the new packs we created (skip the stub packs)
-      const newPacks = entries.filter((e: DomainPackEntry) =>
-        e.name === 'software.technical-task' || e.name === 'business.market-research'
+      const newPacks = entries.filter(
+        (e: DomainPackEntry) =>
+          e.name === 'software.technical-task' || e.name === 'business.market-research'
       );
 
       expect(newPacks.length).toBe(2);
@@ -336,34 +359,37 @@ describe('Phase 2 End-to-End Integration Tests', () => {
     it('throws error for invalid domain name', async () => {
       const entries = await registry.loadRegistry('registry.yaml');
 
-      await expect(createMissionTool.execute(
-        {
-          objective: 'Test invalid domain',
-          domain: 'invalid.domain',
-        },
-        entries
-      )).rejects.toThrow('Domain pack "invalid.domain" not found');
+      await expect(
+        createMissionTool.execute(
+          {
+            objective: 'Test invalid domain',
+            domain: 'invalid.domain',
+          },
+          entries
+        )
+      ).rejects.toThrow('Domain pack "invalid.domain" not found');
     });
 
     it('throws error for missing objective', async () => {
       const entries = await registry.loadRegistry('registry.yaml');
 
-      await expect(createMissionTool.execute(
-        { objective: '' },
-        entries
-      )).rejects.toThrow('objective is required and cannot be empty');
+      await expect(createMissionTool.execute({ objective: '' }, entries)).rejects.toThrow(
+        'objective is required and cannot be empty'
+      );
     });
 
     it('throws error for empty domain string', async () => {
       const entries = await registry.loadRegistry('registry.yaml');
 
-      await expect(createMissionTool.execute(
-        {
-          objective: 'Test',
-          domain: '',
-        },
-        entries
-      )).rejects.toThrow('domain cannot be empty if provided');
+      await expect(
+        createMissionTool.execute(
+          {
+            objective: 'Test',
+            domain: '',
+          },
+          entries
+        )
+      ).rejects.toThrow('domain cannot be empty if provided');
     });
   });
 
@@ -415,8 +441,9 @@ describe('Phase 2 End-to-End Integration Tests', () => {
 
     it('confirms 2 production-ready domain packs exist', async () => {
       const entries = await registry.loadRegistry('registry.yaml');
-      const productionPacks = entries.filter((e: DomainPackEntry) =>
-        e.name === 'software.technical-task' || e.name === 'business.market-research'
+      const productionPacks = entries.filter(
+        (e: DomainPackEntry) =>
+          e.name === 'software.technical-task' || e.name === 'business.market-research'
       );
 
       expect(productionPacks.length).toBe(2);

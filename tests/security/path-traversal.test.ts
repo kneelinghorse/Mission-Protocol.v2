@@ -19,10 +19,7 @@ describe('Path Traversal Security Tests', () => {
     loader = new SecureYAMLLoader({ baseDir: tempDir });
 
     // Create a safe test file
-    await fs.writeFile(
-      path.join(tempDir, 'safe.yaml'),
-      'key: value\nnumber: 42'
-    );
+    await fs.writeFile(path.join(tempDir, 'safe.yaml'), 'key: value\nnumber: 42');
   });
 
   afterEach(async () => {
@@ -165,7 +162,7 @@ describe('Path Traversal Security Tests', () => {
     test('should allow symlinks when explicitly enabled', async () => {
       const loaderWithSymlinks = new SecureYAMLLoader({
         baseDir: tempDir,
-        followSymlinks: true
+        followSymlinks: true,
       });
 
       // Create symlink within baseDir
@@ -192,7 +189,7 @@ describe('Path Traversal Security Tests', () => {
     test('should reject files exceeding size limit', async () => {
       const smallLoader = new SecureYAMLLoader({
         baseDir: tempDir,
-        maxFileSize: 100 // 100 bytes
+        maxFileSize: 100, // 100 bytes
       });
 
       // Create a large file

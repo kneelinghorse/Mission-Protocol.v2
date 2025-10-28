@@ -10,7 +10,6 @@ import {
   MigrationScript,
   MigrationResult,
   MigrationPath,
-  TemplateVersion,
   MigrationError,
   VersionManagerOptions,
   TemplateData,
@@ -45,9 +44,7 @@ export class MigrationEngine {
     migrations.push(migration);
 
     // Sort by from version (oldest to newest)
-    migrations.sort((a, b) =>
-      this.versionManager.compareVersions(a.fromVersion, b.fromVersion)
-    );
+    migrations.sort((a, b) => this.versionManager.compareVersions(a.fromVersion, b.fromVersion));
 
     this.migrations.set(templateId, migrations);
   }
@@ -70,9 +67,7 @@ export class MigrationEngine {
     let currentVersion = fromVersion;
     const visited = new Set<string>();
 
-    while (
-      this.versionManager.compareVersions(currentVersion, toVersion) !== 0
-    ) {
+    while (this.versionManager.compareVersions(currentVersion, toVersion) !== 0) {
       const versionKey = this.versionManager.versionToString(currentVersion);
 
       if (visited.has(versionKey)) {
@@ -83,8 +78,7 @@ export class MigrationEngine {
 
       // Find migration from current version
       const nextMigration = migrations.find(
-        m =>
-          this.versionManager.compareVersions(m.fromVersion, currentVersion) === 0
+        (m) => this.versionManager.compareVersions(m.fromVersion, currentVersion) === 0
       );
 
       if (!nextMigration) {
@@ -96,16 +90,12 @@ export class MigrationEngine {
       currentVersion = nextMigration.toVersion;
 
       // Check if we've reached the target version
-      if (
-        this.versionManager.compareVersions(currentVersion, toVersion) === 0
-      ) {
+      if (this.versionManager.compareVersions(currentVersion, toVersion) === 0) {
         break;
       }
 
       // Check if we've overshot the target (shouldn't happen with proper migrations)
-      if (
-        this.versionManager.compareVersions(currentVersion, toVersion) > 0
-      ) {
+      if (this.versionManager.compareVersions(currentVersion, toVersion) > 0) {
         return null;
       }
     }
@@ -115,7 +105,7 @@ export class MigrationEngine {
       (sum, migration) => sum + (migration.estimatedDuration || 0),
       0
     );
-    const reversible = path.every(migration => migration.reversible);
+    const reversible = path.every((migration) => migration.reversible);
 
     return {
       from: fromVersion,
@@ -161,10 +151,11 @@ export class MigrationEngine {
             );
 
             if (this.options.strict) {
-              throw new MigrationError(
-                `Migration failed at step ${i + 1}: ${migration.id}`,
-                { step: i + 1, migration: migration.id, errors: result.errors }
-              );
+              throw new MigrationError(`Migration failed at step ${i + 1}: ${migration.id}`, {
+                step: i + 1,
+                migration: migration.id,
+                errors: result.errors,
+              });
             }
           }
 
@@ -214,8 +205,6 @@ export class MigrationEngine {
         backupPath,
       };
     } catch (error) {
-      const executionTime = Date.now() - startTime;
-
       if (error instanceof MigrationError) {
         throw error;
       }
@@ -236,7 +225,9 @@ export class MigrationEngine {
   ): Promise<{ success: boolean; template?: TemplateData; error?: string }> {
     try {
       const backupContent = await fs.readFile(backupPath, 'utf-8');
-      const template = jsonContent(backupContent, { maxSize: MAX_BACKUP_SIZE_BYTES }) as TemplateData;
+      const template = jsonContent(backupContent, {
+        maxSize: MAX_BACKUP_SIZE_BYTES,
+      }) as TemplateData;
 
       return {
         success: true,
@@ -297,16 +288,12 @@ export class MigrationEngine {
     const errors: string[] = [];
 
     // Check that versions are different
-    if (
-      this.versionManager.compareVersions(migration.fromVersion, migration.toVersion) === 0
-    ) {
+    if (this.versionManager.compareVersions(migration.fromVersion, migration.toVersion) === 0) {
       errors.push('Migration fromVersion and toVersion must be different');
     }
 
     // Check that toVersion is greater than fromVersion (no downgrades)
-    if (
-      this.versionManager.compareVersions(migration.fromVersion, migration.toVersion) > 0
-    ) {
+    if (this.versionManager.compareVersions(migration.fromVersion, migration.toVersion) > 0) {
       errors.push('Migration toVersion must be greater than fromVersion (no downgrades)');
     }
 
@@ -342,9 +329,7 @@ export class MigrationEngine {
     }
 
     // Check if already at latest version
-    if (
-      this.versionManager.compareVersions(currentVersion, latestVersion.version) === 0
-    ) {
+    if (this.versionManager.compareVersions(currentVersion, latestVersion.version) === 0) {
       return {
         success: true,
         migratedTemplate: template,
@@ -377,14 +362,11 @@ export class MigrationEngine {
     const migrations = this.getMigrations(templateId);
 
     const totalMigrations = migrations.length;
-    const reversibleCount = migrations.filter(m => m.reversible).length;
-    const totalDuration = migrations.reduce(
-      (sum, m) => sum + (m.estimatedDuration || 0),
-      0
-    );
+    const reversibleCount = migrations.filter((m) => m.reversible).length;
+    const totalDuration = migrations.reduce((sum, m) => sum + (m.estimatedDuration || 0), 0);
     const averageDuration = totalMigrations > 0 ? totalDuration / totalMigrations : 0;
 
-    const versionCoverage = migrations.map(m => ({
+    const versionCoverage = migrations.map((m) => ({
       from: this.versionManager.versionToString(m.fromVersion),
       to: this.versionManager.versionToString(m.toVersion),
     }));

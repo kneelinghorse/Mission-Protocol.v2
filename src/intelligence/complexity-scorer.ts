@@ -57,13 +57,13 @@ export interface ComplexityScorerConfig {
 const DEFAULT_WEIGHTS = {
   token: 0.35,
   structural: 0.25,
-  timeHorizon: 0.30,
-  computational: 0.10,
+  timeHorizon: 0.3,
+  computational: 0.1,
 };
 
 const DEFAULT_THRESHOLDS = {
   compositeScore: 8.0, // On a scale of 1-10
-  tokenPercentage: 0.80, // 80% of context window
+  tokenPercentage: 0.8, // 80% of context window
   timeHorizonMultiplier: 1.5, // 150% of agent's capability
 };
 
@@ -224,7 +224,8 @@ export class ComplexityScorer {
     }
 
     // Check for exponential complexity keywords
-    const exponentialKeywords = /\b(all combinations|permutations|exponential|factorial|brute[ -]?force)\b/gi;
+    const exponentialKeywords =
+      /\b(all combinations|permutations|exponential|factorial|brute[ -]?force)\b/gi;
     const exponentialMatches = (missionText.match(exponentialKeywords) || []).length;
     score += exponentialMatches * 3;
 
@@ -259,7 +260,9 @@ export class ComplexityScorer {
     // Check composite score threshold
     if (compositeScore > this.config.thresholds.compositeScore) {
       shouldSplit = true;
-      reasons.push(`Composite complexity score (${compositeScore.toFixed(2)}) exceeds threshold (${this.config.thresholds.compositeScore})`);
+      reasons.push(
+        `Composite complexity score (${compositeScore.toFixed(2)}) exceeds threshold (${this.config.thresholds.compositeScore})`
+      );
     }
 
     // Check token threshold
@@ -273,7 +276,9 @@ export class ComplexityScorer {
     const timeRatio = components.timeHorizonScore / 5; // Convert back to ratio
     if (timeRatio > this.config.thresholds.timeHorizonMultiplier) {
       shouldSplit = true;
-      reasons.push(`Estimated duration exceeds agent time horizon by ${((timeRatio - 1) * 100).toFixed(0)}%`);
+      reasons.push(
+        `Estimated duration exceeds agent time horizon by ${((timeRatio - 1) * 100).toFixed(0)}%`
+      );
     }
 
     return { shouldSplit, reasons };
@@ -289,12 +294,12 @@ export class ComplexityScorer {
 
     // Adjust based on deliverables (30 min per deliverable)
     if (mission?.deliverables) {
-      hours += (mission.deliverables.length * 0.5);
+      hours += mission.deliverables.length * 0.5;
     }
 
     // Adjust based on success criteria (15 min per criterion)
     if (mission?.successCriteria) {
-      hours += (mission.successCriteria.length * 0.25);
+      hours += mission.successCriteria.length * 0.25;
     }
 
     // Adjust for complexity indicators
@@ -311,15 +316,16 @@ export class ComplexityScorer {
    */
   private countInstructions(text: string): number {
     // Count numbered items
-    const numberedItems = (text.match(/^\s*\d+[\.)]\s+/gm) || []).length;
+    const numberedItems = (text.match(/^\s*\d+[.)]\s+/gm) || []).length;
 
     // Count bullet points
     const bulletPoints = (text.match(/^\s*[-*+]\s+/gm) || []).length;
 
     // Count sentences with imperative verbs (crude estimate)
-    const imperativeVerbs = /\b(create|build|implement|write|test|verify|ensure|update|add|remove|delete|check|validate|generate)\b/gi;
-    const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
-    const imperativeSentences = sentences.filter(s => imperativeVerbs.test(s)).length;
+    const imperativeVerbs =
+      /\b(create|build|implement|write|test|verify|ensure|update|add|remove|delete|check|validate|generate)\b/gi;
+    const sentences = text.split(/[.!?]+/).filter((s) => s.trim().length > 0);
+    const imperativeSentences = sentences.filter((s) => imperativeVerbs.test(s)).length;
 
     return Math.max(numberedItems, bulletPoints, imperativeSentences);
   }
@@ -385,8 +391,12 @@ export class ComplexityScorer {
       }
     }
 
-    parts.push(`\nSuccess Criteria:\n${mission.successCriteria.map((c, i) => `${i + 1}. ${c}`).join('\n')}`);
-    parts.push(`\nDeliverables:\n${mission.deliverables.map((d, i) => `${i + 1}. ${d}`).join('\n')}`);
+    parts.push(
+      `\nSuccess Criteria:\n${mission.successCriteria.map((c, i) => `${i + 1}. ${c}`).join('\n')}`
+    );
+    parts.push(
+      `\nDeliverables:\n${mission.deliverables.map((d, i) => `${i + 1}. ${d}`).join('\n')}`
+    );
 
     return parts.join('');
   }

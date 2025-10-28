@@ -64,12 +64,8 @@ describe('DependencyResolver', () => {
     it('should resolve linear dependency chain', () => {
       // pack-c depends on pack-b, pack-b depends on pack-a
       const packA = createMockPack('pack-a');
-      const packB = createMockPack('pack-b', '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
-      const packC = createMockPack('pack-c', '1.0.0', [
-        { name: 'pack-b', version: '1.0.0' },
-      ]);
+      const packB = createMockPack('pack-b', '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
+      const packC = createMockPack('pack-c', '1.0.0', [{ name: 'pack-b', version: '1.0.0' }]);
 
       const result = resolver.resolve([packC], [packA, packB, packC]);
 
@@ -81,12 +77,8 @@ describe('DependencyResolver', () => {
       // pack-d depends on pack-b and pack-c
       // pack-b and pack-c both depend on pack-a
       const packA = createMockPack('pack-a');
-      const packB = createMockPack('pack-b', '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
-      const packC = createMockPack('pack-c', '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
+      const packB = createMockPack('pack-b', '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
+      const packC = createMockPack('pack-c', '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
       const packD = createMockPack('pack-d', '1.0.0', [
         { name: 'pack-b', version: '1.0.0' },
         { name: 'pack-c', version: '1.0.0' },
@@ -102,12 +94,8 @@ describe('DependencyResolver', () => {
 
     it('should detect circular dependency (2 packs)', () => {
       // pack-a depends on pack-b, pack-b depends on pack-a
-      const packA = createMockPack('pack-a', '1.0.0', [
-        { name: 'pack-b', version: '1.0.0' },
-      ]);
-      const packB = createMockPack('pack-b', '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
+      const packA = createMockPack('pack-a', '1.0.0', [{ name: 'pack-b', version: '1.0.0' }]);
+      const packB = createMockPack('pack-b', '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
 
       const result = resolver.resolve([packA], [packA, packB]);
 
@@ -118,15 +106,9 @@ describe('DependencyResolver', () => {
 
     it('should detect circular dependency (3 packs)', () => {
       // pack-a -> pack-b -> pack-c -> pack-a
-      const packA = createMockPack('pack-a', '1.0.0', [
-        { name: 'pack-b', version: '1.0.0' },
-      ]);
-      const packB = createMockPack('pack-b', '1.0.0', [
-        { name: 'pack-c', version: '1.0.0' },
-      ]);
-      const packC = createMockPack('pack-c', '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
+      const packA = createMockPack('pack-a', '1.0.0', [{ name: 'pack-b', version: '1.0.0' }]);
+      const packB = createMockPack('pack-b', '1.0.0', [{ name: 'pack-c', version: '1.0.0' }]);
+      const packC = createMockPack('pack-c', '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
 
       const result = resolver.resolve([packA], [packA, packB, packC]);
 
@@ -135,9 +117,7 @@ describe('DependencyResolver', () => {
     });
 
     it('should fail when dependency is not available', () => {
-      const packA = createMockPack('pack-a', '1.0.0', [
-        { name: 'missing-pack', version: '1.0.0' },
-      ]);
+      const packA = createMockPack('pack-a', '1.0.0', [{ name: 'missing-pack', version: '1.0.0' }]);
 
       const result = resolver.resolve([packA], [packA]);
 
@@ -158,9 +138,7 @@ describe('DependencyResolver', () => {
 
     it('should validate pack with satisfied dependencies', () => {
       const packA = createMockPack('pack-a');
-      const packB = createMockPack('pack-b', '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
+      const packB = createMockPack('pack-b', '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
 
       const result = resolver.validateDependencies(packB, [packA, packB]);
 
@@ -169,9 +147,7 @@ describe('DependencyResolver', () => {
     });
 
     it('should fail validation when dependency not found', () => {
-      const pack = createMockPack('pack-a', '1.0.0', [
-        { name: 'missing-pack', version: '1.0.0' },
-      ]);
+      const pack = createMockPack('pack-a', '1.0.0', [{ name: 'missing-pack', version: '1.0.0' }]);
 
       const result = resolver.validateDependencies(pack, [pack]);
 
@@ -204,9 +180,7 @@ describe('DependencyResolver', () => {
 
     it('should return direct dependencies', () => {
       const packA = createMockPack('pack-a');
-      const packB = createMockPack('pack-b', '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
+      const packB = createMockPack('pack-b', '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
 
       const deps = resolver.getTransitiveDependencies('pack-b', [packA, packB]);
 
@@ -216,12 +190,8 @@ describe('DependencyResolver', () => {
     it('should return transitive dependencies', () => {
       // pack-c -> pack-b -> pack-a
       const packA = createMockPack('pack-a');
-      const packB = createMockPack('pack-b', '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
-      const packC = createMockPack('pack-c', '1.0.0', [
-        { name: 'pack-b', version: '1.0.0' },
-      ]);
+      const packB = createMockPack('pack-b', '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
+      const packC = createMockPack('pack-c', '1.0.0', [{ name: 'pack-b', version: '1.0.0' }]);
 
       const deps = resolver.getTransitiveDependencies('pack-c', [packA, packB, packC]);
 
@@ -232,12 +202,8 @@ describe('DependencyResolver', () => {
 
     it('should handle diamond dependencies without duplicates', () => {
       const packA = createMockPack('pack-a');
-      const packB = createMockPack('pack-b', '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
-      const packC = createMockPack('pack-c', '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
+      const packB = createMockPack('pack-b', '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
+      const packC = createMockPack('pack-c', '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
       const packD = createMockPack('pack-d', '1.0.0', [
         { name: 'pack-b', version: '1.0.0' },
         { name: 'pack-c', version: '1.0.0' },
@@ -261,9 +227,7 @@ describe('DependencyResolver', () => {
   describe('Dependency Graph', () => {
     it('should build correct dependency graph', () => {
       const packA = createMockPack('pack-a');
-      const packB = createMockPack('pack-b', '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
+      const packB = createMockPack('pack-b', '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
 
       const result = resolver.resolve([packB], [packA, packB]);
 
@@ -282,9 +246,7 @@ describe('DependencyResolver', () => {
 
     it('should mark all nodes as resolved in successful resolution', () => {
       const packA = createMockPack('pack-a');
-      const packB = createMockPack('pack-b', '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
+      const packB = createMockPack('pack-b', '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
 
       const result = resolver.resolve([packB], [packA, packB]);
 

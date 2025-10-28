@@ -157,7 +157,7 @@ export class RegistryParser {
       );
     }
 
-    return entries.filter(entry => {
+    return entries.filter((entry) => {
       // Entry schema validation already ensures schema_version is valid SemVer
       return areVersionsCompatible(entry.schema_version, targetVersion);
     });
@@ -175,7 +175,7 @@ export class RegistryParser {
       throw new Error(`Invalid schema version "${version}". Expected SemVer format (X.Y.Z)`);
     }
 
-    return entries.filter(entry => entry.schema_version === version);
+    return entries.filter((entry) => entry.schema_version === version);
   }
 
   /**
@@ -186,6 +186,6 @@ export class RegistryParser {
    * @returns The domain pack entry or undefined if not found
    */
   findByName(entries: DomainPackEntry[], name: string): DomainPackEntry | undefined {
-    return entries.find(entry => entry.name === name);
+    return entries.find((entry) => entry.name === name);
   }
 }

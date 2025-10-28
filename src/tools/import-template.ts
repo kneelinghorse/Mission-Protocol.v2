@@ -80,9 +80,7 @@ export interface ImportTemplateResult {
 /**
  * Main entry point for the import_template MCP tool
  */
-export async function importTemplate(
-  params: ImportTemplateParams
-): Promise<ImportTemplateResult> {
+export async function importTemplate(params: ImportTemplateParams): Promise<ImportTemplateResult> {
   try {
     const validated = await validateParams(params);
 
@@ -153,10 +151,12 @@ export async function importTemplate(
       const dataMessages = Array.isArray(maybeMessages)
         ? maybeMessages.filter((message): message is string => typeof message === 'string')
         : undefined;
-      const detailMessages = dataMessages && dataMessages.length > 0
-        ? dataMessages
-        : error.issues?.map((issue) => issue.message).filter(Boolean);
-      const detail = detailMessages && detailMessages.length > 0 ? detailMessages[0] : error.message;
+      const detailMessages =
+        dataMessages && dataMessages.length > 0
+          ? dataMessages
+          : error.issues?.map((issue) => issue.message).filter(Boolean);
+      const detail =
+        detailMessages && detailMessages.length > 0 ? detailMessages[0] : error.message;
 
       const errorsList = detailMessages && detailMessages.length > 0 ? detailMessages : [detail];
 
@@ -210,13 +210,13 @@ const ImportTemplateParamsSchema = z
 
 type ValidatedImportTemplateParams = z.infer<typeof ImportTemplateParamsSchema>;
 
-async function validateParams(params: ImportTemplateParams): Promise<ValidatedImportTemplateParams> {
+async function validateParams(
+  params: ImportTemplateParams
+): Promise<ValidatedImportTemplateParams> {
   const validated = await validateAndSanitize(params, ImportTemplateParamsSchema);
 
   if (validated.skipSignatureVerification) {
-    console.warn(
-      '⚠️  WARNING: Signature verification is DISABLED. Only use this for testing!'
-    );
+    console.warn('⚠️  WARNING: Signature verification is DISABLED. Only use this for testing!');
   }
 
   return validated;
@@ -244,8 +244,7 @@ export const createTemplateImportToolDefinition = {
       },
       skipSignatureVerification: {
         type: 'boolean',
-        description:
-          'Skip signature verification (TESTING ONLY - NOT for production use)',
+        description: 'Skip signature verification (TESTING ONLY - NOT for production use)',
       },
       trustLevel: {
         type: 'string',
@@ -264,8 +263,7 @@ export const createTemplateImportToolDefinition = {
       allowedActions: {
         type: 'array',
         items: { type: 'string' },
-        description:
-          'List of allowed actions in the template (optional, empty means all allowed)',
+        description: 'List of allowed actions in the template (optional, empty means all allowed)',
       },
       urlAllowlist: {
         type: 'array',

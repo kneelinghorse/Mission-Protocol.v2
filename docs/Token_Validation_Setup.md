@@ -37,6 +37,7 @@ Expected responses include token counts (e.g., Anthropic returns `{"input_tokens
 ### Other Supported Gemini Models
 
 The key currently has access to the following models with `countTokens` support (see `ListModels` output):
+
 - `models/gemini-2.5-pro` (default)
 - `models/gemini-2.5-flash`
 - `models/gemini-2.5-flash-lite`

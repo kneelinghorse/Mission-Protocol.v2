@@ -29,7 +29,7 @@ const result = await extractTemplate({
   sourceMissionPath: './missions/customer-api',
   templateName: 'REST API Template',
   author: 'team@example.com',
-  description: 'Template for building REST APIs'
+  description: 'Template for building REST APIs',
 });
 
 if (result.success) {
@@ -43,12 +43,14 @@ if (result.success) {
 The extraction process has two stages:
 
 **Stage 1: Candidate Identification**
+
 - Analyzes all files in the mission directory
 - Identifies literal values that appear multiple times
 - Calculates confidence scores based on frequency
 - Detects path segments that may be parameterized
 
 **Stage 2: Template Generation**
+
 - Converts high-confidence candidates to parameters
 - Replaces literals with Jinja2 placeholders: `{{ parameter_name }}`
 - Generates metadata (name, version, tags, usage stats)
@@ -58,12 +60,12 @@ The extraction process has two stages:
 
 ```typescript
 interface ExtractionConfig {
-  sourceMissionPath: string;      // Path to mission directory
-  author: string;                  // Template author
-  templateName?: string;           // Optional custom name
-  description?: string;            // Template description
-  confidenceThreshold?: number;    // Min confidence (0.0-1.0, default: 0.6)
-  excludePatterns?: string[];      // Additional exclude patterns
+  sourceMissionPath: string; // Path to mission directory
+  author: string; // Template author
+  templateName?: string; // Optional custom name
+  description?: string; // Template description
+  confidenceThreshold?: number; // Min confidence (0.0-1.0, default: 0.6)
+  excludePatterns?: string[]; // Additional exclude patterns
 }
 ```
 
@@ -79,7 +81,7 @@ const result = await extractTemplate({
   templateName: 'Microservice API',
   author: 'devops@company.com',
   description: 'Node.js microservice with Express',
-  confidenceThreshold: 0.7
+  confidenceThreshold: 0.7,
 });
 
 // 3. Review results
@@ -95,12 +97,14 @@ result.template?.metadata.parameters.forEach((param, name) => {
 ### Best Practices
 
 ✅ **Do:**
+
 - Use descriptive mission directories for better parameter names
 - Review generated parameters before sharing
 - Set appropriate confidence thresholds (0.6-0.8 recommended)
 - Clean up temporary files before extraction
 
 ❌ **Don't:**
+
 - Extract from directories with secrets or credentials
 - Use extremely low confidence thresholds (<0.3)
 - Extract from missions with node_modules or build artifacts
@@ -129,10 +133,10 @@ import { exportTemplate } from './tools/export-template';
 const result = await exportTemplate({
   template: myTemplate,
   outputPath: './exports',
-  format: 'yaml',                    // 'yaml' or 'json'
+  format: 'yaml', // 'yaml' or 'json'
   includeSignature: true,
   keyId: 'company-signing-key-001',
-  algorithm: 'RS256'
+  algorithm: 'RS256',
 });
 
 console.log(`Template exported to: ${result.exportPath}`);
@@ -150,14 +154,14 @@ SecurityValidator.registerTrustedKey({
   algorithm: 'RS256',
   publicKey: '-----BEGIN PUBLIC KEY-----...',
   owner: 'Company DevOps Team',
-  trustLevel: 'verified-internal'
+  trustLevel: 'verified-internal',
 });
 
 // 2. Import template
 const result = await importTemplate({
   templatePath: './exports/api-template.yaml',
   baseDir: './exports',
-  skipSignatureVerification: false  // Enforce signature check
+  skipSignatureVerification: false, // Enforce signature check
 });
 
 if (result.success) {
@@ -170,12 +174,12 @@ if (result.success) {
 
 ### Trust Levels
 
-| Trust Level | Use Case | Verification Required |
-|-------------|----------|----------------------|
-| `verified-internal` | Internal team templates | Yes - Company key |
-| `verified-partner` | Trusted partner templates | Yes - Partner key |
-| `community-trusted` | Vetted community templates | Yes - Community key |
-| `untrusted` | External, unverified sources | Extra validation |
+| Trust Level         | Use Case                     | Verification Required |
+| ------------------- | ---------------------------- | --------------------- |
+| `verified-internal` | Internal team templates      | Yes - Company key     |
+| `verified-partner`  | Trusted partner templates    | Yes - Partner key     |
+| `community-trusted` | Vetted community templates   | Yes - Community key   |
+| `untrusted`         | External, unverified sources | Extra validation      |
 
 ### Performance Targets
 
@@ -216,6 +220,7 @@ if (result.success) {
 ### Merge Strategies
 
 #### 1. Deep Merge (Default)
+
 Recursively merges objects and concatenates arrays.
 
 ```yaml
@@ -234,6 +239,7 @@ server:
 ```
 
 #### 2. Override
+
 Last pack wins for conflicting keys.
 
 ```yaml
@@ -251,6 +257,7 @@ config:
 ```
 
 #### 3. Selective
+
 Specify paths to merge vs. override.
 
 ```typescript
@@ -267,14 +274,15 @@ Packs declare dependencies in their manifest:
 
 ```yaml
 # auth-middleware/manifest.yaml
-name: "auth-middleware"
-version: "1.0.0"
+name: 'auth-middleware'
+version: '1.0.0'
 dependencies:
-  - name: "base-api"
-    version: "^1.0.0"
+  - name: 'base-api'
+    version: '^1.0.0'
 ```
 
 The resolver:
+
 1. Builds dependency graph
 2. Detects circular dependencies
 3. Determines load order
@@ -282,12 +290,12 @@ The resolver:
 
 ```typescript
 const result = await combinePacks({
-  packNames: ['auth-middleware'],  // Only specify top-level
+  packNames: ['auth-middleware'], // Only specify top-level
   registryPath: './registry.yaml',
-  resolveDependencies: true         // Auto-includes base-api
+  resolveDependencies: true, // Auto-includes base-api
 });
 
-console.log(result.loadOrder);  // ['base-api', 'auth-middleware']
+console.log(result.loadOrder); // ['base-api', 'auth-middleware']
 ```
 
 ### Preview Mode
@@ -299,7 +307,7 @@ import { PackCombiner } from './combination/pack-combiner';
 
 const combiner = new PackCombiner();
 const preview = combiner.preview(packs, availablePacks, {
-  resolveDependencies: true
+  resolveDependencies: true,
 });
 
 console.log('Load order:', preview.loadOrder);
@@ -332,7 +340,7 @@ await registerTemplateVersion({
   version: '2.0.0',
   changelog: 'Breaking: New configuration format',
   compatibleWith: '^2.0.0',
-  releaseDate: '2025-01-15T10:00:00Z'
+  releaseDate: '2025-01-15T10:00:00Z',
 });
 ```
 
@@ -346,7 +354,7 @@ import { checkVersionCompatibility } from './tools/version-template';
 const result = await checkVersionCompatibility({
   templateId: 'api-template',
   version1: '2.1.0',
-  version2: '2.0.0'
+  version2: '2.0.0',
 });
 
 if (result.compatible) {
@@ -377,12 +385,12 @@ const migration = createMigration({
     return {
       ...data,
       config: {
-        server: data.serverConfig,  // Rename field
-        version: 2
-      }
+        server: data.serverConfig, // Rename field
+        version: 2,
+      },
     };
   },
-  reversible: false
+  reversible: false,
 });
 
 // Register migration
@@ -392,7 +400,7 @@ migrationEngine.registerMigration(migration);
 const path = await findMigrationPath({
   templateId: 'api-template',
   fromVersion: '1.0.0',
-  toVersion: '2.0.0'
+  toVersion: '2.0.0',
 });
 
 console.log(`Migration requires ${path.steps.length} steps`);
@@ -431,7 +439,7 @@ if (result.success) {
 const extractResult = await extractTemplate({
   sourceMissionPath: './missions/payment-service',
   templateName: 'Payment Service Template',
-  author: 'team-a@company.com'
+  author: 'team-a@company.com',
 });
 
 const exportResult = await exportTemplate({
@@ -439,7 +447,7 @@ const exportResult = await exportTemplate({
   outputPath: './shared-templates',
   format: 'yaml',
   includeSignature: true,
-  keyId: 'team-a-key'
+  keyId: 'team-a-key',
 });
 
 // Share file: ./shared-templates/payment-service-template.yaml
@@ -450,12 +458,12 @@ SecurityValidator.registerTrustedKey({
   algorithm: 'RS256',
   publicKey: teamAPublicKey,
   owner: 'Team A',
-  trustLevel: 'verified-internal'
+  trustLevel: 'verified-internal',
 });
 
 const importResult = await importTemplate({
   templatePath: './shared-templates/payment-service-template.yaml',
-  baseDir: './shared-templates'
+  baseDir: './shared-templates',
 });
 
 // Use imported template to create new mission
@@ -470,14 +478,14 @@ const combineResult = await combinePacks({
   packNames: ['base-web', 'auth', 'database', 'monitoring'],
   registryPath: './registry.yaml',
   strategy: 'deep-merge',
-  resolveDependencies: true
+  resolveDependencies: true,
 });
 
 // 2. Version the combined template
 await registerTemplateVersion({
   templateId: combineResult.combinedPack.manifest.name,
   version: '1.0.0',
-  changelog: 'Initial composite template'
+  changelog: 'Initial composite template',
 });
 
 // 3. Export for distribution
@@ -486,7 +494,7 @@ await exportTemplate({
   outputPath: './dist',
   format: 'yaml',
   includeSignature: true,
-  keyId: 'release-key'
+  keyId: 'release-key',
 });
 ```
 
@@ -497,7 +505,7 @@ await exportTemplate({
 const currentVersion = '1.5.0';
 const latest = await getLatestVersion({
   templateId: 'api-template',
-  includePrerelease: false
+  includePrerelease: false,
 });
 
 console.log(`Current: ${currentVersion}, Latest: ${latest.version}`);
@@ -506,7 +514,7 @@ console.log(`Current: ${currentVersion}, Latest: ${latest.version}`);
 const compat = await checkVersionCompatibility({
   templateId: 'api-template',
   version1: latest.version,
-  version2: currentVersion
+  version2: currentVersion,
 });
 
 if (!compat.compatible) {
@@ -514,7 +522,7 @@ if (!compat.compatible) {
   const path = await findMigrationPath({
     templateId: 'api-template',
     fromVersion: currentVersion,
-    toVersion: latest.version
+    toVersion: latest.version,
   });
 
   console.log(`Migration path found with ${path.steps.length} steps`);
@@ -540,14 +548,17 @@ if (!compat.compatible) {
 All Phase 3 features are available as MCP tools in Claude Desktop:
 
 ### Template Tools
+
 - `get_template_extraction` (alias `extract_template`) - Extract template from mission
 - `create_template_import` (alias `import_template`) - Import template with validation
 - `get_template_export` (alias `export_template`) - Export template with signature
 
 ### Combination Tools
+
 - `create_combined_pack` (alias `combine_packs`) - Combine multiple domain packs
 
 ### Versioning Tools
+
 - `check_version_compatibility` - Check version compatibility
 - `find_migration_path` - Find migration between versions
 - `register_template_version` - Register new version
@@ -563,6 +574,7 @@ All Phase 3 features are available as MCP tools in Claude Desktop:
 **Cause**: Signing key not registered in trusted keys.
 
 **Solution**:
+
 ```typescript
 SecurityValidator.registerTrustedKey({
   keyId: 'the-key-id-from-error',
@@ -575,6 +587,7 @@ SecurityValidator.registerTrustedKey({
 **Cause**: Packs have circular references in dependencies.
 
 **Solution**:
+
 1. Use preview mode to identify the cycle
 2. Remove one dependency edge
 3. Restructure packs to avoid cycles
@@ -584,6 +597,7 @@ SecurityValidator.registerTrustedKey({
 **Cause**: No registered migrations between versions.
 
 **Solution**:
+
 1. Register missing migrations
 2. Consider intermediate versions as stepping stones
 3. Check if direct migration is possible
@@ -593,9 +607,10 @@ SecurityValidator.registerTrustedKey({
 **Cause**: Confidence threshold too high, or values don't repeat enough.
 
 **Solution**:
+
 ```typescript
 {
-  confidenceThreshold: 0.5  // Lower threshold
+  confidenceThreshold: 0.5; // Lower threshold
 }
 ```
 
@@ -610,6 +625,7 @@ SecurityValidator.registerTrustedKey({
 ## Support
 
 For issues or questions:
+
 - File an issue in the project repository
 - Contact the Mission Protocol team
 - Refer to the API documentation for technical details

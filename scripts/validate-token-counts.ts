@@ -1,14 +1,14 @@
 #!/usr/bin/env ts-node
 /**
  * Token Count Validation Script
- * 
+ *
  * Compares offline token counts (from token-counters.ts) against official provider APIs.
  * Used in CI to detect accuracy drift in Claude/Gemini implementations.
- * 
+ *
  * Environment variables required:
  * - ANTHROPIC_API_KEY: For Claude validation
  * - GOOGLE_GEMINI_API_KEY: For Gemini validation
- * 
+ *
  * Exit codes:
  * - 0: All validations passed within threshold
  * - 1: One or more validations failed (drift exceeded threshold)
@@ -32,16 +32,24 @@ interface ValidationResult {
 // Test cases covering various text lengths and complexities
 const TEST_CASES = [
   { name: 'short', text: 'hello world' },
-  { name: 'medium', text: 'The Mission Creation Protocol enables structured, reusable mission templates for AI-assisted development workflows.' },
-  { name: 'long', text: `
+  {
+    name: 'medium',
+    text: 'The Mission Creation Protocol enables structured, reusable mission templates for AI-assisted development workflows.',
+  },
+  {
+    name: 'long',
+    text: `
 This mission file represents the master backlog and sprint plan for the Mission Creation Protocol (MCP) project.
 It provides a single source of truth for what has been completed, what is in progress, and what is planned.
 This structured format allows for automated status tracking and dependency management.
 
 Success criteria include completing all missions within each sprint, from Sprint 1 (Foundation) through Sprint 4 (Intelligence Layer).
 Each mission tracks its status, completion timestamp, and notes about the implementation.
-`.trim() },
-  { name: 'code', text: `
+`.trim(),
+  },
+  {
+    name: 'code',
+    text: `
 export async function count(text: string, model: SupportedModel): Promise<TokenCount> {
   switch (model) {
     case 'gpt':
@@ -54,12 +62,13 @@ export async function count(text: string, model: SupportedModel): Promise<TokenC
       throw new Error(\`Unsupported model: \${model}\`);
   }
 }
-`.trim() },
+`.trim(),
+  },
 ];
 
 // Drift thresholds (percentage)
 const THRESHOLDS: Record<ValidatedModel, number> = {
-  claude: 50.0,  // Claude can drift up to 50% (Transformers.js is unofficial)
+  claude: 50.0, // Claude can drift up to 50% (Transformers.js is unofficial)
   gemini: 100.0, // Gemini uses heuristic, allow up to 100% variance
 };
 
@@ -139,7 +148,7 @@ async function validateGemini(text: string): Promise<number> {
 async function runValidation(
   counter: TokenCounter,
   model: 'claude' | 'gemini',
-  testCase: typeof TEST_CASES[0]
+  testCase: (typeof TEST_CASES)[0]
 ): Promise<ValidationResult> {
   const localResult = await counter.count(testCase.text, model);
   const localCount = localResult.count;
@@ -193,13 +202,15 @@ async function main() {
       try {
         const result = await runValidation(counter, 'claude', testCase);
         results.push(result);
-        
+
         const status = result.passed ? '✅' : '❌';
         console.log(
           `  ${status} ${result.testCase.padEnd(8)} | Local: ${result.localCount.toString().padStart(5)} | Provider: ${result.providerCount.toString().padStart(5)} | Drift: ${result.driftPercent.toFixed(1)}%`
         );
       } catch (error) {
-        console.error(`  ❌ ${testCase.name}: ${error instanceof Error ? error.message : String(error)}`);
+        console.error(
+          `  ❌ ${testCase.name}: ${error instanceof Error ? error.message : String(error)}`
+        );
         process.exit(2);
       }
     }
@@ -215,13 +226,15 @@ async function main() {
       try {
         const result = await runValidation(counter, 'gemini', testCase);
         results.push(result);
-        
+
         const status = result.passed ? '✅' : '❌';
         console.log(
           `  ${status} ${result.testCase.padEnd(8)} | Local: ${result.localCount.toString().padStart(5)} | Provider: ${result.providerCount.toString().padStart(5)} | Drift: ${result.driftPercent.toFixed(1)}%`
         );
       } catch (error) {
-        console.error(`  ❌ ${testCase.name}: ${error instanceof Error ? error.message : String(error)}`);
+        console.error(
+          `  ❌ ${testCase.name}: ${error instanceof Error ? error.message : String(error)}`
+        );
         process.exit(2);
       }
     }
@@ -231,7 +244,7 @@ async function main() {
   }
 
   // Summary
-  const failedResults = results.filter(r => !r.passed);
+  const failedResults = results.filter((r) => !r.passed);
   if (failedResults.length > 0) {
     console.log('❌ VALIDATION FAILED\n');
     console.log('The following tests exceeded drift thresholds:');

@@ -392,9 +392,7 @@ describe('VersionManager', () => {
 
       const result = versionManager.resolveVersions(requirements);
       expect(result.success).toBe(true);
-      expect(versionManager.versionToString(result.resolvedVersions!['template-a'])).toBe(
-        '1.5.0'
-      );
+      expect(versionManager.versionToString(result.resolvedVersions!['template-a'])).toBe('1.5.0');
     });
 
     test('should detect conflicting version ranges', () => {
@@ -432,7 +430,7 @@ describe('VersionManager', () => {
 
       const validation = versionManager.validateVersion(templateVersion);
       expect(validation.valid).toBe(false);
-      expect(validation.errors.some(e => e.includes('Invalid release date'))).toBe(true);
+      expect(validation.errors.some((e) => e.includes('Invalid release date'))).toBe(true);
     });
   });
 });

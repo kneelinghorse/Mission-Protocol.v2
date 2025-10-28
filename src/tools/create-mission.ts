@@ -16,7 +16,6 @@
  * @version 1.0
  */
 
-import * as path from 'path';
 import * as YAML from 'yaml';
 import { SecureYAMLLoader } from '../loaders/yaml-loader';
 import { RegistryParser } from '../registry/registry-parser';
@@ -53,7 +52,7 @@ export interface CreateMissionParams {
 export const createMissionToolDefinition = {
   name: 'create_mission',
   description:
-    'Use this tool to create a new mission based on a user\'s request. You must provide a clear and concise objective. You can optionally specify a domain from the list provided by get_available_domains (formerly list_available_domains). If no domain is specified, a generic mission will be created.',
+    "Use this tool to create a new mission based on a user's request. You must provide a clear and concise objective. You can optionally specify a domain from the list provided by get_available_domains (formerly list_available_domains). If no domain is specified, a generic mission will be created.",
   inputSchema: {
     type: 'object',
     required: ['objective'],
@@ -64,7 +63,8 @@ export const createMissionToolDefinition = {
       },
       domain: {
         type: 'string',
-        description: 'Optional domain pack name (use get_available_domains to see available options)',
+        description:
+          'Optional domain pack name (use get_available_domains to see available options)',
       },
       successCriteria: {
         type: 'array',
@@ -262,9 +262,10 @@ export class CreateMissionToolImpl {
         constraints: params.constraints || template.context.constraints || [],
       },
       // Ensure successCriteria is never empty (requirement from schema)
-      successCriteria: params.successCriteria && params.successCriteria.length > 0
-        ? params.successCriteria
-        : ['Mission objective achieved'],
+      successCriteria:
+        params.successCriteria && params.successCriteria.length > 0
+          ? params.successCriteria
+          : ['Mission objective achieved'],
       // Ensure deliverables is never empty (requirement from schema)
       deliverables: ['Mission completion report'],
     };
@@ -365,13 +366,19 @@ export class CreateMissionToolImpl {
 
     if (!Array.isArray(mission.successCriteria) || mission.successCriteria.length === 0) {
       throw new ValidationError('successCriteria must be a non-empty array', {
-        context: { successCriteriaCount: Array.isArray(mission.successCriteria) ? mission.successCriteria.length : 0 },
+        context: {
+          successCriteriaCount: Array.isArray(mission.successCriteria)
+            ? mission.successCriteria.length
+            : 0,
+        },
       });
     }
 
     if (!Array.isArray(mission.deliverables) || mission.deliverables.length === 0) {
       throw new ValidationError('deliverables must be a non-empty array', {
-        context: { deliverablesCount: Array.isArray(mission.deliverables) ? mission.deliverables.length : 0 },
+        context: {
+          deliverablesCount: Array.isArray(mission.deliverables) ? mission.deliverables.length : 0,
+        },
       });
     }
   }

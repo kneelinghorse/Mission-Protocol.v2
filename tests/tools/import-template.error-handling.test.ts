@@ -45,10 +45,7 @@ describe('create_template_import error handling (mocked)', () => {
     const result = await importTemplate({ templatePath: 'invalid.yaml' });
 
     expect(result.success).toBe(false);
-    expect(result.validationReport.errors).toEqual([
-      'Field A missing',
-      'Field B invalid',
-    ]);
+    expect(result.validationReport.errors).toEqual(['Field A missing', 'Field B invalid']);
     expect(result.message).toContain('Field A missing');
   });
 
@@ -96,9 +93,7 @@ describe('create_template_import error handling (mocked)', () => {
     }));
 
     jest.doMock('../../src/validation/common', () => ({
-      safeFilePath: jest
-        .fn(async (value: string) => value)
-        .mockName('safeFilePath'),
+      safeFilePath: jest.fn(async (value: string) => value).mockName('safeFilePath'),
     }));
 
     const importerMock = mockTemplateImporter();

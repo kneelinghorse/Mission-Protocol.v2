@@ -6,6 +6,28 @@ import {
   updateTokenOptimizationToolDefinition,
 } from '../../src/tools/optimize-tokens';
 
+function sanitize(value: unknown): unknown {
+  if (typeof value === 'function') {
+    return `[Function ${value.name || 'anonymous'}]`;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => sanitize(item));
+  }
+
+  if (value && typeof value === 'object') {
+    const entries = Object.entries(value as Record<string, unknown>);
+    return entries
+      .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+      .reduce<Record<string, unknown>>((acc, [key, val]) => {
+        acc[key] = sanitize(val);
+        return acc;
+      }, {});
+  }
+
+  return value;
+}
+
 describe('Tool definitions contract', () => {
   test('optimize tokens exports remain backwards compatible', () => {
     expect(optimizeTokensToolDefinition).toBe(updateTokenOptimizationToolDefinition);
@@ -15,12 +37,10 @@ describe('Tool definitions contract', () => {
 
   test('registered tool schema stays stable', () => {
     const normalized = getToolDefinitions()
-      .map(({ name, description, inputSchema }) => ({
-        name,
-        description,
-        inputSchema,
-      }))
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .map((definition) => sanitize(definition))
+      .sort((a, b) =>
+        String((a as { name: string }).name).localeCompare(String((b as { name: string }).name))
+      );
 
     expect(normalized).toMatchSnapshot();
   });

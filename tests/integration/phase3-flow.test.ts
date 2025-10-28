@@ -41,10 +41,16 @@ describe('Phase 3 Integration', () => {
   it('Extract -> Export -> Import -> Use (roundtrip)', async () => {
     const sourceDir = path.join(tmpRoot, 'src');
     await ensureDir(sourceDir);
-    await fs.writeFile(path.join(sourceDir, 'service.yaml'), 'name: api\nversion: 1.0.0\nport: 8080');
+    await fs.writeFile(
+      path.join(sourceDir, 'service.yaml'),
+      'name: api\nversion: 1.0.0\nport: 8080'
+    );
 
     // Identify candidates directly (Stage 1)
-    const extractor = new TemplateExtractor({ sourceMissionPath: sourceDir, author: 'integration' });
+    const extractor = new TemplateExtractor({
+      sourceMissionPath: sourceDir,
+      author: 'integration',
+    });
     const stage1 = await extractor.identifyCandidates(sourceDir);
     expect(stage1.filesAnalyzed).toBeGreaterThan(0);
 
@@ -68,7 +74,9 @@ describe('Phase 3 Integration', () => {
 
     // Import from string and validate
     const importer = new TemplateImporter(tmpRoot);
-    const imported = await importer.importFromString(yamlString, { skipSignatureVerification: true });
+    const imported = await importer.importFromString(yamlString, {
+      skipSignatureVerification: true,
+    });
     expect(imported.template.metadata.name).toBe('roundtrip-template');
   });
 
@@ -108,7 +116,11 @@ describe('Phase 3 Integration', () => {
     const r2 = await registerTemplateVersion({ templateId: 'demo', version: '1.0.1' });
     expect(r2.success).toBe(true);
 
-    const compat = await checkVersionCompatibility({ templateId: 'demo', version1: '1.0.0', version2: '1.0.1' });
+    const compat = await checkVersionCompatibility({
+      templateId: 'demo',
+      version1: '1.0.0',
+      version2: '1.0.1',
+    });
     expect(compat.success).toBe(true);
 
     const latest = await getLatestVersion({ templateId: 'demo', includePrerelease: false });
@@ -119,7 +131,11 @@ describe('Phase 3 Integration', () => {
     expect(cmp.success).toBe(true);
     expect(cmp.comparison).toBe('less_than');
 
-    const mig = await findMigrationPath({ templateId: 'demo', fromVersion: '1.0.0', toVersion: '1.0.1' });
+    const mig = await findMigrationPath({
+      templateId: 'demo',
+      fromVersion: '1.0.0',
+      toVersion: '1.0.1',
+    });
     expect(mig.success).toBe(true);
     expect(mig.pathFound === false || Array.isArray(mig.path?.steps)).toBe(true);
   });

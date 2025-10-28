@@ -117,7 +117,9 @@ describe('SplitMissionTool Integration', () => {
         missionFile: '../outside.yaml',
       };
 
-      await expect(tool.execute(params)).rejects.toThrow('Path cannot contain parent directory traversals');
+      await expect(tool.execute(params)).rejects.toThrow(
+        'Path cannot contain parent directory traversals'
+      );
     });
 
     test('rejects output directories outside the workspace root', async () => {
@@ -139,7 +141,9 @@ describe('SplitMissionTool Integration', () => {
         outputDir: '../unsafe',
       };
 
-      await expect(tool.execute(params)).rejects.toThrow('Path cannot contain parent directory traversals');
+      await expect(tool.execute(params)).rejects.toThrow(
+        'Path cannot contain parent directory traversals'
+      );
     });
 
     test('should split complex mission and create sub-mission files', async () => {
@@ -337,7 +341,7 @@ describe('SplitMissionTool Integration', () => {
         if (result.executionPlan.length > 1) {
           const hasDependencies = result.executionPlan
             .slice(1)
-            .some(step => step.dependencies.length > 0);
+            .some((step) => step.dependencies.length > 0);
           expect(hasDependencies).toBe(true);
         }
       }
@@ -492,7 +496,6 @@ describe('SplitMissionTool Integration', () => {
       expect(typeof content).toBe('string');
       expect(content).toContain('invalid');
     });
-
   });
 
   describe('file naming', () => {

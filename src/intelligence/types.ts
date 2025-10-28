@@ -17,11 +17,7 @@ export type CompressionLevel = 'conservative' | 'balanced' | 'aggressive';
 /**
  * Compression pass types
  */
-export type CompressionPassType =
-  | 'sanitization'
-  | 'structural'
-  | 'linguistic'
-  | 'model-specific';
+export type CompressionPassType = 'sanitization' | 'structural' | 'linguistic' | 'model-specific';
 
 /**
  * Token count result

@@ -34,7 +34,7 @@ export interface MergeOptions {
  */
 const DEFAULT_OPTIONS: Required<MergeOptions> = {
   arrayStrategy: 'concat',
-  listStrategy: 'append'
+  listStrategy: 'append',
 };
 
 /**
@@ -57,11 +57,7 @@ export class MissionMerger {
    * @param options - Optional merge configuration
    * @returns New merged object (does not mutate inputs)
    */
-  merge<T>(
-    base: T,
-    extension: unknown,
-    options?: MergeOptions
-  ): T {
+  merge<T>(base: T, extension: unknown, options?: MergeOptions): T {
     const mergeOpts = { ...DEFAULT_OPTIONS, ...options };
 
     // Handle null/undefined cases
@@ -94,11 +90,7 @@ export class MissionMerger {
    * @param options - Merge options
    * @returns New merged object
    */
-  private mergeObjects(
-    base: object,
-    extension: object,
-    options: Required<MergeOptions>
-  ): object {
+  private mergeObjects(base: object, extension: object, options: Required<MergeOptions>): object {
     const result: Record<string, unknown> = { ...base };
 
     for (const [key, extensionValue] of Object.entries(extension)) {
@@ -143,8 +135,9 @@ export class MissionMerger {
     if (options.listStrategy === 'unique') {
       // Remove duplicates while preserving order
       const combined = [...base, ...extension];
-      return Array.from(new Set(combined.map(item => JSON.stringify(item))))
-        .map(item => JSON.parse(item));
+      return Array.from(new Set(combined.map((item) => JSON.stringify(item)))).map((item) =>
+        JSON.parse(item)
+      );
     }
 
     // Default append strategy
@@ -213,11 +206,7 @@ export class MissionMerger {
  * @param options - Optional merge configuration
  * @returns New merged object
  */
-export function deepMerge<T>(
-  base: T,
-  extension: unknown,
-  options?: MergeOptions
-): T {
+export function deepMerge<T>(base: T, extension: unknown, options?: MergeOptions): T {
   const merger = new MissionMerger();
   return merger.merge(base, extension, options);
 }

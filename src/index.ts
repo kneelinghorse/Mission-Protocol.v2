@@ -140,8 +140,6 @@ export interface MissionProtocolContext {
 /**
  * Global instances (initialized in main())
  */
-let serverContext: MissionProtocolContext | null = null;
-
 const CANONICAL_TOOL_DEFINITIONS = [
   getAvailableDomainsToolDefinition,
   createMissionToolDefinition,
@@ -170,10 +168,7 @@ const DEPRECATED_TOOL_DEFINITIONS = [
   suggestSplitsToolDefinitionDeprecated,
 ] as const;
 
-const TOOL_DEFINITIONS = [
-  ...CANONICAL_TOOL_DEFINITIONS,
-  ...DEPRECATED_TOOL_DEFINITIONS,
-] as const;
+const TOOL_DEFINITIONS = [...CANONICAL_TOOL_DEFINITIONS, ...DEPRECATED_TOOL_DEFINITIONS] as const;
 
 const DEPRECATED_TOOL_ALIASES: Record<string, { replacement: string }> = {
   list_available_domains: { replacement: 'get_available_domains' },
@@ -307,10 +302,7 @@ function registerToolHandlers(context: MissionProtocolContext): void {
 
     try {
       if (!context) {
-        throw new McpError(
-          ErrorCode.InternalError,
-          'Server context not initialized'
-        );
+        throw new McpError(ErrorCode.InternalError, 'Server context not initialized');
       }
 
       return await executeMissionProtocolTool(name, args, context);
@@ -359,6 +351,7 @@ export async function executeMissionProtocolTool(
   switch (name) {
     case 'list_available_domains':
       emitDeprecationWarning('list_available_domains');
+    // falls through
     case 'get_available_domains': {
       const domains = await context.listDomainsTool.execute(registryFile);
       const formatted = context.listDomainsTool.formatForLLM(domains);
@@ -399,6 +392,7 @@ export async function executeMissionProtocolTool(
 
     case 'extract_template':
       emitDeprecationWarning('extract_template');
+    // falls through
     case 'get_template_extraction': {
       const params = args as ExtractTemplateParams;
       const result = await extractTemplate(params);
@@ -420,13 +414,12 @@ export async function executeMissionProtocolTool(
 
     case 'import_template':
       emitDeprecationWarning('import_template');
+    // falls through
     case 'create_template_import': {
       const params = args as ImportTemplateParams;
       const result = await importTemplate(params);
 
-      const summary = result.success
-        ? result.message
-        : `Import failed: ${result.message}`;
+      const summary = result.success ? result.message : `Import failed: ${result.message}`;
 
       return {
         content: [
@@ -444,13 +437,12 @@ export async function executeMissionProtocolTool(
 
     case 'export_template':
       emitDeprecationWarning('export_template');
+    // falls through
     case 'get_template_export': {
       const params = args as ExportTemplateParams;
       const result = await exportTemplate(params);
 
-      const summary = result.success
-        ? result.message
-        : `Export failed: ${result.message}`;
+      const summary = result.success ? result.message : `Export failed: ${result.message}`;
 
       return {
         content: [
@@ -468,6 +460,7 @@ export async function executeMissionProtocolTool(
 
     case 'combine_packs':
       emitDeprecationWarning('combine_packs');
+    // falls through
     case 'create_combined_pack': {
       const params = args as CombinePacksParams;
       const result = await context.combinePacksTool.execute(params, registryFile);
@@ -512,6 +505,7 @@ export async function executeMissionProtocolTool(
 
     case 'analyze_dependencies':
       emitDeprecationWarning('analyze_dependencies');
+    // falls through
     case 'get_dependency_analysis': {
       const params = args as AnalyzeDependenciesArgs;
       const summary = await executeAnalyzeDependenciesTool(params);
@@ -531,6 +525,7 @@ export async function executeMissionProtocolTool(
 
     case 'score_quality':
       emitDeprecationWarning('score_quality');
+    // falls through
     case 'get_mission_quality_score': {
       const params = args as ScoreQualityInput;
       const result = await scoreQuality(params);
@@ -555,6 +550,7 @@ export async function executeMissionProtocolTool(
 
     case 'optimize_tokens':
       emitDeprecationWarning('optimize_tokens');
+    // falls through
     case 'update_token_optimization': {
       const params = args as OptimizeTokensParams;
       const result = await context.optimizeTokensTool.execute(params);
@@ -591,7 +587,10 @@ export async function executeMissionProtocolTool(
       summary += `- Compression ratio: ${stats.compressionRatio.toFixed(2)}x\n`;
       summary += `- Passes applied: ${stats.passesApplied.join(', ')}\n`;
 
-      if (tokenUsage.original.estimatedCost !== undefined && tokenUsage.optimized.estimatedCost !== undefined) {
+      if (
+        tokenUsage.original.estimatedCost !== undefined &&
+        tokenUsage.optimized.estimatedCost !== undefined
+      ) {
         const costSavings = tokenUsage.original.estimatedCost - tokenUsage.optimized.estimatedCost;
         summary += `- Estimated cost savings: $${costSavings.toFixed(4)} (from $${(tokenUsage.original.estimatedCost ?? 0).toFixed(4)} to $${(tokenUsage.optimized.estimatedCost ?? 0).toFixed(4)})\n`;
       }
@@ -644,6 +643,7 @@ export async function executeMissionProtocolTool(
 
     case 'split_mission':
       emitDeprecationWarning('split_mission');
+    // falls through
     case 'create_mission_splits': {
       const params = args as SplitMissionParams;
       const result = await context.splitMissionTool.execute(params);
@@ -681,6 +681,7 @@ export async function executeMissionProtocolTool(
 
     case 'suggest_splits':
       emitDeprecationWarning('suggest_splits');
+    // falls through
     case 'get_split_suggestions': {
       const params = args as SuggestSplitsParams;
       const result = await context.suggestSplitsTool.execute(params);
@@ -717,10 +718,7 @@ export async function executeMissionProtocolTool(
     }
 
     default:
-      throw new McpError(
-        ErrorCode.MethodNotFound,
-        `Unknown tool: ${name}`
-      );
+      throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
   }
 }
 
@@ -731,8 +729,6 @@ async function initializeServer(): Promise<MissionProtocolContext> {
   try {
     console.error(`[INFO] Initializing MCP server...`);
     const context = await contextBuilder();
-    serverContext = context;
-
     console.error(`[INFO] Template base directory: ${context.baseDir}`);
     console.error(`[INFO] Default intelligence model: ${context.defaultModel}`);
     await ensureTokenizersReady();

@@ -52,8 +52,12 @@ describe('intelligence/types', () => {
 
   test('compression ruleset aggregates rule buckets and preserve patterns', () => {
     const ruleset = ensureRuleset({
-      sanitizationRules: [{ type: 'regex_replace', pattern: /\s+/g, replacement: ' ', enabled: true }],
-      structuralRules: [{ type: 'convert_prose_to_list', enabled: true, delimiters: ['First,', 'Next,'] }],
+      sanitizationRules: [
+        { type: 'regex_replace', pattern: /\s+/g, replacement: ' ', enabled: true },
+      ],
+      structuralRules: [
+        { type: 'convert_prose_to_list', enabled: true, delimiters: ['First,', 'Next,'] },
+      ],
       linguisticRules: [{ type: 'convert_passive_to_active', enabled: true }],
       preservePatterns: [/```code[\s\S]+?```/g],
     });

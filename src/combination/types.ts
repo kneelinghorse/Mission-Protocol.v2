@@ -7,15 +7,13 @@
  * @module combination/types
  */
 
-import { DomainPack } from '../domains/types';
-
 /**
  * Merge strategy for combining domain packs
  */
 export type CombinationStrategy =
-  | 'deep-merge'    // Recursively merge objects and concatenate arrays
-  | 'override'      // Later packs override earlier packs completely
-  | 'selective';    // User specifies which fields to merge vs override
+  | 'deep-merge' // Recursively merge objects and concatenate arrays
+  | 'override' // Later packs override earlier packs completely
+  | 'selective'; // User specifies which fields to merge vs override
 
 /**
  * Options for pack combination
@@ -128,21 +126,30 @@ export interface CombinationResult {
  * Error classes for pack combination
  */
 export class PackCombinationError extends Error {
-  constructor(message: string, public details?: Record<string, unknown>) {
+  constructor(
+    message: string,
+    public details?: Record<string, unknown>
+  ) {
     super(message);
     this.name = 'PackCombinationError';
   }
 }
 
 export class CircularDependencyError extends PackCombinationError {
-  constructor(message: string, public cycle: string[]) {
+  constructor(
+    message: string,
+    public cycle: string[]
+  ) {
     super(message, { cycle });
     this.name = 'CircularDependencyError';
   }
 }
 
 export class DependencyNotFoundError extends PackCombinationError {
-  constructor(message: string, public missingPack: string) {
+  constructor(
+    message: string,
+    public missingPack: string
+  ) {
     super(message, { missingPack });
     this.name = 'DependencyNotFoundError';
   }

@@ -1,7 +1,11 @@
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { z } from 'zod';
-import { DependencyAnalyzer, MissionRecord, isMissionRecord } from '../intelligence/dependency-analyzer';
+import {
+  DependencyAnalyzer,
+  MissionRecord,
+  isMissionRecord,
+} from '../intelligence/dependency-analyzer';
 import { GraphValidator } from '../intelligence/graph-validator';
 import { DependencyInferrer, InferredDependency } from '../intelligence/dependency-inferrer';
 import * as yaml from 'js-yaml';
@@ -49,12 +53,17 @@ export interface AnalyzeDependenciesResult {
  * Analyze dependencies in a mission directory
  * MCP tool implementation for dependency analysis
  */
-export async function analyzeDependencies(args: AnalyzeDependenciesArgs): Promise<AnalyzeDependenciesResult> {
+export async function analyzeDependencies(
+  args: AnalyzeDependenciesArgs
+): Promise<AnalyzeDependenciesResult> {
   const startTime = Date.now();
 
   try {
     const validated = await validateArgs(args);
-    const missionDirectory = await safeFilePath(validated.missionDirectory, { allowRelative: true, maxLength: 4096 });
+    const missionDirectory = await safeFilePath(validated.missionDirectory, {
+      allowRelative: true,
+      maxLength: 4096,
+    });
     const absoluteMissionDirectory = path.resolve(missionDirectory);
 
     if (!(await pathExists(absoluteMissionDirectory))) {
@@ -111,15 +120,15 @@ export async function analyzeDependencies(args: AnalyzeDependenciesArgs): Promis
       cycles: analysisResult.cycles,
       executionOrder: analysisResult.executionOrder,
       criticalPath: analysisResult.criticalPath,
-      inferredDependencies: inferredDependencies?.map(dep => ({
+      inferredDependencies: inferredDependencies?.map((dep) => ({
         from: dep.from,
         to: dep.to,
         confidence: dep.confidence,
-        reason: dep.reason
+        reason: dep.reason,
       })),
       errors: validationResult.errors,
       warnings: validationResult.warnings,
-      performanceMs
+      performanceMs,
     };
   } catch (error: unknown) {
     const performanceMs = Date.now() - startTime;
@@ -265,13 +274,13 @@ export function formatAnalysisResult(result: AnalyzeDependenciesResult): string 
 
   if (result.errors.length > 0) {
     lines.push('Errors:');
-    result.errors.forEach(err => lines.push(`  - ${err}`));
+    result.errors.forEach((err) => lines.push(`  - ${err}`));
     lines.push('');
   }
 
   if (result.warnings.length > 0) {
     lines.push('Warnings:');
-    result.warnings.forEach(warn => lines.push(`  - ${warn}`));
+    result.warnings.forEach((warn) => lines.push(`  - ${warn}`));
     lines.push('');
   }
 
@@ -299,7 +308,7 @@ export function formatAnalysisResult(result: AnalyzeDependenciesResult): string 
 
   if (result.inferredDependencies && result.inferredDependencies.length > 0) {
     lines.push('Inferred Dependencies:');
-    result.inferredDependencies.forEach(dep => {
+    result.inferredDependencies.forEach((dep) => {
       lines.push(`  ${dep.from} -> ${dep.to} (confidence: ${(dep.confidence * 100).toFixed(0)}%)`);
       lines.push(`    Reason: ${dep.reason}`);
     });
@@ -321,7 +330,12 @@ export const getDependencyAnalysisToolDefinition = {
     properties: {
       missionDirectory: { type: 'string', description: 'Directory containing mission YAML files' },
       includeInferred: { type: 'boolean', description: 'Include NLP-based inferred dependencies' },
-      minConfidence: { type: 'number', minimum: 0, maximum: 1, description: 'Minimum confidence for inferred dependencies' },
+      minConfidence: {
+        type: 'number',
+        minimum: 0,
+        maximum: 1,
+        description: 'Minimum confidence for inferred dependencies',
+      },
     },
     required: ['missionDirectory'],
     additionalProperties: false,
@@ -341,7 +355,9 @@ export const analyzeDependenciesToolDefinitionDeprecated = {
 /**
  * Wrap execution for MCP server usage
  */
-export async function executeAnalyzeDependenciesTool(params: AnalyzeDependenciesArgs): Promise<string> {
+export async function executeAnalyzeDependenciesTool(
+  params: AnalyzeDependenciesArgs
+): Promise<string> {
   const result = await analyzeDependencies({
     missionDirectory: params.missionDirectory,
     includeInferred: params.includeInferred,
@@ -360,6 +376,8 @@ const AnalyzeDependenciesArgsSchema = z
 
 type ValidatedAnalyzeDependenciesArgs = z.infer<typeof AnalyzeDependenciesArgsSchema>;
 
-async function validateArgs(args: AnalyzeDependenciesArgs): Promise<ValidatedAnalyzeDependenciesArgs> {
+async function validateArgs(
+  args: AnalyzeDependenciesArgs
+): Promise<ValidatedAnalyzeDependenciesArgs> {
   return validateAndSanitize(args, AnalyzeDependenciesArgsSchema);
 }

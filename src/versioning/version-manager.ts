@@ -14,7 +14,6 @@ import {
   VersionResolutionResult,
   VersionManagerOptions,
   InvalidVersionError,
-  IncompatibleVersionError,
 } from './types';
 
 /**
@@ -186,11 +185,7 @@ export class VersionManager {
       } else if (baseVersion.minor > 0) {
         return version.major === 0 && version.minor === baseVersion.minor;
       } else {
-        return (
-          version.major === 0 &&
-          version.minor === 0 &&
-          version.patch === baseVersion.patch
-        );
+        return version.major === 0 && version.minor === 0 && version.patch === baseVersion.patch;
       }
     }
 
@@ -201,9 +196,7 @@ export class VersionManager {
 
       if (comparison === VersionComparison.LESS_THAN) return false;
 
-      return (
-        version.major === baseVersion.major && version.minor === baseVersion.minor
-      );
+      return version.major === baseVersion.major && version.minor === baseVersion.minor;
     }
 
     // Comparison operators
@@ -242,7 +235,10 @@ export class VersionManager {
     version2: TemplateVersion
   ): CompatibilityCheckResult {
     // Check if version1 is compatible with version2
-    if (version1.compatibleWith && !this.satisfiesRange(version2.version, version1.compatibleWith)) {
+    if (
+      version1.compatibleWith &&
+      !this.satisfiesRange(version2.version, version1.compatibleWith)
+    ) {
       return {
         compatible: false,
         reason: `Version ${this.versionToString(version1.version)} is not compatible with ${this.versionToString(version2.version)}`,
@@ -251,7 +247,10 @@ export class VersionManager {
     }
 
     // Check if version2 is compatible with version1
-    if (version2.compatibleWith && !this.satisfiesRange(version1.version, version2.compatibleWith)) {
+    if (
+      version2.compatibleWith &&
+      !this.satisfiesRange(version1.version, version2.compatibleWith)
+    ) {
       return {
         compatible: false,
         reason: `Version ${this.versionToString(version2.version)} is not compatible with ${this.versionToString(version1.version)}`,
@@ -316,7 +315,7 @@ export class VersionManager {
 
     // Update latest stable and latest versions
     entry.latest = entry.versions[0].version;
-    const stableVersions = entry.versions.filter(v => !v.version.prerelease);
+    const stableVersions = entry.versions.filter((v) => !v.version.prerelease);
     if (stableVersions.length > 0) {
       entry.latestStable = stableVersions[0].version;
     }
@@ -332,7 +331,7 @@ export class VersionManager {
     const versionObj = typeof version === 'string' ? this.parseVersion(version) : version;
 
     return entry.versions.find(
-      v => this.compareVersions(v.version, versionObj) === VersionComparison.EQUAL
+      (v) => this.compareVersions(v.version, versionObj) === VersionComparison.EQUAL
     );
   }
 
@@ -353,9 +352,7 @@ export class VersionManager {
   /**
    * Resolve version conflicts in a template pack combination
    */
-  resolveVersions(
-    requirements: Map<string, VersionRange[]>
-  ): VersionResolutionResult {
+  resolveVersions(requirements: Map<string, VersionRange[]>): VersionResolutionResult {
     const resolvedVersions: { [templateId: string]: SemanticVersion } = {};
     const conflicts: VersionConflict[] = [];
     const warnings: string[] = [];
@@ -365,7 +362,7 @@ export class VersionManager {
       if (!entry) {
         conflicts.push({
           templateId,
-          conflicts: ranges.map(range => ({
+          conflicts: ranges.map((range) => ({
             requiredBy: 'unknown',
             versionRange: range,
           })),
@@ -383,7 +380,7 @@ export class VersionManager {
         }
 
         // Check if this version satisfies all ranges
-        const satisfiesAll = ranges.every(range => this.satisfiesRange(version.version, range));
+        const satisfiesAll = ranges.every((range) => this.satisfiesRange(version.version, range));
 
         if (satisfiesAll) {
           compatibleVersion = version;
@@ -404,7 +401,7 @@ export class VersionManager {
         // No compatible version found
         conflicts.push({
           templateId,
-          conflicts: ranges.map(range => ({
+          conflicts: ranges.map((range) => ({
             requiredBy: 'unknown',
             versionRange: range,
           })),
@@ -430,7 +427,9 @@ export class VersionManager {
     try {
       this.parseVersion(this.versionToString(templateVersion.version));
     } catch (error) {
-      errors.push(`Invalid version format: ${error instanceof Error ? error.message : String(error)}`);
+      errors.push(
+        `Invalid version format: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
 
     // Validate compatibility range
@@ -439,7 +438,9 @@ export class VersionManager {
         const testVersion = { major: 1, minor: 0, patch: 0 };
         this.evaluateRangeExpression(testVersion, templateVersion.compatibleWith.expression);
       } catch (error) {
-        errors.push(`Invalid compatibility range: ${error instanceof Error ? error.message : String(error)}`);
+        errors.push(
+          `Invalid compatibility range: ${error instanceof Error ? error.message : String(error)}`
+        );
       }
     }
 

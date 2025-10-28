@@ -92,16 +92,14 @@ export function emitTelemetryEvent(
       return;
     } catch (error) {
       // Fall through to console.warn so the warning is not lost.
-      console.warn(`[Telemetry handler error] ${error instanceof Error ? error.message : String(error)}`);
+      console.warn(
+        `[Telemetry handler error] ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
   const consoleFn =
-    level === 'error'
-      ? console.error
-      : level === 'info'
-      ? console.info
-      : console.warn;
+    level === 'error' ? console.error : level === 'info' ? console.info : console.warn;
 
   if (context) {
     consoleFn(`[Telemetry][${source}] ${message}`, context);

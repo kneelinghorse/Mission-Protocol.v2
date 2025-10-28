@@ -61,7 +61,8 @@ describe('ComplexityScorer', () => {
 
     test('should identify complex mission requiring split', async () => {
       // Create a large, complex mission
-      const largeObjective = 'Create a comprehensive full-stack application with authentication, database integration, API endpoints, frontend UI, testing suite, deployment pipeline, monitoring, and documentation';
+      const largeObjective =
+        'Create a comprehensive full-stack application with authentication, database integration, API endpoints, frontend UI, testing suite, deployment pipeline, monitoring, and documentation';
 
       const complexMission: GenericMission = {
         schemaType: 'Mission',
@@ -69,9 +70,20 @@ describe('ComplexityScorer', () => {
         missionId: 'test-002',
         objective: largeObjective,
         context: {
-          background: 'This is a complex project requiring multiple technologies and integration points',
-          dependencies: ['Database', 'Auth Service', 'API Gateway', 'Frontend Framework', 'CI/CD Pipeline'],
-          constraints: ['Must use microservices', 'Must be cloud-native', 'Must have high availability'],
+          background:
+            'This is a complex project requiring multiple technologies and integration points',
+          dependencies: [
+            'Database',
+            'Auth Service',
+            'API Gateway',
+            'Frontend Framework',
+            'CI/CD Pipeline',
+          ],
+          constraints: [
+            'Must use microservices',
+            'Must be cloud-native',
+            'Must have high availability',
+          ],
         },
         successCriteria: [
           'All microservices deployed',
@@ -211,8 +223,8 @@ describe('ComplexityScorer', () => {
       const expectedScore =
         0.35 * components.tokenScore +
         0.25 * components.structuralScore +
-        0.30 * components.timeHorizonScore +
-        0.10 * components.computationalScore;
+        0.3 * components.timeHorizonScore +
+        0.1 * components.computationalScore;
 
       expect(analysis.compositeScore).toBeCloseTo(expectedScore, 1);
     });
@@ -275,7 +287,7 @@ describe('ComplexityScorer', () => {
         agentTimeHorizon: 60,
         thresholds: {
           compositeScore: 3.0, // Low threshold for testing
-          tokenPercentage: 0.80,
+          tokenPercentage: 0.8,
           timeHorizonMultiplier: 1.5,
         },
       });
@@ -295,13 +307,7 @@ describe('ComplexityScorer', () => {
           'All tests passing',
           'Documentation done',
         ],
-        deliverables: [
-          'Code',
-          'Tests',
-          'Docs',
-          'Deployment',
-          'Monitoring',
-        ],
+        deliverables: ['Code', 'Tests', 'Docs', 'Deployment', 'Monitoring'],
         domainFields: {},
       };
 
@@ -317,7 +323,7 @@ describe('ComplexityScorer', () => {
         agentTimeHorizon: 60,
         thresholds: {
           compositeScore: 2.0,
-          tokenPercentage: 0.80,
+          tokenPercentage: 0.8,
           timeHorizonMultiplier: 1.5,
         },
       });

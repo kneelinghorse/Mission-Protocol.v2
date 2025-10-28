@@ -120,8 +120,8 @@ export function normalizeValidationError(
       formattedIssues.length === 0
         ? fallbackMessage
         : formattedIssues.length === 1
-        ? formattedIssues[0]
-        : formattedIssues.join('; ');
+          ? formattedIssues[0]
+          : formattedIssues.join('; ');
     return new SchemaError(message, {
       issues: error.issues,
       cause: error,

@@ -111,10 +111,7 @@ export class MissionSplitter {
   /**
    * Split a mission into coherent sub-missions
    */
-  async split(
-    mission: GenericMission | string,
-    options: SplitOptions = {}
-  ): Promise<SplitResult> {
+  async split(mission: GenericMission | string, options: SplitOptions = {}): Promise<SplitResult> {
     // Analyze complexity
     const complexity = await this.complexityScorer.calculateCCS(mission);
 
@@ -195,7 +192,7 @@ export class MissionSplitter {
    */
   private proposeSemanticBreakpoints(
     missionText: string,
-    options: SplitOptions
+    _options: SplitOptions
   ): ProposedBreakpoint[] {
     const sentences = this.splitIntoSentenceSegments(missionText);
     const breakpoints: ProposedBreakpoint[] = [];
@@ -223,7 +220,10 @@ export class MissionSplitter {
     const structuralBreaks = this.findStructuralBoundaries(missionText);
     for (const breakPos of structuralBreaks) {
       const beforeText = missionText.substring(Math.max(0, breakPos - 100), breakPos);
-      const afterText = missionText.substring(breakPos, Math.min(missionText.length, breakPos + 100));
+      const afterText = missionText.substring(
+        breakPos,
+        Math.min(missionText.length, breakPos + 100)
+      );
 
       breakpoints.push({
         position: breakPos,
@@ -244,30 +244,36 @@ export class MissionSplitter {
 
     // Identify numbered/bulleted lists
     const listBlocks = this.findListBlocks(missionText);
-    operations.push(...listBlocks.map(block => ({
-      startPosition: block.start,
-      endPosition: block.end,
-      type: 'numbered_list' as const,
-      content: missionText.substring(block.start, block.end),
-    })));
+    operations.push(
+      ...listBlocks.map((block) => ({
+        startPosition: block.start,
+        endPosition: block.end,
+        type: 'numbered_list' as const,
+        content: missionText.substring(block.start, block.end),
+      }))
+    );
 
     // Identify dependency chains
     const dependencyChains = this.findDependencyChains(missionText);
-    operations.push(...dependencyChains.map(chain => ({
-      startPosition: chain.start,
-      endPosition: chain.end,
-      type: 'dependency_chain' as const,
-      content: missionText.substring(chain.start, chain.end),
-    })));
+    operations.push(
+      ...dependencyChains.map((chain) => ({
+        startPosition: chain.start,
+        endPosition: chain.end,
+        type: 'dependency_chain' as const,
+        content: missionText.substring(chain.start, chain.end),
+      }))
+    );
 
     // Identify code blocks
     const codeBlocks = this.findCodeBlocks(missionText);
-    operations.push(...codeBlocks.map(block => ({
-      startPosition: block.start,
-      endPosition: block.end,
-      type: 'code_block' as const,
-      content: missionText.substring(block.start, block.end),
-    })));
+    operations.push(
+      ...codeBlocks.map((block) => ({
+        startPosition: block.start,
+        endPosition: block.end,
+        type: 'code_block' as const,
+        content: missionText.substring(block.start, block.end),
+      }))
+    );
 
     return operations.sort((a, b) => a.startPosition - b.startPosition);
   }
@@ -288,7 +294,7 @@ export class MissionSplitter {
     for (const breakpoint of proposed) {
       // Check if this breakpoint falls within an atomic operation
       const inAtomicOp = atomic.some(
-        op => breakpoint.position > op.startPosition && breakpoint.position < op.endPosition
+        (op) => breakpoint.position > op.startPosition && breakpoint.position < op.endPosition
       );
 
       // Check minimum chunk size
@@ -316,24 +322,19 @@ export class MissionSplitter {
     missionText: string,
     missionObj: GenericMission | null,
     splitPoints: SplitPoint[],
-    options: SplitOptions
+    _options: SplitOptions
   ): SubMission[] {
     const subMissions: SubMission[] = [];
 
     // Add start and end positions for easier chunking
-    const positions = [0, ...splitPoints.map(sp => sp.position), missionText.length];
+    const positions = [0, ...splitPoints.map((sp) => sp.position), missionText.length];
 
     for (let i = 0; i < positions.length - 1; i++) {
       const start = positions[i];
       const end = positions[i + 1];
       const chunk = missionText.substring(start, end).trim();
 
-      const subMission = this.createSubMission(
-        chunk,
-        i + 1,
-        positions.length - 1,
-        missionObj
-      );
+      const subMission = this.createSubMission(chunk, i + 1, positions.length - 1, missionObj);
 
       subMissions.push(subMission);
     }
@@ -360,7 +361,8 @@ export class MissionSplitter {
     return {
       id: `sub-mission-${order}`,
       objective: objective || `Complete phase ${order} of ${total}`,
-      context: originalMission?.context?.background || `Part ${order} of ${total} of the overall mission`,
+      context:
+        originalMission?.context?.background || `Part ${order} of ${total} of the overall mission`,
       instructions: instructions || chunk,
       dependencies: [], // Will be filled by inferDependencies
       deliverables,
@@ -383,7 +385,10 @@ export class MissionSplitter {
         const prevObjective = subMissions[j].objective.toLowerCase();
 
         // If current mission mentions previous mission's objective
-        if (text.includes(prevObjective.substring(0, 30)) && !subMissions[i].dependencies.includes(prevId)) {
+        if (
+          text.includes(prevObjective.substring(0, 30)) &&
+          !subMissions[i].dependencies.includes(prevId)
+        ) {
           subMissions[i].dependencies.push(prevId);
         }
       }
@@ -398,11 +403,11 @@ export class MissionSplitter {
     const words1 = new Set(sentence1.toLowerCase().split(/\s+/));
     const words2 = new Set(sentence2.toLowerCase().split(/\s+/));
 
-    const intersection = new Set([...words1].filter(w => words2.has(w)));
+    const intersection = new Set([...words1].filter((w) => words2.has(w)));
     const union = new Set([...words1, ...words2]);
 
     // Jaccard distance
-    return 1 - (intersection.size / union.size);
+    return 1 - intersection.size / union.size;
   }
 
   /**
@@ -413,15 +418,15 @@ export class MissionSplitter {
 
     // Double newlines indicate paragraph breaks
     const paragraphBreaks = [...text.matchAll(/\n\n+/g)];
-    boundaries.push(...paragraphBreaks.map(m => m.index || 0));
+    boundaries.push(...paragraphBreaks.map((m) => m.index || 0));
 
     // Section headers (lines starting with #)
     const sectionHeaders = [...text.matchAll(/\n#+\s+/g)];
-    boundaries.push(...sectionHeaders.map(m => m.index || 0));
+    boundaries.push(...sectionHeaders.map((m) => m.index || 0));
 
     // Horizontal rules
     const rules = [...text.matchAll(/\n---+\n/g)];
-    boundaries.push(...rules.map(m => m.index || 0));
+    boundaries.push(...rules.map((m) => m.index || 0));
 
     return [...new Set(boundaries)].sort((a, b) => a - b);
   }
@@ -440,7 +445,7 @@ export class MissionSplitter {
     for (const line of lines) {
       const lineLength = line.length;
       const lineEnd = cursor + lineLength;
-      const isListItem = /^\s*[\d]+[\.)]\s+/.test(line) || /^\s*[-*+]\s+/.test(line);
+      const isListItem = /^\s*[\d]+[.)]\s+/.test(line) || /^\s*[-*+]\s+/.test(line);
 
       if (isListItem && !inList) {
         inList = true;
@@ -477,7 +482,7 @@ export class MissionSplitter {
       const nextSentence = sentences[i + 1];
 
       // Check if next sentence starts with dependency keyword
-      const hasDependency = DEPENDENCY_KEYWORDS.some(keyword =>
+      const hasDependency = DEPENDENCY_KEYWORDS.some((keyword) =>
         nextSentence.text.toLowerCase().trim().startsWith(keyword)
       );
 
@@ -566,7 +571,8 @@ export class MissionSplitter {
 
     // Look for imperative verbs
     const firstSentence = chunk.split(/[.!?]/)[0];
-    const imperativePattern = /^(create|build|implement|write|test|verify|ensure|update|add|remove)/i;
+    const imperativePattern =
+      /^(create|build|implement|write|test|verify|ensure|update|add|remove)/i;
     if (imperativePattern.test(firstSentence.trim())) {
       return firstSentence.trim();
     }
@@ -623,8 +629,12 @@ export class MissionSplitter {
       parts.push(`\nContext: ${mission.context.background}`);
     }
 
-    parts.push(`\nSuccess Criteria:\n${mission.successCriteria.map((c, i) => `${i + 1}. ${c}`).join('\n')}`);
-    parts.push(`\nDeliverables:\n${mission.deliverables.map((d, i) => `${i + 1}. ${d}`).join('\n')}`);
+    parts.push(
+      `\nSuccess Criteria:\n${mission.successCriteria.map((c, i) => `${i + 1}. ${c}`).join('\n')}`
+    );
+    parts.push(
+      `\nDeliverables:\n${mission.deliverables.map((d, i) => `${i + 1}. ${d}`).join('\n')}`
+    );
 
     return parts.join('');
   }
@@ -637,7 +647,7 @@ export class MissionSplitter {
       `Mission complexity score: ${complexity.compositeScore.toFixed(2)}/10`,
       '',
       'Reasons for recommended split:',
-      ...complexity.reasons.map(r => `- ${r}`),
+      ...complexity.reasons.map((r) => `- ${r}`),
       '',
       `Recommended split into ${splits.length + 1} sub-missions at:`,
       ...splits.map((sp, i) => `${i + 1}. Position ${sp.position}: ${sp.reason}`),

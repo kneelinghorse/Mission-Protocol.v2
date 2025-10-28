@@ -33,7 +33,7 @@ async function extractFullStackTemplate(projectPath: string) {
     templateName: 'Full-Stack Web App',
     author: 'platform-team@company.com',
     description: 'React frontend + Node.js backend + PostgreSQL',
-    confidenceThreshold: 0.75  // Higher threshold for multi-lang projects
+    confidenceThreshold: 0.75, // Higher threshold for multi-lang projects
   });
 
   if (!result.success) {
@@ -46,7 +46,7 @@ async function extractFullStackTemplate(projectPath: string) {
     frontend: {} as Record<string, any>,
     backend: {} as Record<string, any>,
     database: {} as Record<string, any>,
-    general: {} as Record<string, any>
+    general: {} as Record<string, any>,
   };
 
   Object.entries(params).forEach(([name, param]) => {
@@ -91,7 +91,7 @@ async function extractWithReview(missionPath: string) {
   const extractor = new TemplateExtractor({
     sourceMissionPath: missionPath,
     author: 'dev@company.com',
-    confidenceThreshold: 0.4  // Low threshold initially
+    confidenceThreshold: 0.4, // Low threshold initially
   });
 
   const stage1 = await extractor.identifyCandidates(missionPath);
@@ -101,16 +101,16 @@ async function extractWithReview(missionPath: string) {
 
   Object.entries(stage1.candidates).forEach(([key, candidates]) => {
     // Filter: only keep candidates with frequency > 2 or confidence > 0.6
-    const filtered = candidates.filter(c =>
-      c.frequency > 2 || c.confidence > 0.6
-    );
+    const filtered = candidates.filter((c) => c.frequency > 2 || c.confidence > 0.6);
 
     if (filtered.length > 0) {
       selectedCandidates[key] = filtered;
     }
   });
 
-  console.log(`Reviewed: ${Object.keys(stage1.candidates).length} → ${Object.keys(selectedCandidates).length} parameters`);
+  console.log(
+    `Reviewed: ${Object.keys(stage1.candidates).length} → ${Object.keys(selectedCandidates).length} parameters`
+  );
 
   // Step 3: Generate template from selected candidates
   const stage2 = await extractor.generateTemplate(selectedCandidates);
@@ -120,8 +120,8 @@ async function extractWithReview(missionPath: string) {
     stats: {
       totalCandidates: Object.keys(stage1.candidates).length,
       selectedParameters: Object.keys(selectedCandidates).length,
-      filesTemplated: stage2.filesTemplated
-    }
+      filesTemplated: stage2.filesTemplated,
+    },
   };
 }
 ```
@@ -140,7 +140,7 @@ async function extractAndVersion(missionPath: string, version: string) {
   const extractResult = await extractTemplate({
     sourceMissionPath: missionPath,
     templateName: 'API Service Template',
-    author: 'team@company.com'
+    author: 'team@company.com',
   });
 
   if (!extractResult.success) {
@@ -155,7 +155,7 @@ async function extractAndVersion(missionPath: string, version: string) {
     templateId,
     version: versionManager.parseVersion(version),
     releaseDate: new Date().toISOString(),
-    changelog: `Initial extraction from ${path.basename(missionPath)}`
+    changelog: `Initial extraction from ${path.basename(missionPath)}`,
   });
 
   console.log(`✓ Template ${templateId}@${version} extracted and versioned`);
@@ -163,7 +163,7 @@ async function extractAndVersion(missionPath: string, version: string) {
   return {
     templateId,
     version,
-    template: extractResult.template
+    template: extractResult.template,
   };
 }
 
@@ -193,7 +193,7 @@ async function shareTemplate(template: MissionTemplate) {
     format: 'yaml',
     includeSignature: true,
     keyId: 'team-a-signing-key-001',
-    algorithm: 'RS256'
+    algorithm: 'RS256',
   });
 
   // Share public key separately (secure channel)
@@ -201,12 +201,12 @@ async function shareTemplate(template: MissionTemplate) {
     keyId: 'team-a-signing-key-001',
     publicKey: keyPair.publicKey,
     owner: 'Team A',
-    trustLevel: 'verified-internal' as const
+    trustLevel: 'verified-internal' as const,
   };
 
   return {
     templatePath: exportResult.exportPath,
-    publicKeyInfo
+    publicKeyInfo,
   };
 }
 
@@ -218,14 +218,14 @@ async function receiveTemplate(templatePath: string, publicKeyInfo: any) {
     algorithm: 'RS256',
     publicKey: publicKeyInfo.publicKey,
     owner: publicKeyInfo.owner,
-    trustLevel: publicKeyInfo.trustLevel
+    trustLevel: publicKeyInfo.trustLevel,
   });
 
   // Import with full validation
   const importer = new TemplateImporter('./shared-templates');
   const importResult = await importer.import(path.basename(templatePath), {
-    skipSignatureVerification: false,  // Enforce signature check
-    allowUntrusted: false
+    skipSignatureVerification: false, // Enforce signature check
+    allowUntrusted: false,
   });
 
   if (!importResult.validationReport.valid) {
@@ -258,7 +258,7 @@ async function distributeTemplate(template: MissionTemplate) {
     format: 'yaml',
     includeSignature: true,
     keyId: 'release-key',
-    algorithm: 'RS256'
+    algorithm: 'RS256',
   });
   exports.push({ format: 'yaml', path: yamlResult.exportPath });
 
@@ -269,7 +269,7 @@ async function distributeTemplate(template: MissionTemplate) {
     format: 'json',
     includeSignature: true,
     keyId: 'release-key',
-    algorithm: 'RS256'
+    algorithm: 'RS256',
   });
   exports.push({ format: 'json', path: jsonResult.exportPath });
 
@@ -314,7 +314,7 @@ async function buildLayeredApp(features: string[]) {
     packNames: allPacks,
     registryPath: './registry.yaml',
     strategy: 'deep-merge',
-    resolveDependencies: true
+    resolveDependencies: true,
   });
 
   if (!result.success) {
@@ -354,14 +354,14 @@ async function combineWithConflictResolution() {
     packNames: ['service-a', 'service-b'],
     registryPath: './registry.yaml',
     strategy: 'selective',
-    mergePaths: ['middleware', 'routes', 'database'],  // Merge these
-    overridePaths: ['config.port'],                     // Last pack wins for port
-    resolveDependencies: true
+    mergePaths: ['middleware', 'routes', 'database'], // Merge these
+    overridePaths: ['config.port'], // Last pack wins for port
+    resolveDependencies: true,
   });
 
   // Log the conflict resolution
   if (result.warnings) {
-    result.warnings.forEach(w => console.warn('⚠', w));
+    result.warnings.forEach((w) => console.warn('⚠', w));
   }
 
   console.log('✓ Packs combined with selective merge');
@@ -387,7 +387,7 @@ async function buildCustomApp(requirements: {
   cache?: boolean;
   monitoring?: boolean;
 }) {
-  const packs = ['base-api'];  // Always include base
+  const packs = ['base-api']; // Always include base
 
   // Add auth pack
   if (requirements.auth && requirements.auth !== 'none') {
@@ -414,7 +414,7 @@ async function buildCustomApp(requirements: {
     packNames: packs,
     registryPath: './registry.yaml',
     strategy: 'deep-merge',
-    resolveDependencies: true
+    resolveDependencies: true,
   });
 
   return result.combinedPack;
@@ -425,7 +425,7 @@ const app = await buildCustomApp({
   auth: 'jwt',
   database: 'postgres',
   cache: true,
-  monitoring: true
+  monitoring: true,
 });
 ```
 
@@ -444,7 +444,7 @@ async function safeUpgrade(templateId: string, currentVersion: string) {
   // Get latest version
   const latest = await getLatestVersion({
     templateId,
-    includePrerelease: false
+    includePrerelease: false,
   });
 
   if (!latest.version) {
@@ -456,7 +456,7 @@ async function safeUpgrade(templateId: string, currentVersion: string) {
   const compat = await checkVersionCompatibility({
     templateId,
     version1: latest.version.version,
-    version2: currentVersion
+    version2: currentVersion,
   });
 
   if (compat.compatible) {
@@ -469,7 +469,7 @@ async function safeUpgrade(templateId: string, currentVersion: string) {
   const migrationPath = await findMigrationPath({
     templateId,
     fromVersion: currentVersion,
-    toVersion: latest.version.version
+    toVersion: latest.version.version,
   });
 
   if (!migrationPath.pathFound) {
@@ -484,7 +484,7 @@ async function safeUpgrade(templateId: string, currentVersion: string) {
   return {
     safe: false,
     requiresMigration: true,
-    path: migrationPath.path
+    path: migrationPath.path,
   };
 }
 
@@ -524,7 +524,7 @@ async function deprecateVersion(
   version.deprecated = {
     message,
     replacedBy,
-    date: new Date().toISOString()
+    date: new Date().toISOString(),
   };
 
   // Re-register with deprecation
@@ -548,10 +548,10 @@ async function deprecateVersion(
         ...data,
         _migrated: true,
         _migratedFrom: deprecatedVersion,
-        _migratedAt: new Date().toISOString()
+        _migratedAt: new Date().toISOString(),
       };
     },
-    reversible: false
+    reversible: false,
   });
 
   return { deprecated: true, replacedBy };
@@ -622,7 +622,7 @@ async function migrateWithValidation(
       step: index + 1,
       fromVersion: versionManager.versionToString(step.fromVersion),
       toVersion: versionManager.versionToString(step.toVersion),
-      validated: true
+      validated: true,
     });
 
     console.log(`  ✓ Completed`);
@@ -634,7 +634,7 @@ async function migrateWithValidation(
   return {
     success: true,
     data: currentData,
-    validationResults
+    validationResults,
   };
 }
 ```
@@ -685,16 +685,15 @@ async function migrateWithRollback(
 
     console.log('✓ Migration successful and validated');
     return { success: true, data: result.data };
-
   } catch (error) {
     console.error('✗ Migration failed, rolling back...');
 
     // Rollback: migrate back to original version
     const rollbackResult = await migrationEngine.migrate(
       templateId,
-      backup,  // Use backup data
-      to,      // From target version
-      from     // Back to source version
+      backup, // Use backup data
+      to, // From target version
+      from // Back to source version
     );
 
     if (rollbackResult.success) {
@@ -730,7 +729,7 @@ async function robustExtraction(missionPath: string) {
     const result = await extractTemplate({
       sourceMissionPath: missionPath,
       author: 'team@company.com',
-      confidenceThreshold: 0.7
+      confidenceThreshold: 0.7,
     });
 
     if (result.success) {
@@ -743,14 +742,14 @@ async function robustExtraction(missionPath: string) {
     const fallbackResult = await extractTemplate({
       sourceMissionPath: missionPath,
       author: 'team@company.com',
-      confidenceThreshold: 0.4
+      confidenceThreshold: 0.4,
     });
 
     if (fallbackResult.success) {
       return {
         status: 'partial',
         template: fallbackResult.template,
-        warning: 'Extracted with lower confidence threshold'
+        warning: 'Extracted with lower confidence threshold',
       };
     }
 
@@ -758,15 +757,14 @@ async function robustExtraction(missionPath: string) {
     return {
       status: 'failed',
       template: createMinimalTemplate(missionPath),
-      error: fallbackResult.errors?.join(', ')
+      error: fallbackResult.errors?.join(', '),
     };
-
   } catch (error) {
     console.error('Extraction error:', error);
     return {
       status: 'error',
       template: createMinimalTemplate(missionPath),
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
 }
@@ -782,10 +780,10 @@ function createMinimalTemplate(missionPath: string) {
       tags: ['fallback'],
       parameters: {},
       usageCount: 0,
-      generatedSuccessRate: 0
+      generatedSuccessRate: 0,
     },
     fileStructure: [],
-    dependencies: []
+    dependencies: [],
   };
 }
 ```
@@ -804,7 +802,7 @@ async function importWithErrorRecovery(templatePath: string, baseDir: string) {
 
   try {
     const result = await importer.import(path.basename(templatePath), {
-      skipSignatureVerification: false
+      skipSignatureVerification: false,
     });
 
     if (result.validationReport.valid) {
@@ -816,24 +814,24 @@ async function importWithErrorRecovery(templatePath: string, baseDir: string) {
     console.error('✗ Import validation failed');
 
     const failedLayers = result.validationReport.layers
-      .filter(l => !l.passed)
-      .map(l => ({ layer: l.layer, name: l.name, details: l.details }));
+      .filter((l) => !l.passed)
+      .map((l) => ({ layer: l.layer, name: l.name, details: l.details }));
 
     console.error('Failed layers:', failedLayers);
 
     // Check if we can skip signature for internal use
-    if (failedLayers.some(l => l.name.includes('Signature'))) {
+    if (failedLayers.some((l) => l.name.includes('Signature'))) {
       console.warn('⚠ Signature verification failed, retrying without verification...');
 
       const retryResult = await importer.import(path.basename(templatePath), {
-        skipSignatureVerification: true
+        skipSignatureVerification: true,
       });
 
       if (retryResult.validationReport.valid) {
         return {
           success: true,
           template: retryResult.template,
-          warning: 'Imported without signature verification'
+          warning: 'Imported without signature verification',
         };
       }
     }
@@ -841,14 +839,13 @@ async function importWithErrorRecovery(templatePath: string, baseDir: string) {
     return {
       success: false,
       errors: result.validationReport.errors,
-      failedLayers
+      failedLayers,
     };
-
   } catch (error) {
     console.error('Import error:', error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
 }
@@ -873,7 +870,7 @@ async function automatedTemplatePipeline(missionPath: string, version: string) {
   const extractResult = await extractTemplate({
     sourceMissionPath: missionPath,
     templateName: `Auto-generated from ${path.basename(missionPath)}`,
-    author: 'automation@company.com'
+    author: 'automation@company.com',
   });
 
   if (!extractResult.success) {
@@ -890,7 +887,7 @@ async function automatedTemplatePipeline(missionPath: string, version: string) {
     templateId,
     version: versionManager.parseVersion(version),
     releaseDate: new Date().toISOString(),
-    changelog: `Automated release from ${missionPath}`
+    changelog: `Automated release from ${missionPath}`,
   });
   console.log(`✓ Registered ${templateId}@${version}\n`);
 
@@ -910,7 +907,7 @@ async function automatedTemplatePipeline(missionPath: string, version: string) {
     format: 'yaml',
     includeSignature: true,
     keyId: 'automation-key',
-    algorithm: 'RS256'
+    algorithm: 'RS256',
   });
   console.log(`✓ Published to ${exportResult.exportPath}\n`);
 
@@ -918,7 +915,7 @@ async function automatedTemplatePipeline(missionPath: string, version: string) {
   return {
     templateId,
     version,
-    publishPath: exportResult.exportPath
+    publishPath: exportResult.exportPath,
   };
 }
 
@@ -937,8 +934,8 @@ async function testTemplate(template: MissionTemplate) {
 
   // Test 3: Parameters are used in files
   const params = Object.keys(template.metadata.parameters);
-  const filesUsingParams = template.fileStructure.filter(f =>
-    params.some(p => f.content.includes(`{{${p}}}`))
+  const filesUsingParams = template.fileStructure.filter((f) =>
+    params.some((p) => f.content.includes(`{{${p}}}`))
   );
 
   if (filesUsingParams.length === 0) {
@@ -947,7 +944,7 @@ async function testTemplate(template: MissionTemplate) {
 
   return {
     passed: errors.length === 0,
-    errors
+    errors,
   };
 }
 ```
@@ -967,5 +964,6 @@ These patterns cover common scenarios in the Extension System. Mix and match the
 - **Document assumptions**: Make dependencies and requirements explicit
 
 For more details, see:
+
 - [Extension System Guide](./Extension_System_Guide.md)
 - [API Documentation](./API_Documentation.md)

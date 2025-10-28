@@ -37,17 +37,17 @@ export class ListDomainsToolImpl {
       const entries = await this.registry.loadRegistry(registryPath);
 
       // Convert to simplified DomainInfo format
-      return entries.map(entry => this.toDomainInfo(entry));
-  } catch (error) {
-    if (
-      error instanceof Error &&
-      (error.message.includes('File not found') || error.message.includes('ENOENT'))
-    ) {
-      return [];
+      return entries.map((entry) => this.toDomainInfo(entry));
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        (error.message.includes('File not found') || error.message.includes('ENOENT'))
+      ) {
+        return [];
+      }
+      throw error;
     }
-    throw error;
   }
-}
 
   /**
    * Convert DomainPackEntry to DomainInfo

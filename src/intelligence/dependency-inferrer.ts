@@ -1,4 +1,4 @@
-import { DependencyGraph, DependencyNode, MissionRecord } from './dependency-analyzer';
+import { DependencyGraph, MissionRecord } from './dependency-analyzer';
 
 /**
  * Inferred dependency with confidence score
@@ -32,7 +32,7 @@ export class DependencyInferrer {
     'leverages',
     'must complete before',
     'blocked by',
-    'waiting for'
+    'waiting for',
   ];
 
   // Temporal keywords that suggest sequence
@@ -45,7 +45,7 @@ export class DependencyInferrer {
     'subsequent',
     'prior to',
     'once',
-    'when complete'
+    'when complete',
   ];
 
   /**
@@ -74,13 +74,21 @@ export class DependencyInferrer {
 
     // Infer from success criteria
     if (missionData.successCriteria) {
-      const criteriaDeps = this.inferFromSuccessCriteria(missionId, missionData.successCriteria, graph);
+      const criteriaDeps = this.inferFromSuccessCriteria(
+        missionId,
+        missionData.successCriteria,
+        graph
+      );
       inferred.push(...criteriaDeps);
     }
 
     // Infer from deliverables
     if (missionData.deliverables) {
-      const deliverableDeps = this.inferFromDeliverables(missionId, missionData.deliverables, graph);
+      const deliverableDeps = this.inferFromDeliverables(
+        missionId,
+        missionData.deliverables,
+        graph
+      );
       inferred.push(...deliverableDeps);
     }
 
@@ -95,7 +103,11 @@ export class DependencyInferrer {
    * Infer dependencies using keyword matching and proximity analysis
    * Based on R4.3: "Keyword Matching and Heuristics"
    */
-  private inferFromKeywords(missionId: string, text: string, graph: DependencyGraph): InferredDependency[] {
+  private inferFromKeywords(
+    missionId: string,
+    text: string,
+    graph: DependencyGraph
+  ): InferredDependency[] {
     const inferred: InferredDependency[] = [];
 
     // Find all mission references in text
@@ -112,14 +124,12 @@ export class DependencyInferrer {
         const regex = new RegExp(`${keyword}[^.]*?${ref}|${ref}[^.]*?${keyword}`, 'i');
         if (regex.test(text)) {
           // Determine direction based on keyword position
-          const beforeRef = text.toLowerCase().indexOf(keyword) < text.toLowerCase().indexOf(ref);
-
           inferred.push({
             from: missionId,
             to: ref,
             confidence: 0.7,
             reason: `Found dependency keyword "${keyword}" near mission reference "${ref}"`,
-            method: 'keyword'
+            method: 'keyword',
           });
           break;
         }
@@ -134,7 +144,7 @@ export class DependencyInferrer {
             to: ref,
             confidence: 0.6,
             reason: `Found temporal keyword "${keyword}" near mission reference "${ref}"`,
-            method: 'keyword'
+            method: 'keyword',
           });
           break;
         }
@@ -147,7 +157,11 @@ export class DependencyInferrer {
   /**
    * Infer dependencies from success criteria
    */
-  private inferFromSuccessCriteria(missionId: string, criteria: string[] | string, graph: DependencyGraph): InferredDependency[] {
+  private inferFromSuccessCriteria(
+    missionId: string,
+    criteria: string[] | string,
+    graph: DependencyGraph
+  ): InferredDependency[] {
     const inferred: InferredDependency[] = [];
     const criteriaText = Array.isArray(criteria) ? criteria.join(' ') : criteria;
 
@@ -164,7 +178,7 @@ export class DependencyInferrer {
         to: ref,
         confidence: 0.8,
         reason: `Mission ${ref} mentioned in success criteria`,
-        method: 'semantic'
+        method: 'semantic',
       });
     }
 
@@ -174,7 +188,11 @@ export class DependencyInferrer {
   /**
    * Infer dependencies from deliverables
    */
-  private inferFromDeliverables(missionId: string, deliverables: string[] | string, graph: DependencyGraph): InferredDependency[] {
+  private inferFromDeliverables(
+    missionId: string,
+    deliverables: string[] | string,
+    graph: DependencyGraph
+  ): InferredDependency[] {
     const inferred: InferredDependency[] = [];
     const deliverablesText = Array.isArray(deliverables) ? deliverables.join(' ') : deliverables;
 
@@ -182,21 +200,21 @@ export class DependencyInferrer {
     const filePaths = this.extractFilePaths(deliverablesText);
 
     // Check if any other missions reference these files
-    for (const [nodeId, node] of graph.nodes.entries()) {
+    for (const [nodeId, _node] of graph.nodes.entries()) {
       if (nodeId === missionId) {
         continue;
       }
 
       // Check if this mission's deliverables are referenced by other missions
       for (const filePath of filePaths) {
-        const nodeText = JSON.stringify(node);
+        const nodeText = JSON.stringify(_node);
         if (nodeText.includes(filePath)) {
           inferred.push({
             from: nodeId,
             to: missionId,
             confidence: 0.7,
             reason: `Mission ${nodeId} references file ${filePath} which is a deliverable of ${missionId}`,
-            method: 'structural'
+            method: 'structural',
           });
         }
       }
@@ -219,7 +237,7 @@ export class DependencyInferrer {
     }
 
     // Look for missions with same prefix and lower minor version
-    for (const [nodeId, node] of graph.nodes.entries()) {
+    for (const [nodeId, _node] of graph.nodes.entries()) {
       if (nodeId === missionId) {
         continue;
       }
@@ -230,27 +248,32 @@ export class DependencyInferrer {
       }
 
       // Same sprint (major version), previous mission (minor - 1)
-      if (otherParsed.prefix === parsed.prefix &&
-          otherParsed.major === parsed.major &&
-          otherParsed.minor === parsed.minor - 1) {
+      if (
+        otherParsed.prefix === parsed.prefix &&
+        otherParsed.major === parsed.major &&
+        otherParsed.minor === parsed.minor - 1
+      ) {
         inferred.push({
           from: missionId,
           to: nodeId,
           confidence: 0.5,
           reason: `Sequential mission numbering suggests ${missionId} follows ${nodeId}`,
-          method: 'structural'
+          method: 'structural',
         });
       }
 
       // Research missions that build missions depend on
-      if (parsed.prefix === 'B' && otherParsed.prefix === 'R' &&
-          parsed.major === otherParsed.major) {
+      if (
+        parsed.prefix === 'B' &&
+        otherParsed.prefix === 'R' &&
+        parsed.major === otherParsed.major
+      ) {
         inferred.push({
           from: missionId,
           to: nodeId,
           confidence: 0.6,
           reason: `Build mission ${missionId} likely depends on research mission ${nodeId}`,
-          method: 'structural'
+          method: 'structural',
         });
       }
     }
@@ -268,7 +291,7 @@ export class DependencyInferrer {
     const matches = text.match(missionPattern);
 
     if (matches) {
-      matches.forEach(match => references.add(match));
+      matches.forEach((match) => references.add(match));
     }
 
     return Array.from(references);
@@ -285,7 +308,7 @@ export class DependencyInferrer {
     const matches = text.match(pathPattern);
 
     if (matches) {
-      matches.forEach(match => paths.add(match));
+      matches.forEach((match) => paths.add(match));
     }
 
     return Array.from(paths);
@@ -294,7 +317,9 @@ export class DependencyInferrer {
   /**
    * Parse mission ID into components
    */
-  private parseMissionId(missionId: string): { prefix: string; major: number; minor: number } | null {
+  private parseMissionId(
+    missionId: string
+  ): { prefix: string; major: number; minor: number } | null {
     const match = missionId.match(/^([A-Z])(\d+)\.(\d+)/);
     if (!match) {
       return null;
@@ -303,22 +328,29 @@ export class DependencyInferrer {
     return {
       prefix: match[1],
       major: parseInt(match[2], 10),
-      minor: parseInt(match[3], 10)
+      minor: parseInt(match[3], 10),
     };
   }
 
   /**
    * Filter inferred dependencies by confidence threshold
    */
-  filterByConfidence(dependencies: InferredDependency[], minConfidence: number): InferredDependency[] {
-    return dependencies.filter(dep => dep.confidence >= minConfidence);
+  filterByConfidence(
+    dependencies: InferredDependency[],
+    minConfidence: number
+  ): InferredDependency[] {
+    return dependencies.filter((dep) => dep.confidence >= minConfidence);
   }
 
   /**
    * Merge inferred dependencies with existing graph
    * Only adds high-confidence inferred dependencies that don't create cycles
    */
-  mergeWithGraph(graph: DependencyGraph, inferred: InferredDependency[], minConfidence: number = 0.7): void {
+  mergeWithGraph(
+    graph: DependencyGraph,
+    inferred: InferredDependency[],
+    minConfidence: number = 0.7
+  ): void {
     const filtered = this.filterByConfidence(inferred, minConfidence);
 
     for (const dep of filtered) {

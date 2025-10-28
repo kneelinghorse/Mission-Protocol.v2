@@ -9,7 +9,7 @@
  * @module combination/merge-strategies
  */
 
-import { MissionMerger, MergeOptions } from '../merge/deep-merge';
+import { MissionMerger } from '../merge/deep-merge';
 import { CombinationStrategy, CombinationOptions } from './types';
 
 /**
@@ -53,7 +53,7 @@ export class DeepMergeStrategy implements IMergeStrategy {
     for (let i = 1; i < templates.length; i++) {
       result = this.merger.merge(result, templates[i], {
         arrayStrategy: 'concat',
-        listStrategy: 'append'
+        listStrategy: 'append',
       });
     }
 
@@ -236,11 +236,7 @@ export class SelectiveMergeStrategy implements IMergeStrategy {
    * Type guard for plain objects
    */
   private isObject(value: unknown): value is object {
-    return (
-      typeof value === 'object' &&
-      value !== null &&
-      !Array.isArray(value)
-    );
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
   }
 }
 
@@ -250,10 +246,7 @@ export class SelectiveMergeStrategy implements IMergeStrategy {
  * Creates the appropriate merge strategy based on configuration
  */
 export class MergeStrategyFactory {
-  static create(
-    strategy: CombinationStrategy,
-    options?: CombinationOptions
-  ): IMergeStrategy {
+  static create(strategy: CombinationStrategy, options?: CombinationOptions): IMergeStrategy {
     switch (strategy) {
       case 'deep-merge':
         return new DeepMergeStrategy();

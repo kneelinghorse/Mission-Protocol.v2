@@ -1,5 +1,10 @@
 import { describe, expect, test } from '@jest/globals';
-import type { DomainPackEntry, Registry, ValidationResult, SemVerComponents } from '../../src/types/registry';
+import type {
+  DomainPackEntry,
+  Registry,
+  ValidationResult,
+  SemVerComponents,
+} from '../../src/types/registry';
 
 const ensureEntry = (entry: DomainPackEntry): DomainPackEntry => entry;
 const ensureRegistry = (registry: Registry): Registry => registry;

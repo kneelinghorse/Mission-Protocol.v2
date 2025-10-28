@@ -30,4 +30,3 @@ export const DomainPackSchema = z.object({
 
 export type DomainManifest = z.infer<typeof DomainManifestSchema>;
 export type DomainPack = z.infer<typeof DomainPackSchema>;
-

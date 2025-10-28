@@ -31,18 +31,26 @@ describe('Phase 1 Integration Tests', () => {
       const tmp = await ensureTempDir('mcp-fixtures-');
       baseDir = path.join(tmp, 'templates');
       await ensureDir(path.join(baseDir, 'packs', 'foundation'));
-      await fs.writeFile(path.join(baseDir, 'registry.yaml'),
+      await fs.writeFile(
+        path.join(baseDir, 'registry.yaml'),
         `domains:\n` +
-        `  - name: foundation\n    description: Core infrastructure baseline\n    version: 1.0.0\n    author: core-team\n    path: packs/foundation\n    schema_version: 1.0.0\n` +
-        `  - name: software.technical-task\n    description: Software tasks\n    version: 1.0.0\n    author: core-team\n    path: packs/software.technical-task\n    schema_version: 1.0.0\n` +
-        `  - name: business.market-research\n    description: Business research\n    version: 1.0.0\n    author: core-team\n    path: packs/business.market-research\n    schema_version: 1.0.0\n` +
-        `  - name: ops.deployment-checklist\n    description: Ops checklist\n    version: 1.0.0\n    author: core-team\n    path: packs/ops.deployment-checklist\n    schema_version: 1.0.0\n`);
-      await fs.writeFile(path.join(baseDir, 'packs', 'foundation', 'pack.yaml'),
-        `name: foundation\nversion: 1.0.0\ndisplayName: Foundation\ndescription: Core\nauthor: core-team\nschema: schema.json\n`);
-      await fs.writeFile(path.join(baseDir, 'packs', 'foundation', 'schema.json'),
-        `{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","properties":{"governanceChecklist":{"type":"array","items":{"type":"string"}}}}`);
-      await fs.writeFile(path.join(baseDir, 'packs', 'foundation', 'template.yaml'),
-        `governanceChecklist:\n  - "Policy"\n`);
+          `  - name: foundation\n    description: Core infrastructure baseline\n    version: 1.0.0\n    author: core-team\n    path: packs/foundation\n    schema_version: 1.0.0\n` +
+          `  - name: software.technical-task\n    description: Software tasks\n    version: 1.0.0\n    author: core-team\n    path: packs/software.technical-task\n    schema_version: 1.0.0\n` +
+          `  - name: business.market-research\n    description: Business research\n    version: 1.0.0\n    author: core-team\n    path: packs/business.market-research\n    schema_version: 1.0.0\n` +
+          `  - name: ops.deployment-checklist\n    description: Ops checklist\n    version: 1.0.0\n    author: core-team\n    path: packs/ops.deployment-checklist\n    schema_version: 1.0.0\n`
+      );
+      await fs.writeFile(
+        path.join(baseDir, 'packs', 'foundation', 'pack.yaml'),
+        `name: foundation\nversion: 1.0.0\ndisplayName: Foundation\ndescription: Core\nauthor: core-team\nschema: schema.json\n`
+      );
+      await fs.writeFile(
+        path.join(baseDir, 'packs', 'foundation', 'schema.json'),
+        `{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","properties":{"governanceChecklist":{"type":"array","items":{"type":"string"}}}}`
+      );
+      await fs.writeFile(
+        path.join(baseDir, 'packs', 'foundation', 'template.yaml'),
+        `governanceChecklist:\n  - "Policy"\n`
+      );
     }
 
     loader = new SecureYAMLLoader({
@@ -135,7 +143,7 @@ describe('Phase 1 Integration Tests', () => {
       expect(entries.length).toBeGreaterThanOrEqual(4);
 
       // Verify foundation domain exists (first in our registry)
-      const foundation = entries.find(e => e.name === 'foundation');
+      const foundation = entries.find((e) => e.name === 'foundation');
       expect(foundation).toBeDefined();
       expect(foundation?.description).toContain('infrastructure');
       expect(foundation?.version).toBe('1.0.0');
@@ -145,7 +153,7 @@ describe('Phase 1 Integration Tests', () => {
       const entries = await registry.loadRegistry('registry.yaml');
 
       // All entries should have valid SemVer
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         expect(entry.version).toMatch(/^\d+\.\d+\.\d+$/);
         expect(entry.schema_version).toMatch(/^\d+\.\d+\.\d+$/);
       });
@@ -155,7 +163,7 @@ describe('Phase 1 Integration Tests', () => {
       const entries = await registry.loadRegistry('registry.yaml');
 
       // All paths should be relative (no leading slash or ..)
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         expect(entry.path).not.toMatch(/^\//); // No absolute paths
         expect(entry.path).not.toContain('..'); // No traversal
       });
@@ -188,7 +196,7 @@ describe('Phase 1 Integration Tests', () => {
       const domains = await listDomainsTool.execute('registry.yaml');
 
       // Find domain with author
-      const domainWithAuthor = domains.find(d => d.author !== undefined);
+      const domainWithAuthor = domains.find((d) => d.author !== undefined);
 
       if (domainWithAuthor) {
         expect(typeof domainWithAuthor.author).toBe('string');
@@ -231,7 +239,7 @@ describe('Phase 1 Integration Tests', () => {
       expect(formatted).toContain('domain pack');
 
       // Criterion 5: Security validated (all paths relative)
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         expect(entry.path).not.toMatch(/^\//);
         expect(entry.path).not.toContain('..');
       });

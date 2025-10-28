@@ -18,13 +18,7 @@
 import { DomainPack } from '../domains/types';
 import { DependencyResolver } from './dependency-resolver';
 import { MergeStrategyFactory, IMergeStrategy } from './merge-strategies';
-import {
-  CombinationOptions,
-  CombinationResult,
-  CombinedPack,
-  PackCombinationError,
-  ResolvedDependencies,
-} from './types';
+import { CombinationOptions, CombinationResult, CombinedPack, ResolvedDependencies } from './types';
 
 /**
  * PackCombiner
@@ -94,13 +88,11 @@ export class PackCombiner {
       }
 
       packsToLoad = dependencyResolution.loadOrder
-        .map(name => packMap.get(name))
+        .map((name) => packMap.get(name))
         .filter((p): p is DomainPack => p !== undefined);
 
       if (packsToLoad.length !== dependencyResolution.loadOrder.length) {
-        const missing = dependencyResolution.loadOrder.filter(
-          name => !packMap.has(name)
-        );
+        const missing = dependencyResolution.loadOrder.filter((name) => !packMap.has(name));
         errors.push(`Failed to load packs: ${missing.join(', ')}`);
         return {
           success: false,
@@ -151,25 +143,22 @@ export class PackCombiner {
   /**
    * Merge packs using the provided strategy
    */
-  private mergePacks(
-    packs: DomainPack[],
-    strategy: IMergeStrategy
-  ): CombinedPack {
+  private mergePacks(packs: DomainPack[], strategy: IMergeStrategy): CombinedPack {
     // Extract templates from all packs
-    const templates = packs.map(pack => pack.template);
+    const templates = packs.map((pack) => pack.template);
 
     // Merge templates using strategy
     const combinedTemplate = strategy.merge(templates);
 
     // Combine manifests
     const firstPack = packs[0];
-    const packNames = packs.map(p => p.manifest.name);
+    const packNames = packs.map((p) => p.manifest.name);
     const allDependencies = this.mergeDependencies(packs);
 
     const combinedManifest = {
       name: `combined-${packNames.join('-')}`,
       version: '1.0.0', // Combined packs get a new version
-      displayName: `Combined: ${packs.map(p => p.manifest.displayName).join(' + ')}`,
+      displayName: `Combined: ${packs.map((p) => p.manifest.displayName).join(' + ')}`,
       description: `Combined pack from: ${packNames.join(', ')}`,
       author: firstPack.manifest.author || 'System',
       combinedFrom: packNames,
@@ -186,9 +175,7 @@ export class PackCombiner {
   /**
    * Merge dependencies from all packs, removing duplicates
    */
-  private mergeDependencies(
-    packs: DomainPack[]
-  ): Array<{ name: string; version: string }> {
+  private mergeDependencies(packs: DomainPack[]): Array<{ name: string; version: string }> {
     const depMap = new Map<string, string>();
 
     for (const pack of packs) {
@@ -272,7 +259,7 @@ export class PackCombiner {
     availablePacks: DomainPack[],
     options?: CombinationOptions
   ): CombinationResult {
-    const packMap = new Map(availablePacks.map(p => [p.manifest.name, p]));
+    const packMap = new Map(availablePacks.map((p) => [p.manifest.name, p]));
     const packs: DomainPack[] = [];
     const errors: string[] = [];
 
@@ -309,7 +296,7 @@ export class PackCombiner {
   preview(
     packs: DomainPack[],
     availablePacks: DomainPack[],
-    options?: CombinationOptions
+    _options?: CombinationOptions
   ): {
     loadOrder: string[];
     dependencies: ResolvedDependencies;
@@ -333,7 +320,7 @@ export class PackCombiner {
     for (const pack of packs) {
       const validation = this.resolver.validateDependencies(pack, availablePacks);
       if (!validation.valid) {
-        warnings.push(...validation.errors.map(e => `${pack.manifest.name}: ${e}`));
+        warnings.push(...validation.errors.map((e) => `${pack.manifest.name}: ${e}`));
       }
     }
 

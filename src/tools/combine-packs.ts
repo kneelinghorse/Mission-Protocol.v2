@@ -14,7 +14,6 @@
  * @module tools/combine-packs
  */
 
-import * as path from 'path';
 import * as YAML from 'yaml';
 import { SecureYAMLLoader } from '../loaders/yaml-loader';
 import { RegistryParser } from '../registry/registry-parser';
@@ -63,7 +62,8 @@ export const createCombinedPackToolDefinition = {
         type: 'array',
         items: { type: 'string' },
         minItems: 1,
-        description: 'Array of domain pack names to combine (use get_available_domains to see options)',
+        description:
+          'Array of domain pack names to combine (use get_available_domains to see options)',
       },
       strategy: {
         type: 'string',
@@ -160,9 +160,7 @@ export class CombinePacksToolImpl {
         if (!params.overridePaths && !params.mergePaths) {
           return {
             success: false,
-            errors: [
-              'Selective strategy requires at least one of overridePaths or mergePaths',
-            ],
+            errors: ['Selective strategy requires at least one of overridePaths or mergePaths'],
           };
         }
       }
@@ -179,9 +177,7 @@ export class CombinePacksToolImpl {
 
       // Step 4: Load requested packs
       const requestedPacks = await Promise.all(
-        params.packNames.map(name =>
-          this.packLoader.loadPack(name, registryEntries)
-        )
+        params.packNames.map((name) => this.packLoader.loadPack(name, registryEntries))
       );
 
       // Step 5: Combine packs
@@ -252,20 +248,14 @@ export class CombinePacksToolImpl {
         )
       );
       const requestedPacks = await Promise.all(
-        params.packNames.map(name =>
-          this.packLoader.loadPack(name, registryEntries)
-        )
+        params.packNames.map((name) => this.packLoader.loadPack(name, registryEntries))
       );
 
       // Get preview
-      const preview = this.combiner.preview(
-        requestedPacks,
-        availablePacks,
-        {
-          strategy: params.strategy || 'deep-merge',
-          resolveDependencies: params.resolveDependencies ?? true,
-        }
-      );
+      const preview = this.combiner.preview(requestedPacks, availablePacks, {
+        strategy: params.strategy || 'deep-merge',
+        resolveDependencies: params.resolveDependencies ?? true,
+      });
 
       return {
         success: preview.warnings.length === 0,
@@ -291,10 +281,7 @@ export class CombinePacksToolImpl {
   /**
    * Format combined pack as YAML or JSON
    */
-  private formatOutput(
-    combinedPack: CombinedPack,
-    format: 'yaml' | 'json'
-  ): string {
+  private formatOutput(combinedPack: CombinedPack, format: 'yaml' | 'json'): string {
     if (format === 'json') {
       return JSON.stringify(combinedPack, null, 2);
     }
@@ -348,7 +335,7 @@ export async function handleCombinePacks(
 
   if (result.warnings && result.warnings.length > 0) {
     response += `Warnings:\n`;
-    result.warnings.forEach(w => {
+    result.warnings.forEach((w) => {
       response += `  ⚠ ${w}\n`;
     });
     response += '\n';

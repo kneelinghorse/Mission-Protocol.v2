@@ -99,7 +99,9 @@ describe('telemetry utilities', () => {
 
     emitTelemetryError('unit-test', 'critical failure', { severity: 'high' });
 
-    expect(errorSpy).toHaveBeenCalledWith('[Telemetry][unit-test] critical failure', { severity: 'high' });
+    expect(errorSpy).toHaveBeenCalledWith('[Telemetry][unit-test] critical failure', {
+      severity: 'high',
+    });
     errorSpy.mockRestore();
   });
 });

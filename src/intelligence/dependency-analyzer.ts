@@ -1,6 +1,5 @@
 import * as yaml from 'js-yaml';
 import { promises as fs } from 'fs';
-import * as path from 'path';
 
 /**
  * Represents a node in the dependency graph
@@ -80,7 +79,7 @@ export class DependencyAnalyzer {
   constructor() {
     this.graph = {
       nodes: new Map(),
-      edges: new Map()
+      edges: new Map(),
     };
   }
 
@@ -93,7 +92,7 @@ export class DependencyAnalyzer {
     // Clear previous graph
     this.graph = {
       nodes: new Map(),
-      edges: new Map()
+      edges: new Map(),
     };
 
     // Build graph from missions
@@ -117,7 +116,7 @@ export class DependencyAnalyzer {
       hasCycles,
       cycles,
       executionOrder,
-      criticalPath
+      criticalPath,
     };
   }
 
@@ -134,7 +133,7 @@ export class DependencyAnalyzer {
       const node: DependencyNode = {
         missionId: missionData.missionId,
         filePath,
-        dependencies
+        dependencies,
       };
 
       this.graph.nodes.set(missionData.missionId, node);
@@ -164,7 +163,7 @@ export class DependencyAnalyzer {
 
       return {
         missionData: { ...parsed, filePath },
-        filePath
+        filePath,
       };
     }
 
@@ -172,7 +171,7 @@ export class DependencyAnalyzer {
 
     return {
       missionData: { ...mission, filePath },
-      filePath
+      filePath,
     };
   }
 
@@ -187,7 +186,9 @@ export class DependencyAnalyzer {
     const researchFoundation = domainFields?.researchFoundation;
     if (Array.isArray(researchFoundation)) {
       for (const finding of researchFoundation) {
-        const missionId = finding?.sourceMission ? this.extractMissionId(finding.sourceMission) : null;
+        const missionId = finding?.sourceMission
+          ? this.extractMissionId(finding.sourceMission)
+          : null;
         if (missionId) {
           dependencies.add(missionId);
         }
@@ -259,14 +260,14 @@ export class DependencyAnalyzer {
     const matches = text.match(missionPattern);
 
     if (matches) {
-      matches.forEach(match => references.add(match));
+      matches.forEach((match) => references.add(match));
     }
 
     // Also match simple single-letter mission IDs (for tests)
     const simplePattern = /\b([A-Z])\b/g;
     const simpleMatches = text.match(simplePattern);
     if (simpleMatches) {
-      simpleMatches.forEach(match => references.add(match));
+      simpleMatches.forEach((match) => references.add(match));
     }
 
     return Array.from(references);
@@ -278,7 +279,7 @@ export class DependencyAnalyzer {
    */
   private detectCycles(): { hasCycles: boolean; cycles?: string[][] } {
     const WHITE = 0; // Not visited
-    const GREY = 1;  // Currently visiting
+    const GREY = 1; // Currently visiting
     const BLACK = 2; // Completely visited
 
     const color = new Map<string, number>();
@@ -333,14 +334,18 @@ export class DependencyAnalyzer {
 
     return {
       hasCycles,
-      cycles: cycles.length > 0 ? cycles : undefined
+      cycles: cycles.length > 0 ? cycles : undefined,
     };
   }
 
   /**
    * Extract the cycle path when a back edge is detected
    */
-  private extractCycle(current: string, backEdge: string, parent: Map<string, string | null>): string[] {
+  private extractCycle(
+    current: string,
+    backEdge: string,
+    parent: Map<string, string | null>
+  ): string[] {
     const cycle: string[] = [backEdge, current];
     let node = parent.get(current);
 
@@ -368,7 +373,7 @@ export class DependencyAnalyzer {
     // Initialize out-degree for all nodes (count of dependencies)
     for (const nodeId of this.graph.nodes.keys()) {
       const edges = this.graph.edges.get(nodeId) || new Set<string>();
-      const validDeps = Array.from(edges).filter(dep => this.graph.nodes.has(dep));
+      const validDeps = Array.from(edges).filter((dep) => this.graph.nodes.has(dep));
       outDegree.set(nodeId, validDeps.length);
 
       for (const dep of validDeps) {

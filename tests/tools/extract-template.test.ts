@@ -6,7 +6,12 @@ import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { ensureDir, ensureTempDir, pathExists, removeDir } from '../../src/utils/fs';
-import { extractTemplate, ExtractTemplateParams, writeTemplate, generateExtractionReport } from '../../src/tools/extract-template';
+import {
+  extractTemplate,
+  ExtractTemplateParams,
+  writeTemplate,
+  generateExtractionReport,
+} from '../../src/tools/extract-template';
 
 describe('get_template_extraction MCP Tool', () => {
   let tempDir: string;
@@ -32,7 +37,7 @@ describe('get_template_extraction MCP Tool', () => {
     it('should fail when missionFile is missing', async () => {
       const params: any = {
         templateName: 'test-template',
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const result = await extractTemplate(params);
@@ -45,7 +50,7 @@ describe('get_template_extraction MCP Tool', () => {
     it('should fail when templateName is missing', async () => {
       const params: any = {
         missionFile: testMissionDir,
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const result = await extractTemplate(params);
@@ -57,7 +62,7 @@ describe('get_template_extraction MCP Tool', () => {
     it('should fail when author is missing', async () => {
       const params: any = {
         missionFile: testMissionDir,
-        templateName: 'test-template'
+        templateName: 'test-template',
       };
 
       const result = await extractTemplate(params);
@@ -70,7 +75,7 @@ describe('get_template_extraction MCP Tool', () => {
       const params: ExtractTemplateParams = {
         missionFile: '/nonexistent/path',
         templateName: 'test-template',
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const result = await extractTemplate(params);
@@ -85,7 +90,7 @@ describe('get_template_extraction MCP Tool', () => {
       const params: ExtractTemplateParams = {
         missionFile: testMissionDir,
         templateName: 'invalid template name!',
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const result = await extractTemplate(params);
@@ -101,7 +106,7 @@ describe('get_template_extraction MCP Tool', () => {
         missionFile: testMissionDir,
         templateName: 'test-template',
         author: 'test@example.com',
-        confidenceThreshold: 1.5
+        confidenceThreshold: 1.5,
       };
 
       const result = await extractTemplate(params);
@@ -121,17 +126,21 @@ describe('get_template_extraction MCP Tool', () => {
 
       await fs.writeFile(
         path.join(testMissionDir, 'package.json'),
-        JSON.stringify({
-          name: 'my-service',
-          version: '1.0.0'
-        }, null, 2)
+        JSON.stringify(
+          {
+            name: 'my-service',
+            version: '1.0.0',
+          },
+          null,
+          2
+        )
       );
 
       const params: ExtractTemplateParams = {
         missionFile: testMissionDir,
         templateName: 'express-service',
         author: 'test@example.com',
-        outputDir
+        outputDir,
       };
 
       const result = await extractTemplate(params);
@@ -148,16 +157,13 @@ describe('get_template_extraction MCP Tool', () => {
 
     it('should extract template from a single file', async () => {
       const missionFile = path.join(testMissionDir, 'mission.yaml');
-      await fs.writeFile(
-        missionFile,
-        'name: test-mission\ntype: build\nstatus: complete'
-      );
+      await fs.writeFile(missionFile, 'name: test-mission\ntype: build\nstatus: complete');
 
       const params: ExtractTemplateParams = {
         missionFile,
         templateName: 'mission-template',
         author: 'test@example.com',
-        outputDir
+        outputDir,
       };
 
       const result = await extractTemplate(params);
@@ -180,7 +186,7 @@ describe('get_template_extraction MCP Tool', () => {
         templateName: 'test-template',
         author: 'test@example.com',
         outputDir,
-        confidenceThreshold: 0.8
+        confidenceThreshold: 0.8,
       };
 
       const result = await extractTemplate(params);
@@ -190,15 +196,12 @@ describe('get_template_extraction MCP Tool', () => {
     });
 
     it('should use default output directory when not specified', async () => {
-      await fs.writeFile(
-        path.join(testMissionDir, 'app.js'),
-        'console.log("test")'
-      );
+      await fs.writeFile(path.join(testMissionDir, 'app.js'), 'console.log("test")');
 
       const params: ExtractTemplateParams = {
         missionFile: testMissionDir,
         templateName: 'test-template',
-        author: 'test@example.com'
+        author: 'test@example.com',
       };
 
       const templatesRoot = path.join(process.cwd(), 'templates');
@@ -218,7 +221,7 @@ describe('get_template_extraction MCP Tool', () => {
         await removeDir(defaultTemplateDir, { recursive: true, force: true });
       }
 
-      if (!hadTemplatesDir && await pathExists(templatesRoot)) {
+      if (!hadTemplatesDir && (await pathExists(templatesRoot))) {
         await removeDir(templatesRoot, { recursive: true, force: true });
       }
     });
@@ -235,7 +238,7 @@ describe('get_template_extraction MCP Tool', () => {
         missionFile: testMissionDir,
         templateName: 'test-template',
         author: 'test-author@example.com',
-        outputDir
+        outputDir,
       };
 
       const result = await extractTemplate(params);
@@ -262,7 +265,7 @@ describe('get_template_extraction MCP Tool', () => {
         missionFile: testMissionDir,
         templateName: 'multi-file-template',
         author: 'test@example.com',
-        outputDir
+        outputDir,
       };
 
       const result = await extractTemplate(params);
@@ -275,16 +278,13 @@ describe('get_template_extraction MCP Tool', () => {
     });
 
     it('should create EXTRACTION_REPORT.md', async () => {
-      await fs.writeFile(
-        path.join(testMissionDir, 'app.py'),
-        'print("test")'
-      );
+      await fs.writeFile(path.join(testMissionDir, 'app.py'), 'print("test")');
 
       const params: ExtractTemplateParams = {
         missionFile: testMissionDir,
         templateName: 'test-template',
         author: 'test@example.com',
-        outputDir
+        outputDir,
       };
 
       const result = await extractTemplate(params);
@@ -309,9 +309,7 @@ describe('get_template_extraction MCP Tool', () => {
         success: true,
         totalTime: 0,
         template: {
-          fileStructure: [
-            { path: 'README.md', content: '# With Hooks' }
-          ],
+          fileStructure: [{ path: 'README.md', content: '# With Hooks' }],
           metadata: {
             templateId: 'with-hooks',
             templateVersion: '1.0.0',
@@ -323,13 +321,13 @@ describe('get_template_extraction MCP Tool', () => {
             creationDate: new Date().toISOString(),
             lastUpdatedDate: new Date().toISOString(),
             usageCount: 0,
-            generatedSuccessRate: 0
+            generatedSuccessRate: 0,
           },
           hooks: {
             preGenerate: '#!/usr/bin/env bash\necho pre',
-            postGenerate: '#!/usr/bin/env bash\necho post'
-          }
-        }
+            postGenerate: '#!/usr/bin/env bash\necho post',
+          },
+        },
       };
 
       await writeTemplate(templateDir, result);
@@ -361,7 +359,7 @@ describe('get_template_extraction MCP Tool', () => {
         missionFile: testMissionDir,
         templateName: 'test-template',
         author: 'test@example.com',
-        outputDir
+        outputDir,
       };
 
       const result = await extractTemplate(params);
@@ -376,16 +374,13 @@ describe('get_template_extraction MCP Tool', () => {
 
   describe('Performance', () => {
     it('should complete extraction quickly for small missions', async () => {
-      await fs.writeFile(
-        path.join(testMissionDir, 'app.js'),
-        'console.log("test")'
-      );
+      await fs.writeFile(path.join(testMissionDir, 'app.js'), 'console.log("test")');
 
       const params: ExtractTemplateParams = {
         missionFile: testMissionDir,
         templateName: 'quick-template',
         author: 'test@example.com',
-        outputDir
+        outputDir,
       };
 
       const startTime = Date.now();
@@ -397,16 +392,13 @@ describe('get_template_extraction MCP Tool', () => {
     });
 
     it('should report accurate timing metrics', async () => {
-      await fs.writeFile(
-        path.join(testMissionDir, 'config.yaml'),
-        'name: test\nversion: 1.0.0'
-      );
+      await fs.writeFile(path.join(testMissionDir, 'config.yaml'), 'name: test\nversion: 1.0.0');
 
       const params: ExtractTemplateParams = {
         missionFile: testMissionDir,
         templateName: 'timed-template',
         author: 'test@example.com',
-        outputDir
+        outputDir,
       };
 
       const result = await extractTemplate(params);
@@ -434,7 +426,7 @@ describe('get_template_extraction MCP Tool', () => {
         missionFile: testMissionDir,
         templateName: 'flask-api',
         author: 'test@example.com',
-        outputDir
+        outputDir,
       };
 
       const result = await extractTemplate(params);
@@ -451,15 +443,19 @@ describe('get_template_extraction MCP Tool', () => {
     it('should extract a Node.js microservice template', async () => {
       await fs.writeFile(
         path.join(testMissionDir, 'package.json'),
-        JSON.stringify({
-          name: 'order-service',
-          version: '1.0.0',
-          description: 'Order processing microservice',
-          main: 'index.js',
-          scripts: {
-            start: 'node index.js'
-          }
-        }, null, 2)
+        JSON.stringify(
+          {
+            name: 'order-service',
+            version: '1.0.0',
+            description: 'Order processing microservice',
+            main: 'index.js',
+            scripts: {
+              start: 'node index.js',
+            },
+          },
+          null,
+          2
+        )
       );
 
       await fs.writeFile(
@@ -471,7 +467,7 @@ describe('get_template_extraction MCP Tool', () => {
         missionFile: testMissionDir,
         templateName: 'node-microservice',
         author: 'test@example.com',
-        outputDir
+        outputDir,
       };
 
       const result = await extractTemplate(params);
@@ -492,7 +488,7 @@ describe('get_template_extraction MCP Tool', () => {
         missionFile: testMissionDir,
         templateName: 'empty-template',
         author: 'test@example.com',
-        outputDir
+        outputDir,
       };
 
       const result = await extractTemplate(params);
@@ -509,7 +505,7 @@ describe('get_template_extraction MCP Tool', () => {
         missionFile: testMissionDir,
         templateName: 'error-template',
         author: 'test@example.com',
-        outputDir
+        outputDir,
       };
 
       const result = await extractTemplate(params);

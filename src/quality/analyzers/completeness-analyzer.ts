@@ -8,7 +8,7 @@ import {
   MetricResult,
   CompletenessMetrics,
   MissionContent,
-  DEFAULT_COMPLETENESS_WEIGHTS
+  DEFAULT_COMPLETENESS_WEIGHTS,
 } from '../types';
 
 export class CompletenessAnalyzer {
@@ -27,7 +27,7 @@ export class CompletenessAnalyzer {
       structuralCompleteness: this.calculateStructuralCompleteness(mission),
       informationBreadth: this.calculateInformationBreadth(mission),
       informationDensity: this.calculateInformationDensity(mission),
-      semanticCoverage: await this.calculateSemanticCoverage(mission)
+      semanticCoverage: await this.calculateSemanticCoverage(mission),
     };
 
     const metricResults: MetricResult[] = [
@@ -36,29 +36,29 @@ export class CompletenessAnalyzer {
         rawValue: metrics.structuralCompleteness,
         normalizedScore: metrics.structuralCompleteness,
         weight: this.weights.structuralCompleteness,
-        details: this.getStructuralDetails(mission)
+        details: this.getStructuralDetails(mission),
       },
       {
         name: 'Information Breadth',
         rawValue: metrics.informationBreadth,
         normalizedScore: metrics.informationBreadth,
         weight: this.weights.informationBreadth,
-        details: this.getBreadthDetails(mission)
+        details: this.getBreadthDetails(mission),
       },
       {
         name: 'Information Density',
         rawValue: metrics.informationDensity,
         normalizedScore: metrics.informationDensity,
         weight: this.weights.informationDensity,
-        details: this.getDensityDetails(mission)
+        details: this.getDensityDetails(mission),
       },
       {
         name: 'Semantic Coverage',
         rawValue: metrics.semanticCoverage,
         normalizedScore: metrics.semanticCoverage,
         weight: this.weights.semanticCoverage,
-        details: { note: 'Simplified heuristic-based scoring' }
-      }
+        details: { note: 'Simplified heuristic-based scoring' },
+      },
     ];
 
     const score = metricResults.reduce(
@@ -69,7 +69,7 @@ export class CompletenessAnalyzer {
     return {
       score,
       weight: 0.35,
-      metrics: metricResults
+      metrics: metricResults,
     };
   }
 
@@ -79,7 +79,7 @@ export class CompletenessAnalyzer {
    */
   private calculateStructuralCompleteness(mission: MissionContent): number {
     let presentCount = 0;
-    let totalRequired = this.REQUIRED_FIELDS.length;
+    const totalRequired = this.REQUIRED_FIELDS.length;
 
     for (const field of this.REQUIRED_FIELDS) {
       const value = mission[field];
@@ -115,15 +115,18 @@ export class CompletenessAnalyzer {
       { name: 'Has mission ID', test: () => this.hasNonEmpty(mission.missionId) },
 
       // Rich content indicators
-      { name: 'Multiple success criteria', test: () => this.getArrayLength(mission.successCriteria) >= 3 },
+      {
+        name: 'Multiple success criteria',
+        test: () => this.getArrayLength(mission.successCriteria) >= 3,
+      },
       { name: 'Multiple deliverables', test: () => this.getArrayLength(mission.deliverables) >= 2 },
 
       // Domain-specific breadth (varies by type)
       { name: 'Has domain fields', test: () => this.hasDomainFields(mission) },
-      { name: 'Has research content', test: () => this.hasResearchContent(mission) }
+      { name: 'Has research content', test: () => this.hasResearchContent(mission) },
     ];
 
-    const passedCount = checks.filter(check => check.test()).length;
+    const passedCount = checks.filter((check) => check.test()).length;
     return passedCount / checks.length;
   }
 
@@ -137,14 +140,14 @@ export class CompletenessAnalyzer {
       {
         name: 'Objective density',
         test: () => this.wordCount(mission.objective) >= 10,
-        weight: 0.3
+        weight: 0.3,
       },
 
       // Context should be detailed (>25 words)
       {
         name: 'Context density',
         test: () => this.wordCount(mission.context) >= 25,
-        weight: 0.3
+        weight: 0.3,
       },
 
       // Success criteria should have multiple items with detail
@@ -159,7 +162,7 @@ export class CompletenessAnalyzer {
           );
           return count >= 3 && totalWords >= 30;
         },
-        weight: 0.2
+        weight: 0.2,
       },
 
       // Deliverables should be specific
@@ -169,8 +172,8 @@ export class CompletenessAnalyzer {
           const count = this.getArrayLength(mission.deliverables);
           return count >= 2;
         },
-        weight: 0.2
-      }
+        weight: 0.2,
+      },
     ];
 
     let score = 0;
@@ -205,9 +208,7 @@ export class CompletenessAnalyzer {
     }
 
     // Check how many expected topics are covered
-    const coveredTopics = topicKeywords.filter(keyword =>
-      words.includes(keyword.toLowerCase())
-    );
+    const coveredTopics = topicKeywords.filter((keyword) => words.includes(keyword.toLowerCase()));
 
     const coverage = coveredTopics.length / topicKeywords.length;
 
@@ -241,22 +242,23 @@ export class CompletenessAnalyzer {
   private wordCount(value: unknown): number {
     if (!value) return 0;
     const text = typeof value === 'string' ? value : JSON.stringify(value);
-    return text.split(/\s+/).filter(w => w.length > 0).length;
+    return text.split(/\s+/).filter((w) => w.length > 0).length;
   }
 
   private hasDomainFields(mission: MissionContent): boolean {
-    return mission.domainFields !== undefined &&
-           Object.keys(mission.domainFields).length > 1; // More than just 'type'
+    return mission.domainFields !== undefined && Object.keys(mission.domainFields).length > 1; // More than just 'type'
   }
 
   private hasResearchContent(mission: MissionContent): boolean {
     const df = mission.domainFields;
     if (!df) return false;
 
-    return !!(df.researchQuestions ||
-              df.keyFindings ||
-              df.evidenceCollection ||
-              df.buildImplications);
+    return !!(
+      df.researchQuestions ||
+      df.keyFindings ||
+      df.evidenceCollection ||
+      df.buildImplications
+    );
   }
 
   private extractFullText(mission: MissionContent): string {
@@ -266,15 +268,17 @@ export class CompletenessAnalyzer {
     if (mission.context) parts.push(mission.context);
 
     if (mission.successCriteria) {
-      parts.push(Array.isArray(mission.successCriteria)
-        ? mission.successCriteria.join(' ')
-        : mission.successCriteria);
+      parts.push(
+        Array.isArray(mission.successCriteria)
+          ? mission.successCriteria.join(' ')
+          : mission.successCriteria
+      );
     }
 
     if (mission.deliverables) {
-      parts.push(Array.isArray(mission.deliverables)
-        ? mission.deliverables.join(' ')
-        : mission.deliverables);
+      parts.push(
+        Array.isArray(mission.deliverables) ? mission.deliverables.join(' ') : mission.deliverables
+      );
     }
 
     if (mission.domainFields) {
@@ -287,17 +291,37 @@ export class CompletenessAnalyzer {
   private getExpectedTopics(missionType: string): string[] {
     const typeMap: Record<string, string[]> = {
       'Build.TechnicalResearch.v1': [
-        'research', 'analysis', 'findings', 'evidence', 'standards',
-        'metrics', 'framework', 'methodology', 'evaluation'
+        'research',
+        'analysis',
+        'findings',
+        'evidence',
+        'standards',
+        'metrics',
+        'framework',
+        'methodology',
+        'evaluation',
       ],
       'Build.Implementation.v1': [
-        'implement', 'build', 'develop', 'code', 'test',
-        'integration', 'functionality', 'performance', 'deliverable'
+        'implement',
+        'build',
+        'develop',
+        'code',
+        'test',
+        'integration',
+        'functionality',
+        'performance',
+        'deliverable',
       ],
       'Build.Documentation.v1': [
-        'document', 'specification', 'guide', 'instructions',
-        'overview', 'reference', 'examples', 'usage'
-      ]
+        'document',
+        'specification',
+        'guide',
+        'instructions',
+        'overview',
+        'reference',
+        'examples',
+        'usage',
+      ],
     };
 
     return typeMap[missionType] || [];
@@ -343,7 +367,7 @@ export class CompletenessAnalyzer {
       hasSuccessCriteria: this.getArrayLength(mission.successCriteria),
       hasDeliverables: this.getArrayLength(mission.deliverables),
       hasDomainFields: this.hasDomainFields(mission),
-      hasResearchContent: this.hasResearchContent(mission)
+      hasResearchContent: this.hasResearchContent(mission),
     };
   }
 
@@ -352,7 +376,7 @@ export class CompletenessAnalyzer {
       objectiveWords: this.wordCount(mission.objective),
       contextWords: this.wordCount(mission.context),
       successCriteriaCount: this.getArrayLength(mission.successCriteria),
-      deliverablesCount: this.getArrayLength(mission.deliverables)
+      deliverablesCount: this.getArrayLength(mission.deliverables),
     };
   }
 }

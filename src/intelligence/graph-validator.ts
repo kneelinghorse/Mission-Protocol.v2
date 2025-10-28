@@ -44,7 +44,7 @@ export class GraphValidator {
       for (const cycle of cycleDetection.cycles) {
         cycles.push({
           nodes: cycle,
-          path: cycle.join(' -> ')
+          path: cycle.join(' -> '),
         });
         errors.push(`Circular dependency detected: ${cycle.join(' -> ')}`);
       }
@@ -58,7 +58,7 @@ export class GraphValidator {
       isDAG,
       cycles,
       errors,
-      warnings
+      warnings,
     };
   }
 
@@ -81,7 +81,7 @@ export class GraphValidator {
    */
   detectCycles(graph: DependencyGraph): { hasCycles: boolean; cycles: string[][] } {
     const WHITE = 0; // Not visited
-    const GREY = 1;  // Currently visiting
+    const GREY = 1; // Currently visiting
     const BLACK = 2; // Completely visited
 
     const color = new Map<string, number>();
@@ -131,14 +131,18 @@ export class GraphValidator {
 
     return {
       hasCycles: cycles.length > 0,
-      cycles
+      cycles,
     };
   }
 
   /**
    * Extract the cycle path when a back edge is detected
    */
-  private extractCycle(current: string, backEdge: string, parent: Map<string, string | null>): string[] {
+  private extractCycle(
+    current: string,
+    backEdge: string,
+    parent: Map<string, string | null>
+  ): string[] {
     const cycle: string[] = [backEdge, current];
     let node = parent.get(current);
 

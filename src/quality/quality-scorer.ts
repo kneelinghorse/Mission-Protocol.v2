@@ -9,9 +9,7 @@ import {
   MissionContent,
   ImprovementSuggestion,
   DEFAULT_WEIGHTS,
-  DimensionScore,
-  MetricResult,
-  WeightsConfig
+  WeightsConfig,
 } from './types';
 import { ClarityAnalyzer } from './analyzers/clarity-analyzer';
 import { CompletenessAnalyzer } from './analyzers/completeness-analyzer';
@@ -51,7 +49,7 @@ export class QualityScorer {
     const [clarityScore, completenessScore, aiReadinessScore] = await Promise.all([
       this.clarityAnalyzer.analyze(mission),
       this.completenessAnalyzer.analyze(mission),
-      this.aiReadinessAnalyzer.analyze(mission)
+      this.aiReadinessAnalyzer.analyze(mission),
     ]);
 
     // Calculate total weighted score
@@ -83,14 +81,14 @@ export class QualityScorer {
       dimensions: {
         clarity: clarityScore,
         completeness: completenessScore,
-        aiReadiness: aiReadinessScore
+        aiReadiness: aiReadinessScore,
       },
       suggestions,
       metadata: {
         assessedAt: new Date().toISOString(),
         processingTimeMs,
-        missionId
-      }
+        missionId,
+      },
     };
   }
 

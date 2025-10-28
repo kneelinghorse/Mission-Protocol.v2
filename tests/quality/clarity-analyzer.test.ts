@@ -15,17 +15,19 @@ describe('ClarityAnalyzer', () => {
   describe('analyze', () => {
     it('should analyze a well-formed mission', async () => {
       const mission: MissionContent = {
-        objective: 'To implement a comprehensive quality scoring system using the three-dimensional framework from research mission R4.4.',
-        context: 'This mission implements the findings from Technical Research mission R4.4. The system will assess missions on Clarity, Completeness, and AI-Readiness dimensions.',
+        objective:
+          'To implement a comprehensive quality scoring system using the three-dimensional framework from research mission R4.4.',
+        context:
+          'This mission implements the findings from Technical Research mission R4.4. The system will assess missions on Clarity, Completeness, and AI-Readiness dimensions.',
         successCriteria: [
           'Three-dimensional quality model implemented.',
           'All specified metrics functional and accurate.',
-          'Quality assessment completes in <3 seconds per mission.'
+          'Quality assessment completes in <3 seconds per mission.',
         ],
         deliverables: [
           'The implemented QualityScorer class.',
-          'Unified scoring algorithm with weighted dimensions.'
-        ]
+          'Unified scoring algorithm with weighted dimensions.',
+        ],
       };
 
       const result = await analyzer.analyze(mission);
@@ -39,13 +41,14 @@ describe('ClarityAnalyzer', () => {
     it('should detect high cyclomatic complexity', async () => {
       const mission: MissionContent = {
         objective: 'To test conditional logic if when unless otherwise',
-        context: 'If this and that or the other thing, when conditions are met, unless blocked, otherwise proceed alternatively depending on the situation.',
+        context:
+          'If this and that or the other thing, when conditions are met, unless blocked, otherwise proceed alternatively depending on the situation.',
         successCriteria: ['Test criteria'],
-        deliverables: ['Test deliverable']
+        deliverables: ['Test deliverable'],
       };
 
       const result = await analyzer.analyze(mission);
-      const mccMetric = result.metrics.find(m => m.name === 'Mission Cyclomatic Complexity');
+      const mccMetric = result.metrics.find((m) => m.name === 'Mission Cyclomatic Complexity');
 
       expect(mccMetric).toBeDefined();
       expect(mccMetric!.rawValue).toBeGreaterThan(5);
@@ -56,11 +59,11 @@ describe('ClarityAnalyzer', () => {
         objective: 'To implement functionality.',
         context: 'Simple text. Easy to read. Short sentences.',
         successCriteria: ['Criteria'],
-        deliverables: ['Deliverable']
+        deliverables: ['Deliverable'],
       };
 
       const result = await analyzer.analyze(mission);
-      const fkglMetric = result.metrics.find(m => m.name === 'Flesch-Kincaid Grade Level');
+      const fkglMetric = result.metrics.find((m) => m.name === 'Flesch-Kincaid Grade Level');
 
       expect(fkglMetric).toBeDefined();
       expect(fkglMetric!.rawValue).toBeGreaterThan(0);
@@ -69,13 +72,14 @@ describe('ClarityAnalyzer', () => {
     it('should calculate lexical density', async () => {
       const mission: MissionContent = {
         objective: 'To implement comprehensive quality scoring system with advanced metrics.',
-        context: 'The system analyzes missions using sophisticated algorithms and provides detailed feedback.',
+        context:
+          'The system analyzes missions using sophisticated algorithms and provides detailed feedback.',
         successCriteria: ['Success'],
-        deliverables: ['Output']
+        deliverables: ['Output'],
       };
 
       const result = await analyzer.analyze(mission);
-      const ldMetric = result.metrics.find(m => m.name === 'Lexical Density');
+      const ldMetric = result.metrics.find((m) => m.name === 'Lexical Density');
 
       expect(ldMetric).toBeDefined();
       expect(ldMetric!.rawValue).toBeGreaterThan(0);
@@ -87,11 +91,11 @@ describe('ClarityAnalyzer', () => {
         objective: 'To implement it using this approach.',
         context: 'This will help them understand it better. They can use it when needed.',
         successCriteria: ['It works'],
-        deliverables: ['It']
+        deliverables: ['It'],
       };
 
       const result = await analyzer.analyze(mission);
-      const refMetric = result.metrics.find(m => m.name === 'Referential Ambiguity');
+      const refMetric = result.metrics.find((m) => m.name === 'Referential Ambiguity');
 
       expect(refMetric).toBeDefined();
       // Should detect pronouns at sentence start
@@ -103,7 +107,7 @@ describe('ClarityAnalyzer', () => {
         objective: '',
         context: '',
         successCriteria: [],
-        deliverables: []
+        deliverables: [],
       };
 
       const result = await analyzer.analyze(mission);
@@ -116,10 +120,10 @@ describe('ClarityAnalyzer', () => {
   describe('normalization', () => {
     it('should normalize Flesch-Kincaid to target range 10-12', async () => {
       const missions = [
-        { fkgl: 8, expectedNormalized: 0.8 },   // Too simple
-        { fkgl: 11, expectedNormalized: 1.0 },  // Optimal
-        { fkgl: 14, expectedNormalized: 0.7 },  // Acceptable
-        { fkgl: 18, expectedNormalized: 0.4 }   // Too complex
+        { fkgl: 8, expectedNormalized: 0.8 }, // Too simple
+        { fkgl: 11, expectedNormalized: 1.0 }, // Optimal
+        { fkgl: 14, expectedNormalized: 0.7 }, // Acceptable
+        { fkgl: 18, expectedNormalized: 0.4 }, // Too complex
       ];
 
       for (const { fkgl, expectedNormalized } of missions) {
@@ -129,10 +133,10 @@ describe('ClarityAnalyzer', () => {
           objective: 'Test objective',
           context: 'Test context',
           successCriteria: ['Test'],
-          deliverables: ['Test']
+          deliverables: ['Test'],
         });
 
-        const metric = result.metrics.find(m => m.name === 'Flesch-Kincaid Grade Level');
+        const metric = result.metrics.find((m) => m.name === 'Flesch-Kincaid Grade Level');
         expect(metric).toBeDefined();
         expect(metric!.normalizedScore).toBeGreaterThanOrEqual(0);
         expect(metric!.normalizedScore).toBeLessThanOrEqual(1);

@@ -122,9 +122,12 @@ describe('exportTemplate core behaviour', () => {
 
     const result = await exportTemplate({ template, outputPath: 'out.json', format: 'json' });
     expect(result.format).toBe('json');
-    expect(commonModule.safeFilePath).toHaveBeenCalledWith('out.json', expect.objectContaining({
-      allowedExtensions: ['.json'],
-    }));
+    expect(commonModule.safeFilePath).toHaveBeenCalledWith(
+      'out.json',
+      expect.objectContaining({
+        allowedExtensions: ['.json'],
+      })
+    );
     expect(result.preview.startsWith('{"template"')).toBe(true);
   });
 });

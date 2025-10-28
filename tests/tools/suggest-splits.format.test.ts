@@ -50,7 +50,12 @@ describe('SuggestSplitsToolImpl.formatForLLM', () => {
       recommendation: 'Split into focused sub-missions.',
       suggestedBreakpoints: [
         { position: 120, reason: 'Context shift', confidence: 0.75, preview: '...preview one...' },
-        { position: 340, reason: 'Dependency boundary', confidence: 0.8, preview: '...preview two...' },
+        {
+          position: 340,
+          reason: 'Dependency boundary',
+          confidence: 0.8,
+          preview: '...preview two...',
+        },
       ],
       estimatedSubMissions: 3,
       tokenUsage: {

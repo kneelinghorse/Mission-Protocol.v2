@@ -56,7 +56,7 @@ enabled: true
       expect(data).toEqual({
         name: 'Test',
         version: 1.0,
-        enabled: true
+        enabled: true,
       });
     });
 
@@ -149,9 +149,9 @@ invalid yaml:
 `;
       await writeTempFile('invalid.yaml', yamlContent);
 
-      await expect(
-        loadYamlFixture<unknown>(loader, 'invalid.yaml')
-      ).rejects.toThrow(UnsafeYAMLError);
+      await expect(loadYamlFixture<unknown>(loader, 'invalid.yaml')).rejects.toThrow(
+        UnsafeYAMLError
+      );
     });
   });
 
@@ -165,9 +165,7 @@ args: ['ls -la']
       await writeTempFile('malicious1.yaml', maliciousYAML);
 
       // The YAML library should reject this or our validation catches it
-      await expect(
-        loadYamlFixture<unknown>(loader, 'malicious1.yaml')
-      ).rejects.toThrow();
+      await expect(loadYamlFixture<unknown>(loader, 'malicious1.yaml')).rejects.toThrow();
     });
 
     test('should prevent arbitrary code tags', async () => {
@@ -176,9 +174,7 @@ args: ['ls -la']
 `;
       await writeTempFile('malicious2.yaml', maliciousYAML);
 
-      await expect(
-        loadYamlFixture<unknown>(loader, 'malicious2.yaml')
-      ).rejects.toThrow();
+      await expect(loadYamlFixture<unknown>(loader, 'malicious2.yaml')).rejects.toThrow();
     });
 
     test('should prevent constructor attacks', async () => {
@@ -188,9 +184,7 @@ args: ['ls -la']
 `;
       await writeTempFile('malicious3.yaml', maliciousYAML);
 
-      await expect(
-        loadYamlFixture<unknown>(loader, 'malicious3.yaml')
-      ).rejects.toThrow();
+      await expect(loadYamlFixture<unknown>(loader, 'malicious3.yaml')).rejects.toThrow();
     });
 
     test('should prevent js regexp tag usage', async () => {
@@ -199,9 +193,7 @@ args: ['ls -la']
 `;
       await writeTempFile('malicious4.yaml', maliciousYAML);
 
-      await expect(
-        loadYamlFixture<unknown>(loader, 'malicious4.yaml')
-      ).rejects.toThrow();
+      await expect(loadYamlFixture<unknown>(loader, 'malicious4.yaml')).rejects.toThrow();
     });
 
     test('should prevent custom unknown tags', async () => {
@@ -211,9 +203,7 @@ data: attempt
 `;
       await writeTempFile('malicious5.yaml', maliciousYAML);
 
-      await expect(
-        loadYamlFixture<unknown>(loader, 'malicious5.yaml')
-      ).rejects.toThrow();
+      await expect(loadYamlFixture<unknown>(loader, 'malicious5.yaml')).rejects.toThrow();
     });
 
     test('should prevent python object creation attempts', async () => {
@@ -222,9 +212,7 @@ data: attempt
 `;
       await writeTempFile('malicious6.yaml', maliciousYAML);
 
-      await expect(
-        loadYamlFixture<unknown>(loader, 'malicious6.yaml')
-      ).rejects.toThrow();
+      await expect(loadYamlFixture<unknown>(loader, 'malicious6.yaml')).rejects.toThrow();
     });
   });
 
@@ -241,8 +229,8 @@ version: 1.0.0
         required: ['name', 'version'],
         properties: {
           name: { type: 'string' },
-          version: { type: 'string' }
-        }
+          version: { type: 'string' },
+        },
       };
 
       const data = await loadYamlFixture<AppConfigFixture>(loader, 'app.yaml', schema);
@@ -260,15 +248,13 @@ name: TestApp
         required: ['name', 'version'],
         properties: {
           name: { type: 'string' },
-          version: { type: 'string' }
-        }
+          version: { type: 'string' },
+        },
       };
 
       await expect(
         loadYamlFixture<AppConfigFixture>(loader, 'incomplete.yaml', schema)
-      ).rejects.toThrow(
-        SchemaValidationError
-      );
+      ).rejects.toThrow(SchemaValidationError);
     });
 
     test('should reject data with wrong types', async () => {
@@ -282,15 +268,13 @@ version: 123
         type: 'object',
         properties: {
           name: { type: 'string' },
-          version: { type: 'string' }
-        }
+          version: { type: 'string' },
+        },
       };
 
       await expect(
         loadYamlFixture<AppConfigFixture>(loader, 'wrongtype.yaml', schema)
-      ).rejects.toThrow(
-        SchemaValidationError
-      );
+      ).rejects.toThrow(SchemaValidationError);
     });
 
     test('should validate nested object schemas', async () => {
@@ -310,10 +294,10 @@ server:
             required: ['host', 'port'],
             properties: {
               host: { type: 'string' },
-              port: { type: 'number' }
-            }
-          }
-        }
+              port: { type: 'number' },
+            },
+          },
+        },
       };
 
       const data = await loadYamlFixture<ServerConfigFixture>(loader, 'server.yaml', schema);
@@ -340,11 +324,11 @@ users:
               required: ['id', 'name'],
               properties: {
                 id: { type: 'number' },
-                name: { type: 'string' }
-              }
-            }
-          }
-        }
+                name: { type: 'string' },
+              },
+            },
+          },
+        },
       };
 
       const data = await loadYamlFixture<UsersYamlFixture>(loader, 'users.yaml', schema);
@@ -362,9 +346,9 @@ status: active
         properties: {
           status: {
             type: 'string',
-            enum: ['active', 'inactive', 'pending']
-          }
-        }
+            enum: ['active', 'inactive', 'pending'],
+          },
+        },
       };
 
       const data = await loadYamlFixture<EnumYamlFixture>(loader, 'enum.yaml', schema);
@@ -382,16 +366,14 @@ status: invalid
         properties: {
           status: {
             type: 'string',
-            enum: ['active', 'inactive', 'pending']
-          }
-        }
+            enum: ['active', 'inactive', 'pending'],
+          },
+        },
       };
 
       await expect(
         loadYamlFixture<EnumYamlFixture>(loader, 'bad-enum.yaml', schema)
-      ).rejects.toThrow(
-        SchemaValidationError
-      );
+      ).rejects.toThrow(SchemaValidationError);
     });
   });
 
@@ -420,8 +402,8 @@ status: invalid
         required: ['name', 'version'],
         properties: {
           name: { type: 'string' },
-          version: { type: 'number' }
-        }
+          version: { type: 'number' },
+        },
       };
 
       const results = await loadYamlFixtures<NamedConfigFixture>(
@@ -436,9 +418,9 @@ status: invalid
 
   describe('Error Handling', () => {
     test('should throw error for non-existent file', async () => {
-      await expect(
-        loadYamlFixture<unknown>(loader, 'nonexistent.yaml')
-      ).rejects.toThrow(/File not found|ENOENT/);
+      await expect(loadYamlFixture<unknown>(loader, 'nonexistent.yaml')).rejects.toThrow(
+        /File not found|ENOENT/
+      );
     });
 
     test('should provide helpful error messages', async () => {
@@ -452,15 +434,13 @@ version: abc
         type: 'object',
         properties: {
           name: { type: 'string' },
-          version: { type: 'number' }
-        }
+          version: { type: 'number' },
+        },
       };
 
-      const error = await loadYamlFixture<AppConfigFixture>(
-        loader,
-        'error.yaml',
-        schema
-      ).catch(err => err);
+      const error = await loadYamlFixture<AppConfigFixture>(loader, 'error.yaml', schema).catch(
+        (err) => err
+      );
       expect(error).toBeInstanceOf(SchemaValidationError);
       if (error instanceof SchemaValidationError) {
         expect(error.message).toContain('version');

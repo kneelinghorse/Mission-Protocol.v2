@@ -8,13 +8,8 @@
  */
 
 import { VersionManager } from '../versioning/version-manager';
-import { MigrationEngine, createMigration } from '../versioning/migration-engine';
-import {
-  SemanticVersion,
-  TemplateVersion,
-  MigrationPath,
-  VersionManagerOptions,
-} from '../versioning/types';
+import { MigrationEngine } from '../versioning/migration-engine';
+import { TemplateVersion, VersionManagerOptions } from '../versioning/types';
 
 // Global instances (in production, these would be injected)
 let versionManager: VersionManager;
@@ -71,15 +66,11 @@ export async function checkVersionCompatibility(
     const templateVersion2 = versionManager.getVersion(params.templateId, params.version2);
 
     if (!templateVersion1) {
-      throw new Error(
-        `Version ${params.version1} not found for template ${params.templateId}`
-      );
+      throw new Error(`Version ${params.version1} not found for template ${params.templateId}`);
     }
 
     if (!templateVersion2) {
-      throw new Error(
-        `Version ${params.version2} not found for template ${params.templateId}`
-      );
+      throw new Error(`Version ${params.version2} not found for template ${params.templateId}`);
     }
 
     const result = versionManager.checkCompatibility(templateVersion1, templateVersion2);
@@ -180,11 +171,7 @@ export async function findMigrationPath(
     const fromVersion = versionManager.parseVersion(params.fromVersion);
     const toVersion = versionManager.parseVersion(params.toVersion);
 
-    const path = migrationEngine.findMigrationPath(
-      params.templateId,
-      fromVersion,
-      toVersion
-    );
+    const path = migrationEngine.findMigrationPath(params.templateId, fromVersion, toVersion);
 
     if (!path) {
       return {
@@ -200,7 +187,7 @@ export async function findMigrationPath(
       path: {
         from: versionManager.versionToString(path.from),
         to: versionManager.versionToString(path.to),
-        steps: path.steps.map(step => ({
+        steps: path.steps.map((step) => ({
           id: step.id,
           fromVersion: versionManager.versionToString(step.fromVersion),
           toVersion: versionManager.versionToString(step.toVersion),
@@ -300,9 +287,7 @@ export async function registerTemplateVersion(
       templateId: params.templateId,
       version,
       changelog: params.changelog,
-      compatibleWith: params.compatibleWith
-        ? { expression: params.compatibleWith }
-        : undefined,
+      compatibleWith: params.compatibleWith ? { expression: params.compatibleWith } : undefined,
       releaseDate,
     };
 
@@ -405,10 +390,7 @@ export async function getLatestVersion(
   try {
     initializeVersioning(params.options);
 
-    const latest = versionManager.getLatestVersion(
-      params.templateId,
-      params.includePrerelease
-    );
+    const latest = versionManager.getLatestVersion(params.templateId, params.includePrerelease);
 
     if (!latest) {
       return {

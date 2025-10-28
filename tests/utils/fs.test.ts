@@ -34,27 +34,29 @@ describe('utils/fs helpers', () => {
   });
 
   test('pathExists rethrows unexpected errors', async () => {
-    const accessSpy = jest.spyOn(fsp, 'access').mockRejectedValueOnce(
-      Object.assign(new Error('permission denied'), { code: 'EACCES' })
-    );
+    const accessSpy = jest
+      .spyOn(fsp, 'access')
+      .mockRejectedValueOnce(Object.assign(new Error('permission denied'), { code: 'EACCES' }));
 
     await expect(pathExists('dummy.txt')).rejects.toThrow('permission denied');
     accessSpy.mockRestore();
   });
 
   test('pathExists treats message-based ENOENT as missing', async () => {
-    const accessSpy = jest.spyOn(fsp, 'access').mockRejectedValueOnce(
-      new Error('ENOENT: file or directory not found')
-    );
+    const accessSpy = jest
+      .spyOn(fsp, 'access')
+      .mockRejectedValueOnce(new Error('ENOENT: file or directory not found'));
 
     await expect(pathExists('/missing/by/message')).resolves.toBe(false);
     accessSpy.mockRestore();
   });
 
   test('pathExists treats ENOTDIR conditions as missing targets', async () => {
-    const accessSpy = jest.spyOn(fsp, 'access').mockRejectedValueOnce(
-      Object.assign(new Error('ENOTDIR: not a directory'), { code: 'ENOTDIR' })
-    );
+    const accessSpy = jest
+      .spyOn(fsp, 'access')
+      .mockRejectedValueOnce(
+        Object.assign(new Error('ENOTDIR: not a directory'), { code: 'ENOTDIR' })
+      );
 
     await expect(pathExists('/bad/directory')).resolves.toBe(false);
     accessSpy.mockRestore();
@@ -64,7 +66,9 @@ describe('utils/fs helpers', () => {
     const target = path.join(tempDir, 'atomic.txt');
 
     const renameSpy = jest.spyOn(fsp, 'rename').mockImplementationOnce(async () => {
-      const err: NodeJS.ErrnoException = Object.assign(new Error('Cross-device'), { code: 'EXDEV' });
+      const err: NodeJS.ErrnoException = Object.assign(new Error('Cross-device'), {
+        code: 'EXDEV',
+      });
       throw err;
     });
 
@@ -77,7 +81,9 @@ describe('utils/fs helpers', () => {
   test('writeFileAtomic cleans up and rethrows on failure', async () => {
     const target = path.join(tempDir, 'failure.txt');
     const renameSpy = jest.spyOn(fsp, 'rename').mockImplementationOnce(async () => {
-      const err: NodeJS.ErrnoException = Object.assign(new Error('rename failed'), { code: 'EACCES' });
+      const err: NodeJS.ErrnoException = Object.assign(new Error('rename failed'), {
+        code: 'EACCES',
+      });
       throw err;
     });
     jest.spyOn(fsp, 'unlink').mockImplementationOnce(async () => {
@@ -92,9 +98,9 @@ describe('utils/fs helpers', () => {
     const missing = path.join(tempDir, 'absent.txt');
     await expect(removeFile(missing)).resolves.toBeUndefined();
 
-    const unlinkSpy = jest.spyOn(fsp, 'unlink').mockRejectedValueOnce(
-      Object.assign(new Error('busy'), { code: 'EBUSY' })
-    );
+    const unlinkSpy = jest
+      .spyOn(fsp, 'unlink')
+      .mockRejectedValueOnce(Object.assign(new Error('busy'), { code: 'EBUSY' }));
     await expect(removeFile(path.join(tempDir, 'locked.txt'))).rejects.toThrow('busy');
     unlinkSpy.mockRestore();
   });

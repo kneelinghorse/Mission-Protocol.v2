@@ -3,13 +3,12 @@
  * Implements: Syntactic Validity, Instruction Specificity, Structural Consistency
  */
 
-import * as yaml from 'yaml';
 import {
   DimensionScore,
   MetricResult,
   AIReadinessMetrics,
   MissionContent,
-  DEFAULT_AI_READINESS_WEIGHTS
+  DEFAULT_AI_READINESS_WEIGHTS,
 } from '../types';
 
 export class AIReadinessAnalyzer {
@@ -17,11 +16,36 @@ export class AIReadinessAnalyzer {
 
   // Weak phrases that indicate vagueness (from NASA requirements quality model)
   private readonly WEAK_PHRASES = [
-    'adequate', 'as appropriate', 'timely', 'significant', 'possibly',
-    'etc', 'appropriate', 'reasonable', 'normal', 'typical', 'various',
-    'suitable', 'proper', 'effective', 'efficient', 'robust', 'good',
-    'bad', 'better', 'worse', 'fast', 'slow', 'easy', 'hard', 'simple',
-    'complex', 'flexible', 'user-friendly', 'as needed', 'if necessary'
+    'adequate',
+    'as appropriate',
+    'timely',
+    'significant',
+    'possibly',
+    'etc',
+    'appropriate',
+    'reasonable',
+    'normal',
+    'typical',
+    'various',
+    'suitable',
+    'proper',
+    'effective',
+    'efficient',
+    'robust',
+    'good',
+    'bad',
+    'better',
+    'worse',
+    'fast',
+    'slow',
+    'easy',
+    'hard',
+    'simple',
+    'complex',
+    'flexible',
+    'user-friendly',
+    'as needed',
+    'if necessary',
   ];
 
   constructor(customWeights?: Partial<Record<keyof AIReadinessMetrics, number>>) {
@@ -32,7 +56,7 @@ export class AIReadinessAnalyzer {
     const metrics: AIReadinessMetrics = {
       syntacticValidity: this.checkSyntacticValidity(mission),
       instructionSpecificity: this.calculateInstructionSpecificity(mission),
-      lintingScore: this.calculateLintingScore(mission)
+      lintingScore: this.calculateLintingScore(mission),
     };
 
     const metricResults: MetricResult[] = [
@@ -43,31 +67,31 @@ export class AIReadinessAnalyzer {
         weight: this.weights.syntacticValidity,
         details: {
           isValid: metrics.syntacticValidity,
-          note: metrics.syntacticValidity ? 'Valid structure' : 'Invalid structure detected'
-        }
+          note: metrics.syntacticValidity ? 'Valid structure' : 'Invalid structure detected',
+        },
       },
       {
         name: 'Instruction Specificity',
         rawValue: metrics.instructionSpecificity,
         normalizedScore: metrics.instructionSpecificity,
         weight: this.weights.instructionSpecificity,
-        details: this.getSpecificityDetails(mission)
+        details: this.getSpecificityDetails(mission),
       },
       {
         name: 'Linting Score',
         rawValue: metrics.lintingScore,
         normalizedScore: metrics.lintingScore,
         weight: this.weights.lintingScore,
-        details: this.getLintingDetails(mission)
-      }
+        details: this.getLintingDetails(mission),
+      },
     ];
 
     // If syntactic validity fails, entire dimension scores 0
     if (!metrics.syntacticValidity) {
       return {
         score: 0,
-        weight: 0.20,
-        metrics: metricResults
+        weight: 0.2,
+        metrics: metricResults,
       };
     }
 
@@ -78,8 +102,8 @@ export class AIReadinessAnalyzer {
 
     return {
       score,
-      weight: 0.20,
-      metrics: metricResults
+      weight: 0.2,
+      metrics: metricResults,
     };
   }
 
@@ -101,7 +125,7 @@ export class AIReadinessAnalyzer {
         mission.successCriteria !== undefined;
 
       return hasBasicStructure;
-    } catch (error) {
+    } catch (_error) {
       return false;
     }
   }
@@ -116,36 +140,36 @@ export class AIReadinessAnalyzer {
       {
         name: 'Explicit goal',
         test: () => this.hasExplicitGoal(mission.objective),
-        weight: 0.25
+        weight: 0.25,
       },
 
       // 2. Defined Scope
       {
         name: 'Defined scope',
         test: () => this.hasDefinedScope(mission.context),
-        weight: 0.20
+        weight: 0.2,
       },
 
       // 3. Format Specification
       {
         name: 'Format specification',
         test: () => this.hasFormatSpecification(mission),
-        weight: 0.20
+        weight: 0.2,
       },
 
       // 4. Constraint Declaration
       {
         name: 'Constraint declaration',
         test: () => this.hasConstraints(mission),
-        weight: 0.15
+        weight: 0.15,
       },
 
       // 5. Success Criteria Definition
       {
         name: 'Success criteria',
         test: () => this.hasWellDefinedSuccessCriteria(mission.successCriteria),
-        weight: 0.20
-      }
+        weight: 0.2,
+      },
     ];
 
     let score = 0;
@@ -212,7 +236,7 @@ export class AIReadinessAnalyzer {
 
     // Calculate score: 1 - (violations / total possible lines)
     const totalLines = JSON.stringify(mission, null, 2).split('\n').length;
-    const score = Math.max(0, 1 - (violations.length / totalLines));
+    const score = Math.max(0, 1 - violations.length / totalLines);
 
     return score;
   }
@@ -225,10 +249,20 @@ export class AIReadinessAnalyzer {
     const text = objective.toLowerCase();
 
     // Should contain action verbs
-    const actionVerbs = ['implement', 'create', 'build', 'develop', 'research',
-                         'define', 'analyze', 'design', 'test', 'document'];
+    const actionVerbs = [
+      'implement',
+      'create',
+      'build',
+      'develop',
+      'research',
+      'define',
+      'analyze',
+      'design',
+      'test',
+      'document',
+    ];
 
-    const hasActionVerb = actionVerbs.some(verb => text.includes(verb));
+    const hasActionVerb = actionVerbs.some((verb) => text.includes(verb));
 
     // Should be substantive (>10 words)
     const wordCount = objective.split(/\s+/).length;
@@ -246,11 +280,19 @@ export class AIReadinessAnalyzer {
 
     // Look for scope indicators
     const scopeIndicators = [
-      'in-scope', 'out-of-scope', 'scope', 'boundary', 'boundaries',
-      'includes', 'excludes', 'focuses on', 'limited to', 'specifically'
+      'in-scope',
+      'out-of-scope',
+      'scope',
+      'boundary',
+      'boundaries',
+      'includes',
+      'excludes',
+      'focuses on',
+      'limited to',
+      'specifically',
     ];
 
-    const hasScopeIndicator = scopeIndicators.some(indicator => text.includes(indicator));
+    const hasScopeIndicator = scopeIndicators.some((indicator) => text.includes(indicator));
 
     // Context should be detailed (>25 words)
     const wordCount = context.split(/\s+/).length;
@@ -263,11 +305,19 @@ export class AIReadinessAnalyzer {
 
     // Look for format specifications
     const formatIndicators = [
-      'format', 'json', 'yaml', 'table', 'list', 'bullet',
-      'markdown', 'structured', 'template', 'schema'
+      'format',
+      'json',
+      'yaml',
+      'table',
+      'list',
+      'bullet',
+      'markdown',
+      'structured',
+      'template',
+      'schema',
     ];
 
-    return formatIndicators.some(indicator => fullText.includes(indicator));
+    return formatIndicators.some((indicator) => fullText.includes(indicator));
   }
 
   private hasConstraints(mission: MissionContent): boolean {
@@ -275,22 +325,35 @@ export class AIReadinessAnalyzer {
 
     // Look for negative constraints
     const constraintIndicators = [
-      'do not', 'don\'t', 'avoid', 'exclude', 'without',
-      'must not', 'should not', 'cannot', 'never'
+      'do not',
+      "don't",
+      'avoid',
+      'exclude',
+      'without',
+      'must not',
+      'should not',
+      'cannot',
+      'never',
     ];
 
-    const hasNegativeConstraints = constraintIndicators.some(
-      indicator => fullText.includes(indicator)
+    const hasNegativeConstraints = constraintIndicators.some((indicator) =>
+      fullText.includes(indicator)
     );
 
     // Or positive constraints
     const positiveConstraints = [
-      'must', 'required', 'shall', 'only', 'specifically',
-      'constraint', 'limitation', 'restriction'
+      'must',
+      'required',
+      'shall',
+      'only',
+      'specifically',
+      'constraint',
+      'limitation',
+      'restriction',
     ];
 
-    const hasPositiveConstraints = positiveConstraints.some(
-      indicator => fullText.includes(indicator)
+    const hasPositiveConstraints = positiveConstraints.some((indicator) =>
+      fullText.includes(indicator)
     );
 
     // Check domainFields for constraints
@@ -307,8 +370,8 @@ export class AIReadinessAnalyzer {
       if (successCriteria.length < 3) return false;
 
       // Each criterion should be specific (>5 words)
-      const allSpecific = successCriteria.every(criterion =>
-        typeof criterion === 'string' && criterion.split(/\s+/).length >= 5
+      const allSpecific = successCriteria.every(
+        (criterion) => typeof criterion === 'string' && criterion.split(/\s+/).length >= 5
       );
 
       return allSpecific;
@@ -349,20 +412,20 @@ export class AIReadinessAnalyzer {
       hasDefinedScope: this.hasDefinedScope(mission.context),
       hasFormatSpec: this.hasFormatSpecification(mission),
       hasConstraints: this.hasConstraints(mission),
-      hasSuccessCriteria: this.hasWellDefinedSuccessCriteria(mission.successCriteria)
+      hasSuccessCriteria: this.hasWellDefinedSuccessCriteria(mission.successCriteria),
     };
   }
 
   private getLintingDetails(mission: MissionContent): Record<string, unknown> {
     const fullText = JSON.stringify(mission).toLowerCase();
-    const vaguePhrasesFound = this.WEAK_PHRASES.filter(phrase =>
+    const vaguePhrasesFound = this.WEAK_PHRASES.filter((phrase) =>
       fullText.includes(phrase.toLowerCase())
     );
 
     return {
       vaguePhrasesCount: vaguePhrasesFound.length,
       vaguePhrasesFound: vaguePhrasesFound.slice(0, 5), // First 5
-      emptyFieldsCount: this.findEmptyFields(mission).length
+      emptyFieldsCount: this.findEmptyFields(mission).length,
     };
   }
 }

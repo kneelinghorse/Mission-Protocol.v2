@@ -284,7 +284,11 @@ export interface VersionManagerOptions {
  * Error types for versioning operations
  */
 export class VersionError extends Error {
-  constructor(message: string, public code?: string, public details?: Record<string, unknown>) {
+  constructor(
+    message: string,
+    public code?: string,
+    public details?: Record<string, unknown>
+  ) {
     super(message);
     this.name = 'VersionError';
   }

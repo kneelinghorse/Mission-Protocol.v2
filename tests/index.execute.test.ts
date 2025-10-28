@@ -76,10 +76,12 @@ describe('executeMissionProtocolTool integration (mocked)', () => {
 
   test('returns domain listing for get_available_domains', async () => {
     const context = createMockContext();
-    const listExecuteMock = context.listDomainsTool
-      .execute as jest.MockedFunction<(...args: any[]) => Promise<any>>;
-    const listFormatMock = context.listDomainsTool
-      .formatForLLM as jest.MockedFunction<(domains: any) => string>;
+    const listExecuteMock = context.listDomainsTool.execute as jest.MockedFunction<
+      (...args: any[]) => Promise<any>
+    >;
+    const listFormatMock = context.listDomainsTool.formatForLLM as jest.MockedFunction<
+      (domains: any) => string
+    >;
 
     listExecuteMock.mockResolvedValueOnce([
       { name: 'foundation', description: 'base pack', version: '1.0.0' },
@@ -93,10 +95,12 @@ describe('executeMissionProtocolTool integration (mocked)', () => {
 
   test('legacy list_available_domains emits warning and still returns domains', async () => {
     const context = createMockContext();
-    const listExecuteMock = context.listDomainsTool
-      .execute as jest.MockedFunction<(...args: any[]) => Promise<any>>;
-    const listFormatMock = context.listDomainsTool
-      .formatForLLM as jest.MockedFunction<(domains: any) => string>;
+    const listExecuteMock = context.listDomainsTool.execute as jest.MockedFunction<
+      (...args: any[]) => Promise<any>
+    >;
+    const listFormatMock = context.listDomainsTool.formatForLLM as jest.MockedFunction<
+      (domains: any) => string
+    >;
 
     listExecuteMock.mockResolvedValueOnce([
       { name: 'foundation', description: 'base pack', version: '1.0.0' },
@@ -159,8 +163,9 @@ describe('executeMissionProtocolTool integration (mocked)', () => {
 
   test('create_combined_pack omits load order section when none returned', async () => {
     const context = createMockContext();
-    const combineMock = context.combinePacksTool
-      .execute as jest.MockedFunction<(...args: any[]) => Promise<any>>;
+    const combineMock = context.combinePacksTool.execute as jest.MockedFunction<
+      (...args: any[]) => Promise<any>
+    >;
     combineMock.mockResolvedValueOnce({
       success: true,
       loadOrder: [],
@@ -182,11 +187,19 @@ describe('executeMissionProtocolTool integration (mocked)', () => {
     const scoreSpy = jest.spyOn(scoreQualityModule, 'scoreQuality');
     scoreSpy.mockResolvedValueOnce({ success: true, summary: 'All good' } as any);
 
-    const successResult = await executeMissionProtocolTool('get_mission_quality_score', { missionFile: 'mission.yaml' }, createMockContext());
+    const successResult = await executeMissionProtocolTool(
+      'get_mission_quality_score',
+      { missionFile: 'mission.yaml' },
+      createMockContext()
+    );
     expect(successResult.content?.[0]?.text).toContain('All good');
 
     scoreSpy.mockResolvedValueOnce({ success: false, error: 'bad input' } as any);
-    const failureResult = await executeMissionProtocolTool('get_mission_quality_score', { missionFile: 'bad.yaml' }, createMockContext());
+    const failureResult = await executeMissionProtocolTool(
+      'get_mission_quality_score',
+      { missionFile: 'bad.yaml' },
+      createMockContext()
+    );
     expect(failureResult.content?.[0]?.text).toContain('Quality scoring failed');
   });
 
@@ -256,8 +269,9 @@ describe('executeMissionProtocolTool integration (mocked)', () => {
 
   test('update_token_optimization returns dry-run messaging without heuristic warning for non-gemini', async () => {
     const context = createMockContext();
-    const optimizeMock = context.optimizeTokensTool
-      .execute as jest.MockedFunction<(...args: any[]) => Promise<any>>;
+    const optimizeMock = context.optimizeTokensTool.execute as jest.MockedFunction<
+      (...args: any[]) => Promise<any>
+    >;
     optimizeMock.mockResolvedValueOnce({
       success: true,
       stats: {
@@ -290,8 +304,9 @@ describe('executeMissionProtocolTool integration (mocked)', () => {
 
   test('update_token_optimization throws when token usage metrics missing on success', async () => {
     const context = createMockContext();
-    const optimizeMock = context.optimizeTokensTool
-      .execute as jest.MockedFunction<(...args: any[]) => Promise<any>>;
+    const optimizeMock = context.optimizeTokensTool.execute as jest.MockedFunction<
+      (...args: any[]) => Promise<any>
+    >;
     optimizeMock.mockResolvedValueOnce({
       success: true,
       stats: {
@@ -352,15 +367,18 @@ describe('executeMissionProtocolTool integration (mocked)', () => {
 
   test('get_split_suggestions omits heuristic warning when model is not gemini', async () => {
     const context = createMockContext();
-    const suggestMock = context.suggestSplitsTool
-      .execute as jest.MockedFunction<(...args: any[]) => Promise<any>>;
+    const suggestMock = context.suggestSplitsTool.execute as jest.MockedFunction<
+      (...args: any[]) => Promise<any>
+    >;
     suggestMock.mockResolvedValueOnce({
       shouldSplit: true,
       complexity: { compositeScore: 4 },
       suggestedSplits: [],
       tokenUsage: { model: 'claude', totalTokens: 600, contextWindow: 200000, utilization: 0.003 },
     });
-    (context.suggestSplitsTool.formatForLLM as jest.Mock).mockReturnValueOnce('Summary without warning');
+    (context.suggestSplitsTool.formatForLLM as jest.Mock).mockReturnValueOnce(
+      'Summary without warning'
+    );
 
     const result = await executeMissionProtocolTool('get_split_suggestions', {}, context);
     expect(result.content?.[0]?.text).toBe('Summary without warning');
@@ -369,8 +387,9 @@ describe('executeMissionProtocolTool integration (mocked)', () => {
 
   test('get_split_suggestions handles missing token usage metrics', async () => {
     const context = createMockContext();
-    const suggestMock = context.suggestSplitsTool
-      .execute as jest.MockedFunction<(...args: any[]) => Promise<any>>;
+    const suggestMock = context.suggestSplitsTool.execute as jest.MockedFunction<
+      (...args: any[]) => Promise<any>
+    >;
     suggestMock.mockResolvedValueOnce({
       shouldSplit: false,
       complexity: { compositeScore: 2 },
@@ -412,15 +431,18 @@ describe('executeMissionProtocolTool integration (mocked)', () => {
 
   test('create_mission_splits leaves summary untouched when token usage lacks heuristic conditions', async () => {
     const context = createMockContext();
-    const splitMock = context.splitMissionTool
-      .execute as jest.MockedFunction<(...args: any[]) => Promise<any>>;
+    const splitMock = context.splitMissionTool.execute as jest.MockedFunction<
+      (...args: any[]) => Promise<any>
+    >;
     splitMock.mockResolvedValueOnce({
       shouldSplit: true,
       complexity: { score: 5 },
       summary: 'Proceed with caution',
       tokenUsage: { model: 'claude', totalTokens: 800, estimatedCost: 1.2 },
     });
-    (context.splitMissionTool.formatForLLM as jest.Mock).mockReturnValueOnce('Summary without heuristics');
+    (context.splitMissionTool.formatForLLM as jest.Mock).mockReturnValueOnce(
+      'Summary without heuristics'
+    );
 
     const result = await executeMissionProtocolTool('create_mission_splits', {}, context);
     expect(result.content?.[0]?.text).toBe('Summary without heuristics');
@@ -429,8 +451,9 @@ describe('executeMissionProtocolTool integration (mocked)', () => {
 
   test('create_mission_splits handles responses without token usage metrics', async () => {
     const context = createMockContext();
-    const splitMock = context.splitMissionTool
-      .execute as jest.MockedFunction<(...args: any[]) => Promise<any>>;
+    const splitMock = context.splitMissionTool.execute as jest.MockedFunction<
+      (...args: any[]) => Promise<any>
+    >;
     splitMock.mockResolvedValueOnce({
       shouldSplit: false,
       complexity: { score: 3 },

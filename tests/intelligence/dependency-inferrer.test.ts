@@ -10,8 +10,14 @@ describe('DependencyInferrer', () => {
     graph = {
       nodes: new Map([
         ['R4.3', { missionId: 'R4.3', filePath: 'missions/R4.3.yaml', dependencies: [] } as any],
-        ['B4.3', { missionId: 'B4.3', filePath: 'missions/B4.3.yaml', dependencies: ['R4.3'] } as any],
-        ['B4.4', { missionId: 'B4.4', filePath: 'missions/B4.4.yaml', dependencies: ['B4.3'] } as any],
+        [
+          'B4.3',
+          { missionId: 'B4.3', filePath: 'missions/B4.3.yaml', dependencies: ['R4.3'] } as any,
+        ],
+        [
+          'B4.4',
+          { missionId: 'B4.4', filePath: 'missions/B4.4.yaml', dependencies: ['B4.3'] } as any,
+        ],
       ]),
       edges: new Map([
         ['R4.3', new Set()],
@@ -29,14 +35,14 @@ describe('DependencyInferrer', () => {
     };
 
     const inferred = inferrer.inferDependencies(graph, mission);
-    const toIds = inferred.map(i => i.to);
+    const toIds = inferred.map((i) => i.to);
 
     expect(inferred.length).toBeGreaterThan(0);
     expect(toIds).toContain('B4.3');
     expect(toIds).toContain('R4.3');
 
     // Ensure methods include keyword-based detections
-    expect(inferred.some(i => i.method === 'keyword')).toBe(true);
+    expect(inferred.some((i) => i.method === 'keyword')).toBe(true);
   });
 
   it('infers dependencies from success criteria mentions', () => {
@@ -49,7 +55,7 @@ describe('DependencyInferrer', () => {
     };
 
     const inferred = inferrer.inferDependencies(graph, mission);
-    expect(inferred.some(i => i.to === 'R4.3' && i.method === 'semantic')).toBe(true);
+    expect(inferred.some((i) => i.to === 'R4.3' && i.method === 'semantic')).toBe(true);
   });
 
   it('infers structural dependencies from sequential numbering and research linkage', () => {
@@ -57,18 +63,20 @@ describe('DependencyInferrer', () => {
     const mission = { missionId: 'B4.4' };
     const inferred = inferrer.inferDependencies(graph, mission);
 
-    expect(inferred.some(i => i.to === 'B4.3' && i.method === 'structural')).toBe(true);
+    expect(inferred.some((i) => i.to === 'B4.3' && i.method === 'structural')).toBe(true);
 
     // For B4.3, structural inference should suggest dependency on R4.3 (build depends on research)
     const inferredB43 = inferrer.inferDependencies(graph, { missionId: 'B4.3' });
-    expect(inferredB43.some(i => i.to === 'R4.3' && i.method === 'structural')).toBe(true);
+    expect(inferredB43.some((i) => i.to === 'R4.3' && i.method === 'structural')).toBe(true);
   });
 
   it('extracts mission references and file paths from text', () => {
     const refs = (inferrer as any).extractMissionReferences('This builds on R4.3 then B4.3.');
     expect(refs).toEqual(expect.arrayContaining(['R4.3', 'B4.3']));
 
-    const files = (inferrer as any).extractFilePaths('Uses app/src/tools/optimize-tokens.ts and tests/tools/x.test.ts');
+    const files = (inferrer as any).extractFilePaths(
+      'Uses app/src/tools/optimize-tokens.ts and tests/tools/x.test.ts'
+    );
     expect(files).toContain('app/src/tools/optimize-tokens.ts');
     expect(files.some((p: string) => p.startsWith('tests/tools/x.test'))).toBe(true);
   });
@@ -105,16 +113,13 @@ describe('DependencyInferrer', () => {
 
   it('optionally infers from deliverables when other nodes reference those files', () => {
     // Add a node with extra field containing a deliverable path to trigger structural inference
-    graph.nodes.set(
-      'X4.1',
-      {
-        missionId: 'X4.1',
-        filePath: 'missions/X4.1.yaml',
-        dependencies: [],
-        // extra content to be scanned by JSON.stringify in inferFromDeliverables
-        extra: 'References app/src/intelligence/dependency-analyzer.ts in docs',
-      } as any
-    );
+    graph.nodes.set('X4.1', {
+      missionId: 'X4.1',
+      filePath: 'missions/X4.1.yaml',
+      dependencies: [],
+      // extra content to be scanned by JSON.stringify in inferFromDeliverables
+      extra: 'References app/src/intelligence/dependency-analyzer.ts in docs',
+    } as any);
     graph.edges.set('X4.1', new Set());
 
     const mission = {
@@ -140,7 +145,7 @@ describe('DependencyInferrer', () => {
       };
 
       const inferred = inferrer.inferDependencies(graph, mission);
-      expect(inferred.every(dep => dep.to !== 'B4.3')).toBe(true);
+      expect(inferred.every((dep) => dep.to !== 'B4.3')).toBe(true);
     });
 
     it('handles deliverable strings without matches gracefully', () => {

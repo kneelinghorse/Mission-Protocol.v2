@@ -182,9 +182,10 @@ export function applySanitization(text: string, rules: CompressionRule[]): strin
     if (!rule.enabled || rule.type !== 'regex_replace') continue;
     if (!rule.pattern) continue;
 
-    const pattern = rule.pattern instanceof RegExp
-      ? rule.pattern
-      : new RegExp(rule.pattern, rule.flags || undefined);
+    const pattern =
+      rule.pattern instanceof RegExp
+        ? rule.pattern
+        : new RegExp(rule.pattern, rule.flags || undefined);
     result = result.replace(pattern, rule.replacement || '');
   }
 
@@ -212,7 +213,10 @@ export function convertProseToList(text: string, delimiters: string[]): string {
   let result = text;
   for (const delimiter of delimiters) {
     // Create list item format
-    const delimiterRegex = new RegExp(`\\s*${delimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*`, 'gi');
+    const delimiterRegex = new RegExp(
+      `\\s*${delimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*`,
+      'gi'
+    );
     result = result.replace(delimiterRegex, '\n- ');
   }
 
@@ -265,9 +269,10 @@ export function applyLinguisticSimplification(text: string, rules: CompressionRu
     if (!rule.enabled) continue;
 
     if (rule.type === 'regex_replace' && rule.pattern) {
-      const pattern = rule.pattern instanceof RegExp
-        ? rule.pattern
-        : new RegExp(rule.pattern, rule.flags || undefined);
+      const pattern =
+        rule.pattern instanceof RegExp
+          ? rule.pattern
+          : new RegExp(rule.pattern, rule.flags || undefined);
       result = result.replace(pattern, rule.replacement || '');
     } else if (rule.type === 'convert_passive_to_active') {
       result = convertPassiveToActive(result);

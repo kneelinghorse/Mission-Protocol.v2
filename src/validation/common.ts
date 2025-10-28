@@ -50,7 +50,9 @@ function ensureAllowedExtension(filePath: string, allowed?: readonly string[]): 
   }
 
   const ext = path.extname(filePath).toLowerCase();
-  const normalizedList = allowed.map((value) => (value.startsWith('.') ? value.toLowerCase() : `.${value.toLowerCase()}`));
+  const normalizedList = allowed.map((value) =>
+    value.startsWith('.') ? value.toLowerCase() : `.${value.toLowerCase()}`
+  );
 
   if (!normalizedList.includes(ext)) {
     throw new SanitizationError('File extension is not permitted', {
@@ -63,7 +65,9 @@ function ensureWithinBaseDir(resolvedPath: string, baseDir: string): void {
   const normalizedBase = path.resolve(baseDir);
   const normalizedPath = path.resolve(resolvedPath);
 
-  const baseWithSep = normalizedBase.endsWith(path.sep) ? normalizedBase : `${normalizedBase}${path.sep}`;
+  const baseWithSep = normalizedBase.endsWith(path.sep)
+    ? normalizedBase
+    : `${normalizedBase}${path.sep}`;
   const isWithin = normalizedPath === normalizedBase || normalizedPath.startsWith(baseWithSep);
 
   if (!isWithin) {
@@ -96,6 +100,7 @@ function isWithinBase(actualPath: string, basePath: string): boolean {
 async function findExistingAncestor(target: string): Promise<string | null> {
   let current = target;
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const real = await tryRealpath(current);
     if (real) {
@@ -110,7 +115,10 @@ async function findExistingAncestor(target: string): Promise<string | null> {
   }
 }
 
-async function ensureNoSymlinkEscape(sanitizedPath: string, options: SafeFilePathOptions): Promise<void> {
+async function ensureNoSymlinkEscape(
+  sanitizedPath: string,
+  options: SafeFilePathOptions
+): Promise<void> {
   if (!options.baseDir || options.allowSymbolicLinks) {
     return;
   }
@@ -128,9 +136,12 @@ async function ensureNoSymlinkEscape(sanitizedPath: string, options: SafeFilePat
     try {
       const stats = await fs.lstat(sanitizedPath);
       if (stats.isSymbolicLink() && !options.allowSymbolicLinks) {
-        throw new SanitizationError('Symbolic links are not permitted for paths within base directory', {
-          data: { path: sanitizedPath },
-        });
+        throw new SanitizationError(
+          'Symbolic links are not permitted for paths within base directory',
+          {
+            data: { path: sanitizedPath },
+          }
+        );
       }
     } catch (error) {
       throw new SanitizationError('Unable to inspect filesystem entry for symbolic links', {
@@ -149,7 +160,10 @@ async function ensureNoSymlinkEscape(sanitizedPath: string, options: SafeFilePat
   }
 }
 
-export async function safeFilePath(rawPath: string, options: SafeFilePathOptions = {}): Promise<string> {
+export async function safeFilePath(
+  rawPath: string,
+  options: SafeFilePathOptions = {}
+): Promise<string> {
   const maxLength = options.maxLength ?? DEFAULT_MAX_PATH_LENGTH;
   const parsedPath = pathStringSchema.parse(rawPath);
 

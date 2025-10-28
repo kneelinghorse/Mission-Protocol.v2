@@ -1,8 +1,5 @@
 import { describe, expect, test, jest } from '@jest/globals';
-import {
-  formatQualitySummary,
-  getQualityGrade,
-} from '../../src/tools/score-quality';
+import { formatQualitySummary, getQualityGrade } from '../../src/tools/score-quality';
 import type { QualityScore } from '../../src/quality/types';
 
 const baseScore = (overrides: Partial<QualityScore>): QualityScore => ({
@@ -74,9 +71,24 @@ describe('score-quality helpers', () => {
       baseScore({
         total: 0.72,
         suggestions: [
-          { severity: 'critical', category: 'clarity', message: 'Fix objective', metric: 'objective' },
-          { severity: 'important', category: 'completeness', message: 'Add success metrics', metric: 'success' },
-          { severity: 'info', category: 'ai', message: 'Consider adding guardrails', metric: 'guardrails' },
+          {
+            severity: 'critical',
+            category: 'clarity',
+            message: 'Fix objective',
+            metric: 'objective',
+          },
+          {
+            severity: 'important',
+            category: 'completeness',
+            message: 'Add success metrics',
+            metric: 'success',
+          },
+          {
+            severity: 'info',
+            category: 'ai',
+            message: 'Consider adding guardrails',
+            metric: 'guardrails',
+          },
         ],
       }),
       true
@@ -108,7 +120,16 @@ describe('scoreQuality execution', () => {
   });
 
   test('returns quality summary when scoring succeeds', async () => {
-    const mockScore = baseScore({ suggestions: [{ severity: 'info', category: 'clarity', message: 'Consider peer review', metric: 'clarity' }] });
+    const mockScore = baseScore({
+      suggestions: [
+        {
+          severity: 'info',
+          category: 'clarity',
+          message: 'Consider peer review',
+          metric: 'clarity',
+        },
+      ],
+    });
 
     jest.resetModules();
     const loadMock = jest.fn(async () => ({ missionId: 'M-42', objective: 'Upgrade platform' }));

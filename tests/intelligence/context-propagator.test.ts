@@ -106,7 +106,8 @@ describe('ContextPropagator', () => {
     const resultSummary: ContextSummary = {
       originalMission: 'Goal: implement improvements.',
       completedSteps: [],
-      summary: 'This summary is intentionally long to exceed the token limit and trigger overflow validation.',
+      summary:
+        'This summary is intentionally long to exceed the token limit and trigger overflow validation.',
       tokenCount: 50,
       strategy: 'full',
     };
@@ -127,8 +128,12 @@ describe('ContextPropagator', () => {
       })
     );
 
-    expect(context).toContain('Mission: accelerate roadmap execution across all teams by coordinating delivery waves');
-    expect(context).toContain('Last step: The final milestone confirms success and emphasizes the most critical deliverable remaining on the roadmap');
+    expect(context).toContain(
+      'Mission: accelerate roadmap execution across all teams by coordinating delivery waves'
+    );
+    expect(context).toContain(
+      'Last step: The final milestone confirms success and emphasizes the most critical deliverable remaining on the roadmap'
+    );
   });
 
   test('abstractive summarization builds narrative overview', () => {
@@ -234,9 +239,12 @@ describe('ContextPropagator', () => {
 
   test('createMinimalContext falls back to no output placeholder', () => {
     const propagator = createPropagator();
-    const minimal = propagator.createMinimalContext('Provide support documentation.', createResult({
-      output: 'Tiny.'
-    }));
+    const minimal = propagator.createMinimalContext(
+      'Provide support documentation.',
+      createResult({
+        output: 'Tiny.',
+      })
+    );
 
     expect(minimal).toContain('No output');
   });

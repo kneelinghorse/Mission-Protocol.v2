@@ -14,13 +14,13 @@ describe('GraphValidator', () => {
         nodes: new Map([
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: [] }],
           ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }],
-          ['C', { missionId: 'C', filePath: 'C.yaml', dependencies: ['B'] }]
+          ['C', { missionId: 'C', filePath: 'C.yaml', dependencies: ['B'] }],
         ]),
         edges: new Map([
           ['A', new Set()],
           ['B', new Set(['A'])],
-          ['C', new Set(['B'])]
-        ])
+          ['C', new Set(['B'])],
+        ]),
       };
 
       const result = validator.validate(graph);
@@ -36,13 +36,13 @@ describe('GraphValidator', () => {
         nodes: new Map([
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['B'] }],
           ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['C'] }],
-          ['C', { missionId: 'C', filePath: 'C.yaml', dependencies: ['A'] }]
+          ['C', { missionId: 'C', filePath: 'C.yaml', dependencies: ['A'] }],
         ]),
         edges: new Map([
           ['A', new Set(['B'])],
           ['B', new Set(['C'])],
-          ['C', new Set(['A'])]
-        ])
+          ['C', new Set(['A'])],
+        ]),
       };
 
       const result = validator.validate(graph);
@@ -55,12 +55,8 @@ describe('GraphValidator', () => {
 
     it('should detect missing dependencies', () => {
       const graph: DependencyGraph = {
-        nodes: new Map([
-          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['B'] }]
-        ]),
-        edges: new Map([
-          ['A', new Set(['B'])]
-        ])
+        nodes: new Map([['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['B'] }]]),
+        edges: new Map([['A', new Set(['B'])]]),
       };
 
       const result = validator.validate(graph);
@@ -71,12 +67,8 @@ describe('GraphValidator', () => {
 
     it('should handle self-referencing nodes', () => {
       const graph: DependencyGraph = {
-        nodes: new Map([
-          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['A'] }]
-        ]),
-        edges: new Map([
-          ['A', new Set(['A'])]
-        ])
+        nodes: new Map([['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['A'] }]]),
+        edges: new Map([['A', new Set(['A'])]]),
       };
 
       const result = validator.validate(graph);
@@ -91,12 +83,12 @@ describe('GraphValidator', () => {
       const graph: DependencyGraph = {
         nodes: new Map([
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: [] }],
-          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }]
+          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }],
         ]),
         edges: new Map([
           ['A', new Set()],
-          ['B', new Set(['A'])]
-        ])
+          ['B', new Set(['A'])],
+        ]),
       };
 
       const result = validator.detectCycles(graph);
@@ -109,12 +101,12 @@ describe('GraphValidator', () => {
       const graph: DependencyGraph = {
         nodes: new Map([
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['B'] }],
-          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }]
+          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }],
         ]),
         edges: new Map([
           ['A', new Set(['B'])],
-          ['B', new Set(['A'])]
-        ])
+          ['B', new Set(['A'])],
+        ]),
       };
 
       const result = validator.detectCycles(graph);
@@ -132,14 +124,14 @@ describe('GraphValidator', () => {
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['B'] }],
           ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['C'] }],
           ['C', { missionId: 'C', filePath: 'C.yaml', dependencies: ['D'] }],
-          ['D', { missionId: 'D', filePath: 'D.yaml', dependencies: ['B'] }]
+          ['D', { missionId: 'D', filePath: 'D.yaml', dependencies: ['B'] }],
         ]),
         edges: new Map([
           ['A', new Set(['B'])],
           ['B', new Set(['C'])],
           ['C', new Set(['D'])],
-          ['D', new Set(['B'])]
-        ])
+          ['D', new Set(['B'])],
+        ]),
       };
 
       const result = validator.detectCycles(graph);
@@ -154,14 +146,14 @@ describe('GraphValidator', () => {
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['B'] }],
           ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: [] }],
           ['C', { missionId: 'C', filePath: 'C.yaml', dependencies: ['D'] }],
-          ['D', { missionId: 'D', filePath: 'D.yaml', dependencies: [] }]
+          ['D', { missionId: 'D', filePath: 'D.yaml', dependencies: [] }],
         ]),
         edges: new Map([
           ['A', new Set(['B'])],
           ['B', new Set()],
           ['C', new Set(['D'])],
-          ['D', new Set()]
-        ])
+          ['D', new Set()],
+        ]),
       };
 
       const result = validator.detectCycles(graph);
@@ -175,12 +167,12 @@ describe('GraphValidator', () => {
       const graph: DependencyGraph = {
         nodes: new Map([
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: [] }],
-          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }]
+          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }],
         ]),
         edges: new Map([
           ['A', new Set()],
-          ['B', new Set(['A'])]
-        ])
+          ['B', new Set(['A'])],
+        ]),
       };
 
       expect(validator.isDAG(graph)).toBe(true);
@@ -190,12 +182,12 @@ describe('GraphValidator', () => {
       const graph: DependencyGraph = {
         nodes: new Map([
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['B'] }],
-          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }]
+          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }],
         ]),
         edges: new Map([
           ['A', new Set(['B'])],
-          ['B', new Set(['A'])]
-        ])
+          ['B', new Set(['A'])],
+        ]),
       };
 
       expect(validator.isDAG(graph)).toBe(false);
@@ -208,13 +200,13 @@ describe('GraphValidator', () => {
         nodes: new Map([
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: [] }],
           ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }],
-          ['C', { missionId: 'C', filePath: 'C.yaml', dependencies: ['B'] }]
+          ['C', { missionId: 'C', filePath: 'C.yaml', dependencies: ['B'] }],
         ]),
         edges: new Map([
           ['A', new Set()],
           ['B', new Set(['A'])],
-          ['C', new Set(['B'])]
-        ])
+          ['C', new Set(['B'])],
+        ]),
       };
 
       const executionOrder = ['A', 'B', 'C'];
@@ -226,13 +218,13 @@ describe('GraphValidator', () => {
         nodes: new Map([
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: [] }],
           ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }],
-          ['C', { missionId: 'C', filePath: 'C.yaml', dependencies: ['B'] }]
+          ['C', { missionId: 'C', filePath: 'C.yaml', dependencies: ['B'] }],
         ]),
         edges: new Map([
           ['A', new Set()],
           ['B', new Set(['A'])],
-          ['C', new Set(['B'])]
-        ])
+          ['C', new Set(['B'])],
+        ]),
       };
 
       const executionOrder = ['C', 'B', 'A']; // Reversed - invalid
@@ -243,12 +235,12 @@ describe('GraphValidator', () => {
       const graph: DependencyGraph = {
         nodes: new Map([
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: [] }],
-          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }]
+          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }],
         ]),
         edges: new Map([
           ['A', new Set()],
-          ['B', new Set(['A'])]
-        ])
+          ['B', new Set(['A'])],
+        ]),
       };
 
       const executionOrder = ['A']; // Missing B
@@ -257,12 +249,8 @@ describe('GraphValidator', () => {
 
     it('continues when dependency node not present in graph', () => {
       const graph: DependencyGraph = {
-        nodes: new Map([
-          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: [] }],
-        ]),
-        edges: new Map([
-          ['A', new Set(['Ghost'])],
-        ]),
+        nodes: new Map([['A', { missionId: 'A', filePath: 'A.yaml', dependencies: [] }]]),
+        edges: new Map([['A', new Set(['Ghost'])]]),
       };
 
       const executionOrder = ['A'];
@@ -275,9 +263,7 @@ describe('GraphValidator', () => {
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: [] }],
           ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }],
         ]),
-        edges: new Map([
-          ['B', new Set(['A'])],
-        ]),
+        edges: new Map([['B', new Set(['A'])]]),
       };
 
       const executionOrder = ['A', 'B'];
@@ -306,12 +292,12 @@ describe('GraphValidator', () => {
       const graph: DependencyGraph = {
         nodes: new Map([
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: [] }],
-          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }]
+          ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }],
         ]),
         edges: new Map([
           ['A', new Set()],
-          ['B', new Set(['A'])]
-        ])
+          ['B', new Set(['A'])],
+        ]),
       };
 
       const sccs = validator.getStronglyConnectedComponents(graph);
@@ -323,13 +309,13 @@ describe('GraphValidator', () => {
         nodes: new Map([
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['B'] }],
           ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['C'] }],
-          ['C', { missionId: 'C', filePath: 'C.yaml', dependencies: ['A'] }]
+          ['C', { missionId: 'C', filePath: 'C.yaml', dependencies: ['A'] }],
         ]),
         edges: new Map([
           ['A', new Set(['B'])],
           ['B', new Set(['C'])],
-          ['C', new Set(['A'])]
-        ])
+          ['C', new Set(['A'])],
+        ]),
       };
 
       const sccs = validator.getStronglyConnectedComponents(graph);
@@ -342,12 +328,8 @@ describe('GraphValidator', () => {
 
     it('should handle self-loops as SCCs', () => {
       const graph: DependencyGraph = {
-        nodes: new Map([
-          ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['A'] }]
-        ]),
-        edges: new Map([
-          ['A', new Set(['A'])]
-        ])
+        nodes: new Map([['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['A'] }]]),
+        edges: new Map([['A', new Set(['A'])]]),
       };
 
       const sccs = validator.getStronglyConnectedComponents(graph);
@@ -361,14 +343,14 @@ describe('GraphValidator', () => {
           ['A', { missionId: 'A', filePath: 'A.yaml', dependencies: ['B'] }],
           ['B', { missionId: 'B', filePath: 'B.yaml', dependencies: ['A'] }],
           ['C', { missionId: 'C', filePath: 'C.yaml', dependencies: ['D'] }],
-          ['D', { missionId: 'D', filePath: 'D.yaml', dependencies: ['C'] }]
+          ['D', { missionId: 'D', filePath: 'D.yaml', dependencies: ['C'] }],
         ]),
         edges: new Map([
           ['A', new Set(['B'])],
           ['B', new Set(['A'])],
           ['C', new Set(['D'])],
-          ['D', new Set(['C'])]
-        ])
+          ['D', new Set(['C'])],
+        ]),
       };
 
       const sccs = validator.getStronglyConnectedComponents(graph);

@@ -11,7 +11,7 @@
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import * as YAML from 'yaml';
-import Ajv, { JSONSchemaType } from 'ajv';
+import Ajv from 'ajv';
 import { PathTraversalError, SchemaValidationError, UnsafeYAMLError } from '../types/errors';
 import { IOError } from '../errors/io-error';
 import { JSONSchema } from '../types/schemas';
@@ -141,10 +141,7 @@ export class SecureYAMLLoader {
     const valid = validate(data);
 
     if (!valid) {
-      throw new SchemaValidationError(
-        this.ajv.errorsText(validate.errors),
-        validate.errors || []
-      );
+      throw new SchemaValidationError(this.ajv.errorsText(validate.errors), validate.errors || []);
     }
 
     return data as T;
@@ -183,17 +180,14 @@ export class SecureYAMLLoader {
 
     // Check file size
     if (stats.size > this.maxFileSize) {
-      throw new IOError(
-        `File too large: ${stats.size} bytes (max: ${this.maxFileSize})`,
-        {
-          code: 'IO_SIZE_LIMIT',
-          context: {
-            resolvedPath: sanitizedPath,
-            fileSize: stats.size,
-            maxSize: this.maxFileSize,
-          },
-        }
-      );
+      throw new IOError(`File too large: ${stats.size} bytes (max: ${this.maxFileSize})`, {
+        code: 'IO_SIZE_LIMIT',
+        context: {
+          resolvedPath: sanitizedPath,
+          fileSize: stats.size,
+          maxSize: this.maxFileSize,
+        },
+      });
     }
 
     // Read file content
@@ -218,7 +212,7 @@ export class SecureYAMLLoader {
    * @returns Array of parsed data
    */
   async loadMultiple<T = unknown>(filePaths: string[], schema?: JSONSchema): Promise<T[]> {
-    return Promise.all(filePaths.map(filePath => this.load<T>(filePath, schema)));
+    return Promise.all(filePaths.map((filePath) => this.load<T>(filePath, schema)));
   }
 
   /**

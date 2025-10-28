@@ -79,12 +79,7 @@ describe('PackCombiner', () => {
       });
 
       expect(result.success).toBe(true);
-      expect(result.combinedPack?.template.items).toEqual([
-        'item1',
-        'item2',
-        'item3',
-        'item4',
-      ]);
+      expect(result.combinedPack?.template.items).toEqual(['item1', 'item2', 'item3', 'item4']);
     });
 
     it('should handle three or more packs', () => {
@@ -162,7 +157,7 @@ describe('PackCombiner', () => {
       expect(result.success).toBe(true);
       expect(result.combinedPack?.template).toEqual({
         merge: { a: 1, b: 2 }, // Merged
-        override: { b: 2 },      // Overridden
+        override: { b: 2 }, // Overridden
       });
     });
   });
@@ -271,13 +266,11 @@ describe('PackCombiner', () => {
 
     it('bubbles up validation errors returned from validateCombinedPack', () => {
       const packA = createMockPack('pack-a', { a: 1 });
-      const validateSpy = jest
-        .spyOn(combiner as any, 'validateCombinedPack')
-        .mockReturnValue({
-          valid: false,
-          errors: ['invalid combined pack'],
-          warnings: ['needs attention'],
-        });
+      const validateSpy = jest.spyOn(combiner as any, 'validateCombinedPack').mockReturnValue({
+        valid: false,
+        errors: ['invalid combined pack'],
+        warnings: ['needs attention'],
+      });
 
       const result = combiner.combine([packA], [packA], {
         resolveDependencies: false,
@@ -293,9 +286,15 @@ describe('PackCombiner', () => {
 
   describe('validateCombinedPack (internal)', () => {
     it('flags missing manifest metadata and non-object templates as errors', () => {
-      const validate = (combiner as unknown as {
-        validateCombinedPack: (pack: any) => { valid: boolean; errors: string[]; warnings: string[] };
-      }).validateCombinedPack.bind(combiner);
+      const validate = (
+        combiner as unknown as {
+          validateCombinedPack: (pack: any) => {
+            valid: boolean;
+            errors: string[];
+            warnings: string[];
+          };
+        }
+      ).validateCombinedPack.bind(combiner);
 
       const outcome = validate({
         manifest: {
@@ -320,9 +319,15 @@ describe('PackCombiner', () => {
     });
 
     it('emits warnings when combination order mismatches and template is empty', () => {
-      const validate = (combiner as unknown as {
-        validateCombinedPack: (pack: any) => { valid: boolean; errors: string[]; warnings: string[] };
-      }).validateCombinedPack.bind(combiner);
+      const validate = (
+        combiner as unknown as {
+          validateCombinedPack: (pack: any) => {
+            valid: boolean;
+            errors: string[];
+            warnings: string[];
+          };
+        }
+      ).validateCombinedPack.bind(combiner);
 
       const outcome = validate({
         manifest: {
@@ -360,12 +365,8 @@ describe('PackCombiner', () => {
     });
 
     it('should merge dependencies from all packs', () => {
-      const packA = createMockPack('pack-a', {}, '1.0.0', [
-        { name: 'dep-1', version: '1.0.0' },
-      ]);
-      const packB = createMockPack('pack-b', {}, '1.0.0', [
-        { name: 'dep-2', version: '1.0.0' },
-      ]);
+      const packA = createMockPack('pack-a', {}, '1.0.0', [{ name: 'dep-1', version: '1.0.0' }]);
+      const packB = createMockPack('pack-b', {}, '1.0.0', [{ name: 'dep-2', version: '1.0.0' }]);
 
       const result = combiner.combine([packA, packB], [packA, packB], {
         resolveDependencies: false,
@@ -395,9 +396,7 @@ describe('PackCombiner', () => {
         resolveDependencies: false,
       });
 
-      expect(result.combinedPack?.dependencies).toEqual([
-        { name: 'shared-dep', version: '1.0.0' },
-      ]);
+      expect(result.combinedPack?.dependencies).toEqual([{ name: 'shared-dep', version: '1.0.0' }]);
     });
   });
 
@@ -406,11 +405,9 @@ describe('PackCombiner', () => {
       const packA = createMockPack('pack-a', { a: 1 });
       const packB = createMockPack('pack-b', { b: 2 });
 
-      const result = combiner.combineByName(
-        ['pack-a', 'pack-b'],
-        [packA, packB],
-        { resolveDependencies: false }
-      );
+      const result = combiner.combineByName(['pack-a', 'pack-b'], [packA, packB], {
+        resolveDependencies: false,
+      });
 
       expect(result.success).toBe(true);
       expect(result.combinedPack?.template).toEqual({ a: 1, b: 2 });
@@ -429,9 +426,7 @@ describe('PackCombiner', () => {
   describe('preview()', () => {
     it('should preview combination without executing', () => {
       const packA = createMockPack('pack-a', {});
-      const packB = createMockPack('pack-b', {}, '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
+      const packB = createMockPack('pack-b', {}, '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
 
       const preview = combiner.preview([packB], [packA, packB], {
         resolveDependencies: true,
@@ -443,9 +438,7 @@ describe('PackCombiner', () => {
 
     it('should return warnings for invalid dependencies', () => {
       const packA = createMockPack('pack-a', {}, '2.0.0'); // Wrong version
-      const packB = createMockPack('pack-b', {}, '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
+      const packB = createMockPack('pack-b', {}, '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
 
       const preview = combiner.preview([packB], [packA, packB]);
 
@@ -454,12 +447,8 @@ describe('PackCombiner', () => {
     });
 
     it('should return warnings for circular dependencies', () => {
-      const packA = createMockPack('pack-a', {}, '1.0.0', [
-        { name: 'pack-b', version: '1.0.0' },
-      ]);
-      const packB = createMockPack('pack-b', {}, '1.0.0', [
-        { name: 'pack-a', version: '1.0.0' },
-      ]);
+      const packA = createMockPack('pack-a', {}, '1.0.0', [{ name: 'pack-b', version: '1.0.0' }]);
+      const packB = createMockPack('pack-b', {}, '1.0.0', [{ name: 'pack-a', version: '1.0.0' }]);
 
       const preview = combiner.preview([packA], [packA, packB]);
 
