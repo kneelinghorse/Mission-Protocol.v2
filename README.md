@@ -4,15 +4,16 @@ An AI-powered mission planning and execution system with intelligent optimizatio
 
 ## Project Status
 
-**Sprint 4 – Intelligence Platform Refinement: In Progress**
+**Sprint 4 – Intelligence Platform Refinement: Completed**
 
 - ✅ B4.1 token telemetry hardening (bootstrap preloads, health metrics, verbosity controls)
 - ✅ B4.2 quality tooling baseline (ESLint/Prettier enforcement, tool snapshots, metrics pipeline)
 - ✅ B4.3 discovery workflow packs with linked samples, smoke coverage, and registry validation
 - ✅ B4.4 workspace security guardrails with centralised allowlists and hardened path validation
 - ✅ B4.5 engineering + process workflow packs with cross-pack dependencies and smoke coverage
-- 🔄 B4.6 README & documentation refresh (current mission)
-- ⏭️ B4.7 product workflow integration queued next once docs stabilise
+- ✅ B4.6 README & documentation refresh (docs aligned with telemetry and tooling updates)
+- ✅ B4.7 product workflow integration (product workflow samples, smoke coverage, validation, docs)
+- ⏭️ B5.1 mission outcome analytics promoted to Current for Sprint 5 kickoff
 
 **Sprints 1–3 – Template Recovery → Mission Tooling Stabilisation (Completed)**
 
@@ -22,7 +23,7 @@ An AI-powered mission planning and execution system with intelligent optimizatio
 
 **Quality Snapshot**
 
-- Tests: 801/801 Jest tests passing (unit, integration, discovery + engineering smoke suites).
+- Tests: 803/803 Jest tests passing (unit, integration, discovery + engineering + product smoke suites).
 - Coverage: ~94% statements / 85% branches / 96% functions / 95% lines on latest run.
 - Metrics: `npm run metrics` writes complexity stats to `artifacts/quality-metrics/latest.json`.
 
@@ -58,6 +59,7 @@ Mission Protocol v2 provides MCP tools for autonomous mission management:
 - **[Extension Patterns Cookbook](docs/Extension_Patterns_Cookbook.md)** - Common patterns and recipes
 - **[Discovery Workflow](docs/discovery-workflow.md)** - Sprint 4 Phase 1 pack progression plus validation checks
 - **[Engineering Workflow](docs/engineering-workflow.md)** - Sprint 4 Phase 2 engineering/process packs walkthrough
+- **[Product Workflow](docs/product-workflow.md)** - Sprint 4 Phase 3 product packs with market-to-launch alignment
 - **[Domain Pack Authoring](docs/domain-pack-authoring.md)** - Guidelines for building and publishing new packs
 - **[API Naming Convention](docs/api-naming-convention.md)** - Canonical tool naming and alias policy
 
@@ -83,7 +85,7 @@ Mission Protocol v2 provides MCP tools for autonomous mission management:
    ```bash
    npm run build
    ```
-3. Execute the Jest suite (all 801 tests should pass)
+3. Execute the Jest suite (all 803 tests should pass)
    ```bash
    npm test
    ```

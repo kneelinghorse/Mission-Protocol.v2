@@ -102,18 +102,28 @@ domainFields:
           started_at: "2025-10-28T18:33:05Z"
           completed_at: "2025-10-28T18:38:25Z"
           notes: "Engineering and process domain packs now have workflow samples, smoke coverage, and validation guards."
-        - { id: "B4.6", name: "README & Documentation Refresh", status: "Current" }
-        - { id: "B4.7", name: "Domain Pack Integration - Phase 3 (Product)", status: "Queued" }
+        - id: "B4.6"
+          name: "README & Documentation Refresh"
+          status: "Completed"
+          started_at: "2025-10-28T19:02:49Z"
+          completed_at: "2025-10-28T19:06:22Z"
+          notes: "Refreshed README and quality scoring documentation to capture Sprint 4 progress and quality baselines."
+        - id: "B4.7"
+          name: "Domain Pack Integration - Phase 3 (Product)"
+          status: "Completed"
+          started_at: "2025-10-28T19:15:06Z"
+          completed_at: "2025-10-28T19:19:36Z"
+          notes: "Added product workflow samples, smoke suite, validation guardrails, and workflow documentation."
 
     - sprintId: "Sprint 5"
       title: "Process Intelligence & Knowledge"
       focus: "Build mission outcome analytics, enhance dependency intelligence, and refresh author onboarding."
-      status: "Planned"
+      status: "Current"
       missions:
-        - { id: "B5.1", name: "Mission Outcome Analytics", status: "Planned" }
-        - { id: "B5.2", name: "Dependency & Context Intelligence", status: "Planned" }
-        - { id: "B5.3", name: "Author Onboarding Refresh", status: "Planned" }
-        - { id: "B5.4", name: "Next Investment Planning", status: "Planned" }
+        - { id: "B5.1", name: "Mission Outcome Analytics", status: "Current" }
+        - { id: "B5.2", name: "Dependency & Context Intelligence", status: "Queued" }
+        - { id: "B5.3", name: "Author Onboarding Refresh", status: "Queued" }
+        - { id: "B5.4", name: "Next Investment Planning", status: "Queued" }
 
     - sprintId: "Sprint 6+"
       title: "Deferred Architectural Work"

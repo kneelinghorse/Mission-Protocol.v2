@@ -1,6 +1,6 @@
 name: "product.prd"
 version: "1.0.0"
 displayName: "Product Requirements Document"
-description: "A mission to create the single source of truth for a project, aligning all teams on what is being built and why."
+description: "Create a product requirements document aligning teams on scope and intent"
 author: "Product Management"
 schema: "schema.json"

@@ -55,6 +55,20 @@ const WORKFLOWS: WorkflowConfig[] = [
       'engineering.bug-fix': '05_bug-fix.sample.yaml',
     },
   },
+  {
+    name: 'product',
+    packs: [
+      'product.competitive-analysis',
+      'product.dashboard-blueprint',
+      'product.prd',
+    ],
+    sampleDir: path.join('examples', 'product-workflow'),
+    sampleFiles: {
+      'product.competitive-analysis': '01_competitive-analysis.sample.yaml',
+      'product.dashboard-blueprint': '02_dashboard-blueprint.sample.yaml',
+      'product.prd': '03_product-requirements.sample.yaml',
+    },
+  },
 ];
 
 async function readYaml<T>(filePath: string): Promise<T> {
