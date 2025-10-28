@@ -1,187 +1,55 @@
 # Quality Scoring System Implementation
 
-**Mission ID:** BI-20251005-004
-**Status:** ✅ COMPLETED
-**Date:** October 5, 2025
+Sprint 3 delivered the three-dimensional quality scoring engine that powers the `get_mission_quality_score` MCP tool. The implementation combines clarity, completeness, and AI-readiness analysis, surfaces actionable guidance, and maintains sub-10 ms execution for typical missions.
 
-## Overview
+## Architecture Overview
 
-Successfully implemented a comprehensive quality scoring system based on the three-dimensional framework from research mission R4.4_Mission_Quality_metrics.
+- **QualityScorer** (`src/quality/quality-scorer.ts`) orchestrates the analyzers, computes weighted scores, and enforces performance targets (default 3000 ms). It exposes `score`, `calculateMaintainabilityIndex`, and `suggestImprovements`.
+- **Clarity Analyzer** (`src/quality/analyzers/clarity-analyzer.ts`) measures lexical density, readability, ambiguity, and Mission Cyclomatic Complexity (MCC). Risk metadata drives downstream recommendations.
+- **Completeness Analyzer** (`src/quality/analyzers/completeness-analyzer.ts`) checks schema coverage, information breadth, dependency references, and evidence density.
+- **AI-Readiness Analyzer** (`src/quality/analyzers/ai-readiness-analyzer.ts`) validates YAML structure, instruction specificity, and formatting consistency; syntactic failures emit critical blocking feedback.
+- **Improvement Engine** (`src/quality/improvement-engine.ts`) maps analyzer metrics to severity-ranked suggestions using rule definitions and contextual mission data.
+- **Types & Weights** (`src/quality/types.ts`) define the scoring schema, default weights, and metric metadata that power both analyzers and reporting surfaces.
 
-## Implementation Summary
+## MCP Integration
 
-### Core Components
+- **Tool Registration** (`src/tools/score-quality.ts`) exposes the canonical `get_mission_quality_score` tool and maintains the `score_quality` alias with runtime deprecation warnings.
+- **Server Wiring** (`src/index.ts`) loads the tool definition, ensures compatibility with the TokenizerFactory, and emits telemetry for instrumentation consumers.
+- **Snapshots & Contracts** (`tests/snapshots/tool-definitions.snap`) hold regression coverage so schema changes require explicit approval.
 
-1. **QualityScorer** (`app/src/quality/quality-scorer.ts`)
-   - Main orchestrator for quality assessment
-   - Calculates unified quality score (0-1 scale)
-   - Computes Mission Maintainability Index (MMI)
-   - Performance: <3ms average per mission
+## Testing & Quality Gates
 
-2. **Three-Dimensional Analysis**
+- **Unit Tests** (`tests/quality/*.test.ts`) cover analyzers, the improvement engine, and aggregate scoring behaviour.
+- **Integration Tests** (`tests/integration/quality-scoring.test.ts`) assess end-to-end scoring against representative missions and ensure suggestion ordering remains deterministic.
+- **Static Analysis** (`npm run lint`, `npm run format:check`) enforces the Sprint 4 quality baseline; `npm run snapshots` guards MCP tool contracts.
+- **Metrics Reporting** (`npm run metrics`) records complexity insights in `artifacts/quality-metrics/latest.json`, including analyzer hot spots.
 
-   **Clarity Analyzer** (`app/src/quality/analyzers/clarity-analyzer.ts`)
-   - Flesch-Kincaid Grade Level (target: 10-12)
-   - Lexical Density (target: >50%)
-   - Lexical Ambiguity Detection
-   - Syntactic Ambiguity Detection
-   - Referential Ambiguity Detection
-   - Mission Cyclomatic Complexity (MCC)
+The Sprint 3 completion run reported 801/801 Jest tests passing with ~94 % statement coverage and <10 ms average scoring latency on medium missions.
 
-   **Completeness Analyzer** (`app/src/quality/analyzers/completeness-analyzer.ts`)
-   - Structural Completeness (schema adherence)
-   - Information Breadth (diversity of content)
-   - Information Density (detail sufficiency)
-   - Semantic Coverage (topic alignment)
-
-   **AI-Readiness Analyzer** (`app/src/quality/analyzers/ai-readiness-analyzer.ts`)
-   - Syntactic Validity (hard gate)
-   - Instruction Specificity (prompt engineering best practices)
-   - Linting Score (structural consistency)
-
-3. **Improvement Engine** (`app/src/quality/improvement-engine.ts`)
-   - Rule-based feedback generation
-   - 15+ specific rules covering all dimensions
-   - Three severity levels: critical, important, info
-   - Context-aware suggestions
-
-4. **MCP Tool** (`app/src/tools/score-quality.ts`)
-   - Registered as `get_mission_quality_score` (alias `score_quality`) MCP tool
-   - Parameters: `missionFile` (required), `verbose` (optional)
-   - Returns formatted quality report with suggestions
-
-## Scoring Algorithm
-
-```
-Total Score = (0.35 × Clarity) + (0.35 × Completeness) + (0.20 × AI-Readiness) + (0.10 × Benchmark)
-```
-
-Weights are configurable via `QualityScorerConfig`.
-
-## Success Criteria - All Met ✅
-
-- ✅ Three-dimensional quality model implemented
-- ✅ All specified metrics functional and accurate
-- ✅ Unified Quality Score calculation with configurable weights
-- ✅ Quality assessment completes in <3 seconds per mission (avg: 1-3ms)
-- ✅ The score_quality MCP tool is functional
-- ✅ Actionable improvement suggestions generated
-
-## Test Results
-
-**Unit Tests:** 15 passing
-
-- `tests/quality/quality-scorer.test.ts`: 9 tests
-- `tests/quality/clarity-analyzer.test.ts`: 6 tests
-
-**Integration Tests:** 10 passing
-
-- `tests/integration/quality-scoring.test.ts`: 10 tests
-- Tests against real mission files
-- Performance benchmarks validated
-
-**Coverage:**
-
-- Statements: 90%
-- Branches: 80%
-- Functions: 91%
-- Lines: 90%
-
-## Performance Metrics
-
-| Mission Type | Processing Time | Status                |
-| ------------ | --------------- | --------------------- |
-| Simple       | <1ms            | ✅                    |
-| Complex      | 1-3ms           | ✅                    |
-| Target       | <3000ms         | ✅ 99.9% under target |
-
-## Example Output
-
-```
-=== Mission Quality Assessment ===
-
-Overall Quality Score: 76.1% (C (Acceptable))
-
-Dimensional Scores:
-  Clarity:      77.1%
-  Completeness: 88.9%
-  AI-Readiness: 90.0%
-
-Processing Time: 3ms
-
-Improvement Suggestions:
-
-  IMPORTANT:
-    1. Mission contains pronouns with unclear antecedents (Score: 0%).
-       Replace ambiguous pronouns (it, they, this) with specific nouns for clarity.
-
-  INFO:
-    1. Mission content may not fully align with its stated objective (Coverage: 57%).
-       Ensure all relevant topics are addressed.
-```
-
-## Usage
+## Usage Example
 
 ```typescript
-import { QualityScorer } from './quality/quality-scorer';
+import { QualityScorer } from '../src/quality/quality-scorer';
 
 const scorer = new QualityScorer();
-const score = await scorer.score(missionContent, 'MISSION-ID');
+const report = await scorer.score(missionContent, 'B4.6');
 
-console.log(`Quality Score: ${(score.total * 100).toFixed(1)}%`);
-console.log(`Suggestions: ${score.suggestions.length}`);
-```
-
-Via MCP Tool:
-
-```json
-{
-  "missionFile": "/path/to/mission.yaml",
-  "verbose": true
+console.log(`Quality: ${(report.total * 100).toFixed(1)}%`);
+for (const suggestion of report.suggestions) {
+  console.log(`${suggestion.severity.toUpperCase()}: ${suggestion.message}`);
 }
 ```
 
-## Files Created/Modified
-
-**New Files:**
-
-- `app/src/quality/types.ts`
-- `app/src/quality/quality-scorer.ts`
-- `app/src/quality/improvement-engine.ts`
-- `app/src/quality/analyzers/clarity-analyzer.ts`
-- `app/src/quality/analyzers/completeness-analyzer.ts`
-- `app/src/quality/analyzers/ai-readiness-analyzer.ts`
-- `app/src/tools/score-quality.ts`
-- `app/tests/quality/quality-scorer.test.ts`
-- `app/tests/quality/clarity-analyzer.test.ts`
-- `app/tests/integration/quality-scoring.test.ts`
-
-**Modified Files:**
-
-- `app/src/index.ts` - Registered score_quality tool
+MCP clients call the tool through `get_mission_quality_score` (or legacy `score_quality`) with a `missionFile` argument; verbose mode returns dimensional metrics, maintainability index, and suggestion payloads.
 
 ## Known Limitations
 
-1. **Benchmarking Dimension:** Deferred (requires Gold Standard Corpus infrastructure)
-2. **Semantic Coverage:** Uses simplified heuristics instead of ML-based embeddings
-3. **Ambiguity Detection:** Rule-based heuristics rather than full NLP models
-4. **Language Support:** English only
+- Benchmark dimension remains stubbed until the gold-standard corpus lands (tracked for Sprint 5).
+- Ambiguity detection relies on heuristics; ML-assisted refinement is deferred.
+- English language focus; localisation hooks exist but lack backed data.
 
 ## Future Enhancements
 
-1. Implement Gold Standard Corpus (GSC) for benchmarking
-2. Add ML-based semantic similarity using embeddings
-3. Enhance ambiguity detection with NLP models (spaCy, Stanford CoreNLP)
-4. Support for multiple languages
-5. Real-time quality monitoring during mission execution
-6. Auto-fix suggestions (beyond advisory)
-
-## References
-
-- Research Mission: R4.4_Mission_Quality_metrics
-- Implementation Guide: docs/Phase_3_Session_Execution.md
-- Test Coverage: tests/quality/ and tests/integration/quality-scoring.test.ts
-
----
-
-**Next Mission:** B4.5_phase4-integration-documentation
+- Integrate benchmark datasets once R5 missions complete the corpus.
+- Expand suggestion library with auto-fix primitives for common clarity issues.
+- Surface trend analytics by persisting recent scores for each mission.

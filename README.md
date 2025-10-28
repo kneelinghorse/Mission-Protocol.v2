@@ -4,13 +4,27 @@ An AI-powered mission planning and execution system with intelligent optimizatio
 
 ## Project Status
 
-**Sprint 1 - Template Recovery: In Progress** ✅
+**Sprint 4 – Intelligence Platform Refinement: In Progress**
 
-- **Tests**: 742/742 passing with 94%+ overall coverage (statements: 94.29%, branches: 85.09%, functions: 95.86%, lines: 94.51%). Phase 2 integration tests fully operational.
-- **Runtime assets**: Templates successfully restored with `registry.yaml`, `generic_mission.yaml`, and 5 domain packs. Mission authoring flows are operational.
-- **MCP surface**: Phase 4 tools (`optimize_tokens`, `split_mission`, `suggest_splits`) are registered with the MCP server and covered by smoke tests, returning structured token usage telemetry.
-- **Token intelligence**: Hybrid asynchronous token counting (GPT tokenizer, Claude tokenizer via Transformers.js, Gemini heuristic) powers tool responses; Gemini paths emit warnings when heuristic estimations are used.
-- **Documentation**: README, Phase 4 report, and backlog updated (B1.3) to reflect the restored template store and green integration tests.
+- ✅ B4.1 token telemetry hardening (bootstrap preloads, health metrics, verbosity controls)
+- ✅ B4.2 quality tooling baseline (ESLint/Prettier enforcement, tool snapshots, metrics pipeline)
+- ✅ B4.3 discovery workflow packs with linked samples, smoke coverage, and registry validation
+- ✅ B4.4 workspace security guardrails with centralised allowlists and hardened path validation
+- ✅ B4.5 engineering + process workflow packs with cross-pack dependencies and smoke coverage
+- 🔄 B4.6 README & documentation refresh (current mission)
+- ⏭️ B4.7 product workflow integration queued next once docs stabilise
+
+**Sprints 1–3 – Template Recovery → Mission Tooling Stabilisation (Completed)**
+
+- Restored canonical templates and registry, re-enabled Phase 2 integration suites, refreshed baseline docs.
+- Delivered hybrid offline token counting, MCP registration for intelligence tools, and telemetry validation pipeline.
+- Hardened write-enabled tools, restored optimise/split contracts, and aligned dependency analyser + migration tests.
+
+**Quality Snapshot**
+
+- Tests: 801/801 Jest tests passing (unit, integration, discovery + engineering smoke suites).
+- Coverage: ~94% statements / 85% branches / 96% functions / 95% lines on latest run.
+- Metrics: `npm run metrics` writes complexity stats to `artifacts/quality-metrics/latest.json`.
 
 ## Quick Start
 
@@ -42,6 +56,10 @@ Mission Protocol v2 provides MCP tools for autonomous mission management:
 - **[Intelligence Layer Guide](docs/Intelligence_Layer_Guide.md)** - Phase 4 tools with workflows and examples
 - **[Extension System Guide](docs/Extension_System_Guide.md)** - Phase 3 template management
 - **[Extension Patterns Cookbook](docs/Extension_Patterns_Cookbook.md)** - Common patterns and recipes
+- **[Discovery Workflow](docs/discovery-workflow.md)** - Sprint 4 Phase 1 pack progression plus validation checks
+- **[Engineering Workflow](docs/engineering-workflow.md)** - Sprint 4 Phase 2 engineering/process packs walkthrough
+- **[Domain Pack Authoring](docs/domain-pack-authoring.md)** - Guidelines for building and publishing new packs
+- **[API Naming Convention](docs/api-naming-convention.md)** - Canonical tool naming and alias policy
 
 ### API References
 
@@ -65,7 +83,7 @@ Mission Protocol v2 provides MCP tools for autonomous mission management:
    ```bash
    npm run build
    ```
-3. Execute the Jest suite (all 742 tests should pass)
+3. Execute the Jest suite (all 801 tests should pass)
    ```bash
    npm test
    ```
