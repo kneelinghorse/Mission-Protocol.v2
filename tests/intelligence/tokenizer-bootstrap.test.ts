@@ -53,6 +53,10 @@ describe('tokenizer-bootstrap', () => {
 
     bootstrap = await import('../../src/intelligence/tokenizer-bootstrap');
     bootstrap.__test__.reset();
+    bootstrap.__test__.setModuleLoaders({
+      gpt: async () => jest.requireMock('gpt-tokenizer'),
+      claude: async () => jest.requireMock('@xenova/transformers'),
+    });
   });
 
   it('preloads tokenizers and reports ready status', async () => {
@@ -77,6 +81,40 @@ describe('tokenizer-bootstrap', () => {
     expect(health.models.gpt.ready).toBe(false);
   });
 
+  it('allows selectively overriding module loaders', async () => {
+    const gptEncode = jest.fn(() => [0, 1, 2]);
+    bootstrap.__test__.reset();
+    bootstrap.__test__.setModuleLoaders({
+      gpt: async () => ({ encode: gptEncode }),
+    });
+
+    await bootstrap.ensureTokenizersReady();
+    let state = bootstrap.__test__.getState();
+    expect(state.gptLoaded).toBe(true);
+    const tokenizerFn = jest.fn(async () => ({
+      input_ids: { data: { length: 4 } },
+    }));
+    const fromPretrained = jest.fn(async () => tokenizerFn);
+
+    bootstrap.__test__.setModuleLoaders({
+      claude: async () => ({
+        AutoTokenizer: {
+          from_pretrained: fromPretrained,
+        },
+      }),
+    });
+
+    await bootstrap.ensureTokenizersReady();
+    state = bootstrap.__test__.getState();
+    expect(state.claudeLoaded).toBe(true);
+    expect(fromPretrained).toHaveBeenCalledTimes(1);
+
+    bootstrap.__test__.setModuleLoaders({ gpt: null, claude: null });
+    state = bootstrap.__test__.getState();
+    expect(state.gptLoaded).toBe(false);
+    expect(state.claudeLoaded).toBe(false);
+  });
+
   it('captures failure metadata when preload fails', async () => {
     const originalEncode = gptTokenizerMock.encode;
     const originalLoader = transformersMock.AutoTokenizer.from_pretrained;
@@ -98,6 +136,51 @@ describe('tokenizer-bootstrap', () => {
       gptTokenizerMock.encode = originalEncode;
       transformersMock.AutoTokenizer.from_pretrained = originalLoader;
       bootstrap.__test__.reset();
+      bootstrap.__test__.setModuleLoaders({
+        gpt: async () => jest.requireMock('gpt-tokenizer'),
+        claude: async () => jest.requireMock('@xenova/transformers'),
+      });
     }
+  });
+
+  it('handles missing AutoTokenizer in override', async () => {
+    bootstrap.__test__.reset();
+    bootstrap.__test__.setModuleLoaders({
+      claude: async () => ({}),
+    });
+
+    await bootstrap.ensureTokenizersReady();
+    const health = bootstrap.getTokenizerHealth();
+    expect(health.models.claude.ready).toBe(false);
+    expect(health.models.claude.lastError).toContain('AutoTokenizer');
+  });
+
+  it('reuses cached encoders on subsequent calls', async () => {
+    const gptEncode = jest.fn(() => [1, 2, 3]);
+    const tokenizerFn = jest.fn(async () => ({
+      input_ids: { data: { length: 4 } },
+    }));
+    const fromPretrained = jest.fn(async () => tokenizerFn);
+
+    bootstrap.__test__.reset();
+    bootstrap.__test__.setModuleLoaders({
+      gpt: async () => ({ encode: gptEncode }),
+      claude: async () => ({
+        AutoTokenizer: {
+          from_pretrained: fromPretrained,
+        },
+      }),
+    });
+
+    await bootstrap.ensureTokenizersReady();
+    const firstHealth = bootstrap.getTokenizerHealth();
+    await bootstrap.ensureTokenizersReady();
+    const secondHealth = bootstrap.getTokenizerHealth();
+
+    expect(firstHealth.models.gpt.attempts).toBe(1);
+    expect(secondHealth.models.gpt.attempts).toBe(1);
+    expect(secondHealth.models.claude.attempts).toBe(1);
+    expect(gptEncode).not.toHaveBeenCalled();
+    expect(fromPretrained).toHaveBeenCalledTimes(1);
   });
 });

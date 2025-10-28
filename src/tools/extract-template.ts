@@ -75,6 +75,7 @@ export async function extractTemplate(params: ExtractTemplateParams): Promise<Ex
       const outputDir =
         validated.outputDir ??
         (await resolveWorkspacePath('templates', { allowRelative: true }));
+      await ensureDir(outputDir);
       const templateDir = await resolveWorkspacePath(validated.templateName, {
         allowRelative: true,
         baseDir: outputDir,

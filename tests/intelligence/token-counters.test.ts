@@ -166,9 +166,10 @@ describe('TokenCounter internals', () => {
 });
 
 describe('TokenCounter (Claude tokenizer integration)', () => {
-  afterEach(() => {
+  afterEach(async () => {
     jest.resetModules();
-    jest.dontMock('@xenova/transformers');
+    const bootstrap = await import('../../src/intelligence/tokenizer-bootstrap');
+    bootstrap.__test__.reset();
   });
 
   test('loads Claude tokenizer lazily and caches the instance', async () => {
@@ -178,12 +179,15 @@ describe('TokenCounter (Claude tokenizer integration)', () => {
     const fromPretrained = jest.fn(async () => tokenizerFn);
 
     jest.resetModules();
-    jest.doMock('@xenova/transformers', () => ({
-      __esModule: true,
-      AutoTokenizer: {
-        from_pretrained: fromPretrained,
-      },
-    }));
+    const bootstrap = await import('../../src/intelligence/tokenizer-bootstrap');
+    bootstrap.__test__.reset();
+    bootstrap.__test__.setModuleLoaders({
+      claude: async () => ({
+        AutoTokenizer: {
+          from_pretrained: fromPretrained,
+        },
+      }),
+    });
 
     const { TokenCounter: FreshCounter } = await import('../../src/intelligence/token-counters');
     const counter = new FreshCounter();

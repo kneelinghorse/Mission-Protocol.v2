@@ -41,6 +41,17 @@ let claudeTokenizer: ClaudeTokenizer | null = null;
 let gptLoadPromise: Promise<GPTEncodeFn | null> | null = null;
 let claudeLoadPromise: Promise<ClaudeTokenizer | null> | null = null;
 
+type GPTModule = { encode?: unknown };
+type ClaudeModule = {
+  AutoTokenizer?: { from_pretrained?: (...args: unknown[]) => unknown };
+  default?: { AutoTokenizer?: { from_pretrained?: (...args: unknown[]) => unknown } };
+};
+
+type ModuleLoader<T> = () => Promise<T>;
+
+let gptModuleLoader: ModuleLoader<GPTModule> | null = null;
+let claudeModuleLoader: ModuleLoader<ClaudeModule> | null = null;
+
 function nowIso(): string {
   return new Date().toISOString();
 }
@@ -69,7 +80,9 @@ async function loadGPTEncoder(): Promise<GPTEncodeFn | null> {
     gptLoadPromise = (async () => {
       tokenizerStatus.gpt.attempts += 1;
       try {
-        const module = await import('gpt-tokenizer');
+        const module = await (gptModuleLoader
+          ? gptModuleLoader()
+          : (import('gpt-tokenizer') as Promise<GPTModule>));
         const encode = (module as { encode?: unknown }).encode;
         if (typeof encode !== 'function') {
           throw new Error('gpt-tokenizer encode export missing');
@@ -117,15 +130,11 @@ async function loadClaudeTokenizer(): Promise<ClaudeTokenizer | null> {
     claudeLoadPromise = (async () => {
       tokenizerStatus.claude.attempts += 1;
       try {
-        const module = await import('@xenova/transformers');
+        const module = await (claudeModuleLoader
+          ? claudeModuleLoader()
+          : (import('@xenova/transformers') as Promise<ClaudeModule>));
         const autoTokenizer =
-          (module as { AutoTokenizer?: { from_pretrained?: (...args: unknown[]) => unknown } })
-            .AutoTokenizer ??
-          (
-            module as {
-              default?: { AutoTokenizer?: { from_pretrained?: (...args: unknown[]) => unknown } };
-            }
-          ).default?.AutoTokenizer;
+          module.AutoTokenizer ?? module.default?.AutoTokenizer;
 
         if (!autoTokenizer || typeof autoTokenizer.from_pretrained !== 'function') {
           throw new Error('AutoTokenizer.from_pretrained is not available');
@@ -217,6 +226,23 @@ export const __test__ = {
     claudeTokenizer = null;
     gptLoadPromise = null;
     claudeLoadPromise = null;
+    gptModuleLoader = null;
+    claudeModuleLoader = null;
+  },
+  setModuleLoaders(loaders: {
+    gpt?: ModuleLoader<GPTModule> | null;
+    claude?: ModuleLoader<ClaudeModule> | null;
+  }): void {
+    if (typeof loaders.gpt !== 'undefined') {
+      gptModuleLoader = loaders.gpt;
+      gptEncoder = null;
+      gptLoadPromise = null;
+    }
+    if (typeof loaders.claude !== 'undefined') {
+      claudeModuleLoader = loaders.claude;
+      claudeTokenizer = null;
+      claudeLoadPromise = null;
+    }
   },
   getState(): {
     gptLoaded: boolean;
