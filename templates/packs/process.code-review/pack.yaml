@@ -1,6 +1,6 @@
 name: "process.code-review"
 version: "1.0.0"
 displayName: "Code Review Checklist"
-description: "A mission to conduct a thorough and consistent code review, ensuring all critical aspects of quality are covered."
+description: "Run a structured code review ensuring critical quality dimensions are covered"
 author: "Engineering"
 schema: "schema.json"

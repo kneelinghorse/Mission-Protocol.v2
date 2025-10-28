@@ -96,8 +96,13 @@ domainFields:
           started_at: "2025-10-28T18:12:19Z"
           completed_at: "2025-10-28T18:22:37Z"
           notes: "Centralized workspace allowlist and hardened tool path validation with new security coverage."
-        - { id: "B4.5", name: "Domain Pack Integration - Phase 2 (Engineering)", status: "Current" }
-        - { id: "B4.6", name: "README & Documentation Refresh", status: "Queued" }
+        - id: "B4.5"
+          name: "Domain Pack Integration - Phase 2 (Engineering)"
+          status: "Completed"
+          started_at: "2025-10-28T18:33:05Z"
+          completed_at: "2025-10-28T18:38:25Z"
+          notes: "Engineering and process domain packs now have workflow samples, smoke coverage, and validation guards."
+        - { id: "B4.6", name: "README & Documentation Refresh", status: "Current" }
         - { id: "B4.7", name: "Domain Pack Integration - Phase 3 (Product)", status: "Queued" }
 
     - sprintId: "Sprint 5"

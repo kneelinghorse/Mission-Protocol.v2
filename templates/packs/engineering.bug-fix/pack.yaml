@@ -1,6 +1,6 @@
 name: "engineering.bug-fix"
 version: "1.0.0"
 displayName: "Bug Fix Documentation"
-description: "A mission to document a bug fix, detailing the root cause and the corrective and preventive actions taken."
+description: "Capture the lifecycle of a bug fix including root cause and preventative measures"
 author: "Engineering"
 schema: "schema.json"
