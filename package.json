@@ -15,6 +15,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "metrics": "node scripts/collect-quality-metrics.js",
+    "outcomes": "npx ts-node scripts/collect-mission-outcomes.ts",
     "snapshots": "jest --runTestsByPath tests/tools/tool-definitions.test.ts --coverage=false",
     "validate:packs": "npx ts-node scripts/validate-packs.ts",
     "test": "jest",

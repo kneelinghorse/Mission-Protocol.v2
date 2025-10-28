@@ -1,0 +1,858 @@
+{
+  "generatedAt": "2025-10-28T20:01:41.295Z",
+  "totals": {
+    "missions": 26,
+    "completed": 19,
+    "inProgress": 0,
+    "current": 1,
+    "queued": 2,
+    "blocked": 0,
+    "deferred": 4,
+    "active": 1
+  },
+  "cycleTimeMinutes": {
+    "sampleSize": 18,
+    "average": 24.42,
+    "median": 5.71,
+    "p90": 19,
+    "fastest": 1.82,
+    "slowest": 309.57
+  },
+  "throughput": {
+    "windowDays": 14,
+    "completed": 16,
+    "perDay": 1.14
+  },
+  "sprints": [
+    {
+      "sprintId": "Sprint 1",
+      "title": "Template Recovery",
+      "status": "Completed",
+      "totals": {
+        "missions": 3,
+        "completed": 3,
+        "inProgress": 0,
+        "current": 0,
+        "queued": 0,
+        "blocked": 0,
+        "deferred": 0,
+        "active": 0
+      },
+      "progressRatio": 1,
+      "missionIds": [
+        "B1.1",
+        "B1.2",
+        "B1.3"
+      ],
+      "firstStartedAt": "2025-10-24T16:19:54.600Z",
+      "lastCompletedAt": "2025-10-24T22:45:00.000Z"
+    },
+    {
+      "sprintId": "Sprint 2",
+      "title": "MCP Surface Hardening",
+      "status": "Completed",
+      "totals": {
+        "missions": 4,
+        "completed": 4,
+        "inProgress": 0,
+        "current": 0,
+        "queued": 0,
+        "blocked": 0,
+        "deferred": 0,
+        "active": 0
+      },
+      "progressRatio": 1,
+      "missionIds": [
+        "R2.1",
+        "B2.1",
+        "B2.2",
+        "B2.3"
+      ],
+      "firstStartedAt": "2025-10-24T20:35:23.000Z",
+      "lastCompletedAt": "2025-10-25T10:15:00.000Z"
+    },
+    {
+      "sprintId": "Sprint 3",
+      "title": "Mission Tooling Stabilization",
+      "status": "Completed",
+      "totals": {
+        "missions": 4,
+        "completed": 4,
+        "inProgress": 0,
+        "current": 0,
+        "queued": 0,
+        "blocked": 0,
+        "deferred": 0,
+        "active": 0
+      },
+      "progressRatio": 1,
+      "missionIds": [
+        "B3.1",
+        "B3.2",
+        "B3.3",
+        "B3.4"
+      ],
+      "firstStartedAt": "2025-10-27T23:23:36.000Z",
+      "lastCompletedAt": "2025-10-28T00:15:24.000Z"
+    },
+    {
+      "sprintId": "Sprint 4",
+      "title": "Intelligence Platform Refinement",
+      "status": "Current",
+      "totals": {
+        "missions": 7,
+        "completed": 7,
+        "inProgress": 0,
+        "current": 0,
+        "queued": 0,
+        "blocked": 0,
+        "deferred": 0,
+        "active": 0
+      },
+      "progressRatio": 1,
+      "missionIds": [
+        "B4.1",
+        "B4.2",
+        "B4.3",
+        "B4.4",
+        "B4.5",
+        "B4.6",
+        "B4.7"
+      ],
+      "firstStartedAt": "2025-10-28T15:59:42.000Z",
+      "lastCompletedAt": "2025-10-28T19:19:36.000Z"
+    },
+    {
+      "sprintId": "Sprint 5",
+      "title": "Process Intelligence & Knowledge",
+      "status": "Current",
+      "totals": {
+        "missions": 4,
+        "completed": 1,
+        "inProgress": 0,
+        "current": 1,
+        "queued": 2,
+        "blocked": 0,
+        "deferred": 0,
+        "active": 1
+      },
+      "progressRatio": 0.25,
+      "missionIds": [
+        "B5.1",
+        "B5.2",
+        "B5.3",
+        "B5.4"
+      ],
+      "firstStartedAt": "2025-10-28T19:49:21.000Z",
+      "lastCompletedAt": "2025-10-28T19:57:50.000Z"
+    },
+    {
+      "sprintId": "Sprint 6+",
+      "title": "Deferred Architectural Work",
+      "status": "Deferred",
+      "totals": {
+        "missions": 4,
+        "completed": 0,
+        "inProgress": 0,
+        "current": 0,
+        "queued": 0,
+        "blocked": 0,
+        "deferred": 4,
+        "active": 0
+      },
+      "progressRatio": 0,
+      "missionIds": [
+        "D6.1",
+        "D6.2",
+        "D6.3",
+        "D6.4"
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "B1.1",
+      "name": "Restore Template Runtime Store",
+      "sprintId": "Sprint 1",
+      "sprintTitle": "Template Recovery",
+      "sprintStatus": "Completed",
+      "status": "Completed",
+      "startedAt": "2025-10-24T16:19:54.600Z",
+      "completedAt": "2025-10-24T16:23:22.000Z",
+      "cycleTimeMinutes": 3.46,
+      "backlogNotes": "Restored templates/ with registry.yaml, generic_mission.yaml, and 5 domain packs; all tests passing",
+      "agentsInvolved": [
+        "claude-sonnet-4.5"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-24T16:23:22.000Z",
+        "mission": "B1.1",
+        "action": "complete",
+        "status": "completed",
+        "agent": "claude-sonnet-4.5",
+        "summary": "Restored template runtime store with registry.yaml, generic_mission.yaml, and 5 domain packs (foundation, software.technical-task, business.market-research, build.implementation, build.technical-research). All templates validate and smoke tests pass."
+      }
+    },
+    {
+      "id": "B1.2",
+      "name": "Reinstate Phase 2 Tests & Smoke Coverage",
+      "sprintId": "Sprint 1",
+      "sprintTitle": "Template Recovery",
+      "sprintStatus": "Completed",
+      "status": "Completed",
+      "startedAt": "2025-10-24T17:35:26.000Z",
+      "completedAt": "2025-10-24T22:45:00.000Z",
+      "cycleTimeMinutes": 309.57,
+      "backlogNotes": "Phase 2 integration tests fully operational; 742 tests passing with 94%+ overall coverage",
+      "agentsInvolved": [
+        "claude-sonnet-4.5"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-24T17:36:16.000Z",
+        "mission": "B1.2",
+        "action": "complete",
+        "status": "completed",
+        "agent": "claude-sonnet-4.5",
+        "summary": "Phase 2 integration tests fully reinstated and operational. All 16 Phase 2 tests passing. Full suite: 742 tests with 94%+ coverage (statements: 94.29%, branches: 85.09%, functions: 95.86%, lines: 94.51%)."
+      }
+    },
+    {
+      "id": "B1.3",
+      "name": "Refresh Docs, Backlog, and Context",
+      "sprintId": "Sprint 1",
+      "sprintTitle": "Template Recovery",
+      "sprintStatus": "Completed",
+      "status": "Completed",
+      "startedAt": "2025-10-24T17:54:36.000Z",
+      "completedAt": "2025-10-24T17:56:25.000Z",
+      "cycleTimeMinutes": 1.82,
+      "backlogNotes": "Refreshed README, Phase 4 report, roadmap, backlog, and master context (JSON + MD) with the restored template baseline and green Phase 2 tests",
+      "agentsInvolved": [
+        "claude-sonnet-4.5"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-24T17:56:25.000Z",
+        "mission": "B1.3",
+        "action": "complete",
+        "status": "completed",
+        "agent": "claude-sonnet-4.5",
+        "summary": "Documentation refresh completed: updated README.md, MASTER_CONTEXT.md, and CURRENT_BUILD.md to reflect Sprint 1 progress. All three missions (B1.1, B1.2, B1.3) completed successfully. 742/742 tests passing with 94%+ coverage."
+      }
+    },
+    {
+      "id": "R2.1",
+      "name": "Token Counting Strategy Analysis",
+      "sprintId": "Sprint 2",
+      "sprintTitle": "MCP Surface Hardening",
+      "sprintStatus": "Completed",
+      "status": "Completed",
+      "completedAt": "2025-10-25T10:15:00.000Z",
+      "backlogNotes": "Research recommended a hybrid tokenizer approach plus drift monitoring.",
+      "agentsInvolved": [],
+      "eventCounts": {
+        "starts": 0,
+        "completes": 0,
+        "blocks": 0
+      }
+    },
+    {
+      "id": "B2.1",
+      "name": "Hybrid Token Counter Integration",
+      "sprintId": "Sprint 2",
+      "sprintTitle": "MCP Surface Hardening",
+      "sprintStatus": "Completed",
+      "status": "Completed",
+      "startedAt": "2025-10-24T20:35:23.000Z",
+      "completedAt": "2025-10-24T20:38:37.000Z",
+      "cycleTimeMinutes": 3.23,
+      "backlogNotes": "Implemented TokenizerFactory with gpt-tokenizer (GPT), Transformers.js (Claude), enhanced heuristic (Gemini); 745/745 tests passing",
+      "agentsInvolved": [
+        "claude-sonnet-4.5"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-24T20:38:37.000Z",
+        "mission": "B2.1",
+        "action": "complete",
+        "status": "completed",
+        "agent": "claude-sonnet-4.5",
+        "summary": "Hybrid token counter integration complete: implemented TokenizerFactory with gpt-tokenizer (100% accurate GPT), Transformers.js (Claude w/ known drift), and enhanced 1.5x heuristic (Gemini). Fully offline, no API keys required. 745/745 tests passing."
+      }
+    },
+    {
+      "id": "B2.2",
+      "name": "Register Intelligence Tools in MCP Server",
+      "sprintId": "Sprint 2",
+      "sprintTitle": "MCP Surface Hardening",
+      "sprintStatus": "Completed",
+      "status": "Completed",
+      "startedAt": "2025-10-24T22:05:21.000Z",
+      "completedAt": "2025-10-24T22:07:35.000Z",
+      "cycleTimeMinutes": 2.23,
+      "backlogNotes": "Registered optimize_tokens, split_mission, and suggest_splits tools in MCP server with async token counting; 750/750 tests passing",
+      "agentsInvolved": [
+        "claude-sonnet-4.5"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-24T22:07:35.000Z",
+        "mission": "B2.2",
+        "action": "complete",
+        "status": "completed",
+        "agent": "claude-sonnet-4.5",
+        "summary": "Registered optimize_tokens, split_mission, and suggest_splits tools in MCP server with async token counting. All three intelligence tools exposed via MCP with proper handlers and tool definitions. 750/750 tests passing."
+      }
+    },
+    {
+      "id": "B2.3",
+      "name": "Token Validation & Telemetry Pipeline",
+      "sprintId": "Sprint 2",
+      "sprintTitle": "MCP Surface Hardening",
+      "sprintStatus": "Completed",
+      "status": "Completed",
+      "startedAt": "2025-10-25T00:28:59.000Z",
+      "completedAt": "2025-10-25T00:33:21.000Z",
+      "cycleTimeMinutes": 4.37,
+      "backlogNotes": "Telemetry instrumentation + CI validation workflow operational; 801/801 tests passing; README and docs updated with accuracy expectations",
+      "agentsInvolved": [
+        "claude-sonnet-4.5"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-25T00:33:21.000Z",
+        "mission": "B2.3",
+        "action": "complete",
+        "status": "completed",
+        "agent": "claude-sonnet-4.5",
+        "summary": "Token validation and telemetry pipeline complete: added telemetry instrumentation to token-counters.ts (Claude/Gemini warnings), created validation script (scripts/validate-token-counts.ts), GitHub Actions workflow for weekly validation, comprehensive tests (801/801 passing), and updated README + Phase 4 docs with accuracy expectations. Sprint 2 complete."
+      }
+    },
+    {
+      "id": "B3.1",
+      "name": "Secure Write-Enabled Tools",
+      "sprintId": "Sprint 3",
+      "sprintTitle": "Mission Tooling Stabilization",
+      "sprintStatus": "Completed",
+      "status": "Completed",
+      "startedAt": "2025-10-27T23:23:36.000Z",
+      "completedAt": "2025-10-27T23:36:52.000Z",
+      "cycleTimeMinutes": 13.27,
+      "backlogNotes": "Hardened update_token_optimization and split_mission with workspace path guards and atomic writes.",
+      "agentsInvolved": [
+        "gpt-5-codex"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-27T23:36:52.000Z",
+        "mission": "B3.1",
+        "action": "complete",
+        "status": "completed",
+        "agent": "gpt-5-codex",
+        "summary": "Secured write-enabled MCP tools with workspace path guards plus atomic mission writes."
+      }
+    },
+    {
+      "id": "B3.2",
+      "name": "Restore Optimize Tokens Tool Contract",
+      "sprintId": "Sprint 3",
+      "sprintTitle": "Mission Tooling Stabilization",
+      "sprintStatus": "Completed",
+      "status": "Completed",
+      "startedAt": "2025-10-27T23:44:38.964Z",
+      "completedAt": "2025-10-27T23:48:31.000Z",
+      "cycleTimeMinutes": 3.87,
+      "backlogNotes": "Restored optimize_tokens contract alias and added snapshot guardrails for tool definitions.",
+      "agentsInvolved": [
+        "gpt-5-codex"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-27T23:49:49.338Z",
+        "mission": "B3.2",
+        "action": "complete",
+        "status": "completed",
+        "agent": "gpt-5-codex",
+        "summary": "Completed B3.2: restored optimize_tokens alias export and added tool definition snapshot guardrails."
+      }
+    },
+    {
+      "id": "B3.3",
+      "name": "Type SecureYAML & Security Validator Tests",
+      "sprintId": "Sprint 3",
+      "sprintTitle": "Mission Tooling Stabilization",
+      "sprintStatus": "Completed",
+      "status": "Completed",
+      "startedAt": "2025-10-27T23:59:08.000Z",
+      "completedAt": "2025-10-28T00:06:12.000Z",
+      "cycleTimeMinutes": 7.07,
+      "backlogNotes": "Restored loader and validator test suites with typed fixtures and guard helpers.",
+      "agentsInvolved": [
+        "gpt-5-codex"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-28T00:06:12.000Z",
+        "mission": "B3.3",
+        "action": "complete",
+        "status": "completed",
+        "agent": "gpt-5-codex",
+        "summary": "Completed B3.3: typed SecureYAML loader fixtures and guarded security validator tests."
+      }
+    },
+    {
+      "id": "B3.4",
+      "name": "Align Dependency Analyzer & Migration Tests",
+      "sprintId": "Sprint 3",
+      "sprintTitle": "Mission Tooling Stabilization",
+      "sprintStatus": "Completed",
+      "status": "Completed",
+      "startedAt": "2025-10-28T00:08:16.000Z",
+      "completedAt": "2025-10-28T00:15:24.000Z",
+      "cycleTimeMinutes": 7.13,
+      "backlogNotes": "Aligned migration result typing with dependency analyzer flows and restored versioning tests green.",
+      "agentsInvolved": [
+        "gpt-5-codex"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-28T00:15:24.000Z",
+        "mission": "B3.4",
+        "action": "complete",
+        "status": "completed",
+        "agent": "gpt-5-codex",
+        "summary": "Refined migration result typing and aligned dependency analyzer workflows; full test suite green."
+      }
+    },
+    {
+      "id": "B4.1",
+      "name": "Token Telemetry Hardening",
+      "sprintId": "Sprint 4",
+      "sprintTitle": "Intelligence Platform Refinement",
+      "sprintStatus": "Current",
+      "status": "Completed",
+      "startedAt": "2025-10-28T15:59:42.000Z",
+      "completedAt": "2025-10-28T16:32:05.000Z",
+      "cycleTimeMinutes": 32.38,
+      "backlogNotes": "Token telemetry preloads, verbosity controls, and health metrics implemented with tests updated.",
+      "agentsInvolved": [
+        "gpt-5-codex"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-28T16:32:05.000Z",
+        "mission": "B4.1",
+        "action": "complete",
+        "status": "completed",
+        "agent": "gpt-5-codex",
+        "summary": "Completed B4.1: added tokenizer preload bootstrap, telemetry level controls, health metrics, and test coverage."
+      }
+    },
+    {
+      "id": "B4.2",
+      "name": "Quality Tooling + Tool Snapshots",
+      "sprintId": "Sprint 4",
+      "sprintTitle": "Intelligence Platform Refinement",
+      "sprintStatus": "Current",
+      "status": "Completed",
+      "startedAt": "2025-10-28T17:07:59.000Z",
+      "completedAt": "2025-10-28T17:20:49.000Z",
+      "cycleTimeMinutes": 12.83,
+      "backlogNotes": "Established linting/formatting baseline, tool definition snapshots, and automated quality metrics.",
+      "agentsInvolved": [
+        "gpt-5-codex"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-28T17:20:49.000Z",
+        "mission": "B4.2",
+        "action": "complete",
+        "status": "completed",
+        "agent": "gpt-5-codex",
+        "summary": "Completed B4.2: added ESLint/Prettier baseline, quality metrics script, and tool definition snapshots wired into CI."
+      }
+    },
+    {
+      "id": "B4.3",
+      "name": "Domain Pack Integration - Phase 1 (Discovery)",
+      "sprintId": "Sprint 4",
+      "sprintTitle": "Intelligence Platform Refinement",
+      "sprintStatus": "Current",
+      "status": "Completed",
+      "startedAt": "2025-10-28T17:54:59.000Z",
+      "completedAt": "2025-10-28T18:01:05.000Z",
+      "cycleTimeMinutes": 6.1,
+      "backlogNotes": "Integrated discovery domain packs with workflow samples, smoke tests, and registry validation.",
+      "agentsInvolved": [
+        "gpt-5-codex"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-28T18:01:05.000Z",
+        "mission": "B4.3",
+        "action": "complete",
+        "status": "completed",
+        "agent": "gpt-5-codex",
+        "summary": "Domain pack discovery integration delivered: samples, smoke tests, validation script."
+      }
+    },
+    {
+      "id": "B4.4",
+      "name": "Security Hardening - Workspace Validation",
+      "sprintId": "Sprint 4",
+      "sprintTitle": "Intelligence Platform Refinement",
+      "sprintStatus": "Current",
+      "status": "Completed",
+      "startedAt": "2025-10-28T18:12:19.000Z",
+      "completedAt": "2025-10-28T18:22:37.000Z",
+      "cycleTimeMinutes": 10.3,
+      "backlogNotes": "Centralized workspace allowlist and hardened tool path validation with new security coverage.",
+      "agentsInvolved": [],
+      "eventCounts": {
+        "starts": 0,
+        "completes": 0,
+        "blocks": 0
+      }
+    },
+    {
+      "id": "B4.5",
+      "name": "Domain Pack Integration - Phase 2 (Engineering)",
+      "sprintId": "Sprint 4",
+      "sprintTitle": "Intelligence Platform Refinement",
+      "sprintStatus": "Current",
+      "status": "Completed",
+      "startedAt": "2025-10-28T18:33:05.000Z",
+      "completedAt": "2025-10-28T18:38:25.000Z",
+      "cycleTimeMinutes": 5.33,
+      "backlogNotes": "Engineering and process domain packs now have workflow samples, smoke coverage, and validation guards.",
+      "agentsInvolved": [],
+      "eventCounts": {
+        "starts": 0,
+        "completes": 0,
+        "blocks": 0
+      }
+    },
+    {
+      "id": "B4.6",
+      "name": "README & Documentation Refresh",
+      "sprintId": "Sprint 4",
+      "sprintTitle": "Intelligence Platform Refinement",
+      "sprintStatus": "Current",
+      "status": "Completed",
+      "startedAt": "2025-10-28T19:02:49.000Z",
+      "completedAt": "2025-10-28T19:06:22.000Z",
+      "cycleTimeMinutes": 3.55,
+      "backlogNotes": "Refreshed README and quality scoring documentation to capture Sprint 4 progress and quality baselines.",
+      "agentsInvolved": [
+        "gpt-5-codex"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-28T19:06:22.000Z",
+        "mission": "B4.6",
+        "action": "complete",
+        "status": "completed",
+        "agent": "gpt-5-codex",
+        "summary": "Completed B4.6: refreshed README status snapshot and quality scoring implementation guide for Sprint 4."
+      }
+    },
+    {
+      "id": "B4.7",
+      "name": "Domain Pack Integration - Phase 3 (Product)",
+      "sprintId": "Sprint 4",
+      "sprintTitle": "Intelligence Platform Refinement",
+      "sprintStatus": "Current",
+      "status": "Completed",
+      "startedAt": "2025-10-28T19:15:06.000Z",
+      "completedAt": "2025-10-28T19:19:36.000Z",
+      "cycleTimeMinutes": 4.5,
+      "backlogNotes": "Added product workflow samples, smoke suite, validation guardrails, and workflow documentation.",
+      "agentsInvolved": [
+        "gpt-5-codex"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-28T19:19:36.000Z",
+        "mission": "B4.7",
+        "action": "complete",
+        "status": "completed",
+        "agent": "gpt-5-codex",
+        "summary": "Completed B4.7: delivered product workflow samples, smoke coverage, validation updates, and product workflow guide."
+      }
+    },
+    {
+      "id": "B5.1",
+      "name": "Mission Outcome Analytics",
+      "sprintId": "Sprint 5",
+      "sprintTitle": "Process Intelligence & Knowledge",
+      "sprintStatus": "Current",
+      "status": "Completed",
+      "startedAt": "2025-10-28T19:49:21.000Z",
+      "completedAt": "2025-10-28T19:57:50.000Z",
+      "cycleTimeMinutes": 8.48,
+      "backlogNotes": "Delivered mission outcome analytics engine, npm outcomes script, and artifact baseline.",
+      "agentsInvolved": [
+        "gpt-5-codex"
+      ],
+      "eventCounts": {
+        "starts": 1,
+        "completes": 1,
+        "blocks": 0
+      },
+      "lastEvent": {
+        "ts": "2025-10-28T19:57:50.000Z",
+        "mission": "B5.1",
+        "action": "complete",
+        "status": "completed",
+        "agent": "gpt-5-codex",
+        "summary": "Delivered mission outcome analytics: TypeScript engine, test coverage, npm outcomes script, and generated artifacts/mission-outcomes/latest.json."
+      }
+    },
+    {
+      "id": "B5.2",
+      "name": "Dependency & Context Intelligence",
+      "sprintId": "Sprint 5",
+      "sprintTitle": "Process Intelligence & Knowledge",
+      "sprintStatus": "Current",
+      "status": "Current",
+      "agentsInvolved": [],
+      "eventCounts": {
+        "starts": 0,
+        "completes": 0,
+        "blocks": 0
+      }
+    },
+    {
+      "id": "B5.3",
+      "name": "Author Onboarding Refresh",
+      "sprintId": "Sprint 5",
+      "sprintTitle": "Process Intelligence & Knowledge",
+      "sprintStatus": "Current",
+      "status": "Queued",
+      "agentsInvolved": [],
+      "eventCounts": {
+        "starts": 0,
+        "completes": 0,
+        "blocks": 0
+      }
+    },
+    {
+      "id": "B5.4",
+      "name": "Next Investment Planning",
+      "sprintId": "Sprint 5",
+      "sprintTitle": "Process Intelligence & Knowledge",
+      "sprintStatus": "Current",
+      "status": "Queued",
+      "agentsInvolved": [],
+      "eventCounts": {
+        "starts": 0,
+        "completes": 0,
+        "blocks": 0
+      }
+    },
+    {
+      "id": "D6.1",
+      "name": "MCP Bootstrap Modularization",
+      "sprintId": "Sprint 6+",
+      "sprintTitle": "Deferred Architectural Work",
+      "sprintStatus": "Deferred",
+      "status": "Deferred",
+      "backlogNotes": "Deferred from Sprint 4 - not blocking current work",
+      "agentsInvolved": [],
+      "eventCounts": {
+        "starts": 0,
+        "completes": 0,
+        "blocks": 0
+      }
+    },
+    {
+      "id": "D6.2",
+      "name": "Mission Splitter Performance Optimization",
+      "sprintId": "Sprint 6+",
+      "sprintTitle": "Deferred Architectural Work",
+      "sprintStatus": "Deferred",
+      "status": "Deferred",
+      "backlogNotes": "Deferred from Sprint 4 - no performance issues experienced",
+      "agentsInvolved": [],
+      "eventCounts": {
+        "starts": 0,
+        "completes": 0,
+        "blocks": 0
+      }
+    },
+    {
+      "id": "D6.3",
+      "name": "Parallel Dependency Resolution",
+      "sprintId": "Sprint 6+",
+      "sprintTitle": "Deferred Architectural Work",
+      "sprintStatus": "Deferred",
+      "status": "Deferred",
+      "backlogNotes": "Deferred until proven bottleneck",
+      "agentsInvolved": [],
+      "eventCounts": {
+        "starts": 0,
+        "completes": 0,
+        "blocks": 0
+      }
+    },
+    {
+      "id": "D6.4",
+      "name": "JSDoc Coverage Initiative",
+      "sprintId": "Sprint 6+",
+      "sprintTitle": "Deferred Architectural Work",
+      "sprintStatus": "Deferred",
+      "status": "Deferred",
+      "backlogNotes": "Can be incremental or dedicated mission",
+      "agentsInvolved": [],
+      "eventCounts": {
+        "starts": 0,
+        "completes": 0,
+        "blocks": 0
+      }
+    }
+  ],
+  "recentActivity": [
+    {
+      "ts": "2025-10-28T19:57:50.000Z",
+      "mission": "B5.1",
+      "action": "complete",
+      "status": "completed",
+      "agent": "gpt-5-codex",
+      "summary": "Delivered mission outcome analytics: TypeScript engine, test coverage, npm outcomes script, and generated artifacts/mission-outcomes/latest.json."
+    },
+    {
+      "ts": "2025-10-28T19:49:21.000Z",
+      "mission": "B5.1",
+      "action": "start",
+      "status": "in_progress",
+      "agent": "gpt-5-codex",
+      "summary": "Starting B5.1: mission outcome analytics instrumentation."
+    },
+    {
+      "ts": "2025-10-28T19:19:36.000Z",
+      "mission": "B4.7",
+      "action": "complete",
+      "status": "completed",
+      "agent": "gpt-5-codex",
+      "summary": "Completed B4.7: delivered product workflow samples, smoke coverage, validation updates, and product workflow guide."
+    },
+    {
+      "ts": "2025-10-28T19:15:06.000Z",
+      "mission": "B4.7",
+      "action": "start",
+      "status": "in_progress",
+      "agent": "gpt-5-codex",
+      "summary": "Starting B4.7: Domain Pack Integration - Phase 3 (Product)."
+    },
+    {
+      "ts": "2025-10-28T19:06:22.000Z",
+      "mission": "B4.6",
+      "action": "complete",
+      "status": "completed",
+      "agent": "gpt-5-codex",
+      "summary": "Completed B4.6: refreshed README status snapshot and quality scoring implementation guide for Sprint 4."
+    },
+    {
+      "ts": "2025-10-28T19:02:49.000Z",
+      "mission": "B4.6",
+      "action": "start",
+      "status": "in_progress",
+      "agent": "gpt-5-codex",
+      "summary": "Starting B4.6: README & Documentation Refresh"
+    },
+    {
+      "ts": "2025-10-28T18:01:05.000Z",
+      "mission": "B4.3",
+      "action": "complete",
+      "status": "completed",
+      "agent": "gpt-5-codex",
+      "summary": "Domain pack discovery integration delivered: samples, smoke tests, validation script."
+    },
+    {
+      "ts": "2025-10-28T17:54:59.000Z",
+      "mission": "B4.3",
+      "action": "start",
+      "status": "in_progress",
+      "agent": "gpt-5-codex",
+      "summary": "Starting B4.3: Domain Pack Integration - Phase 1 discovery sweep."
+    },
+    {
+      "ts": "2025-10-28T17:20:49.000Z",
+      "mission": "B4.2",
+      "action": "complete",
+      "status": "completed",
+      "agent": "gpt-5-codex",
+      "summary": "Completed B4.2: added ESLint/Prettier baseline, quality metrics script, and tool definition snapshots wired into CI."
+    },
+    {
+      "ts": "2025-10-28T17:07:59.000Z",
+      "mission": "B4.2",
+      "action": "start",
+      "status": "in_progress",
+      "agent": "gpt-5-codex",
+      "summary": "Starting B4.2: quality tooling + tool snapshot automation."
+    }
+  ]
+}

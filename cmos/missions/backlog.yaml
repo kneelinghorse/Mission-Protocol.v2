@@ -120,8 +120,13 @@ domainFields:
       focus: "Build mission outcome analytics, enhance dependency intelligence, and refresh author onboarding."
       status: "Current"
       missions:
-        - { id: "B5.1", name: "Mission Outcome Analytics", status: "Current" }
-        - { id: "B5.2", name: "Dependency & Context Intelligence", status: "Queued" }
+        - id: "B5.1"
+          name: "Mission Outcome Analytics"
+          status: "Completed"
+          started_at: "2025-10-28T19:49:21Z"
+          completed_at: "2025-10-28T19:57:50Z"
+          notes: "Delivered mission outcome analytics engine, npm outcomes script, and artifact baseline."
+        - { id: "B5.2", name: "Dependency & Context Intelligence", status: "Current" }
         - { id: "B5.3", name: "Author Onboarding Refresh", status: "Queued" }
         - { id: "B5.4", name: "Next Investment Planning", status: "Queued" }
 
