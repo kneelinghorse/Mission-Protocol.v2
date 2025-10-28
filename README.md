@@ -47,13 +47,14 @@ Mission Protocol v2 provides MCP tools for autonomous mission management:
 
 ### Phase 1-2: Foundation
 
-- **`get_available_domains`** (alias `list_available_domains`) - Browse domain packs (5 packs available: foundation, software.technical-task, business.market-research, build.implementation, build.technical-research)
+- **`get_available_domains`** (alias `list_available_domains`) - Browse 24 production-ready domain packs spanning discovery, product, engineering, quality, and research. See `docs/Author_Onboarding_Guide.md` for usage examples.
 - **`create_mission`** - Generate missions from domain templates (operational with restored templates)
 
 ## Documentation
 
 ### User Guides
 
+- **[Author Onboarding Guide](docs/Author_Onboarding_Guide.md)** - First-stop orientation for mission authors with domain pack catalog and intelligence workflows
 - **[Intelligence Layer Guide](docs/Intelligence_Layer_Guide.md)** - Phase 4 tools with workflows and examples
 - **[Extension System Guide](docs/Extension_System_Guide.md)** - Phase 3 template management
 - **[Extension Patterns Cookbook](docs/Extension_Patterns_Cookbook.md)** - Common patterns and recipes
