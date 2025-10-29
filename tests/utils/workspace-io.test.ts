@@ -1,85 +1,97 @@
 import { promises as fs } from 'fs';
-import path from 'path';
+
+jest.mock('../../src/security/workspace-guard', () => ({
+  resolveWorkspacePath: jest.fn(),
+  getWorkspaceRoot: jest.fn(),
+}));
+
+jest.mock('../../src/utils/fs', () => ({
+  pathExists: jest.fn(),
+  writeFileAtomic: jest.fn(),
+}));
+
+import { resolveWorkspacePath as guardResolveWorkspacePath } from '../../src/security/workspace-guard';
+import { pathExists, writeFileAtomic } from '../../src/utils/fs';
 import {
-  ensureTempDir,
-  removeDir,
-  writeFileAtomic,
-} from '../../src/utils/fs';
-import { writeFileAtomicWithBackup } from '../../src/utils/workspace-io';
-import * as fsUtils from '../../src/utils/fs';
+  writeFileAtomicWithBackup,
+  resolveWorkspacePath as resolveWorkspacePathPublic,
+} from '../../src/utils/workspace-io';
 
-describe('workspace-io', () => {
-  let sandbox: string;
-  let previousAllowlist: string | undefined;
+const mockResolve = guardResolveWorkspacePath as jest.MockedFunction<typeof guardResolveWorkspacePath>;
+const mockPathExists = pathExists as jest.MockedFunction<typeof pathExists>;
+const mockWriteFileAtomic = writeFileAtomic as jest.MockedFunction<typeof writeFileAtomic>;
 
-  beforeEach(async () => {
-    sandbox = await ensureTempDir('workspace-io-test-');
-    previousAllowlist = process.env.MISSION_PROTOCOL_WORKSPACE_ALLOWLIST;
-    process.env.MISSION_PROTOCOL_WORKSPACE_ALLOWLIST = sandbox;
+describe('writeFileAtomicWithBackup', () => {
+  const sanitizedPath = '/tmp/workspace/file.txt';
+  const backupPath = `${sanitizedPath}.backup`;
+  let copyFileSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    mockResolve.mockReset();
+    mockResolve.mockResolvedValue(sanitizedPath);
+    mockPathExists.mockReset();
+    mockWriteFileAtomic.mockReset();
+    copyFileSpy = jest.spyOn(fs, 'copyFile').mockResolvedValue(undefined as unknown as void);
   });
 
-  afterEach(async () => {
-    process.env.MISSION_PROTOCOL_WORKSPACE_ALLOWLIST = previousAllowlist;
-    await removeDir(sandbox, { recursive: true, force: true });
+  afterEach(() => {
+    copyFileSpy.mockRestore();
+    jest.clearAllMocks();
   });
 
-  it('creates a backup when overwriting existing files', async () => {
-    const target = path.join(sandbox, 'mission.yaml');
-    await writeFileAtomic(target, 'original');
+  it('delegates resolveWorkspacePath to the workspace guard helper', async () => {
+    mockResolve.mockResolvedValueOnce('/tmp/workspace/resolved');
 
-    const result = await writeFileAtomicWithBackup('mission.yaml', 'updated', {
-      baseDir: sandbox,
-      allowRelative: true,
+    const result = await resolveWorkspacePathPublic('file.txt', { allowRelative: false });
+
+    expect(result).toBe('/tmp/workspace/resolved');
+    expect(mockResolve).toHaveBeenLastCalledWith('file.txt', { allowRelative: false });
+  });
+
+  it('creates a backup when the target exists and returns its path', async () => {
+    mockPathExists.mockResolvedValue(true);
+    mockWriteFileAtomic.mockResolvedValue(undefined as unknown as void);
+
+    const result = await writeFileAtomicWithBackup('file.txt', 'payload');
+
+    expect(mockResolve).toHaveBeenCalledWith('file.txt', expect.objectContaining({ allowRelative: true }));
+    expect(copyFileSpy).toHaveBeenCalledWith(sanitizedPath, backupPath);
+    expect(mockWriteFileAtomic).toHaveBeenCalledWith(sanitizedPath, 'payload', {});
+    expect(result).toEqual({ backupPath });
+  });
+
+  it('skips backup creation when the target is new and supports custom suffixes', async () => {
+    mockPathExists.mockResolvedValue(false);
+    mockWriteFileAtomic.mockResolvedValue(undefined as unknown as void);
+
+    const result = await writeFileAtomicWithBackup('file.txt', 'payload', {
+      backupSuffix: '.bak',
+      allowRelative: false,
     });
 
-    const content = await fs.readFile(target, 'utf-8');
-    const backup = await fs.readFile(`${target}.backup`, 'utf-8');
-
-    expect(content).toBe('updated');
-    expect(backup).toBe('original');
-    expect(result.backupPath).toBe(`${target}.backup`);
+    expect(mockResolve).toHaveBeenCalledWith('file.txt', expect.objectContaining({ allowRelative: false }));
+    expect(copyFileSpy).not.toHaveBeenCalled();
+    expect(mockWriteFileAtomic).toHaveBeenCalledWith(sanitizedPath, 'payload', {});
+    expect(result).toEqual({});
   });
 
-  it('skips backup when file did not previously exist', async () => {
-    const target = path.join(sandbox, 'new-mission.yaml');
+  it('restores the original when the write fails after creating a backup', async () => {
+    mockPathExists.mockResolvedValue(true);
+    const failure = new Error('write failed');
+    mockWriteFileAtomic.mockRejectedValue(failure);
 
-    const result = await writeFileAtomicWithBackup('new-mission.yaml', 'first', {
-      baseDir: sandbox,
-      allowRelative: true,
-    });
+    await expect(writeFileAtomicWithBackup('file.txt', 'payload')).rejects.toThrow('write failed');
 
-    const content = await fs.readFile(target, 'utf-8');
-    const backupExists = await fs
-      .stat(`${target}.backup`)
-      .then(() => true)
-      .catch(() => false);
-
-    expect(content).toBe('first');
-    expect(backupExists).toBe(false);
-    expect(result.backupPath).toBeUndefined();
+    expect(copyFileSpy).toHaveBeenNthCalledWith(1, sanitizedPath, backupPath);
+    expect(copyFileSpy).toHaveBeenNthCalledWith(2, backupPath, sanitizedPath);
   });
 
-  it('restores original content when atomic write fails', async () => {
-    const target = path.join(sandbox, 'restore.yaml');
-    await writeFileAtomic(target, 'stable');
+  it('skips restoration when the write fails without a pre-existing file', async () => {
+    mockPathExists.mockResolvedValue(false);
+    mockWriteFileAtomic.mockRejectedValue(new Error('write failed'));
 
-    const spy = jest
-      .spyOn(fsUtils, 'writeFileAtomic')
-      .mockRejectedValueOnce(new Error('disk full'));
+    await expect(writeFileAtomicWithBackup('file.txt', 'payload')).rejects.toThrow('write failed');
 
-    await expect(
-      writeFileAtomicWithBackup('restore.yaml', 'should-fail', {
-        baseDir: sandbox,
-        allowRelative: true,
-      })
-    ).rejects.toThrow('disk full');
-
-    spy.mockRestore();
-
-    const content = await fs.readFile(target, 'utf-8');
-    const backup = await fs.readFile(`${target}.backup`, 'utf-8');
-
-    expect(content).toBe('stable');
-    expect(backup).toBe('stable');
+    expect(copyFileSpy).not.toHaveBeenCalled();
   });
 });

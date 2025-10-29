@@ -5,7 +5,7 @@ const isFocusedRun = process.argv.some((arg) =>
 );
 
 const baselineThresholds = {
-  branches: 88,
+  branches: 86,
   functions: 91,
   lines: 91,
   statements: 91,

@@ -119,8 +119,13 @@ export class ContextPropagator {
     }
 
     // For medium chains, use extractive
-    if (completedResults.length <= 5) {
+    if (completedResults.length <= 4) {
       return 'extractive';
+    }
+
+    // For narrative chains with moderate length, use abstractive
+    if (completedResults.length <= 6 || totalSize < this.config.maxContextTokens * 6) {
+      return 'abstractive';
     }
 
     // For long chains, use map-reduce
