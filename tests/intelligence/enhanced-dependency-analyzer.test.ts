@@ -145,6 +145,109 @@ describe('EnhancedDependencyAnalyzer', () => {
     expect(node?.dependencies).toContain('B1');
     expect(node?.implicitDependencies).toContain('B1');
   });
+
+  it('infers lifecycle dependencies and augments metadata', async () => {
+    const history = new StubMissionHistoryAnalyzer();
+    const analyzer = new EnhancedDependencyAnalyzer(history, new DependencyAnalyzer());
+
+    const missions = [
+      {
+        missionId: 'P1',
+        name: 'Ideation Workshop',
+        objective: 'Brainstorm new product ideas and capture concept brief for leadership review.',
+        deliverables: ['Concept brief document'],
+        filePath: 'missions/P1.yaml',
+      },
+      {
+        missionId: 'R6.2',
+        name: 'Market Research Interviews',
+        objective: 'Conduct market research interviews and validation studies with target customers.',
+        deliverables: ['Research insights report'],
+        context: 'Validation of MVP direction using customer interviews.',
+        filePath: 'missions/R6.2.yaml',
+      },
+      {
+        missionId: 'S6.1',
+        name: 'Requirements Specification Draft',
+        objective: 'Document detailed product requirements and acceptance criteria for MVP scope.',
+        deliverables: ['Product Requirements Document'],
+        domainFields: { type: 'Planning.Requirements.v1' },
+        filePath: 'missions/S6.1.yaml',
+      },
+      {
+        missionId: 'B6.2',
+        name: 'Implementation Sprint',
+        objective: 'Implement MVP codebase and integrate core application logic.',
+        deliverables: ['Source code modules'],
+        domainFields: { type: 'Build.Implementation.v1', teamRoles: ['Engineering'] },
+        filePath: 'missions/B6.2.yaml',
+      },
+      {
+        missionId: 'Q6.2',
+        name: 'QA Regression Testing',
+        objective: 'Execute regression testing, QA validation, and bug triage.',
+        deliverables: ['Test report'],
+        domainFields: { type: 'Quality.Assurance.v1', teamRoles: ['QA Engineer'] },
+        filePath: 'missions/Q6.2.yaml',
+      },
+    ];
+
+    const result = (await analyzer.analyze(missions)) as EnhancedDependencyAnalysisResult;
+
+    expect(
+      result.lifecycleDependencies.some(
+        (dep) => dep.from === 'R6.2' && dep.to === 'P1' && dep.source === 'lifecycle-sequencing'
+      )
+    ).toBe(true);
+    expect(
+      result.lifecycleDependencies.some(
+        (dep) => dep.from === 'B6.2' && dep.to === 'S6.1' && dep.source === 'lifecycle-sequencing'
+      )
+    ).toBe(true);
+    expect(
+      result.lifecycleDependencies.some(
+        (dep) => dep.from === 'Q6.2' && dep.to === 'B6.2' && dep.source === 'lifecycle-sequencing'
+      )
+    ).toBe(true);
+
+    const qNode = result.graph.nodes.get('Q6.2');
+    expect(qNode?.implicitDependencies).toContain('B6.2');
+
+    const assignments = result.lifecycleAssignments['B6.2'] ?? [];
+    expect(assignments.some((phase) => phase.phase === 'Implementation')).toBe(true);
+  });
+
+  it('flags lifecycle sequencing violations when prerequisites are missing', async () => {
+    const history = new StubMissionHistoryAnalyzer();
+    const analyzer = new EnhancedDependencyAnalyzer(history, new DependencyAnalyzer());
+
+    const missions = [
+      {
+        missionId: 'B8',
+        name: 'Implementation Push',
+        objective: 'Develop production features and complete coding tasks.',
+        deliverables: ['Source code packages'],
+        domainFields: { type: 'Build.Implementation.v1', teamRoles: ['Backend Engineer'] },
+        filePath: 'missions/B8.yaml',
+      },
+      {
+        missionId: 'D8',
+        name: 'Production Deployment',
+        objective: 'Prepare deployment runbook and execute production release.',
+        deliverables: ['Release checklist'],
+        domainFields: { type: 'Operations.Deployment.v1', teamRoles: ['DevOps'] },
+        filePath: 'missions/D8.yaml',
+      },
+    ];
+
+    const result = (await analyzer.analyze(missions)) as EnhancedDependencyAnalysisResult;
+
+    expect(result.lifecycleWarnings.some((warning) => warning.missionId === 'B8')).toBe(true);
+    expect(result.lifecycleWarnings.some((warning) => warning.missionId === 'D8')).toBe(true);
+
+    const bNode = result.graph.nodes.get('B8');
+    expect(bNode?.implicitDependencies ?? []).toHaveLength(0);
+  });
 });
 
 describe('ContextPropagatorV2', () => {
