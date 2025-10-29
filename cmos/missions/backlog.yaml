@@ -126,9 +126,47 @@ domainFields:
           started_at: "2025-10-28T19:49:21Z"
           completed_at: "2025-10-28T19:57:50Z"
           notes: "Delivered mission outcome analytics engine, npm outcomes script, and artifact baseline."
-        - { id: "B5.2", name: "Dependency & Context Intelligence", status: "Current" }
-        - { id: "B5.3", name: "Author Onboarding Refresh", status: "Queued" }
-        - { id: "B5.4", name: "Next Investment Planning", status: "Queued" }
+        - id: "B5.2"
+          name: "Dependency & Context Intelligence"
+          status: "Completed"
+          started_at: "2025-10-28T20:03:57Z"
+          completed_at: "2025-10-28T20:38:27Z"
+          notes: "Added mission history analytics, enhanced dependency analyzer, and context propagation updates; tests pending due to coverage threshold gap."
+        - id: "B5.3"
+          name: "Author Onboarding Refresh"
+          status: "Completed"
+          started_at: "2025-10-28T21:34:37Z"
+          completed_at: "2025-10-28T21:36:26Z"
+          notes: "Refreshed author onboarding with full 24-pack catalog, intelligence workflows, and quick-start coverage."
+        - { id: "B5.4", name: "Next Investment Planning", status: "Completed" }
+
+    - sprintId: "Sprint 6"
+      title: "Research-Informed Intelligence Upgrade"
+      focus: "Implement comprehensive intelligence upgrade based on R6.1-R6.4 research findings: structured templates, lifecycle-aware dependencies, hybrid RAG, agentic control, and enhanced research workflows."
+      status: "Current"
+      missions:
+        - id: "B6.1"
+          name: "Structured Mission Templates (XML/JSON Hybrid)"
+          status: "Completed"
+          started_at: "2025-10-28T23:47:59Z"
+          completed_at: "2025-10-28T23:57:02Z"
+          notes: "Delivered hybrid XML/JSON template spec, parser, migration scaffold, and validation tests."
+        - id: "B6.2"
+          name: "Lifecycle-Aware Dependency Analyzer"
+          status: "Current"
+          notes: "Core intelligence enhancement with PDLC/SDLC phase detection and implicit dependency inference"
+        - id: "B6.3"
+          name: "Context Propagation v3 - Hybrid RAG Pipeline"
+          status: "Queued"
+          notes: "Advanced RAG implementation with sparse+dense retrieval, embedding fine-tuning, and content-aware chunking"
+        - id: "B6.4"
+          name: "Agentic Controller & State Management"
+          status: "Queued"
+          notes: "Multi-mission workflow orchestration with state tracking and event-driven context propagation"
+        - id: "B6.5"
+          name: "Research Mission Template Enhancements"
+          status: "Queued"
+          notes: "Pattern-based research templates with PRD/SRD sections and interactive handoff checklists"
 
     - sprintId: "Sprint 6+"
       title: "Deferred Architectural Work"
@@ -163,3 +201,9 @@ domainFields:
     - { from: "B5.1", to: "B5.2", type: "Blocks" }
     - { from: "B5.2", to: "B5.3", type: "Blocks" }
     - { from: "B5.3", to: "B5.4", type: "Blocks" }
+    # Sprint 6 dependencies (research-informed intelligence upgrade)
+    - { from: "B6.1", to: "B6.3", type: "Blocks" }
+    - { from: "B6.1", to: "B6.5", type: "Blocks" }
+    - { from: "B6.3", to: "B6.4", type: "Blocks" }
+    - { from: "B6.4", to: "B6.6", type: "Blocks" }
+    - { from: "B6.2", to: "B6.7", type: "Blocks" }

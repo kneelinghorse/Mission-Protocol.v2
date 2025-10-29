@@ -350,3 +350,147 @@ spec:
     });
   });
 });
+
+describe('TemplateImporter - Hybrid XML Templates', () => {
+  const testDir = path.join(__dirname, 'test-templates');
+  let importer: TemplateImporter;
+
+  beforeEach(async () => {
+    SecurityValidator.clearTrustedKeys();
+    await removeDir(testDir, { recursive: true, force: true });
+    await ensureDir(testDir);
+
+    importer = new TemplateImporter(testDir);
+  });
+
+  afterAll(async () => {
+    await removeDir(testDir, { recursive: true, force: true });
+  });
+
+  async function ensureHybridComponent(
+    relativePath: string,
+    content: string
+  ): Promise<void> {
+    const fullDir = path.dirname(path.join(testDir, relativePath));
+    await ensureDir(fullDir);
+    await fs.writeFile(path.join(testDir, relativePath), content, 'utf-8');
+  }
+
+  it('imports hybrid XML templates and resolves component content', async () => {
+    await ensureHybridComponent(
+      'hybrid/components/agent-persona/hybrid-architect.xml',
+      `<AgentPersona>
+  <Name>Hybrid Template Architect</Name>
+  <Description>Ensures hybrid template readiness across domains.</Description>
+  <Tone>Pragmatic</Tone>
+  <Expectations>
+    <Expectation>Highlight schema gaps before delivery.</Expectation>
+  </Expectations>
+</AgentPersona>`
+    );
+
+    await ensureHybridComponent(
+      'hybrid/components/instructions/hybrid-briefing.xml',
+      `<Instructions>
+  <Title>Hybrid Delivery Checklist</Title>
+  <Step index="1">Review mission objective.</Step>
+  <Step index="2">Resolve component fragments.</Step>
+  <Step index="3">Validate JSON Schema obligations.</Step>
+</Instructions>`
+    );
+
+    await ensureDir(path.join(testDir, 'hybrid'));
+    await fs.writeFile(
+      path.join(testDir, 'hybrid/sample.xml'),
+      `<?xml version="1.0" encoding="UTF-8"?>
+<MissionTemplate apiVersion="mission-template.v2" kind="HybridMissionTemplate">
+  <Metadata>
+    <Name>hybrid-sample</Name>
+    <Version>1.0.0</Version>
+    <Author>hybrid-test@example.com</Author>
+    <Signature>
+      <KeyId>hybrid-dev-key</KeyId>
+      <Algorithm>PGP-SHA256</Algorithm>
+      <Value>BASE64_SIGNATURE_PLACEHOLDER</Value>
+    </Signature>
+    <Tags>
+      <Tag>hybrid</Tag>
+      <Tag>test</Tag>
+    </Tags>
+  </Metadata>
+  <MissionObjective>Validate importer hybrid support.</MissionObjective>
+  <AgentPersona src="components/agent-persona/hybrid-architect.xml" />
+  <Instructions src="components/instructions/hybrid-briefing.xml" />
+  <ContextData>
+    <Item key="domain">testing</Item>
+    <Item key="repository">Mission-Protocol.v2</Item>
+  </ContextData>
+  <Examples>
+    <Example name="baseline">
+      <Input><![CDATA[{"prompt":"Generate hybrid mission"}]]></Input>
+      <Output><![CDATA[{"summary":"Hybrid mission synthesized."}]]></Output>
+    </Example>
+  </Examples>
+  <OutputSchema><![CDATA[
+{"type":"object","required":["summary"],"properties":{"summary":{"type":"string"}}}
+  ]]></OutputSchema>
+</MissionTemplate>`,
+      'utf-8'
+    );
+
+    const result = await importer.import('hybrid/sample.xml', {
+      skipSignatureVerification: true,
+    });
+
+    expect(result.template.kind).toBe('HybridMissionTemplate');
+    expect(result.template.apiVersion).toBe('mission-template.v2');
+    expect(result.template.metadata.tags).toEqual(['hybrid', 'test']);
+    expect(result.template.spec).toMatchObject({
+      format: 'hybrid',
+      objective: 'Validate importer hybrid support.',
+      context: {
+        domain: 'testing',
+        repository: 'Mission-Protocol.v2',
+      },
+    });
+    expect(
+      (result.template.spec as Record<string, unknown>).agentPersona
+    ).toMatchObject({
+      src: 'components/agent-persona/hybrid-architect.xml',
+    });
+    expect(
+      (result.template.spec as Record<string, unknown>).instructions
+    ).toMatchObject({
+      src: 'components/instructions/hybrid-briefing.xml',
+    });
+    expect(
+      (result.template.spec as { source?: { path?: string } }).source?.path
+    ).toBe('hybrid/sample.xml');
+  });
+
+  it('rejects missing hybrid template files', async () => {
+    await expect(
+      importer.import('hybrid/missing.xml', {
+        skipSignatureVerification: true,
+      })
+    ).rejects.toThrow(/File not found/i);
+  });
+
+  it('rejects malformed hybrid XML content', async () => {
+    await ensureDir(path.join(testDir, 'hybrid'));
+    await fs.writeFile(
+      path.join(testDir, 'hybrid/invalid.xml'),
+      `<?xml version="1.0" encoding="UTF-8"?>
+<MissionTemplate apiVersion="mission-template.v2" kind="HybridMissionTemplate">
+  <Metadata></Metadata>
+</MissionTemplate>`,
+      'utf-8'
+    );
+
+    await expect(
+      importer.import('hybrid/invalid.xml', {
+        skipSignatureVerification: true,
+      })
+    ).rejects.toThrow(/Hybrid template validation failed/i);
+  });
+});

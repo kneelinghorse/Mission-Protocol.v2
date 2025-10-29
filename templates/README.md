@@ -8,6 +8,7 @@ This directory contains the canonical mission templates for the Mission Protocol
 
 - **registry.yaml** - Central registry of all available domain packs
 - **generic_mission.yaml** - Universal mission template following the ICEV pattern (Intent-Context-Execution-Verification)
+- **hybrid/** - Structured XML/JSON mission templates, reusable components, and validation assets introduced in Sprint 6 (B6.1)
 
 ### Domain Packs
 
@@ -39,6 +40,14 @@ All domain packs are located in the `packs/` directory. Each pack contains:
    - Fields: type, researchObjectives, technologiesUnderInvestigation, evaluationCriteria, prototypeRequirements
 
 - The registry also includes discovery sequencing packs (`discovery.*`), engineering workflows (`engineering.*`, `process.*`, `qa.bug-report`), product strategy templates (`product.*`, `market.customer-development`, `design.ux-research-summary`), research scaffolds (`research.general`), and architecture handoffs (`build.architecture-mission`). Run `mission-protocol get_available_domains` (alias `list_available_domains`) to view every pack name and description.
+
+### Hybrid XML/JSON Format
+
+- `hybrid/sample-mission.xml` demonstrates the hybrid specification with component references and an embedded JSON Schema `<OutputSchema>` block.
+- `hybrid/components/` houses reusable fragments (personas, instructions, context payloads) referenced via `src` attributes.
+- Hybrid templates target the `mission-template.v2` API surface, enabling semantic XML tags with strict JSON Schema output contracts.
+- Validation utilities and migration helpers live under `src/import-export/hybrid-template-parser.ts` with accompanying tests in `tests/import-export/hybrid-template-parser.test.ts`.
+- Component catalog coverage now includes engineering (`agent-persona/lead-architect.xml`, `context-data/engineering-default.xml`), product (`agent-persona/product-strategist.xml`, `instructions/product-discovery.xml`, `context-data/product-discovery.xml`), and research workflows (`agent-persona/research-analyst.xml`, `instructions/research-sprint.xml`, `context-data/research-lab.xml`).
 
 ## Provenance
 

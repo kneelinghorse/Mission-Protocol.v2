@@ -11,6 +11,7 @@ export interface TemplateMetadata {
   version: string;
   author: string;
   signature: TemplateSignature;
+  tags?: string[];
 }
 
 /**

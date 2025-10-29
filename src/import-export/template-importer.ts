@@ -26,6 +26,10 @@ import {
   DependencyResolutionError,
 } from './types';
 import { pathExists, removeFile, writeFileAtomic } from '../utils/fs';
+import {
+  loadHybridTemplate,
+  HybridMissionTemplate,
+} from './hybrid-template-parser';
 
 /**
  * Result of a successful import operation
@@ -43,6 +47,7 @@ export class TemplateImporter {
   private yamlLoader: SecureYAMLLoader;
   private validator: SecurityValidator;
   private baseDir: string;
+  private readonly maxFileSize: number;
 
   /**
    * Create a new TemplateImporter
@@ -52,12 +57,13 @@ export class TemplateImporter {
    */
   constructor(baseDir: string, options?: ImportOptions) {
     this.baseDir = path.resolve(baseDir);
+    this.maxFileSize = 100 * 1024; // 100KB
 
     // Initialize SecureYAMLLoader (Layers 1-3)
     this.yamlLoader = new SecureYAMLLoader({
       baseDir: this.baseDir,
       followSymlinks: false,
-      maxFileSize: 100 * 1024, // 100KB max for templates
+      maxFileSize: this.maxFileSize,
     });
 
     // Initialize SecurityValidator (Layers 4-6)
@@ -137,6 +143,14 @@ export class TemplateImporter {
    * @returns Parsed template object
    */
   private async loadAndValidateStructure(templatePath: string): Promise<MissionTemplate> {
+    const extension = path.extname(templatePath).toLowerCase();
+    if (extension === '.xml') {
+      return this.loadHybridStructure(templatePath);
+    }
+    return this.loadYamlStructure(templatePath);
+  }
+
+  private async loadYamlStructure(templatePath: string): Promise<MissionTemplate> {
     try {
       // Load with SecureYAMLLoader (Layers 1-3)
       const schema = SecurityValidator.getSchema();
@@ -150,6 +164,90 @@ export class TemplateImporter {
         { originalError: error }
       );
     }
+  }
+
+  private async loadHybridStructure(templatePath: string): Promise<MissionTemplate> {
+    try {
+      const sanitizedPath = this.yamlLoader.sanitizePath(templatePath);
+
+      if (!(await pathExists(sanitizedPath))) {
+        throw new ImportExportError(`File not found: ${templatePath}`, 'Layers 1-3');
+      }
+
+      const stats = await fs.lstat(sanitizedPath);
+      if (stats.isSymbolicLink()) {
+        throw new ImportExportError(
+          `Symbolic links not allowed: ${templatePath}`,
+          'Layers 1-3'
+        );
+      }
+
+      if (stats.size > this.maxFileSize) {
+        throw new ImportExportError(
+          `File too large: ${stats.size} bytes (max: ${this.maxFileSize})`,
+          'Layers 1-3'
+        );
+      }
+
+      const result = await loadHybridTemplate(sanitizedPath, {
+        componentBaseDir: path.dirname(sanitizedPath),
+        resolveComponents: true,
+      });
+
+      if (!result.valid || !result.template) {
+        const details = result.errors.join('; ') || 'Unknown hybrid template error';
+        throw new ImportExportError(
+          `Hybrid template validation failed: ${details}`,
+          'Layers 1-3',
+          { errors: result.errors }
+        );
+      }
+
+      return this.convertHybridToMissionTemplate(result.template, templatePath);
+    } catch (error) {
+      if (error instanceof ImportExportError) {
+        throw error;
+      }
+      throw new ImportExportError(
+        `Failed to load hybrid template: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        'Layers 1-3',
+        { originalError: error }
+      );
+    }
+  }
+
+  private convertHybridToMissionTemplate(
+    template: HybridMissionTemplate,
+    templatePath: string
+  ): MissionTemplate {
+    const metadata = {
+      name: template.metadata.name,
+      version: template.metadata.version,
+      author: template.metadata.author,
+      signature: template.metadata.signature,
+    } as MissionTemplate['metadata'];
+
+    if (template.metadata.tags && template.metadata.tags.length > 0) {
+      metadata.tags = [...template.metadata.tags];
+    }
+
+    return {
+      apiVersion: template.apiVersion,
+      kind: template.kind,
+      metadata,
+      spec: {
+        format: 'hybrid',
+        objective: template.objective,
+        agentPersona: template.agentPersona,
+        instructions: template.instructions,
+        context: template.context,
+        examples: template.examples,
+        outputSchema: template.outputSchema,
+        source: {
+          path: templatePath,
+        },
+      },
+    };
   }
 
   /**

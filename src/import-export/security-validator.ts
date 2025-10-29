@@ -33,11 +33,11 @@ const MISSION_TEMPLATE_SCHEMA: JSONSchema = {
   properties: {
     apiVersion: {
       type: 'string',
-      const: 'mission-template.v1',
+      enum: ['mission-template.v1', 'mission-template.v2'],
     },
     kind: {
       type: 'string',
-      const: 'MissionTemplate',
+      enum: ['MissionTemplate', 'HybridMissionTemplate'],
     },
     metadata: {
       type: 'object',
@@ -46,6 +46,11 @@ const MISSION_TEMPLATE_SCHEMA: JSONSchema = {
         name: { type: 'string', minLength: 1 },
         version: { type: 'string', pattern: '^\\d+\\.\\d+\\.\\d+$' },
         author: { type: 'string', minLength: 1 },
+        tags: {
+          type: 'array',
+          items: { type: 'string', minLength: 1 },
+          maxItems: 32,
+        },
         signature: {
           type: 'object',
           required: ['keyId', 'algorithm', 'value'],
