@@ -39,7 +39,7 @@ All domain packs are located in the `packs/` directory. Each pack contains:
    - Technical research and architectural investigation
    - Fields: type, researchObjectives, technologiesUnderInvestigation, evaluationCriteria, prototypeRequirements
 
-- The registry also includes discovery sequencing packs (`discovery.*`), engineering workflows (`engineering.*`, `process.*`, `qa.bug-report`), product strategy templates (`product.*`, `market.customer-development`, `design.ux-research-summary`), research scaffolds (`research.general`), and architecture handoffs (`build.architecture-mission`). Run `mission-protocol get_available_domains` (alias `list_available_domains`) to view every pack name and description.
+- The registry also includes discovery sequencing packs (`discovery.*`), engineering workflows (`engineering.*`, `process.*`, `qa.bug-report`), product strategy templates (`product.*`, `market.customer-development`, `design.ux-research-summary`), research scaffolds (`research.general` now pattern-driven with PRD/SRD alignment and handoff checklists), and architecture handoffs (`build.architecture-mission`). Run `mission-protocol get_available_domains` (alias `list_available_domains`) to view every pack name and description.
 
 ### Hybrid XML/JSON Format
 

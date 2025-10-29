@@ -154,11 +154,11 @@ domains:
     schema_version: 1.0.0
 
   - name: research.general
-    description: Structure hypothesis-driven research with statements, evidence, and conclusions
-    version: 1.0.0
+    description: Pattern-based research template linking evidence to PRD/SRD decisions and interactive handoff checklists
+    version: 1.1.0
     author: kneelinghorse
     path: packs/research.general
-    schema_version: 1.0.0
+    schema_version: 1.1.0
 
   - name: software.technical-task
     description: Software development tasks and feature implementation

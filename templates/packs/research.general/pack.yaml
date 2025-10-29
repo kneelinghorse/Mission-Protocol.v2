@@ -1,6 +1,6 @@
 name: "research.general"
-version: "1.0.0"
+version: "1.1.0"
 displayName: "General Research Mission"
-description: "Structured research fields for hypothesis-driven inquiry: statements, questions, synthesis, evidence, and conclusion."
+description: "Pattern-driven research scaffold aligning evidence to PRD/SRD decisions with interactive handoff checklists."
 author: "kneelinghorse"
 schema: "schema.json"
