@@ -1,4 +1,5 @@
 import { promises as fs } from 'fs';
+import os from 'os';
 import path from 'path';
 import { loadHybridTemplate, parseHybridTemplate } from '../../src/import-export/hybrid-template-parser';
 
@@ -180,5 +181,95 @@ describe('hybrid-template-parser', () => {
 
     expect(result.valid).toBe(false);
     expect(result.errors).toContain('ContextData.Item is missing required key attribute.');
+  });
+
+  it('rejects component src paths outside the component base directory', async () => {
+    const sandbox = await fs.mkdtemp(path.join(os.tmpdir(), 'hybrid-escape-'));
+    const templatePath = path.join(sandbox, 'escape.xml');
+
+    const xml = `
+      <MissionTemplate apiVersion="mission-template.v2" kind="HybridMissionTemplate">
+        <Metadata>
+          <Name>escape-guard</Name>
+          <Version>1.0.0</Version>
+          <Author>test@example.com</Author>
+          <Signature>
+            <KeyId>key</KeyId>
+            <Algorithm>PGP-SHA256</Algorithm>
+            <Value>sig</Value>
+          </Signature>
+          <Tags>
+            <Tag>hybrid</Tag>
+          </Tags>
+        </Metadata>
+        <MissionObjective>Ensure path traversal is blocked</MissionObjective>
+        <AgentPersona src="../outside.xml" />
+        <Instructions mode="inline">Inline instructions</Instructions>
+        <ContextData>
+          <Item key="domain">testing</Item>
+        </ContextData>
+        <Examples>
+          <Example name="baseline">
+            <Input><![CDATA[{"prompt":"test"}]]></Input>
+            <Output><![CDATA[{"summary":"ok"}]]></Output>
+          </Example>
+        </Examples>
+        <OutputSchema><![CDATA[{"type":"object","properties":{"summary":{"type":"string"}},"required":["summary"]}]]></OutputSchema>
+      </MissionTemplate>
+    `;
+
+    try {
+      await fs.writeFile(templatePath, xml);
+      await expect(loadHybridTemplate(templatePath)).rejects.toThrow(
+        'Component path ../outside.xml escapes component base directory.'
+      );
+    } finally {
+      await fs.rm(sandbox, { recursive: true, force: true });
+    }
+  });
+
+  it('rejects component src paths that do not resolve to a file', async () => {
+    const sandbox = await fs.mkdtemp(path.join(os.tmpdir(), 'hybrid-missing-'));
+    const templatePath = path.join(sandbox, 'missing.xml');
+
+    const xml = `
+      <MissionTemplate apiVersion="mission-template.v2" kind="HybridMissionTemplate">
+        <Metadata>
+          <Name>missing-component</Name>
+          <Version>1.0.0</Version>
+          <Author>test@example.com</Author>
+          <Signature>
+            <KeyId>key</KeyId>
+            <Algorithm>PGP-SHA256</Algorithm>
+            <Value>sig</Value>
+          </Signature>
+          <Tags>
+            <Tag>hybrid</Tag>
+          </Tags>
+        </Metadata>
+        <MissionObjective>Ensure component existence validation</MissionObjective>
+        <AgentPersona src="components/missing-agent.xml" />
+        <Instructions mode="inline">Inline instructions</Instructions>
+        <ContextData>
+          <Item key="domain">testing</Item>
+        </ContextData>
+        <Examples>
+          <Example name="baseline">
+            <Input><![CDATA[{"prompt":"test"}]]></Input>
+            <Output><![CDATA[{"summary":"ok"}]]></Output>
+          </Example>
+        </Examples>
+        <OutputSchema><![CDATA[{"type":"object","properties":{"summary":{"type":"string"}},"required":["summary"]}]]></OutputSchema>
+      </MissionTemplate>
+    `;
+
+    try {
+      await fs.writeFile(templatePath, xml);
+      await expect(loadHybridTemplate(templatePath)).rejects.toThrow(
+        'Component path components/missing-agent.xml does not exist.'
+      );
+    } finally {
+      await fs.rm(sandbox, { recursive: true, force: true });
+    }
   });
 });

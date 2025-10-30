@@ -163,7 +163,8 @@ function parseComponent(
   }
 
   const record = node as Record<string, unknown>;
-  const src = typeof record['@_src'] === 'string' ? record['@_src'] : undefined;
+  const rawSrc = typeof record['@_src'] === 'string' ? record['@_src'].trim() : undefined;
+  const src = rawSrc === '' ? undefined : rawSrc;
   const content = extractText(node);
 
   if (!src && !content) {
@@ -257,9 +258,37 @@ async function resolveComponentContent(
   }
 
   const normalizedBase = path.resolve(baseDir);
+
+  if (path.isAbsolute(component.src)) {
+    throw new Error(`Component path ${component.src} must be relative to the component base directory.`);
+  }
+
   const resolved = path.resolve(normalizedBase, component.src);
-  if (!resolved.startsWith(`${normalizedBase}${path.sep}`) && resolved !== normalizedBase) {
+  const relative = path.relative(normalizedBase, resolved);
+
+  if (!relative || relative === '') {
+    throw new Error(
+      `Component path ${component.src} must reference a file within the component base directory.`
+    );
+  }
+
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
     throw new Error(`Component path ${component.src} escapes component base directory.`);
+  }
+
+  let stats;
+  try {
+    stats = await fs.lstat(resolved);
+  } catch {
+    throw new Error(`Component path ${component.src} does not exist.`);
+  }
+
+  if (stats.isSymbolicLink()) {
+    throw new Error(`Component path ${component.src} cannot reference a symbolic link.`);
+  }
+
+  if (!stats.isFile()) {
+    throw new Error(`Component path ${component.src} must reference a file.`);
   }
 
   const content = await fs.readFile(resolved, 'utf8');

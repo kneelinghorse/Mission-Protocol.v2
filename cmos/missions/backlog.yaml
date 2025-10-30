@@ -186,6 +186,27 @@ domainFields:
         - { id: "D6.3", name: "Parallel Dependency Resolution", status: "Deferred", notes: "Deferred until proven bottleneck" }
         - { id: "D6.4", name: "JSDoc Coverage Initiative", status: "Deferred", notes: "Can be incremental or dedicated mission" }
 
+    - sprintId: "Sprint 7"
+      title: "Code Quality & Validation Hardening"
+      focus: "Implement security, validation, performance, and consistency improvements across templates, MCP, and intelligence."
+      status: "Current"
+      missions:
+        - id: "B7.1"
+          name: "Hybrid Component Validation"
+          status: "Completed"
+          started_at: "2025-10-30T21:17:06Z"
+          completed_at: "2025-10-30T21:20:24Z"
+          notes: "Hardened hybrid component src handling with traversal guards, existence checks, and dedicated tests."
+        - { id: "B7.2", name: "Schema Validation Hardening", status: "Current", notes: "Enforce size/complexity limits and Draft-07 compliance for embedded JSON Schemas." }
+        - { id: "B7.3", name: "Context Window Centralization", status: "Queued", notes: "Centralize model context windows in a shared registry; remove hardcoded values." }
+        - { id: "B7.4", name: "CI Validation Checks", status: "Queued", notes: "Add registry consistency and template-schema validation to CI." }
+        - { id: "B7.5", name: "Versioning Contract Documentation", status: "Queued", notes: "Document version fields and add cross-validator + migration guide." }
+        - { id: "B7.6", name: "Placeholder Standardization", status: "Queued", notes: "Standardize placeholder conventions and add validation + CI." }
+        - { id: "B7.7", name: "Schema Caching Optimization", status: "Queued", notes: "Cache Ajv compiled schemas and add lazy loading for packs." }
+        - { id: "B7.8", name: "Cancellation & Timeout Support", status: "Queued", notes: "Add AbortController and timeouts to long-running intelligence tools." }
+        - { id: "B7.9", name: "Style Guide Standardization", status: "Queued", notes: "Create pack manifest style guide and validator with CI checks." }
+        - { id: "B7.10", name: "Hybrid Component Catalog", status: "Queued", notes: "Document available components with usage examples and integration guidance." }
+
   # Structured representation of the Mermaid diagram from backlog.md
   missionDependencies:
     # Sprint 1 dependencies
