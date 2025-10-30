@@ -20,6 +20,7 @@ import { GenericMission, isGenericMission } from '../schemas/generic-mission';
 import { MissionSplitter } from '../intelligence/mission-splitter';
 import { ComplexityScorer, ComplexityAnalysis } from '../intelligence/complexity-scorer';
 import { ITokenCounter, SupportedModel } from '../intelligence/types';
+import { getContextWindow } from '../intelligence/context-windows';
 import { pathExists } from '../utils/fs';
 
 type SplitAnalysisResult = Awaited<ReturnType<MissionSplitter['suggestSplits']>>;
@@ -120,7 +121,7 @@ export class SuggestSplitsToolImpl {
   constructor(tokenCounter: ITokenCounter, model: SupportedModel = 'claude') {
     this.model = model;
     // Initialize complexity scorer
-    const contextWindow = this.getContextWindow(model);
+    const contextWindow = getContextWindow(model);
     this.complexityScorer = new ComplexityScorer(tokenCounter, {
       model,
       contextWindow,
@@ -181,7 +182,7 @@ export class SuggestSplitsToolImpl {
    * Build token usage summary from complexity analysis
    */
   private buildTokenUsage(complexity: ComplexityAnalysis) {
-    const contextWindow = this.getContextWindow(this.model);
+    const contextWindow = getContextWindow(this.model);
     const totalTokens = complexity.tokenDetails.count;
 
     return {
@@ -305,18 +306,6 @@ export class SuggestSplitsToolImpl {
    */
   private serializeMission(mission: GenericMission): string {
     return YAML.stringify(mission, { indent: 2, lineWidth: 0 });
-  }
-
-  /**
-   * Get context window for model
-   */
-  private getContextWindow(model: SupportedModel): number {
-    const windows: Record<SupportedModel, number> = {
-      claude: 200000,
-      gpt: 128000,
-      gemini: 1000000,
-    };
-    return windows[model] || 200000;
   }
 
   /**

@@ -166,8 +166,8 @@ export class MigrationEngine {
           currentTemplate = result.migratedTemplate || currentTemplate;
 
           const stepDuration = Date.now() - stepStart;
-          console.log(
-            `Migration step ${i + 1}/${migrationPath.steps.length} completed in ${stepDuration}ms`
+          console.error(
+            `[INFO] Migration step ${i + 1}/${migrationPath.steps.length} completed in ${stepDuration}ms`
           );
         } catch (error) {
           const errorMsg = `Migration step ${i + 1} (${migration.id}) threw error: ${error instanceof Error ? error.message : String(error)}`;

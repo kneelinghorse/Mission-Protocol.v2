@@ -23,6 +23,7 @@ import { GenericMission, isGenericMission } from '../schemas/generic-mission';
 import { MissionSplitter, SubMission, SplitResult } from '../intelligence/mission-splitter';
 import { ComplexityScorer, ComplexityAnalysis } from '../intelligence/complexity-scorer';
 import { ITokenCounter, SupportedModel } from '../intelligence/types';
+import { getContextWindow } from '../intelligence/context-windows';
 import { ensureDir, pathExists, writeFileAtomic } from '../utils/fs';
 import { resolveWorkspacePath } from '../utils/workspace-io';
 
@@ -138,7 +139,7 @@ export class SplitMissionToolImpl {
     this.model = model;
 
     // Initialize complexity scorer with model-specific config
-    const contextWindow = this.getContextWindow(model);
+    const contextWindow = getContextWindow(model);
     this.complexityScorer = new ComplexityScorer(tokenCounter, {
       model,
       contextWindow,
@@ -253,7 +254,7 @@ export class SplitMissionToolImpl {
    * Build token usage summary from complexity analysis
    */
   private buildTokenUsage(complexity: ComplexityAnalysis) {
-    const contextWindow = this.getContextWindow(this.model);
+    const contextWindow = getContextWindow(this.model);
     const totalTokens = complexity.tokenDetails.count;
 
     return {
@@ -382,7 +383,7 @@ export class SplitMissionToolImpl {
     splitResult: SplitResult,
     files: string[]
   ): string {
-    const contextWindow = this.getContextWindow(this.model);
+    const contextWindow = getContextWindow(this.model);
     const utilization = complexity.tokenDetails.count / contextWindow;
 
     const parts: string[] = [
@@ -422,18 +423,6 @@ export class SplitMissionToolImpl {
     parts.push('3. Ensure context is properly propagated between steps');
 
     return parts.join('\n');
-  }
-
-  /**
-   * Get context window for model
-   */
-  private getContextWindow(model: SupportedModel): number {
-    const windows: Record<SupportedModel, number> = {
-      claude: 200000, // Claude Sonnet/Opus
-      gpt: 128000, // GPT-4 Turbo
-      gemini: 1000000, // Gemini 1.5 Pro
-    };
-    return windows[model] || 200000;
   }
 
   /**

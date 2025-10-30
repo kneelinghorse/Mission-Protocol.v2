@@ -83,10 +83,10 @@ export async function extractTemplate(params: ExtractTemplateParams): Promise<Ex
 
       await writeTemplate(templateDir, result);
 
-      console.log(`✓ Template extracted successfully to: ${path.resolve(templateDir)}`);
-      console.log(`✓ Files analyzed: ${result.stage1?.filesAnalyzed || 0}`);
-      console.log(`✓ Parameters generated: ${result.stage2?.parametersGenerated || 0}`);
-      console.log(`✓ Total time: ${result.totalTime}ms`);
+      console.error(`[INFO] Template extracted successfully to: ${path.resolve(templateDir)}`);
+      console.error(`[INFO] Files analyzed: ${result.stage1?.filesAnalyzed || 0}`);
+      console.error(`[INFO] Parameters generated: ${result.stage2?.parametersGenerated || 0}`);
+      console.error(`[INFO] Total time: ${result.totalTime}ms`);
     }
 
     return result;
