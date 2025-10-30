@@ -65,6 +65,19 @@ const ajv = new Ajv({
   allErrors: true,
 });
 
+const OUTPUT_SCHEMA_MAX_BYTES = 64 * 1024; // 64KB
+const OUTPUT_SCHEMA_MAX_DEPTH = 16;
+const OUTPUT_SCHEMA_MAX_NODES = 2000;
+const OUTPUT_SCHEMA_MAX_PROPERTIES = 256;
+const OUTPUT_SCHEMA_MAX_ARRAY_ITEMS = 1024;
+
+const DRAFT_07_SCHEMA_IDS = new Set<string>([
+  'http://json-schema.org/draft-07/schema#',
+  'https://json-schema.org/draft-07/schema#',
+  'http://json-schema.org/draft-07/schema',
+  'https://json-schema.org/draft-07/schema',
+]);
+
 function asArray<T>(value: T | T[] | undefined): T[] {
   if (value === undefined) {
     return [];
@@ -295,6 +308,76 @@ async function resolveComponentContent(
   component.content = content.trim();
 }
 
+interface SchemaComplexityStats {
+  nodeCount: number;
+}
+
+function analyzeSchemaComplexity(
+  value: unknown,
+  depth = 1,
+  stats: SchemaComplexityStats = { nodeCount: 0 },
+  seen: WeakSet<object> = new WeakSet()
+): SchemaComplexityStats {
+  if (depth > OUTPUT_SCHEMA_MAX_DEPTH) {
+    throw new Error(`maximum depth ${OUTPUT_SCHEMA_MAX_DEPTH} exceeded (observed ${depth})`);
+  }
+
+  stats.nodeCount += 1;
+  if (stats.nodeCount > OUTPUT_SCHEMA_MAX_NODES) {
+    throw new Error(`node count ${stats.nodeCount} exceeds limit ${OUTPUT_SCHEMA_MAX_NODES}`);
+  }
+
+  if (typeof value !== 'object' || value === null) {
+    return stats;
+  }
+
+  const objectValue = value as Record<string, unknown>;
+  if (seen.has(objectValue)) {
+    return stats;
+  }
+  seen.add(objectValue);
+
+  if (Array.isArray(value)) {
+    if (value.length > OUTPUT_SCHEMA_MAX_ARRAY_ITEMS) {
+      throw new Error(
+        `array length ${value.length} exceeds limit ${OUTPUT_SCHEMA_MAX_ARRAY_ITEMS}`
+      );
+    }
+    for (const item of value) {
+      analyzeSchemaComplexity(item, depth + 1, stats, seen);
+    }
+    return stats;
+  }
+
+  const keys = Object.keys(objectValue);
+  if (keys.length > OUTPUT_SCHEMA_MAX_PROPERTIES) {
+    throw new Error(
+      `object property count ${keys.length} exceeds limit ${OUTPUT_SCHEMA_MAX_PROPERTIES}`
+    );
+  }
+
+  for (const key of keys) {
+    analyzeSchemaComplexity(objectValue[key], depth + 1, stats, seen);
+  }
+
+  return stats;
+}
+
+function assertDraft7Compliance(schema: Record<string, unknown>): void {
+  const schemaIdentifier = schema['$schema'];
+
+  if (typeof schemaIdentifier !== 'string' || schemaIdentifier.trim().length === 0) {
+    throw new Error('must declare "$schema": "http://json-schema.org/draft-07/schema#".');
+  }
+
+  const normalized = schemaIdentifier.trim();
+  if (!DRAFT_07_SCHEMA_IDS.has(normalized)) {
+    throw new Error(
+      `must use a Draft-07 "$schema" identifier (received "${normalized}").`
+    );
+  }
+}
+
 function buildOutputSchema(node: unknown, errors: string[]): Record<string, unknown> | undefined {
   const raw = extractText(node);
   if (!raw) {
@@ -302,10 +385,46 @@ function buildOutputSchema(node: unknown, errors: string[]): Record<string, unkn
     return undefined;
   }
 
+  const sizeInBytes = Buffer.byteLength(raw, 'utf8');
+  if (sizeInBytes > OUTPUT_SCHEMA_MAX_BYTES) {
+    errors.push(
+      `OutputSchema JSON Schema exceeds maximum allowed size of ${OUTPUT_SCHEMA_MAX_BYTES} bytes (received ${sizeInBytes} bytes).`
+    );
+    return undefined;
+  }
+
   try {
     const parsed = JSON.parse(raw);
-    ajv.compile(parsed);
-    return parsed as Record<string, unknown>;
+
+    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+      errors.push('OutputSchema JSON Schema must be a JSON object.');
+      return undefined;
+    }
+
+    const schemaObject = parsed as Record<string, unknown>;
+
+    try {
+      assertDraft7Compliance(schemaObject);
+    } catch (complianceError) {
+      errors.push(
+        `OutputSchema JSON Schema ${complianceError instanceof Error ? complianceError.message : String(complianceError)}`
+      );
+      return undefined;
+    }
+
+    try {
+      analyzeSchemaComplexity(schemaObject);
+    } catch (complexityError) {
+      errors.push(
+        `OutputSchema JSON Schema exceeds complexity limits: ${
+          complexityError instanceof Error ? complexityError.message : String(complexityError)
+        }`
+      );
+      return undefined;
+    }
+
+    ajv.compile(schemaObject);
+    return schemaObject;
   } catch (error) {
     errors.push(
       `OutputSchema JSON Schema validation failed: ${

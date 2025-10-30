@@ -46,3 +46,5 @@
 {"ts":"2025-10-30T21:20:24Z","agent":"gpt-5-codex","mission":"B7.1","action":"complete","status":"completed","summary":"Completed B7.1: tightened hybrid component src guards and added regression coverage.","next_hint":"B7.2 promoted to Current for schema validation hardening."}
 {"ts":"2025-10-30T21:34:31Z","agent":"gpt-5-codex","mission":"B7.2","action":"start","status":"in_progress","summary":"Starting B7.2: resolving telemetry regressions and schema validation hardening."}
 {"ts":"2025-10-30T21:35:00Z","agent":"gpt-5-codex","mission":"B7.2","action":"cancel","status":"rolled_back","summary":"Reverted B7.2 kickoff; no work performed beyond backlog correction."}
+{"ts":"2025-10-30T22:37:07Z","agent":"gpt-5-codex","mission":"B7.2","action":"start","status":"in_progress","summary":"Starting B7.2: schema validation hardening workstream resumed."}
+{"ts":"2025-10-30T22:42:08Z","agent":"gpt-5-codex","mission":"B7.2","action":"complete","status":"completed","summary":"Completed B7.2: enforced OutputSchema Draft-07 compliance with size and complexity guardrails.","next_hint":"B7.3 promoted to Current for context window registry work."}

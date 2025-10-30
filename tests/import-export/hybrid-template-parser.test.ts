@@ -47,7 +47,7 @@ describe('hybrid-template-parser', () => {
     const xml = await fs.readFile(sampleTemplatePath, 'utf8');
     const malformedSchemaXml = xml.replace(
       /<OutputSchema><!\[CDATA\[[\s\S]*?\]\]><\/OutputSchema>/,
-      '<OutputSchema><![CDATA[{"title": "Broken",]]></OutputSchema>'
+      '<OutputSchema><![CDATA[{"$schema":"http://json-schema.org/draft-07/schema#","title": "Broken",]]></OutputSchema>'
     );
 
     const result = parseHybridTemplate(malformedSchemaXml);
@@ -55,6 +55,167 @@ describe('hybrid-template-parser', () => {
     expect(result.valid).toBe(false);
     expect(
       result.errors.find((message) => message.includes('OutputSchema JSON Schema validation failed'))
+    ).toBeDefined();
+  });
+
+  it('rejects oversized OutputSchema payloads', async () => {
+    const xml = await fs.readFile(sampleTemplatePath, 'utf8');
+    const largeSchema = JSON.stringify({
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      type: 'object',
+      description: 'a'.repeat(70_000),
+    });
+    const oversizedSchemaXml = xml.replace(
+      /<OutputSchema>[\s\S]*<\/OutputSchema>/,
+      `<OutputSchema><![CDATA[${largeSchema}]]></OutputSchema>`
+    );
+
+    const result = parseHybridTemplate(oversizedSchemaXml);
+
+    expect(result.valid).toBe(false);
+    expect(
+      result.errors.find((message) =>
+        message.includes('OutputSchema JSON Schema exceeds maximum allowed size')
+      )
+    ).toBeDefined();
+  });
+
+  it('enforces Draft-07 compliance for OutputSchema payloads', async () => {
+    const xml = await fs.readFile(sampleTemplatePath, 'utf8');
+    const missingDialectXml = xml.replace(
+      /<OutputSchema>[\s\S]*<\/OutputSchema>/,
+      '<OutputSchema><![CDATA[{"type":"object"}]]></OutputSchema>'
+    );
+
+    const result = parseHybridTemplate(missingDialectXml);
+
+    expect(result.valid).toBe(false);
+    expect(
+      result.errors.find((message) =>
+        message.includes('OutputSchema JSON Schema must declare "$schema"')
+      )
+    ).toBeDefined();
+  });
+
+  it('rejects OutputSchema payloads that exceed complexity thresholds', async () => {
+    const xml = await fs.readFile(sampleTemplatePath, 'utf8');
+    const deepSchema: Record<string, unknown> = {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      type: 'object',
+    };
+
+    let cursor: Record<string, unknown> = deepSchema;
+    for (let depth = 0; depth < 20; depth += 1) {
+      const child: Record<string, unknown> = { type: 'object' };
+      cursor['properties'] = { [`level${depth}`]: child };
+      cursor['required'] = [`level${depth}`];
+      cursor = child;
+    }
+    cursor['type'] = 'string';
+
+    const deepSchemaJson = JSON.stringify(deepSchema);
+    const deepSchemaXml = xml.replace(
+      /<OutputSchema>[\s\S]*<\/OutputSchema>/,
+      `<OutputSchema><![CDATA[${deepSchemaJson}]]></OutputSchema>`
+    );
+
+    const result = parseHybridTemplate(deepSchemaXml);
+
+    expect(result.valid).toBe(false);
+    expect(
+      result.errors.find((message) =>
+        message.includes('OutputSchema JSON Schema exceeds complexity limits')
+      )
+    ).toBeDefined();
+  });
+
+  it('rejects OutputSchema payloads with oversized arrays', async () => {
+    const xml = await fs.readFile(sampleTemplatePath, 'utf8');
+    const largeEnumSchema = JSON.stringify({
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      type: 'string',
+      enum: Array.from({ length: 1025 }, (_, index) => `value-${index}`),
+    });
+
+    const oversizedArrayXml = xml.replace(
+      /<OutputSchema>[\s\S]*<\/OutputSchema>/,
+      `<OutputSchema><![CDATA[${largeEnumSchema}]]></OutputSchema>`
+    );
+
+    const result = parseHybridTemplate(oversizedArrayXml);
+
+    expect(result.valid).toBe(false);
+    expect(
+      result.errors.find((message) =>
+        message.includes('OutputSchema JSON Schema exceeds complexity limits')
+      )
+    ).toBeDefined();
+  });
+
+  it('rejects OutputSchema payloads with excessive object properties', async () => {
+    const xml = await fs.readFile(sampleTemplatePath, 'utf8');
+    const propertyKeys = Array.from({ length: 300 }, (_, index) => `field_${index}`);
+    const largePropertiesSchema = JSON.stringify({
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      type: 'object',
+      properties: propertyKeys.reduce<Record<string, unknown>>((acc, key) => {
+        acc[key] = { type: 'string' };
+        return acc;
+      }, {}),
+    });
+
+    const oversizedPropertiesXml = xml.replace(
+      /<OutputSchema>[\s\S]*<\/OutputSchema>/,
+      `<OutputSchema><![CDATA[${largePropertiesSchema}]]></OutputSchema>`
+    );
+
+    const result = parseHybridTemplate(oversizedPropertiesXml);
+
+    expect(result.valid).toBe(false);
+    expect(
+      result.errors.find((message) =>
+        message.includes('OutputSchema JSON Schema exceeds complexity limits')
+      )
+    ).toBeDefined();
+  });
+
+  it('rejects OutputSchema payloads that are not objects', async () => {
+    const xml = await fs.readFile(sampleTemplatePath, 'utf8');
+    const arraySchema = JSON.stringify([
+      {
+        $schema: 'http://json-schema.org/draft-07/schema#',
+        type: 'string',
+      },
+    ]);
+
+    const arraySchemaXml = xml.replace(
+      /<OutputSchema>[\s\S]*<\/OutputSchema>/,
+      `<OutputSchema><![CDATA[${arraySchema}]]></OutputSchema>`
+    );
+
+    const result = parseHybridTemplate(arraySchemaXml);
+
+    expect(result.valid).toBe(false);
+    expect(result.errors).toContain('OutputSchema JSON Schema must be a JSON object.');
+  });
+
+  it('rejects OutputSchema payloads with unsupported $schema identifiers', async () => {
+    const xml = await fs.readFile(sampleTemplatePath, 'utf8');
+    const invalidDialectSchema = JSON.stringify({
+      $schema: 'http://json-schema.org/draft-06/schema#',
+      type: 'object',
+    });
+
+    const invalidDialectXml = xml.replace(
+      /<OutputSchema>[\s\S]*<\/OutputSchema>/,
+      `<OutputSchema><![CDATA[${invalidDialectSchema}]]></OutputSchema>`
+    );
+
+    const result = parseHybridTemplate(invalidDialectXml);
+
+    expect(result.valid).toBe(false);
+    expect(
+      result.errors.find((message) => message.includes('must use a Draft-07 "$schema" identifier'))
     ).toBeDefined();
   });
 
@@ -75,7 +236,7 @@ describe('hybrid-template-parser', () => {
         <Instructions src="components/instructions/structured-delivery.xml" />
         <ContextData />
         <Examples></Examples>
-        <OutputSchema><![CDATA[{"type":"object"}]]></OutputSchema>
+        <OutputSchema><![CDATA[{"$schema":"http://json-schema.org/draft-07/schema#","type":"object"}]]></OutputSchema>
       </MissionTemplate>
     `;
 
@@ -135,7 +296,7 @@ describe('hybrid-template-parser', () => {
             <Output><![CDATA[{"summary":"ok"}]]></Output>
           </Example>
         </Examples>
-        <OutputSchema><![CDATA[{"type":"object"}]]></OutputSchema>
+        <OutputSchema><![CDATA[{"$schema":"http://json-schema.org/draft-07/schema#","type":"object"}]]></OutputSchema>
       </MissionTemplate>
     `;
 
@@ -173,7 +334,7 @@ describe('hybrid-template-parser', () => {
             <Output><![CDATA[{"summary":"ok"}]]></Output>
           </Example>
         </Examples>
-        <OutputSchema><![CDATA[{"type":"object"}]]></OutputSchema>
+        <OutputSchema><![CDATA[{"$schema":"http://json-schema.org/draft-07/schema#","type":"object"}]]></OutputSchema>
       </MissionTemplate>
     `;
 
@@ -214,7 +375,7 @@ describe('hybrid-template-parser', () => {
             <Output><![CDATA[{"summary":"ok"}]]></Output>
           </Example>
         </Examples>
-        <OutputSchema><![CDATA[{"type":"object","properties":{"summary":{"type":"string"}},"required":["summary"]}]]></OutputSchema>
+        <OutputSchema><![CDATA[{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","properties":{"summary":{"type":"string"}},"required":["summary"]}]]></OutputSchema>
       </MissionTemplate>
     `;
 
@@ -259,7 +420,7 @@ describe('hybrid-template-parser', () => {
             <Output><![CDATA[{"summary":"ok"}]]></Output>
           </Example>
         </Examples>
-        <OutputSchema><![CDATA[{"type":"object","properties":{"summary":{"type":"string"}},"required":["summary"]}]]></OutputSchema>
+        <OutputSchema><![CDATA[{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","properties":{"summary":{"type":"string"}},"required":["summary"]}]]></OutputSchema>
       </MissionTemplate>
     `;
 

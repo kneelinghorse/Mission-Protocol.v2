@@ -99,12 +99,13 @@ export function emitTelemetryEvent(
   }
 
   const consoleFn =
-    level === 'error' ? console.error : level === 'info' ? console.info : console.warn;
+    level === 'error' ? console.error : level === 'warning' ? console.warn : console.info;
+  const formattedMessage = `[Telemetry][${source}] ${message}`;
 
   if (context) {
-    consoleFn(`[Telemetry][${source}] ${message}`, context);
+    consoleFn(formattedMessage, context);
   } else {
-    consoleFn(`[Telemetry][${source}] ${message}`);
+    consoleFn(formattedMessage);
   }
 }
 

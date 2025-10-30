@@ -432,7 +432,7 @@ describe('TemplateImporter - Hybrid XML Templates', () => {
     </Example>
   </Examples>
   <OutputSchema><![CDATA[
-{"type":"object","required":["summary"],"properties":{"summary":{"type":"string"}}}
+{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","required":["summary"],"properties":{"summary":{"type":"string"}}}
   ]]></OutputSchema>
 </MissionTemplate>`,
       'utf-8'
