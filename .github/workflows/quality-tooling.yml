@@ -50,6 +50,9 @@ jobs:
           CI: 'true'
         run: npm run snapshots -- --ci
 
+      - name: Validate mission templates
+        run: npm run validate:packs
+
       - name: Generate quality metrics
         run: npm run metrics
 

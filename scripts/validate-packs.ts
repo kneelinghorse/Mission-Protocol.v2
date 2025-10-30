@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { promises as fs } from 'fs';
 import * as YAML from 'yaml';
+import Ajv, { AnySchema, ErrorObject } from 'ajv';
 
 type RegistryEntry = {
   name: string;
@@ -18,6 +19,13 @@ type WorkflowConfig = {
   packs: readonly string[];
   sampleDir: string;
   sampleFiles: Record<string, string>;
+};
+
+type Manifest = {
+  name?: string;
+  version?: string | number;
+  description?: string;
+  schema?: string;
 };
 
 const WORKFLOWS: WorkflowConfig[] = [
@@ -76,6 +84,19 @@ async function readYaml<T>(filePath: string): Promise<T> {
   return YAML.parse(content) as T;
 }
 
+function formatAjvErrors(errors: ErrorObject[] | null | undefined): string {
+  if (!errors || errors.length === 0) {
+    return 'unknown validation error';
+  }
+  return errors
+    .map((error) => {
+      const location = error.instancePath && error.instancePath.length > 0 ? error.instancePath : '/';
+      const message = error.message ?? 'validation failed';
+      return `${location} ${message}`.trim();
+    })
+    .join('; ');
+}
+
 async function main(): Promise<void> {
   const repoRoot = process.cwd();
   const templatesDir = path.join(repoRoot, 'templates');
@@ -91,6 +112,136 @@ async function main(): Promise<void> {
 
   const registry = await readYaml<RegistryFile>(registryPath);
   const entriesByName = new Map(registry.domains.map((entry) => [entry.name, entry]));
+  const seenNames = new Set<string>();
+  const seenPaths = new Set<string>();
+
+  for (const entry of registry.domains) {
+    const entryName = entry.name?.trim();
+    if (!entryName) {
+      errors.push('Registry entry is missing a name.');
+      continue;
+    }
+
+    if (seenNames.has(entryName)) {
+      errors.push(`Registry contains duplicate entry name "${entryName}".`);
+      continue;
+    }
+    seenNames.add(entryName);
+
+    const entryPath = entry.path?.trim();
+    if (!entryPath) {
+      errors.push(`Registry entry "${entryName}" is missing a path.`);
+      continue;
+    }
+
+    if (seenPaths.has(entryPath)) {
+      errors.push(`Registry entries share the same path "${entryPath}" (duplicate detected for "${entryName}").`);
+    } else {
+      seenPaths.add(entryPath);
+    }
+
+    const packDir = path.join(templatesDir, entryPath);
+    let stats;
+    try {
+      stats = await fs.stat(packDir);
+    } catch {
+      errors.push(`Registry entry "${entryName}" references missing directory "${packDir}".`);
+      continue;
+    }
+
+    if (!stats.isDirectory()) {
+      errors.push(`Registry entry "${entryName}" path "${packDir}" is not a directory.`);
+      continue;
+    }
+
+    const manifestPath = path.join(packDir, 'pack.yaml');
+    let manifest: Manifest;
+    try {
+      manifest = await readYaml<Manifest>(manifestPath);
+    } catch (error) {
+      errors.push(
+        `Failed to read manifest for "${entryName}" at ${manifestPath}: ${(error as Error).message}`
+      );
+      continue;
+    }
+
+    const manifestName = manifest.name?.trim();
+    if (!manifestName) {
+      errors.push(`Manifest at ${manifestPath} is missing a name field.`);
+    } else if (manifestName !== entryName) {
+      errors.push(
+        `Manifest name mismatch for ${entryName}: registry="${entryName}", manifest="${manifestName}".`
+      );
+    }
+
+    const registryDescription = entry.description?.trim() ?? '';
+    const manifestDescription = manifest.description?.trim() ?? '';
+    if (registryDescription && manifestDescription && registryDescription !== manifestDescription) {
+      errors.push(
+        `Description mismatch for ${entryName}: registry="${registryDescription}", manifest="${manifestDescription}".`
+      );
+    } else if (!registryDescription || !manifestDescription) {
+      notices.push(`Consider adding descriptions for ${entryName} in both registry and manifest.`);
+    }
+
+    const registrySchemaVersion = entry.schema_version ? String(entry.schema_version).trim() : '';
+    const manifestVersion = manifest.version !== undefined ? String(manifest.version).trim() : '';
+    if (registrySchemaVersion && manifestVersion && registrySchemaVersion !== manifestVersion) {
+      errors.push(
+        `Version mismatch for ${entryName}: registry.schema_version="${registrySchemaVersion}", manifest.version="${manifestVersion}".`
+      );
+    }
+
+    const schemaFile = manifest.schema?.trim() || 'schema.json';
+    const schemaPath = path.join(packDir, schemaFile);
+    let schemaContent: string;
+    try {
+      schemaContent = await fs.readFile(schemaPath, 'utf8');
+    } catch {
+      errors.push(`Missing schema for ${entryName} at ${schemaPath}.`);
+      continue;
+    }
+
+    let schema: AnySchema;
+    try {
+      schema = JSON.parse(schemaContent) as AnySchema;
+    } catch (error) {
+      errors.push(
+        `Failed to parse schema for ${entryName} at ${schemaPath}: ${(error as Error).message}`
+      );
+      continue;
+    }
+
+    const templatePath = path.join(packDir, 'template.yaml');
+    let templateContent: string;
+    try {
+      templateContent = await fs.readFile(templatePath, 'utf8');
+    } catch {
+      errors.push(`Missing template for ${entryName} at ${templatePath}.`);
+      continue;
+    }
+
+    let templateData: unknown;
+    try {
+      templateData = YAML.parse(templateContent);
+    } catch (error) {
+      errors.push(
+        `Failed to parse template for ${entryName} at ${templatePath}: ${(error as Error).message}`
+      );
+      continue;
+    }
+
+    try {
+      const validator = new Ajv({ allErrors: true, strict: false });
+      const validate = validator.compile(schema);
+      if (!validate(templateData)) {
+        const details = formatAjvErrors(validate.errors);
+        errors.push(`Template for ${entryName} failed schema validation: ${details}.`);
+      }
+    } catch (error) {
+      errors.push(`Failed to validate template for ${entryName}: ${(error as Error).message}`);
+    }
+  }
 
   for (const workflow of WORKFLOWS) {
     const samplesDir = path.join(repoRoot, workflow.sampleDir);
@@ -100,43 +251,6 @@ async function main(): Promise<void> {
       if (!entry) {
         errors.push(`Registry is missing ${workflow.name} pack entry for "${packName}".`);
         continue;
-      }
-
-      const packDir = path.join(templatesDir, entry.path);
-      const manifestPath = path.join(packDir, 'pack.yaml');
-      const schemaPath = path.join(packDir, 'schema.json');
-      const templatePath = path.join(packDir, 'template.yaml');
-
-      try {
-        await fs.access(manifestPath);
-      } catch {
-        errors.push(`Missing manifest for ${packName} at ${manifestPath}.`);
-        continue;
-      }
-
-      const manifest = await readYaml<{ name: string; description?: string }>(manifestPath);
-      if (manifest.name !== packName) {
-        errors.push(
-          `Manifest name mismatch for ${packName}: registry="${packName}", manifest="${manifest.name}".`
-        );
-      }
-
-      const registryDescription = entry.description?.trim() ?? '';
-      const manifestDescription = manifest.description?.trim() ?? '';
-      if (registryDescription && manifestDescription && registryDescription !== manifestDescription) {
-        errors.push(
-          `Description mismatch for ${packName}: registry="${registryDescription}", manifest="${manifestDescription}".`
-        );
-      } else if (!registryDescription || !manifestDescription) {
-        notices.push(`Consider adding descriptions for ${packName} in both registry and manifest.`);
-      }
-
-      for (const artifactPath of [schemaPath, templatePath]) {
-        try {
-          await fs.access(artifactPath);
-        } catch {
-          errors.push(`Missing artifact for ${packName} at ${artifactPath}.`);
-        }
       }
 
       const sampleFile = workflow.sampleFiles[packName];

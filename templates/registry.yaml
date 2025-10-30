@@ -7,7 +7,7 @@ domains:
     schema_version: 1.0.0
 
   - name: build.architecture-mission
-    description: 4-6 hour architecture mission translating discovery outputs into technical plans
+    description: "A 4-6 hour mission to translate validated requirements from the discovery phase into a high-level technical specification, a risk mitigation plan, and initial build missions for CMOS."
     version: 1.0.0
     author: CMOS Team
     path: packs/build.architecture-mission
@@ -35,7 +35,7 @@ domains:
     schema_version: 1.0.0
 
   - name: design.ux-research-summary
-    description: Synthesize UX research findings into actionable insights and recommendations
+    description: "A mission to synthesize user research findings into actionable insights and recommendations for stakeholders."
     version: 1.0.0
     author: Design / UX Research
     path: packs/design.ux-research-summary
@@ -56,7 +56,7 @@ domains:
     schema_version: 1.1.0
 
   - name: discovery.pivot-analysis
-    description: Analyze discovery findings to determine whether to pivot, refine, or retire the mission
+    description: "A 2-3 hour mission to extract a new hypothesis from previous research findings and decide whether to restart the discovery process or abandon the opportunity. Triggered by a 'Pivot/Refine' decision from a Level 4 Synthesis."
     version: 1.0.0
     author: CMOS Team
     path: packs/discovery.pivot-analysis
@@ -77,7 +77,7 @@ domains:
     schema_version: 1.1.0
 
   - name: discovery.research-sub-mission
-    description: Focused lens mission capturing findings, synthesis, and confidence per research track
+    description: "Focused lens mission (e.g., R1–R5). Sourced findings + synthesis + confidence."
     version: 1.1.0
     author: core-team
     path: packs/discovery.research-sub-mission
@@ -105,7 +105,7 @@ domains:
     schema_version: 1.0.0
 
   - name: market.customer-development
-    description: Validate early adopter hypotheses, interview scripts, and pricing insights
+    description: "A mission to validate early adopter hypotheses, refine interview scripts, and align channel strategy with validated pricing insights."
     version: 1.0.0
     author: Product Discovery
     path: packs/market.customer-development
@@ -147,21 +147,21 @@ domains:
     schema_version: 1.0.0
 
   - name: qa.bug-report
-    description: Report a software bug with sufficient detail for reproduction and resolution
+    description: "A mission to report a software bug with sufficient detail for reproduction and resolution."
     version: 1.0.0
     author: QA / Engineering
     path: packs/qa.bug-report
     schema_version: 1.0.0
 
   - name: research.general
-    description: Pattern-based research template linking evidence to PRD/SRD decisions and interactive handoff checklists
+    description: "Pattern-driven research scaffold aligning evidence to PRD/SRD decisions with interactive handoff checklists."
     version: 1.1.0
     author: kneelinghorse
     path: packs/research.general
     schema_version: 1.1.0
 
   - name: software.technical-task
-    description: Software development tasks and feature implementation
+    description: "Missions for designing and implementing software features"
     version: 1.0.0
     author: core-team
     path: packs/software.technical-task
