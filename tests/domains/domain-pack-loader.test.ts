@@ -435,6 +435,38 @@ describe('DomainPackLoader', () => {
     });
   });
 
+  describe('Caching Behavior', () => {
+    it('caches packs after the first load and reuses compiled schemas', async () => {
+      const templateBaseDir = path.resolve(__dirname, '../../templates');
+      const templateLoader = new SecureYAMLLoader({ baseDir: templateBaseDir });
+      const templateRegistry = new RegistryParser(templateLoader);
+      const cachedPackLoader = new DomainPackLoader(templateLoader, templateRegistry);
+
+      const registryEntries = await templateRegistry.loadRegistry('registry.yaml');
+      const packName = 'process.code-review';
+      const targetEntry = registryEntries.find((entry) => entry.name === packName);
+
+      expect(targetEntry).toBeDefined();
+
+      const loadSpy = jest.spyOn(templateLoader, 'load');
+
+      const firstPack = await cachedPackLoader.loadPack(packName, registryEntries);
+      const callsAfterFirstLoad = loadSpy.mock.calls.length;
+
+      const secondPack = await cachedPackLoader.loadPack(packName, registryEntries);
+      const callsAfterSecondLoad = loadSpy.mock.calls.length;
+
+      expect(secondPack).toBe(firstPack);
+      expect(callsAfterSecondLoad).toBe(callsAfterFirstLoad);
+      expect(Object.isFrozen(secondPack)).toBe(true);
+      expect(Object.isFrozen(secondPack.manifest)).toBe(true);
+      expect(Object.isFrozen(secondPack.schema)).toBe(true);
+      expect(Object.isFrozen(secondPack.template)).toBe(true);
+
+      loadSpy.mockRestore();
+    });
+  });
+
   describe('Integration with SecureYAMLLoader', () => {
     it('should use loader for manifest loading', async () => {
       const loadSpy = jest.spyOn(loader, 'load');

@@ -26,7 +26,7 @@ import {
   DomainPackValidationResult,
   DomainPackLoaderOptions,
 } from './types';
-import Ajv from 'ajv';
+import Ajv, { ValidateFunction } from 'ajv';
 import { ErrorHandler } from '../errors/handler';
 import { DomainError } from '../errors/domain-error';
 import { MissionProtocolError } from '../errors/mission-error';
@@ -70,6 +70,9 @@ export class DomainPackLoader {
   private registry: RegistryParser;
   private options: Required<DomainPackLoaderOptions>;
   private ajv: Ajv;
+  private schemaValidatorCache: Map<string, ValidateFunction<Record<string, unknown>>>;
+  private packCache: Map<string, DomainPack>;
+  private packLoadingPromises: Map<string, Promise<DomainPack>>;
 
   constructor(
     loader: SecureYAMLLoader,
@@ -83,6 +86,9 @@ export class DomainPackLoader {
       maxTemplateSize: options?.maxTemplateSize ?? 1024 * 1024, // 1MB default
     };
     this.ajv = new Ajv({ allErrors: true, strict: false });
+    this.schemaValidatorCache = new Map();
+    this.packCache = new Map();
+    this.packLoadingPromises = new Map();
   }
 
   /**
@@ -102,6 +108,33 @@ export class DomainPackLoader {
    * @throws Error if pack not found, invalid, or loading fails
    */
   async loadPack(packName: string, registryEntries: DomainPackEntry[]): Promise<DomainPack> {
+    if (this.packCache.has(packName)) {
+      return this.packCache.get(packName)!;
+    }
+
+    if (this.packLoadingPromises.has(packName)) {
+      return this.packLoadingPromises.get(packName)!;
+    }
+
+    const loadPromise = (async () => {
+      const pack = await this.loadPackFromDisk(packName, registryEntries);
+      return this.freezePack(pack);
+    })();
+    this.packLoadingPromises.set(packName, loadPromise);
+
+    try {
+      const pack = await loadPromise;
+      this.packCache.set(packName, pack);
+      return pack;
+    } finally {
+      this.packLoadingPromises.delete(packName);
+    }
+  }
+
+  private async loadPackFromDisk(
+    packName: string,
+    registryEntries: DomainPackEntry[]
+  ): Promise<DomainPack> {
     const contextData = { packName };
     try {
       // Step 1: Find pack in registry
@@ -138,7 +171,7 @@ export class DomainPackLoader {
       const template = await this.loadTemplate(templatePath);
 
       // Validate template against schema for safety before returning
-      const templateValidation = this.validateTemplateAgainstSchema(template, schema);
+      const templateValidation = this.validateTemplateAgainstSchema(template, schema, packName);
       if (!templateValidation.valid) {
         throw new DomainError('Domain template does not conform to schema', {
           code: 'DOMAIN_INVALID',
@@ -344,10 +377,11 @@ export class DomainPackLoader {
    */
   private validateTemplateAgainstSchema(
     template: Record<string, unknown>,
-    schema: JSONSchema
+    schema: JSONSchema,
+    cacheKey: string
   ): { valid: boolean; errors: string[] } {
     try {
-      const validate = this.ajv.compile(schema);
+      const validate = this.getSchemaValidator(cacheKey, schema);
       const ok = validate(template);
       if (!ok) {
         const errs = (validate.errors || []).map((e) => this.ajv.errorsText([e]));
@@ -395,7 +429,11 @@ export class DomainPackLoader {
 
     // Could add template validation against schema here if needed
     // Validate template conforms to schema
-    const schemaValidation = this.validateTemplateAgainstSchema(pack.template, pack.schema);
+    const schemaValidation = this.validateTemplateAgainstSchema(
+      pack.template,
+      pack.schema,
+      pack.manifest.name
+    );
     if (!schemaValidation.valid) {
       errors.push(...schemaValidation.errors.map((e) => `Template schema validation: ${e}`));
     }
@@ -446,6 +484,48 @@ export class DomainPackLoader {
     const hasRef = '$ref' in candidate;
 
     return hasType || hasComposition || hasRef;
+  }
+
+  private getSchemaValidator(
+    cacheKey: string,
+    schema: JSONSchema
+  ): ValidateFunction<Record<string, unknown>> {
+    const cached = this.schemaValidatorCache.get(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    const validator = this.ajv.compile(schema) as ValidateFunction<Record<string, unknown>>;
+    this.schemaValidatorCache.set(cacheKey, validator);
+    return validator;
+  }
+
+  private freezePack(pack: DomainPack): DomainPack {
+    const frozenPack = {
+      manifest: this.deepFreeze({ ...pack.manifest }),
+      schema: this.deepFreeze(pack.schema),
+      template: this.deepFreeze(pack.template),
+    } as DomainPack;
+    return Object.freeze(frozenPack) as DomainPack;
+  }
+
+  private deepFreeze<T>(value: T): T {
+    if (value && typeof value === 'object') {
+      if (Object.isFrozen(value)) {
+        return value;
+      }
+      Object.freeze(value);
+      if (Array.isArray(value)) {
+        for (const item of value) {
+          this.deepFreeze(item);
+        }
+      } else {
+        for (const item of Object.values(value as Record<string, unknown>)) {
+          this.deepFreeze(item);
+        }
+      }
+    }
+    return value;
   }
 }
 

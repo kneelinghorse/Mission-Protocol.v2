@@ -11,7 +11,7 @@
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import * as YAML from 'yaml';
-import Ajv from 'ajv';
+import Ajv, { ValidateFunction } from 'ajv';
 import { PathTraversalError, SchemaValidationError, UnsafeYAMLError } from '../types/errors';
 import { IOError } from '../errors/io-error';
 import { JSONSchema } from '../types/schemas';
@@ -43,6 +43,7 @@ export class SecureYAMLLoader {
   private readonly followSymlinks: boolean;
   private readonly maxFileSize: number;
   private readonly ajv: Ajv;
+  private readonly schemaValidatorCache: WeakMap<JSONSchema, ValidateFunction>;
 
   constructor(options: SecureYAMLLoaderOptions) {
     // Normalize and resolve base directory
@@ -52,6 +53,7 @@ export class SecureYAMLLoader {
 
     // Initialize AJV for schema validation
     this.ajv = new Ajv({ allErrors: true, strict: false });
+    this.schemaValidatorCache = new WeakMap();
   }
 
   /**
@@ -137,7 +139,7 @@ export class SecureYAMLLoader {
    * @throws SchemaValidationError if validation fails
    */
   validateSchema<T>(data: unknown, schema: JSONSchema): T {
-    const validate = this.ajv.compile(schema);
+    const validate = this.getValidator(schema);
     const valid = validate(data);
 
     if (!valid) {
@@ -202,6 +204,21 @@ export class SecureYAMLLoader {
     }
 
     return parsed as T;
+  }
+
+  /**
+   * Retrieve (or compile) a validator for the supplied schema.
+   * WeakMap cache ensures we only compile static schemas once.
+   */
+  private getValidator(schema: JSONSchema): ValidateFunction {
+    const cached = this.schemaValidatorCache.get(schema);
+    if (cached) {
+      return cached;
+    }
+
+    const validator = this.ajv.compile(schema);
+    this.schemaValidatorCache.set(schema, validator);
+    return validator;
   }
 
   /**
