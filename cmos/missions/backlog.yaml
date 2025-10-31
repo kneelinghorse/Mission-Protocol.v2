@@ -215,8 +215,13 @@ domainFields:
           started_at: "2025-10-30T23:17:28Z"
           completed_at: "2025-10-30T23:22:22Z"
           notes: "CI runs pack registry + schema validation; registry descriptions aligned."
-        - { id: "B7.5", name: "Versioning Contract Documentation", status: "Current", notes: "Document version fields and add cross-validator + migration guide." }
-        - { id: "B7.6", name: "Placeholder Standardization", status: "Queued", notes: "Standardize placeholder conventions and add validation + CI." }
+        - id: "B7.5"
+          name: "Versioning Contract Documentation"
+          status: "Completed"
+          started_at: "2025-10-30T23:43:35Z"
+          completed_at: "2025-10-30T23:50:53Z"
+          notes: "Documented version field contract with cross-validator and migration workflow."
+        - { id: "B7.6", name: "Placeholder Standardization", status: "Current", notes: "Standardize placeholder conventions and add validation + CI." }
         - { id: "B7.7", name: "Schema Caching Optimization", status: "Queued", notes: "Cache Ajv compiled schemas and add lazy loading for packs." }
         - { id: "B7.8", name: "Cancellation & Timeout Support", status: "Queued", notes: "Add AbortController and timeouts to long-running intelligence tools." }
         - { id: "B7.9", name: "Style Guide Standardization", status: "Queued", notes: "Create pack manifest style guide and validator with CI checks." }

@@ -95,3 +95,4 @@ When incorporating new domain packs introduced during active development:
 - Document the addition in sprint backlog or roadmap notes, and include any dependencies or prerequisites.
 - Run `npm run validate:packs` (if available) or future validation scripts to confirm coverage and metadata consistency.
 - Update documentation references (README, guides) so mission authors can discover and apply the new pack.
+- Review `docs/versioning-contract.md` for version alignment expectations and migration workflow before publishing.

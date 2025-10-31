@@ -7,6 +7,7 @@ type RegistryEntry = {
   name: string;
   description: string;
   path: string;
+  version?: string | number;
   schema_version?: string;
 };
 
@@ -184,11 +185,26 @@ async function main(): Promise<void> {
       notices.push(`Consider adding descriptions for ${entryName} in both registry and manifest.`);
     }
 
+    const registryVersion = entry.version ? String(entry.version).trim() : '';
     const registrySchemaVersion = entry.schema_version ? String(entry.schema_version).trim() : '';
     const manifestVersion = manifest.version !== undefined ? String(manifest.version).trim() : '';
+    if (registryVersion && manifestVersion && registryVersion !== manifestVersion) {
+      errors.push(
+        `Version mismatch for ${entryName}: registry.version="${registryVersion}", manifest.version="${manifestVersion}".`
+      );
+    }
     if (registrySchemaVersion && manifestVersion && registrySchemaVersion !== manifestVersion) {
       errors.push(
         `Version mismatch for ${entryName}: registry.schema_version="${registrySchemaVersion}", manifest.version="${manifestVersion}".`
+      );
+    }
+    if (
+      registryVersion &&
+      registrySchemaVersion &&
+      registryVersion !== registrySchemaVersion
+    ) {
+      errors.push(
+        `Version mismatch for ${entryName}: registry.version="${registryVersion}" does not match registry.schema_version="${registrySchemaVersion}".`
       );
     }
 
