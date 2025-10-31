@@ -44,7 +44,7 @@ All domain packs are located in the `packs/` directory. Each pack contains:
 ### Hybrid XML/JSON Format
 
 - `hybrid/sample-mission.xml` demonstrates the hybrid specification with component references and an embedded JSON Schema `<OutputSchema>` block.
-- `hybrid/components/` houses reusable fragments (personas, instructions, context payloads) referenced via `src` attributes.
+- `hybrid/components/` houses reusable fragments (personas, instructions, context payloads) referenced via `src` attributes. See `hybrid/components/README.md` for the catalog and recommended bundles.
 - Hybrid templates target the `mission-template.v2` API surface, enabling semantic XML tags with strict JSON Schema output contracts.
 - Validation utilities and migration helpers live under `src/import-export/hybrid-template-parser.ts` with accompanying tests in `tests/import-export/hybrid-template-parser.test.ts`.
 - Component catalog coverage now includes engineering (`agent-persona/lead-architect.xml`, `context-data/engineering-default.xml`), product (`agent-persona/product-strategist.xml`, `instructions/product-discovery.xml`, `context-data/product-discovery.xml`), and research workflows (`agent-persona/research-analyst.xml`, `instructions/research-sprint.xml`, `context-data/research-lab.xml`).
@@ -83,6 +83,7 @@ When adding new domain packs:
 6. Update `cmos/missions/backlog.yaml` or sprint plans if the pack introduces new missions
 7. Run smoke tests (`npm test -- tests/integration/template-runtime-store.test.ts`) to verify
 8. Update this README and other relevant docs
+9. Follow the `docs/pack-manifest-style-guide.md` rules and run `npm run validate:packs` to confirm manifest formatting.
 
 ### Domain Pack Addition Checklist
 

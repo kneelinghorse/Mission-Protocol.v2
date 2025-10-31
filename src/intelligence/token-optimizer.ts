@@ -15,6 +15,7 @@ import {
   CompressionPassType,
   SupportedModel,
   CompressionLevel,
+  AbortableOptions,
 } from './types';
 import { TokenCounter } from './token-counters';
 import { ModelTranspiler } from './model-transpilers';
@@ -27,6 +28,7 @@ import {
   replaceWithPlaceholders,
   restorePreservedSections,
 } from './compression-rules';
+import { throwIfAborted, withAbort } from '../utils/abort';
 
 /**
  * Token optimizer class
@@ -45,8 +47,12 @@ export class TokenOptimizer {
    */
   async optimize(
     missionContent: string,
-    config: TokenOptimizerConfig
+    config: TokenOptimizerConfig,
+    execution: AbortableOptions = {}
   ): Promise<OptimizationResult> {
+    const { signal } = execution;
+    throwIfAborted(signal, 'Token optimization aborted');
+
     const { model, level, ruleset, preserveTags, dryRun } = config;
 
     // Get default ruleset and merge with custom rules
@@ -63,7 +69,8 @@ export class TokenOptimizer {
     }
 
     // Count original tokens
-    const originalTokenCount = await this.tokenCounter.count(missionContent, model);
+    const originalTokenCount = await this.tokenCounter.count(missionContent, model, execution);
+    throwIfAborted(signal, 'Token optimization aborted');
 
     // Track passes applied
     const passesApplied: CompressionPassType[] = [];
@@ -74,34 +81,41 @@ export class TokenOptimizer {
       // Extract and preserve protected sections
       const preserved = extractPreservedSections(result, finalRuleset.preservePatterns);
       result = replaceWithPlaceholders(result, preserved);
+      throwIfAborted(signal, 'Token optimization aborted');
 
       // Pass 1: Sanitization & Normalization
       if (finalRuleset.sanitizationRules.length > 0) {
         result = applySanitization(result, finalRuleset.sanitizationRules);
         passesApplied.push('sanitization');
+        throwIfAborted(signal, 'Token optimization aborted');
       }
 
       // Pass 2: Structural Refactoring
       if (finalRuleset.structuralRules.length > 0) {
         result = applyStructuralRefactoring(result, finalRuleset.structuralRules);
         passesApplied.push('structural');
+        throwIfAborted(signal, 'Token optimization aborted');
       }
 
       // Pass 3: Linguistic Simplification
       if (finalRuleset.linguisticRules.length > 0) {
         result = applyLinguisticSimplification(result, finalRuleset.linguisticRules);
         passesApplied.push('linguistic');
+        throwIfAborted(signal, 'Token optimization aborted');
       }
 
       // Restore preserved sections
       result = restorePreservedSections(result, preserved);
+      throwIfAborted(signal, 'Token optimization aborted');
 
       // Pass 4: Model-Specific Templating
       result = this.transpiler.transpile(result, model);
       passesApplied.push('model-specific');
+      throwIfAborted(signal, 'Token optimization aborted');
 
       // Count compressed tokens
-      const compressedTokenCount = await this.tokenCounter.count(result, model);
+      const compressedTokenCount = await this.tokenCounter.count(result, model, execution);
+      throwIfAborted(signal, 'Token optimization aborted');
       const denominator = compressedTokenCount.count === 0 ? 1 : compressedTokenCount.count;
 
       // Calculate stats
@@ -154,10 +168,19 @@ export class TokenOptimizer {
   /**
    * Optimize a mission file
    */
-  async optimizeFile(filePath: string, config: TokenOptimizerConfig): Promise<OptimizationResult> {
+  async optimizeFile(
+    filePath: string,
+    config: TokenOptimizerConfig,
+    execution: AbortableOptions = {}
+  ): Promise<OptimizationResult> {
     const fs = await import('fs/promises');
-    const content = await fs.readFile(filePath, 'utf-8');
-    return this.optimize(content, config);
+    const content = await withAbort(
+      fs.readFile(filePath, 'utf-8'),
+      execution.signal,
+      'Reading mission file aborted'
+    );
+    throwIfAborted(execution.signal, 'Token optimization aborted');
+    return this.optimize(content, config, execution);
   }
 
   /**
@@ -172,12 +195,15 @@ export class TokenOptimizer {
    */
   async optimizeBatch(
     missions: Array<{ content: string; id: string }>,
-    config: TokenOptimizerConfig
+    config: TokenOptimizerConfig,
+    execution: AbortableOptions = {}
   ): Promise<Map<string, OptimizationResult>> {
     const results = new Map<string, OptimizationResult>();
+    const { signal } = execution;
 
     for (const mission of missions) {
-      const result = await this.optimize(mission.content, config);
+      throwIfAborted(signal, 'Token optimization aborted');
+      const result = await this.optimize(mission.content, config, execution);
       results.set(mission.id, result);
     }
 
@@ -190,13 +216,18 @@ export class TokenOptimizer {
   async preview(
     missionContent: string,
     model: SupportedModel,
-    level: CompressionLevel
+    level: CompressionLevel,
+    execution: AbortableOptions = {}
   ): Promise<OptimizationResult> {
-    return this.optimize(missionContent, {
-      model,
-      level,
-      dryRun: true,
-    });
+    return this.optimize(
+      missionContent,
+      {
+        model,
+        level,
+        dryRun: true,
+      },
+      execution
+    );
   }
 }
 

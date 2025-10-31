@@ -7,6 +7,8 @@
 
 import { GenericMission } from '../types/mission-types';
 import { ComplexityScorer, ComplexityAnalysis } from './complexity-scorer';
+import { AbortableOptions } from './types';
+import { throwIfAborted } from '../utils/abort';
 
 /**
  * Proposed breakpoint from semantic analysis
@@ -111,18 +113,28 @@ export class MissionSplitter {
   /**
    * Split a mission into coherent sub-missions
    */
-  async split(mission: GenericMission | string, options: SplitOptions = {}): Promise<SplitResult> {
+  async split(
+    mission: GenericMission | string,
+    options: SplitOptions = {},
+    execution: AbortableOptions = {}
+  ): Promise<SplitResult> {
+    const { signal } = execution;
+    throwIfAborted(signal, 'Mission split aborted');
+
     // Analyze complexity
-    const complexity = await this.complexityScorer.calculateCCS(mission);
+    const complexity = await this.complexityScorer.calculateCCS(mission, execution);
+    throwIfAborted(signal, 'Mission split aborted');
 
     const missionText = typeof mission === 'string' ? mission : this.serializeMission(mission);
     const missionObj = typeof mission === 'string' ? null : mission;
 
     // Phase 1: Semantic Proposal - find topic shifts
     const proposedBreakpoints = this.proposeSemanticBreakpoints(missionText, options);
+    throwIfAborted(signal, 'Mission split aborted');
 
     // Phase 2: Structural Validation - identify atomic operations
     const atomicOperations = this.identifyAtomicOperations(missionText);
+    throwIfAborted(signal, 'Mission split aborted');
 
     // Phase 3: Reconciliation - validate breakpoints don't break atomic ops
     const validatedSplitPoints = this.reconcileBreakpoints(
@@ -130,6 +142,7 @@ export class MissionSplitter {
       atomicOperations,
       options
     );
+    throwIfAborted(signal, 'Mission split aborted');
 
     // Generate sub-missions from validated split points
     const subMissions = this.generateSubMissions(
@@ -138,9 +151,11 @@ export class MissionSplitter {
       validatedSplitPoints,
       options
     );
+    throwIfAborted(signal, 'Mission split aborted');
 
     // Extract preserved context
     const preservedContext = this.extractPreservedContext(missionText, missionObj);
+    throwIfAborted(signal, 'Mission split aborted');
 
     return {
       original: mission,
@@ -154,16 +169,24 @@ export class MissionSplitter {
   /**
    * Suggest split points without actually splitting
    */
-  async suggestSplits(mission: GenericMission | string): Promise<{
+  async suggestSplits(
+    mission: GenericMission | string,
+    execution: AbortableOptions = {}
+  ): Promise<{
     shouldSplit: boolean;
     complexity: ComplexityAnalysis;
     suggestedSplits: SplitPoint[];
     reasoning: string;
   }> {
-    const complexity = await this.complexityScorer.calculateCCS(mission);
+    const { signal } = execution;
+    throwIfAborted(signal, 'Split suggestion aborted');
+
+    const complexity = await this.complexityScorer.calculateCCS(mission, execution);
+    throwIfAborted(signal, 'Split suggestion aborted');
     const missionText = typeof mission === 'string' ? mission : this.serializeMission(mission);
 
     if (!complexity.shouldSplit) {
+      throwIfAborted(signal, 'Split suggestion aborted');
       return {
         shouldSplit: false,
         complexity,
@@ -176,6 +199,7 @@ export class MissionSplitter {
     const proposed = this.proposeSemanticBreakpoints(missionText, {});
     const atomic = this.identifyAtomicOperations(missionText);
     const validated = this.reconcileBreakpoints(proposed, atomic, {});
+    throwIfAborted(signal, 'Split suggestion aborted');
 
     const reasoning = this.generateSplitReasoning(complexity, validated);
 

@@ -25,7 +25,9 @@ type WorkflowConfig = {
 type Manifest = {
   name?: string;
   version?: string | number;
+  displayName?: string;
   description?: string;
+  author?: string;
   schema?: string;
 };
 
@@ -42,6 +44,11 @@ const PLACEHOLDER_PATTERNS: PlaceholderPattern[] = [
   { regex: /\bBUG-[A-Z0-9-]+\b/, description: 'should not include sample bug IDs like "BUG-1234"' },
   { regex: /\bPRD-[A-Z0-9-]+\b/, description: 'should not include sample PRD IDs like "PRD-2024-001"' },
 ];
+
+const MANIFEST_FIELDS = ['name', 'version', 'displayName', 'description', 'author', 'schema'] as const;
+const MANIFEST_DESCRIPTION_MAX = 200;
+const MANIFEST_NAME_PATTERN = /^[a-z0-9]+(?:[.-][a-z0-9]+)*$/;
+const SEMVER_PATTERN = /^[0-9]+\.[0-9]+\.[0-9]+$/;
 
 const WORKFLOWS: WorkflowConfig[] = [
   {
@@ -166,6 +173,56 @@ function formatAjvErrors(errors: ErrorObject[] | null | undefined): string {
     .join('; ');
 }
 
+function collectManifestStyleIssues(
+  manifestPath: string,
+  rawContent: string,
+  manifest: Manifest
+): string[] {
+  const issues: string[] = [];
+  const normalizedContent = rawContent.replace(/\r\n/g, '\n');
+
+  for (const field of MANIFEST_FIELDS) {
+    const regex = new RegExp(
+      `^${field}:\\s+"(?:[^"\\\\]|\\\\.)+"\\s*$`,
+      'm'
+    );
+    if (!regex.test(normalizedContent)) {
+      issues.push(
+        `field "${field}" must use double-quoted string syntax (e.g. ${field}: "value") in ${manifestPath}.`
+      );
+    }
+
+    const value = manifest[field as keyof Manifest];
+    if (typeof value !== 'string') {
+      issues.push(`field "${field}" must be a string.`);
+    } else if (!value.trim()) {
+      issues.push(`field "${field}" cannot be empty.`);
+    }
+  }
+
+  const name = typeof manifest.name === 'string' ? manifest.name.trim() : '';
+  if (name && !MANIFEST_NAME_PATTERN.test(name)) {
+    issues.push(
+      `name "${name}" must use lowercase letters, digits, dots, or hyphens (e.g. discovery.research-orchestrator).`
+    );
+  }
+
+  const version = manifest.version !== undefined ? String(manifest.version).trim() : '';
+  if (version && !SEMVER_PATTERN.test(version)) {
+    issues.push(`version "${version}" must follow SemVer (e.g. 1.0.0).`);
+  }
+
+  const description =
+    typeof manifest.description === 'string' ? manifest.description.trim() : '';
+  if (description.length > MANIFEST_DESCRIPTION_MAX) {
+    issues.push(
+      `description length (${description.length}) exceeds limit of ${MANIFEST_DESCRIPTION_MAX} characters.`
+    );
+  }
+
+  return issues;
+}
+
 async function main(): Promise<void> {
   const repoRoot = process.cwd();
   const templatesDir = path.join(repoRoot, 'templates');
@@ -224,14 +281,29 @@ async function main(): Promise<void> {
     }
 
     const manifestPath = path.join(packDir, 'pack.yaml');
-    let manifest: Manifest;
+    let manifestRaw: string;
     try {
-      manifest = await readYaml<Manifest>(manifestPath);
+      manifestRaw = await fs.readFile(manifestPath, 'utf8');
     } catch (error) {
       errors.push(
         `Failed to read manifest for "${entryName}" at ${manifestPath}: ${(error as Error).message}`
       );
       continue;
+    }
+
+    let manifest: Manifest;
+    try {
+      manifest = YAML.parse(manifestRaw) as Manifest;
+    } catch (error) {
+      errors.push(
+        `Failed to parse manifest for "${entryName}" at ${manifestPath}: ${(error as Error).message}`
+      );
+      continue;
+    }
+
+    const manifestStyleIssues = collectManifestStyleIssues(manifestPath, manifestRaw, manifest);
+    for (const issue of manifestStyleIssues) {
+      errors.push(`Manifest style violation for "${entryName}": ${issue}`);
     }
 
     const manifestName = manifest.name?.trim();

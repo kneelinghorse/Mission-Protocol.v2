@@ -92,6 +92,7 @@ import { SupportedModel } from './intelligence/types';
 import { ErrorHandler } from './errors/handler';
 import { ErrorLogger } from './errors/logger';
 import type { JsonValue } from './errors/types';
+import { createTimeoutController } from './utils/abort';
 
 /**
  * MCP Server Configuration
@@ -184,6 +185,31 @@ const DEPRECATED_TOOL_ALIASES: Record<string, { replacement: string }> = {
 };
 
 const emittedDeprecationWarnings = new Set<string>();
+
+const TOOL_TIMEOUT_MS = {
+  update_token_optimization: 120_000,
+  create_mission_splits: 120_000,
+  get_split_suggestions: 90_000,
+} as const;
+
+type TimeoutKey = keyof typeof TOOL_TIMEOUT_MS;
+
+async function runWithToolTimeout<T>(
+  key: TimeoutKey,
+  fn: (signal: AbortSignal) => Promise<T>
+): Promise<T> {
+  const timeoutMs = TOOL_TIMEOUT_MS[key];
+  const { controller, dispose } = createTimeoutController(
+    timeoutMs,
+    `Tool '${key}' timed out after ${Math.round(timeoutMs / 1000)}s`
+  );
+
+  try {
+    return await fn(controller.signal);
+  } finally {
+    dispose();
+  }
+}
 
 function emitDeprecationWarning(toolName: string): void {
   const alias = DEPRECATED_TOOL_ALIASES[toolName];
@@ -553,7 +579,9 @@ export async function executeMissionProtocolTool(
     // falls through
     case 'update_token_optimization': {
       const params = args as OptimizeTokensParams;
-      const result = await context.optimizeTokensTool.execute(params);
+      const result = await runWithToolTimeout('update_token_optimization', (signal) =>
+        context.optimizeTokensTool.execute(params, { signal })
+      );
 
       if (!result.success) {
         const errorText = result.error || 'Token optimization failed';
@@ -646,7 +674,9 @@ export async function executeMissionProtocolTool(
     // falls through
     case 'create_mission_splits': {
       const params = args as SplitMissionParams;
-      const result = await context.splitMissionTool.execute(params);
+      const result = await runWithToolTimeout('create_mission_splits', (signal) =>
+        context.splitMissionTool.execute(params, { signal })
+      );
       let formatted = context.splitMissionTool.formatForLLM(result);
 
       const heuristicWarning =
@@ -684,7 +714,9 @@ export async function executeMissionProtocolTool(
     // falls through
     case 'get_split_suggestions': {
       const params = args as SuggestSplitsParams;
-      const result = await context.suggestSplitsTool.execute(params);
+      const result = await runWithToolTimeout('get_split_suggestions', (signal) =>
+        context.suggestSplitsTool.execute(params, { signal })
+      );
       let formatted = context.suggestSplitsTool.formatForLLM(result, params.detailed || false);
 
       const heuristicWarning =

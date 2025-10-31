@@ -26,6 +26,8 @@ import { ITokenCounter, SupportedModel } from '../intelligence/types';
 import { getContextWindow } from '../intelligence/context-windows';
 import { ensureDir, pathExists, writeFileAtomic } from '../utils/fs';
 import { resolveWorkspacePath } from '../utils/workspace-io';
+import { ToolExecutionOptions } from './tool-execution';
+import { throwIfAborted, withAbort } from '../utils/abort';
 
 /**
  * Parameters for split_mission tool
@@ -156,14 +158,23 @@ export class SplitMissionToolImpl {
    * @param params - Split parameters
    * @returns Split result with file paths and execution plan
    */
-  async execute(params: SplitMissionParams): Promise<SplitMissionResult> {
-    const validated = await this.validateParams(params);
+  async execute(
+    params: SplitMissionParams,
+    options: ToolExecutionOptions = {}
+  ): Promise<SplitMissionResult> {
+    const { signal } = options;
+    throwIfAborted(signal, 'Split mission execution aborted');
+
+    const validated = await this.validateParams(params, signal);
+    throwIfAborted(signal, 'Split mission execution aborted');
 
     // 1. Load mission file
-    const mission = await this.loadMissionFile(validated.missionFile);
+    const mission = await this.loadMissionFile(validated.missionFile, signal);
+    throwIfAborted(signal, 'Split mission execution aborted');
 
     // 2. Analyze complexity
-    const complexity = await this.complexityScorer.calculateCCS(mission);
+    const complexity = await this.complexityScorer.calculateCCS(mission, { signal });
+    throwIfAborted(signal, 'Split mission execution aborted');
     const tokenUsage = this.buildTokenUsage(complexity);
 
     // 3. Check if split is needed
@@ -180,18 +191,25 @@ export class SplitMissionToolImpl {
     }
 
     // 4. Split mission
-    const splitResult = await this.splitter.split(mission, {
-      maxSubMissions: validated.maxSubMissions,
-      preserveStructure: validated.preserveStructure ?? true,
-    });
+    const splitResult = await this.splitter.split(
+      mission,
+      {
+        maxSubMissions: validated.maxSubMissions,
+        preserveStructure: validated.preserveStructure ?? true,
+      },
+      { signal }
+    );
+    throwIfAborted(signal, 'Split mission execution aborted');
 
     // 5. Generate sub-mission files
     const outputDir = validated.outputDir || path.dirname(validated.missionFile);
     const subMissionFiles = await this.writeSubMissions(
       splitResult,
       outputDir,
-      path.basename(validated.missionFile, path.extname(validated.missionFile))
+      path.basename(validated.missionFile, path.extname(validated.missionFile)),
+      signal
     );
+    throwIfAborted(signal, 'Split mission execution aborted');
 
     // 6. Create execution plan
     const executionPlan = this.createExecutionPlan(splitResult.subMissions, subMissionFiles);
@@ -215,7 +233,12 @@ export class SplitMissionToolImpl {
   /**
    * Validate input parameters
    */
-  private async validateParams(params: SplitMissionParams): Promise<SplitMissionParams> {
+  private async validateParams(
+    params: SplitMissionParams,
+    signal?: AbortSignal
+  ): Promise<SplitMissionParams> {
+    throwIfAborted(signal, 'Split mission validation aborted');
+
     if (!params.missionFile || params.missionFile.trim().length === 0) {
       throw new Error('missionFile is required');
     }
@@ -223,10 +246,12 @@ export class SplitMissionToolImpl {
     const sanitizedMissionFile = await resolveWorkspacePath(params.missionFile, {
       allowedExtensions: ['.yaml', '.yml'],
     });
+    throwIfAborted(signal, 'Split mission validation aborted');
 
     if (!(await pathExists(sanitizedMissionFile))) {
       throw new Error(`Mission file not found: ${params.missionFile}`);
     }
+    throwIfAborted(signal, 'Split mission validation aborted');
 
     if (params.maxSubMissions !== undefined && params.maxSubMissions < 2) {
       throw new Error('maxSubMissions must be at least 2');
@@ -237,10 +262,12 @@ export class SplitMissionToolImpl {
       sanitizedOutputDir = await resolveWorkspacePath(params.outputDir, {
         allowRelative: true,
       });
+      throwIfAborted(signal, 'Split mission validation aborted');
 
       if (!(await pathExists(sanitizedOutputDir))) {
         throw new Error(`Output directory not found: ${params.outputDir}`);
       }
+      throwIfAborted(signal, 'Split mission validation aborted');
     }
 
     return {
@@ -269,10 +296,14 @@ export class SplitMissionToolImpl {
   /**
    * Load mission from file
    */
-  private async loadMissionFile(filePath: string): Promise<GenericMission | string> {
+  private async loadMissionFile(
+    filePath: string,
+    signal?: AbortSignal
+  ): Promise<GenericMission | string> {
     try {
       // Try to load as YAML
-      const content = await fs.readFile(filePath, 'utf-8');
+      const content = await withAbort(fs.readFile(filePath, 'utf-8'), signal, 'Loading mission file aborted');
+      throwIfAborted(signal, 'Split mission execution aborted');
 
       try {
         const parsed = YAML.parse(content);
@@ -302,16 +333,20 @@ export class SplitMissionToolImpl {
   private async writeSubMissions(
     splitResult: SplitResult,
     outputDir: string,
-    baseName: string
+    baseName: string,
+    signal?: AbortSignal
   ): Promise<string[]> {
+    throwIfAborted(signal, 'Split mission execution aborted');
     await ensureDir(outputDir);
+    throwIfAborted(signal, 'Split mission execution aborted');
 
     const writes = splitResult.subMissions.map(async (subMission) => {
+      throwIfAborted(signal, 'Split mission execution aborted');
       const fileName = `${baseName}_sub${subMission.order}.yaml`;
       const filePath = path.join(outputDir, fileName);
 
       const missionYaml = this.subMissionToYAML(subMission, splitResult.preservedContext);
-      await writeFileAtomic(filePath, missionYaml, { encoding: 'utf-8' });
+      await writeFileAtomic(filePath, missionYaml, { encoding: 'utf-8', signal });
 
       return filePath;
     });

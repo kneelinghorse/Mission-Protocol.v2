@@ -22,6 +22,9 @@ import { ComplexityScorer, ComplexityAnalysis } from '../intelligence/complexity
 import { ITokenCounter, SupportedModel } from '../intelligence/types';
 import { getContextWindow } from '../intelligence/context-windows';
 import { pathExists } from '../utils/fs';
+import { resolveWorkspacePath } from '../utils/workspace-io';
+import { ToolExecutionOptions } from './tool-execution';
+import { throwIfAborted, withAbort } from '../utils/abort';
 
 type SplitAnalysisResult = Awaited<ReturnType<MissionSplitter['suggestSplits']>>;
 
@@ -135,15 +138,24 @@ export class SuggestSplitsToolImpl {
   /**
    * Execute split suggestion analysis
    */
-  async execute(params: SuggestSplitsParams): Promise<SplitSuggestion> {
+  async execute(
+    params: SuggestSplitsParams,
+    options: ToolExecutionOptions = {}
+  ): Promise<SplitSuggestion> {
+    const { signal } = options;
+    throwIfAborted(signal, 'Split suggestion execution aborted');
+
     // Validate input
-    await this.validateParams(params);
+    const missionFile = await this.validateParams(params, signal);
+    throwIfAborted(signal, 'Split suggestion execution aborted');
 
     // Load mission
-    const mission = await this.loadMissionFile(params.missionFile);
+    const mission = await this.loadMissionFile(missionFile, signal);
+    throwIfAborted(signal, 'Split suggestion execution aborted');
 
     // Get split suggestions from splitter
-    const suggestion = await this.splitter.suggestSplits(mission);
+    const suggestion = await this.splitter.suggestSplits(mission, { signal });
+    throwIfAborted(signal, 'Split suggestion execution aborted');
 
     // Build detailed result
     const result: SplitSuggestion = {
@@ -197,22 +209,44 @@ export class SuggestSplitsToolImpl {
   /**
    * Validate parameters
    */
-  private async validateParams(params: SuggestSplitsParams): Promise<void> {
+  private async validateParams(
+    params: SuggestSplitsParams,
+    signal?: AbortSignal
+  ): Promise<string> {
+    throwIfAborted(signal, 'Split suggestion validation aborted');
+
     if (!params.missionFile || params.missionFile.trim().length === 0) {
       throw new Error('missionFile is required');
     }
 
-    if (!(await pathExists(params.missionFile))) {
+    const sanitizedMissionFile = await resolveWorkspacePath(params.missionFile, {
+      allowedExtensions: ['.yaml', '.yml'],
+    });
+    throwIfAborted(signal, 'Split suggestion validation aborted');
+
+    if (!(await pathExists(sanitizedMissionFile))) {
       throw new Error(`Mission file not found: ${params.missionFile}`);
     }
+
+    throwIfAborted(signal, 'Split suggestion validation aborted');
+
+    return sanitizedMissionFile;
   }
 
   /**
    * Load mission from file
    */
-  private async loadMissionFile(filePath: string): Promise<GenericMission | string> {
+  private async loadMissionFile(
+    filePath: string,
+    signal?: AbortSignal
+  ): Promise<GenericMission | string> {
     try {
-      const content = await fs.readFile(filePath, 'utf-8');
+      const content = await withAbort(
+        fs.readFile(filePath, 'utf-8'),
+        signal,
+        'Loading mission file aborted'
+      );
+      throwIfAborted(signal, 'Split suggestion execution aborted');
 
       try {
         const parsed = YAML.parse(content);

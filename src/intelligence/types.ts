@@ -40,6 +40,13 @@ export interface TokenUsageComparison {
 }
 
 /**
+ * Options for abortable intelligence operations
+ */
+export interface AbortableOptions {
+  signal?: AbortSignal;
+}
+
+/**
  * Compression statistics
  */
 export interface CompressionStats {
@@ -101,7 +108,7 @@ export interface ModelConfig {
  * Token counter interface
  */
 export interface ITokenCounter {
-  count(text: string, model: SupportedModel): Promise<TokenCount>;
+  count(text: string, model: SupportedModel, options?: AbortableOptions): Promise<TokenCount>;
 }
 
 /**

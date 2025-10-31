@@ -7,7 +7,8 @@
  */
 
 import { GenericMission } from '../types/mission-types';
-import { ITokenCounter, SupportedModel, TokenCount } from './types';
+import { AbortableOptions, ITokenCounter, SupportedModel, TokenCount } from './types';
+import { throwIfAborted } from '../utils/abort';
 
 /**
  * Complexity score components
@@ -117,14 +118,22 @@ export class ComplexityScorer {
   /**
    * Calculate the Composite Complexity Score for a mission
    */
-  async calculateCCS(mission: GenericMission | string): Promise<ComplexityAnalysis> {
+  async calculateCCS(
+    mission: GenericMission | string,
+    options: AbortableOptions = {}
+  ): Promise<ComplexityAnalysis> {
+    const { signal } = options;
+    throwIfAborted(signal, 'Complexity scoring aborted');
+
     const missionText = typeof mission === 'string' ? mission : this.serializeMission(mission);
     const missionObj = typeof mission === 'string' ? null : mission;
 
     // Calculate individual components
-    const tokenCount = await this.tokenCounter.count(missionText, this.config.model);
+    const tokenCount = await this.tokenCounter.count(missionText, this.config.model, options);
+    throwIfAborted(signal, 'Complexity scoring aborted');
     const tokenScore = this.calculateTokenScoreFromCount(tokenCount.count);
     const structuralScore = this.calculateStructuralScore(missionText, missionObj);
+    throwIfAborted(signal, 'Complexity scoring aborted');
     const timeHorizonScore = this.calculateTimeHorizonScore(missionText, missionObj);
     const computationalScore = this.calculateComputationalScore(missionText);
 
@@ -141,7 +150,9 @@ export class ComplexityScorer {
     // Determine if split is needed
     const { shouldSplit, reasons } = this.evaluateSplitNeed(compositeScore, components);
 
-    return {
+    throwIfAborted(signal, 'Complexity scoring aborted');
+
+    const analysis: ComplexityAnalysis = {
       compositeScore,
       components,
       shouldSplit,
@@ -149,6 +160,10 @@ export class ComplexityScorer {
       estimatedHumanHours: this.estimateHumanHours(missionText, missionObj),
       tokenDetails: tokenCount,
     };
+
+    throwIfAborted(signal, 'Complexity scoring aborted');
+
+    return analysis;
   }
 
   /**

@@ -19,6 +19,8 @@ import { TokenOptimizer } from '../intelligence/token-optimizer';
 import { SupportedModel, CompressionLevel } from '../intelligence/types';
 import { pathExists } from '../utils/fs';
 import { resolveWorkspacePath, writeFileAtomicWithBackup } from '../utils/workspace-io';
+import { ToolExecutionOptions } from './tool-execution';
+import { throwIfAborted, withAbort } from '../utils/abort';
 
 /**
  * Parameters for optimize_tokens tool
@@ -107,7 +109,10 @@ export class OptimizeTokensToolImpl {
   /**
    * Execute the optimize_tokens tool
    */
-  async execute(params: OptimizeTokensParams): Promise<{
+  async execute(
+    params: OptimizeTokensParams,
+    options: ToolExecutionOptions = {}
+  ): Promise<{
     success: boolean;
     optimizedContent?: string;
     stats?: {
@@ -134,9 +139,14 @@ export class OptimizeTokensToolImpl {
     error?: string;
   }> {
     try {
+      const { signal } = options;
+      throwIfAborted(signal, 'Token optimization aborted');
+
       const missionPath = await resolveWorkspacePath(params.missionFile, {
         allowedExtensions: ['.yaml', '.yml'],
       });
+
+      throwIfAborted(signal, 'Token optimization aborted');
 
       if (!(await pathExists(missionPath))) {
         return {
@@ -146,7 +156,12 @@ export class OptimizeTokensToolImpl {
       }
 
       // Read mission content
-      const content = await fs.readFile(missionPath, 'utf-8');
+      const content = await withAbort(
+        fs.readFile(missionPath, 'utf-8'),
+        signal,
+        'Reading mission file aborted'
+      );
+      throwIfAborted(signal, 'Token optimization aborted');
 
       // Optimize
       const result = await this.optimizer.optimize(content, {
@@ -154,7 +169,8 @@ export class OptimizeTokensToolImpl {
         level: params.compressionLevel || 'balanced',
         preserveTags: params.preserveTags,
         dryRun: params.dryRun || false,
-      });
+      }, { signal });
+      throwIfAborted(signal, 'Token optimization aborted');
 
       // Write optimized content back if not dry run
       if (!params.dryRun) {
@@ -162,6 +178,7 @@ export class OptimizeTokensToolImpl {
           encoding: 'utf-8',
           allowedExtensions: ['.yaml', '.yml'],
           allowRelative: false,
+          signal,
         });
       }
 
