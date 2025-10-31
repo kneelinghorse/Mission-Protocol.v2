@@ -96,3 +96,10 @@ When incorporating new domain packs introduced during active development:
 - Run `npm run validate:packs` (if available) or future validation scripts to confirm coverage and metadata consistency.
 - Update documentation references (README, guides) so mission authors can discover and apply the new pack.
 - Review `docs/versioning-contract.md` for version alignment expectations and migration workflow before publishing.
+
+### Placeholder Conventions
+
+- Strings that require author input should default to an empty string (`""`) unless an enum mandates a specific value.
+- Arrays should default to `[]`; when a schema enforces `minItems`, populate entries with empty strings (`""`) to satisfy the constraint while signalling required author input.
+- Optional objects can default to `null` where appropriate (none currently require this).
+- Avoid textual hints such as "Link to ...", "Concise summary ...", or sample IDs like `BUG-1234`—`npm run validate:packs` enforces these standards.

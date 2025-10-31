@@ -1,8 +1,8 @@
 type: "engineering.bug-fix"
-sourceBugReport: "BUG-JIRA-1234"
+sourceBugReport: ""
 rootCauseAnalysis: ""
 correctiveAction: ""
 preventiveAction: ""
-affectedComponents: [""]
-pullRequest: "Link to GitHub/GitLab PR"
-verificationTest: "Link to new test case"
+affectedComponents: []
+pullRequest: ""
+verificationTest: ""

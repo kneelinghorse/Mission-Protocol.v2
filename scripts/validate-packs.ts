@@ -29,6 +29,20 @@ type Manifest = {
   schema?: string;
 };
 
+type PlaceholderPattern = {
+  regex: RegExp;
+  description: string;
+};
+
+const PLACEHOLDER_PATTERNS: PlaceholderPattern[] = [
+  { regex: /\bplaceholder\b/i, description: 'should not include the word "placeholder"' },
+  { regex: /\bLink\s+(to|or)\b/i, description: 'should not include instructions like "Link to ..."' },
+  { regex: /\bConcise summary\b/i, description: 'should not include descriptive hints like "Concise summary"' },
+  { regex: /\bAs a\s+\[/i, description: 'should not include format hints like "As a [user]"' },
+  { regex: /\bBUG-[A-Z0-9-]+\b/, description: 'should not include sample bug IDs like "BUG-1234"' },
+  { regex: /\bPRD-[A-Z0-9-]+\b/, description: 'should not include sample PRD IDs like "PRD-2024-001"' },
+];
+
 const WORKFLOWS: WorkflowConfig[] = [
   {
     name: 'discovery',
@@ -83,6 +97,60 @@ const WORKFLOWS: WorkflowConfig[] = [
 async function readYaml<T>(filePath: string): Promise<T> {
   const content = await fs.readFile(filePath, 'utf8');
   return YAML.parse(content) as T;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function appendPath(parent: string, key: string): string {
+  if (!parent) {
+    return key;
+  }
+  if (key.startsWith('[')) {
+    return `${parent}${key}`;
+  }
+  return `${parent}.${key}`;
+}
+
+function collectPlaceholderViolations(value: unknown, pathLabel = ''): string[] {
+  const issues: string[] = [];
+
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return issues;
+    }
+
+    for (const pattern of PLACEHOLDER_PATTERNS) {
+      if (pattern.regex.test(trimmed)) {
+        const sample = trimmed.length > 60 ? `${trimmed.slice(0, 57)}...` : trimmed;
+        const label = pathLabel || '(root)';
+        issues.push(
+          `has non-standard placeholder content at "${label}": "${sample}" (${pattern.description}).`
+        );
+        break;
+      }
+    }
+    return issues;
+  }
+
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => {
+      const childPath = appendPath(pathLabel, `[${index}]`);
+      issues.push(...collectPlaceholderViolations(item, childPath));
+    });
+    return issues;
+  }
+
+  if (isRecord(value)) {
+    for (const [key, nested] of Object.entries(value)) {
+      const childPath = appendPath(pathLabel, key);
+      issues.push(...collectPlaceholderViolations(nested, childPath));
+    }
+  }
+
+  return issues;
 }
 
 function formatAjvErrors(errors: ErrorObject[] | null | undefined): string {
@@ -245,6 +313,11 @@ async function main(): Promise<void> {
         `Failed to parse template for ${entryName} at ${templatePath}: ${(error as Error).message}`
       );
       continue;
+    }
+
+    const placeholderIssues = collectPlaceholderViolations(templateData);
+    for (const issue of placeholderIssues) {
+      errors.push(`Template for ${entryName} ${issue}`);
     }
 
     try {

@@ -1,17 +1,17 @@
 type: "engineering.tdd"
-sourcePRD: "PRD-20251012-001"
+sourcePRD: ""
 systemArchitecture:
-  highLevelDiagram: "Link or embed diagram"
+  highLevelDiagram: ""
   architecturalPatterns: ""
 dataDesign:
   dataModelSchema: ""
   dataFlowDiagram: ""
 interfaceDesign:
-  apiEndpoints: [""]
+  apiEndpoints: []
 componentDesign:
   - componentName: ""
     description: ""
-    dependencies: [""]
+    dependencies: []
 risksAndAlternatives:
-  potentialRisks: [""]
-  alternativesConsidered: [""]
+  potentialRisks: []
+  alternativesConsidered: []

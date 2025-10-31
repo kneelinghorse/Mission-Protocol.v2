@@ -1,5 +1,5 @@
 type: "process.code-review"
-pullRequest: "Link to GitHub/GitLab PR #821"
+pullRequest: ""
 checklist:
   functionality:
     - question: "Correctly implements all requirements?"

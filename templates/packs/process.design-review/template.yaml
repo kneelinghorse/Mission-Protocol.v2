@@ -2,16 +2,16 @@ type: "process.design-review"
 projectContext:
   projectName: ""
   linkToPRD: ""
-  reviewGoals: [""]
-designPresentation: "Link to Figma/prototype"
+  reviewGoals: []
+designPresentation: ""
 reviewCriteria:
   visuals: ""
   ux: ""
   content: ""
 structuredFeedback:
-  whatWorksWell: [""]
-  areasForImprovement: [""]
-  openQuestions: [""]
+  whatWorksWell: []
+  areasForImprovement: []
+  openQuestions: []
 actionItems:
   - task: ""
     owner: ""

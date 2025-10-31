@@ -4,19 +4,19 @@ overview:
   targetAudience: ""
   strategicFit: ""
 goalsAndMetrics:
-  businessGoals: [""]
-  userOutcomes: [""]
-  measurableKPIs: [""]
+  businessGoals: []
+  userOutcomes: []
+  measurableKPIs: []
 assumptionsAndDependencies:
-  assumptions: [""]
-  dependencies: [""]
+  assumptions: []
+  dependencies: []
 requirements:
   userStories:
-    - "As a [user type], I want to [action] so that [benefit]."
-  functional: [""]
-  nonFunctional: [""]
+    - ""
+  functional: []
+  nonFunctional: []
 scope:
-  inScope: [""]
-  outOfScope: [""]
-designLink: "Link to Figma/mockups"
-openQuestions: [""]
+  inScope: []
+  outOfScope: []
+designLink: ""
+openQuestions: []

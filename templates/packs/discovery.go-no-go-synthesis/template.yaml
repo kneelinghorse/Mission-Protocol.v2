@@ -2,7 +2,7 @@ metadata:
   timestamp: ""
   synthesizer: ""
 linkedResearchMissions:
-  - "discovery.research-sub-mission:R1-placeholder"
+  - ""
 scoringDimensions:
   - { dimension: "1. Problem Validation", keyEvidence: "", justification: "", score: 0 }
   - { dimension: "2. Solution Feasibility", keyEvidence: "", justification: "", score: 0 }

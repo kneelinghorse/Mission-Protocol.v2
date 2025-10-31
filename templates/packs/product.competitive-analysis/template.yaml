@@ -10,8 +10,8 @@ marketAnalysis:
   targetMarket: ""
   marketingStrategy: ""
 swotAnalysis:
-  strengths: [""]
-  weaknesses: [""]
-  opportunities: [""]
-  threats: [""]
+  strengths: []
+  weaknesses: []
+  opportunities: []
+  threats: []
 competitiveAdvantageSummary: ""

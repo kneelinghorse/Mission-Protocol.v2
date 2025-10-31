@@ -6,4 +6,4 @@ keyMetrics:
   - metric: ""
     visualization: ""
     context: ""
-filters: [""]
+filters: []

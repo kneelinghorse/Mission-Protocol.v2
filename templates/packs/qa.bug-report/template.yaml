@@ -1,5 +1,5 @@
 type: "qa.bug-report"
-title: "[Component] Concise summary of the issue"
+title: ""
 environment:
   os: ""
   browser: ""
@@ -10,4 +10,4 @@ stepsToReproduce:
   - ""
 expectedResult: ""
 actualResult: ""
-visualProof: "Link to screenshot/recording"
+visualProof: ""

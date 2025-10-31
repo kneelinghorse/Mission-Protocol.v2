@@ -1,13 +1,13 @@
 type: "design.ux-research-summary"
 executiveSummary: ""
 studyOverview:
-  researchGoals: [""]
+  researchGoals: []
   methodology: ""
   participantOverview: ""
 keyFindings:
   - theme: ""
     insight: ""
-    supportingEvidence: [""]
+    supportingEvidence: []
 recommendations:
   - recommendation: ""
     opportunity: ""
