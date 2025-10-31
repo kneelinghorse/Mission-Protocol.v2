@@ -4,6 +4,7 @@ import * as path from 'path';
 import { ensureTempDir, removeDir } from '../../src/utils/fs';
 
 let TEMP_DIR: string;
+let previousWorkspaceRoot: string | undefined;
 
 async function writeMissionFile(content: string): Promise<string> {
   const filePath = path.join(TEMP_DIR, `mission-${Date.now()}-${Math.random()}.yaml`);
@@ -14,9 +15,17 @@ async function writeMissionFile(content: string): Promise<string> {
 describe('SuggestSplitsToolImpl.execute (mocked splitter)', () => {
   beforeAll(async () => {
     TEMP_DIR = await ensureTempDir('suggest-splits-');
+    previousWorkspaceRoot = process.env.MISSION_PROTOCOL_WORKSPACE_ROOT;
+    process.env.MISSION_PROTOCOL_WORKSPACE_ROOT = TEMP_DIR;
   });
 
   afterAll(async () => {
+    if (previousWorkspaceRoot !== undefined) {
+      process.env.MISSION_PROTOCOL_WORKSPACE_ROOT = previousWorkspaceRoot;
+    } else {
+      delete process.env.MISSION_PROTOCOL_WORKSPACE_ROOT;
+    }
+    previousWorkspaceRoot = undefined;
     await removeDir(TEMP_DIR, { recursive: true, force: true });
   });
 
@@ -67,7 +76,11 @@ context: Simple mission to exercise SuggestSplitsToolImpl
 
         const { SuggestSplitsToolImpl } = require('../../src/tools/suggest-splits');
         const tokenCounter = {
-          count: jest.fn(async () => ({ model: 'gpt', count: 1500, estimatedCost: 0.00375 })),
+          count: jest.fn(async (_text: string, _model: string, _options?: unknown) => ({
+            model: 'gpt',
+            count: 1500,
+            estimatedCost: 0.00375,
+          })),
         } as any;
         const tool = new SuggestSplitsToolImpl(tokenCounter, 'gpt');
         tool.execute({ missionFile: missionPath, detailed: true }).then(resolve).catch(reject);
@@ -121,7 +134,11 @@ context: Simple mission to exercise SuggestSplitsToolImpl
 
         const { SuggestSplitsToolImpl } = require('../../src/tools/suggest-splits');
         const tokenCounter = {
-          count: jest.fn(async () => ({ model: 'claude', count: 600, estimatedCost: 0.0018 })),
+          count: jest.fn(async (_text: string, _model: string, _options?: unknown) => ({
+            model: 'claude',
+            count: 600,
+            estimatedCost: 0.0018,
+          })),
         } as any;
         const tool = new SuggestSplitsToolImpl(tokenCounter, 'claude');
         tool.execute({ missionFile: missionPath }).then(resolve).catch(reject);
@@ -132,5 +149,57 @@ context: Simple mission to exercise SuggestSplitsToolImpl
     expect(result.recommendation).toContain('low complexity');
     expect(result.tokenUsage?.model).toBe('claude');
     expect(result.tokenUsage?.utilization).toBeLessThan(1);
+  });
+
+  it('rejects when the execution signal is aborted', async () => {
+    const missionPath = await writeMissionFile('objective: abort handling test');
+
+    await expect(
+      new Promise((resolve, reject) => {
+        jest.isolateModules(() => {
+          jest.doMock('../../src/intelligence/mission-splitter', () => ({
+            MissionSplitter: class {
+              async suggestSplits() {
+                return {
+                  shouldSplit: false,
+                  complexity: {
+                    compositeScore: 1,
+                    components: {
+                      tokenScore: 1,
+                      structuralScore: 1,
+                      timeHorizonScore: 1,
+                      computationalScore: 1,
+                    },
+                    reasons: [],
+                    estimatedHumanHours: 1,
+                    tokenDetails: { model: 'claude', count: 100, estimatedCost: 0 },
+                  },
+                  suggestedSplits: [],
+                  reasoning: 'Not used',
+                };
+              }
+            },
+          }));
+          jest.doMock('../../src/intelligence/complexity-scorer', () => ({
+            ComplexityScorer: class {},
+          }));
+
+          const { SuggestSplitsToolImpl } = require('../../src/tools/suggest-splits');
+          const tokenCounter = {
+            count: jest.fn(async (_text: string, _model: string, _options?: unknown) => ({
+              model: 'claude',
+              count: 100,
+              estimatedCost: 0,
+            })),
+          } as any;
+
+          const tool = new SuggestSplitsToolImpl(tokenCounter, 'claude');
+          const controller = new AbortController();
+          controller.abort();
+
+          tool.execute({ missionFile: missionPath }, { signal: controller.signal }).then(resolve).catch(reject);
+        });
+      })
+    ).rejects.toThrow(/aborted/i);
   });
 });

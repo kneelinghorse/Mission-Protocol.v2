@@ -56,7 +56,7 @@ domains:
     schema_version: 1.1.0
 
   - name: discovery.pivot-analysis
-    description: "A 2-3 hour mission to extract a new hypothesis from previous research findings and decide whether to restart the discovery process or abandon the opportunity. Triggered by a 'Pivot/Refine' decision from a Level 4 Synthesis."
+    description: "Extract a new hypothesis from prior research and decide whether to restart discovery or exit after a Level 4 'Pivot/Refine' decision."
     version: 1.0.0
     author: CMOS Team
     path: packs/discovery.pivot-analysis

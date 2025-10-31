@@ -253,6 +253,23 @@ other: Content to compress`;
 
       writeSpy.mockRestore();
     });
+
+    test('returns cancellation error when signal is aborted', async () => {
+      await fs.writeFile(testFilePath, 'objective: Cancellation handling', 'utf-8');
+
+      const params: OptimizeTokensParams = {
+        missionFile: testFilePath,
+        targetModel: 'claude',
+      };
+
+      const controller = new AbortController();
+      controller.abort();
+
+      const result = await tool.execute(params, { signal: controller.signal });
+
+      expect(result.success).toBe(false);
+      expect(result.error).toMatch(/aborted/i);
+    });
   });
 
   describe('Tool definition', () => {

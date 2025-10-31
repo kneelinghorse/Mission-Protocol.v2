@@ -7,7 +7,7 @@
 import { describe, test, expect, beforeEach, afterEach } from '@jest/globals';
 import { SplitMissionToolImpl, SplitMissionParams } from '../../src/tools/split-mission';
 import { SecureYAMLLoader } from '../../src/loaders/yaml-loader';
-import { ITokenCounter, TokenCount, SupportedModel } from '../../src/intelligence/types';
+import { AbortableOptions, ITokenCounter, TokenCount, SupportedModel } from '../../src/intelligence/types';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as os from 'os';
@@ -17,7 +17,11 @@ import * as YAML from 'yaml';
  * Mock token counter
  */
 class MockTokenCounter implements ITokenCounter {
-  async count(text: string, model: SupportedModel): Promise<TokenCount> {
+  async count(
+    text: string,
+    model: SupportedModel,
+    _options?: AbortableOptions
+  ): Promise<TokenCount> {
     return {
       model,
       count: Math.ceil(text.length * 0.25),
@@ -430,6 +434,19 @@ describe('SplitMissionTool Integration', () => {
 
       expect(result).toBeDefined();
       expect(result.complexity).toBeDefined();
+    });
+
+    test('aborts execution when signal is already canceled', async () => {
+      await fs.writeFile(testMissionPath, 'objective: Abort cancel test', 'utf-8');
+
+      const params: SplitMissionParams = {
+        missionFile: testMissionPath,
+      };
+
+      const controller = new AbortController();
+      controller.abort();
+
+      await expect(tool.execute(params, { signal: controller.signal })).rejects.toThrow(/aborted/i);
     });
   });
 
