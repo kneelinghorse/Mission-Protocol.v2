@@ -13,9 +13,12 @@
   },
   "working_memory": {
     "active_domain": "main",
-    "active_mission": "B7.7",
-    "session_count": 32,
-    "last_session": "2025-10-31T00:32:27Z",
+    "active_mission": "B8.2",
+    "agents_md_path": "./agents.md",
+    "agents_md_loaded": true,
+    "agents_md_version": "1.0.0",
+    "session_count": 37,
+    "last_session": "2025-11-03T23:13:39Z",
     "domains": {
       "main": {
         "status": "active",
@@ -36,7 +39,22 @@
           "Graceful degradation for all advanced features",
           "Hybrid offline token counting: gpt-tokenizer for GPT, Transformers.js for Claude, heuristic for Gemini"
         ],
-        "files_created": [],
+        "files_created": [
+          "agents.md",
+          "cmos/templates/agents.md",
+          "src/intelligence/agents-md-loader.ts"
+        ],
+        "current_mission": "B8.2",
+        "missions": {
+          "B8.1": {
+            "status": "Completed",
+            "completed_at": "2025-11-03T23:13:39Z"
+          }
+        },
+        "research_completed": [
+          "R8.1",
+          "R8.2"
+        ],
         "achievements": [
           "Sprint 1 completed: Template recovery successful",
           "Sprint 2 completed: MCP surface hardening successful",
@@ -66,7 +84,11 @@
           "B7.2 completed: OutputSchema validation hardened with Draft-07, size, and complexity guardrails",
           "B7.3 completed: Context window registry centralized and adopted by mission splitting tools",
           "B7.4 completed: CI now enforces registry + schema validation in quality workflow",
-          "B7.5 completed: Versioning contract documented with cross-validator and migration workflow"
+          "B7.5 completed: Versioning contract documented with cross-validator and migration workflow",
+          "B7.6 completed: Template placeholders standardized with validator coverage and CI gating",
+          "B7.7 completed: Domain pack loader caches Ajv validators and lazily reuses frozen pack data",
+          "B7.9 completed: Pack manifest style guide documented and validator gating validate:packs.",
+          "B8.1 completed: agents.md loader, templates, and PROJECT_CONTEXT alignment delivered for CMOS integration"
         ]
       }
     }
@@ -81,12 +103,14 @@
       "state_monitoring": "4D vector tracking (Form, Function, Behavior, Context)",
       "domain_management": "Intelligent compartmentalization",
       "health_assessment": "Real-time statistical metrics",
-      "anti_patterns": "Automated detection and recovery"
+      "anti_patterns": "Automated detection and recovery",
+      "agents_md_integration": "Project-specific AI agent guidance and configuration"
     },
     "integration_points": [
       "project_context.py - main Python interface",
       "context/cmos/ - JavaScript modules for advanced features",
-      "smart_migrate.js - migration tool for existing projects"
+      "smart_migrate.js - migration tool for existing projects",
+      "agents.md - AI agent configuration and project guidance"
     ]
   },
   "context_health": {
@@ -101,6 +125,18 @@
     "preferred_language": "javascript",
     "code_style": "modular_zero_dependency",
     "testing_required": true,
-    "documentation_level": "concise"
+    "documentation_level": "concise",
+    "context_priority": [
+      "agents.md",
+      "PROJECT_CONTEXT.json",
+      "MASTER_CONTEXT.json",
+      "SESSIONS.jsonl"
+    ],
+    "special_instructions": [
+      "Always read agents.md before starting any mission",
+      "Validate agents.md exists and is accessible",
+      "Parse agents.md content into working memory",
+      "Update agents_md_loaded flag after successful parsing"
+    ]
   }
 }

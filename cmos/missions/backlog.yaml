@@ -189,7 +189,7 @@ domainFields:
     - sprintId: "Sprint 7"
       title: "Code Quality & Validation Hardening"
       focus: "Implement security, validation, performance, and consistency improvements across templates, MCP, and intelligence."
-      status: "Current"
+      status: "Completed"
       missions:
         - id: "B7.1"
           name: "Hybrid Component Validation"
@@ -222,10 +222,80 @@ domainFields:
           completed_at: "2025-10-30T23:50:53Z"
           notes: "Documented version field contract with cross-validator and migration workflow."
         - { id: "B7.6", name: "Placeholder Standardization", status: "Completed", started_at: "2025-10-31T00:23:31Z", completed_at: "2025-10-31T00:32:27Z", notes: "Placeholder defaults standardized across packs with automated validation gating CI." }
-        - { id: "B7.7", name: "Schema Caching Optimization", status: "Current", notes: "Cache Ajv compiled schemas and add lazy loading for packs." }
-        - { id: "B7.8", name: "Cancellation & Timeout Support", status: "Queued", notes: "Add AbortController and timeouts to long-running intelligence tools." }
-        - { id: "B7.9", name: "Style Guide Standardization", status: "Queued", notes: "Create pack manifest style guide and validator with CI checks." }
-        - { id: "B7.10", name: "Hybrid Component Catalog", status: "Queued", notes: "Document available components with usage examples and integration guidance." }
+        - id: "B7.7"
+          name: "Schema Caching Optimization"
+          status: "Completed"
+          started_at: "2025-10-31T00:45:03Z"
+          completed_at: "2025-10-31T00:52:28Z"
+          notes: "Cached Ajv validators, froze pack results, and added lazy-load caching for domain packs."
+        - id: "B7.8"
+          name: "Cancellation & Timeout Support"
+          status: "Completed"
+          started_at: "2025-10-31T02:14:36Z"
+          completed_at: "2025-10-31T02:28:25Z"
+          notes: "Added AbortController-driven cancellation with default timeouts and tests for intelligence tools."
+        - id: "B7.9"
+          name: "Style Guide Standardization"
+          status: "Completed"
+          started_at: "2025-10-31T03:02:42Z"
+          completed_at: "2025-10-31T03:07:05Z"
+          notes: "Published pack manifest style guide and added validator gating npm run validate:packs."
+        - id: "B7.10"
+          name: "Hybrid Component Catalog"
+          status: "Completed"
+          started_at: "2025-10-31T12:26:35Z"
+          completed_at: "2025-10-31T12:28:42Z"
+          notes: "Published hybrid components README with recommended bundles and usage guidance."
+
+    - sprintId: "Sprint 8"
+      title: "Agentic Integration & Memory Alignment"
+      focus: "Align Mission Protocol with CMOS agents.md architecture and implement advanced agentic execution patterns."
+      status: "Current"
+      missions:
+        - id: "R8.1"
+          name: "agents.md Integration Research"
+          status: "Completed"
+          completed_at: "2025-11-03T09:00:00Z"
+          notes: "Report TR-20251102-801 delivered; establishes loader schema, validation tiers, telemetry expectations."
+        - id: "R8.2"
+          name: "Agentic Orchestration Architecture Research"
+          status: "Completed"
+          completed_at: "2025-11-03T16:30:00Z"
+          notes: "Report TR-20251102-802 reviewed; decisions locked on boomerang checkpoint path, telemetry schema, worker manifest, and failure fallback tiers. Pattern composition deferred."
+        - id: "B8.1"
+          name: "Codify Agent Memory Layer"
+          status: "Completed"
+          started_at: "2025-11-03T23:04:02Z"
+          completed_at: "2025-11-03T23:13:39Z"
+          notes: "Implemented agents.md loader with caching, authored project playbook + template, and updated PROJECT_CONTEXT schema for CMOS alignment."
+        - id: "B8.2"
+          name: "Structured Prompting Adoption"
+          status: "Current"
+          notes: "Apply R-C-T-F-C prompting blocks to high-priority templates with schema updates and tests."
+        - id: "B8.3"
+          name: "RSIP Loop Enablement"
+          status: "Queued"
+          notes: "Add recursive self-improvement toggles, iteration controls, convergence detection, and telemetry."
+        - id: "B8.4"
+          name: "Sub-Agent Delegation Framework"
+          status: "Queued"
+          notes: "Introduce orchestrator APIs for spawning scoped sub-missions with context isolation and rollback."
+        - id: "B8.5"
+          name: "Boomerang Stateful Workflows"
+          status: "Queued"
+          notes: "Extend runtime with checkpointed sequential handoffs and diagnostics for multi-step missions."
+        - id: "B8.6"
+          name: "Observability & Governance Layer"
+          status: "Queued"
+          notes: "Instrument agentic workflows with structured logging, guardrails, and post-run quality gates."
+        - id: "B8.7"
+          name: "Joint Integration QA"
+          status: "Queued"
+          notes: "Create automated tests and sample missions validating CMOS/Mission Protocol interoperability."
+        - id: "B8.8"
+          name: "Documentation & Migration Playbook"
+          status: "Queued"
+          notes: "Update docs and author guides covering agents.md adoption and agentic workflow onboarding."
 
   # Structured representation of the Mermaid diagram from backlog.md
   missionDependencies:
@@ -256,3 +326,14 @@ domainFields:
     - { from: "B6.3", to: "B6.4", type: "Blocks" }
     - { from: "B6.4", to: "B6.6", type: "Blocks" }
     - { from: "B6.2", to: "B6.7", type: "Blocks" }
+    # Sprint 8 dependencies (agentic integration)
+    - { from: "R8.1", to: "B8.1", type: "Blocks" }
+    - { from: "B8.1", to: "B8.2", type: "Blocks" }
+    - { from: "R8.2", to: "B8.3", type: "Blocks" }
+    - { from: "R8.2", to: "B8.4", type: "Blocks" }
+    - { from: "R8.2", to: "B8.5", type: "Blocks" }
+    - { from: "B8.3", to: "B8.6", type: "Blocks" }
+    - { from: "B8.4", to: "B8.7", type: "Blocks" }
+    - { from: "B8.5", to: "B8.7", type: "Blocks" }
+    - { from: "B8.6", to: "B8.7", type: "Blocks" }
+    - { from: "B8.7", to: "B8.8", type: "Blocks" }
