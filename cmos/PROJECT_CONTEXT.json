@@ -13,12 +13,12 @@
   },
   "working_memory": {
     "active_domain": "main",
-    "active_mission": "B8.3",
+    "active_mission": "B8.4",
     "agents_md_path": "./agents.md",
     "agents_md_loaded": true,
     "agents_md_version": "1.0.0",
-    "session_count": 38,
-    "last_session": "2025-11-03T23:41:59Z",
+    "session_count": 39,
+    "last_session": "2025-11-04T01:05:35Z",
     "domains": {
       "main": {
         "status": "active",
@@ -44,7 +44,7 @@
           "cmos/templates/agents.md",
           "src/intelligence/agents-md-loader.ts"
         ],
-        "current_mission": "B8.3",
+        "current_mission": "B8.4",
         "missions": {
           "B8.1": {
             "status": "Completed",
@@ -53,6 +53,10 @@
           "B8.2": {
             "status": "Completed",
             "completed_at": "2025-11-03T23:41:59Z"
+          },
+          "B8.3": {
+            "status": "Completed",
+            "completed_at": "2025-11-04T01:05:35Z"
           }
         },
         "research_completed": [
@@ -93,7 +97,8 @@
           "B7.7 completed: Domain pack loader caches Ajv validators and lazily reuses frozen pack data",
           "B7.9 completed: Pack manifest style guide documented and validator gating validate:packs.",
           "B8.1 completed: agents.md loader, templates, and PROJECT_CONTEXT alignment delivered for CMOS integration",
-          "B8.2 completed: Structured prompting enforced across priority templates with schema and test coverage"
+          "B8.2 completed: Structured prompting enforced across priority templates with schema and test coverage",
+          "B8.3 completed: RSIP loop toggles, iteration controls, convergence detection, telemetry, and controller metrics delivered"
         ]
       }
     }

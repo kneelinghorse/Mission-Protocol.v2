@@ -68,3 +68,5 @@
 {"ts":"2025-11-03T23:13:39Z","agent":"gpt-5-codex","mission":"B8.1","action":"complete","status":"completed","summary":"Completed B8.1: shipped agents.md loader, tests, and CMOS-aligned context updates.","next_hint":"B8.2 promoted to Current for structured prompting adoption."}
 {"ts":"2025-11-03T23:28:35Z","agent":"gpt-5-codex","mission":"B8.2","action":"start","status":"in_progress","summary":"Starting B8.2: structured prompting adoption for priority templates."}
 {"ts":"2025-11-03T23:41:59Z","agent":"gpt-5-codex","mission":"B8.2","action":"complete","status":"completed","summary":"Completed B8.2: rolled out structured prompting blocks, schema enforcement, and tests.","next_hint":"B8.3 promoted to Current for RSIP loop enablement."}
+{"ts":"2025-11-04T00:53:25Z","agent":"codex","mission":"B8.3","action":"start","status":"in_progress","summary":"Kickoff RSIP loop enablement mission"}
+{"ts":"2025-11-04T01:05:35Z","agent":"codex","mission":"B8.3","action":"complete","status":"completed","summary":"RSIP loop toggles, controls, convergence, telemetry, and controller events shipped","next_hint":"B8.4 promoted to Current for sub-agent delegation framework"}

@@ -2,7 +2,11 @@ import { promises as fs } from 'fs';
 import { join } from 'path';
 import { tmpdir } from 'os';
 
-import { AgenticController, MissionStateManager } from '../../src/intelligence/agentic-controller';
+import {
+  AgenticController,
+  MissionStateManager,
+  MissionRSIPRunSnapshot,
+} from '../../src/intelligence/agentic-controller';
 import { SubMissionResult } from '../../src/intelligence/context-propagator';
 import { MissionHistoryEvent } from '../../src/intelligence/mission-history';
 import { ContextPropagatorV3, ContextSummaryV3 } from '../../src/intelligence/context-propagator-v3';
@@ -508,6 +512,85 @@ describe('AgenticController', () => {
     const mission = await controller.getMissionState('B6.4');
     expect(mission?.phase).toBe('execution');
     expect(mission?.status).toBe('in_progress');
+  });
+
+  it('records RSIP loop runs and emits self-improvement events', async () => {
+    const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+    tempDirs.push(baseDir);
+
+    const { propagator } = createPropagatorStub();
+    const controller = new AgenticController({
+      statePath,
+      sessionsPath,
+      propagator,
+      clock: () => new Date('2025-11-04T01:00:00Z'),
+    });
+
+    const runEvents: Array<{ missionId: string; summary: MissionRSIPRunSnapshot }> = [];
+    controller.on('selfImprovementRun', (payload) => {
+      runEvents.push(payload);
+    });
+
+    const iterate = jest.fn(async (context) => ({
+      state: { total: (context.state?.total ?? 0) + 1 },
+      improvementScore: 0.2,
+      summary: `iteration-${context.iteration}`,
+      converged: true,
+    }));
+
+    const summary = await controller.runSelfImprovementLoop(
+      'B8.3',
+      { iterate },
+      {
+        maxIterations: 5,
+        minIterations: 1,
+        telemetrySource: 'rsip-test',
+      }
+    );
+
+    expect(summary.converged).toBe(true);
+    expect(summary.iterations).toHaveLength(1);
+    expect(iterate).toHaveBeenCalledTimes(1);
+
+    const mission = await controller.getMissionState('B8.3');
+    expect(mission?.rsipMetrics?.runs).toBe(1);
+    expect(mission?.rsipMetrics?.totalIterations).toBe(1);
+    expect(mission?.rsipMetrics?.lastRun).toMatchObject({
+      converged: true,
+      reason: 'converged',
+      iterations: [
+        {
+          index: 1,
+          improvementScore: 0.2,
+          summary: 'iteration-1',
+        },
+      ],
+    });
+
+    const history = mission?.history ?? [];
+    const lastEvent = history[history.length - 1];
+    expect(lastEvent?.type).toBe('self_improvement_run');
+    expect(lastEvent?.payload).toMatchObject({
+      iterations: 1,
+      converged: true,
+      reason: 'converged',
+    });
+
+    expect(runEvents).toHaveLength(1);
+    expect(runEvents[0]).toMatchObject({
+      missionId: 'B8.3',
+      summary: {
+        iterations: [
+          {
+            index: 1,
+            improvementScore: 0.2,
+            summary: 'iteration-1',
+          },
+        ],
+        converged: true,
+        reason: 'converged',
+      },
+    });
   });
 
   it('ignores resume requests for missions with no state', async () => {

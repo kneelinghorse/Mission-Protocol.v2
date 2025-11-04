@@ -9,6 +9,13 @@ import {
 } from './context-propagator';
 import { ContextPropagatorV3, ContextSummaryV3 } from './context-propagator-v3';
 import { MissionHistoryAnalyzer, MissionHistoryEvent } from './mission-history';
+import {
+  RSIPLoopHandlers,
+  RSIPLoopOptions,
+  RSIPLoopSummary,
+  RSIPStopReason,
+  runRSIPLoop,
+} from './rsip-loop';
 
 export type MissionStatus = 'queued' | 'current' | 'in_progress' | 'completed' | 'blocked' | 'paused';
 export type MissionPhase = 'idle' | 'planning' | 'execution' | 'review' | 'blocked' | 'completed';
@@ -24,7 +31,8 @@ export interface AgenticMissionEvent {
     | 'context_propagated'
     | 'sub_mission_recorded'
     | 'query_built'
-    | 'workflow_routed';
+    | 'workflow_routed'
+    | 'self_improvement_run';
   payload?: Record<string, unknown>;
 }
 
@@ -49,6 +57,26 @@ export interface DynamicQuerySnapshot {
   historyEvents: MissionHistoryEvent[];
 }
 
+export interface MissionRSIPIterationSnapshot {
+  index: number;
+  improvementScore: number;
+  summary?: string;
+}
+
+export interface MissionRSIPRunSnapshot {
+  startedAt: string;
+  completedAt: string;
+  converged: boolean;
+  reason: RSIPStopReason;
+  iterations: MissionRSIPIterationSnapshot[];
+}
+
+export interface MissionRSIPMetrics {
+  runs: number;
+  totalIterations: number;
+  lastRun?: MissionRSIPRunSnapshot;
+}
+
 export interface MissionState {
   missionId: string;
   phase: MissionPhase;
@@ -65,6 +93,7 @@ export interface MissionState {
   history: AgenticMissionEvent[];
   subMissions: StoredSubMissionResult[];
   metadata?: Record<string, unknown>;
+  rsipMetrics?: MissionRSIPMetrics;
 }
 
 export interface WorkflowState {
@@ -117,6 +146,72 @@ function ensureUnique(list: string[], value: string): string[] {
 
 function removeValue(list: string[], value: string): string[] {
   return list.filter((item) => item !== value);
+}
+
+function normalizeRSIPMetrics(
+  metrics: Partial<MissionRSIPMetrics> | undefined,
+  fallbackTimestamp: string
+): MissionRSIPMetrics | undefined {
+  if (!metrics) {
+    return undefined;
+  }
+
+  const safeRuns =
+    typeof metrics.runs === 'number' && Number.isFinite(metrics.runs) && metrics.runs >= 0
+      ? Math.floor(metrics.runs)
+      : 0;
+  const safeIterations =
+    typeof metrics.totalIterations === 'number' &&
+    Number.isFinite(metrics.totalIterations) &&
+    metrics.totalIterations >= 0
+      ? Math.floor(metrics.totalIterations)
+      : 0;
+
+  let lastRun: MissionRSIPRunSnapshot | undefined;
+  if (metrics.lastRun) {
+    const persisted = metrics.lastRun;
+    const normalizeReason = (reason: unknown): RSIPStopReason => {
+      if (reason === 'disabled' || reason === 'converged' || reason === 'max_iterations') {
+        return reason;
+      }
+      if (reason === 'error') {
+        return 'error';
+      }
+      return 'max_iterations';
+    };
+
+    const iterations: MissionRSIPIterationSnapshot[] = Array.isArray(persisted.iterations)
+      ? persisted.iterations.map((entry, index) => ({
+          index:
+            typeof entry?.index === 'number' && Number.isFinite(entry.index)
+              ? Math.max(1, Math.floor(entry.index))
+              : index + 1,
+          improvementScore:
+            typeof entry?.improvementScore === 'number' ? entry.improvementScore : 0,
+          summary: typeof entry?.summary === 'string' ? entry.summary : undefined,
+        }))
+      : [];
+
+    lastRun = {
+      startedAt:
+        typeof persisted.startedAt === 'string' && persisted.startedAt.length > 0
+          ? persisted.startedAt
+          : fallbackTimestamp,
+      completedAt:
+        typeof persisted.completedAt === 'string' && persisted.completedAt.length > 0
+          ? persisted.completedAt
+          : fallbackTimestamp,
+      converged: Boolean(persisted.converged),
+      reason: normalizeReason(persisted.reason),
+      iterations,
+    };
+  }
+
+  return {
+    runs: safeRuns,
+    totalIterations: safeIterations,
+    lastRun,
+  };
 }
 
 export class MissionStateManager {
@@ -207,6 +302,7 @@ export class MissionStateManager {
           ? (mission.subMissions as StoredSubMissionResult[]).map((entry) => ({ ...entry }))
           : [],
         metadata: mission.metadata ? { ...mission.metadata } : undefined,
+        rsipMetrics: normalizeRSIPMetrics(mission.rsipMetrics, now),
       };
     }
 
@@ -338,6 +434,10 @@ type AgenticEventMap = {
   workflowAdvanced: WorkflowAdvanceEvent;
   missionPaused: MissionLifecycleEvent;
   missionResumed: MissionLifecycleEvent;
+  selfImprovementRun: {
+    missionId: string;
+    summary: MissionRSIPRunSnapshot;
+  };
 };
 
 export class AgenticController {
@@ -785,6 +885,59 @@ export class AgenticController {
     this.emit('missionResumed', { missionId, ts: now });
     this.emit('stateChanged', state);
     return state;
+  }
+
+  async runSelfImprovementLoop<TState>(
+    missionId: string,
+    handlers: RSIPLoopHandlers<TState>,
+    options?: RSIPLoopOptions
+  ): Promise<RSIPLoopSummary<TState>> {
+    const mergedOptions: RSIPLoopOptions = {
+      ...(options ?? {}),
+      telemetrySource: options?.telemetrySource ?? `RSIP:${missionId}`,
+      clock: options?.clock ?? this.clock,
+    };
+
+    const loopSummary = await runRSIPLoop(handlers, mergedOptions);
+    const state = await this.stateManager.update((snapshot) => {
+      const mission =
+        snapshot.missions[missionId] ?? createMissionState(missionId, loopSummary.startedAt);
+      const previous = mission.rsipMetrics ?? { runs: 0, totalIterations: 0 };
+
+      mission.rsipMetrics = {
+        runs: previous.runs + 1,
+        totalIterations: previous.totalIterations + loopSummary.iterations.length,
+        lastRun: {
+          startedAt: loopSummary.startedAt,
+          completedAt: loopSummary.completedAt,
+          converged: loopSummary.converged,
+          reason: loopSummary.reason,
+          iterations: loopSummary.iterations.map((iteration, index) => ({
+            index: index + 1,
+            improvementScore: iteration.improvementScore,
+            summary: iteration.summary,
+          })),
+        },
+      };
+
+      mission.history.push(
+        this.buildMissionEvent('self_improvement_run', loopSummary.completedAt, {
+          iterations: loopSummary.iterations.length,
+          converged: loopSummary.converged,
+          reason: loopSummary.reason,
+        })
+      );
+      mission.updatedAt = loopSummary.completedAt;
+      snapshot.missions[missionId] = mission;
+    });
+
+    const mission = state.missions[missionId];
+    if (mission?.rsipMetrics?.lastRun) {
+      this.emit('selfImprovementRun', { missionId, summary: mission.rsipMetrics.lastRun });
+    }
+
+    this.emit('stateChanged', state);
+    return loopSummary;
   }
 
   async buildDynamicQuery(
