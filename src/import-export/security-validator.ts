@@ -64,6 +64,22 @@ const MISSION_TEMPLATE_SCHEMA: JSONSchema = {
     },
     spec: {
       type: 'object',
+      properties: {
+        structured_prompting: {
+          type: 'object',
+          required: ['enabled', 'role', 'context', 'task', 'format', 'constraints'],
+          properties: {
+            enabled: { type: 'boolean' },
+            role: { type: 'string', minLength: 1 },
+            context: { type: 'string', minLength: 1 },
+            task: { type: 'string', minLength: 1 },
+            format: { type: 'string', minLength: 1 },
+            constraints: { type: 'string', minLength: 1 },
+          },
+          additionalProperties: false,
+        },
+      },
+      additionalProperties: true,
     },
     dependencies: {
       type: 'array',

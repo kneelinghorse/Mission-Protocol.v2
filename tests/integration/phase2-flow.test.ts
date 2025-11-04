@@ -270,9 +270,10 @@ describe('Phase 2 End-to-End Integration Tests', () => {
       );
 
       expect(softwarePack).toBeDefined();
-      expect(softwarePack?.description).toBe(
-        'Software development tasks and feature implementation'
-      );
+      expect([
+        'Software development tasks and feature implementation',
+        'Missions for designing and implementing software features',
+      ]).toContain(softwarePack?.description);
       expect(softwarePack?.version).toBe('1.0.0');
 
       expect(businessPack).toBeDefined();

@@ -185,6 +185,20 @@
       },
       "required": ["functionality", "readability", "design", "performance", "security", "testing", "documentation"],
       "additionalProperties": false
+    },
+    "structured_prompting": {
+      "type": "object",
+      "description": "Structured prompting guidance using R-C-T-F-C blocks",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "role": { "type": "string", "minLength": 1 },
+        "context": { "type": "string", "minLength": 1 },
+        "task": { "type": "string", "minLength": 1 },
+        "format": { "type": "string", "minLength": 1 },
+        "constraints": { "type": "string", "minLength": 1 }
+      },
+      "required": ["enabled", "role", "context", "task", "format", "constraints"],
+      "additionalProperties": false
     }
   },
   "required": ["type", "pullRequest", "checklist"],

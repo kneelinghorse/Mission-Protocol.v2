@@ -33,7 +33,19 @@ export interface TemplateDependency {
   checksum: string; // SHA-256 checksum
 }
 
-export type TemplateSpec = Record<string, unknown>;
+export interface StructuredPromptingBlock {
+  enabled: boolean;
+  role: string;
+  context: string;
+  task: string;
+  format: string;
+  constraints: string;
+}
+
+export interface TemplateSpec {
+  structured_prompting?: StructuredPromptingBlock;
+  [key: string]: unknown;
+}
 
 /**
  * Complete mission template structure

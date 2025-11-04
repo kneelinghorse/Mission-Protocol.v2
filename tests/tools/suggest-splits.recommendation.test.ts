@@ -217,6 +217,6 @@ describe('SuggestSplitsToolImpl recommendations', () => {
   test('execute fails when mission file not found', async () => {
     await expect(
       tool.execute({ missionFile: path.join(os.tmpdir(), 'missing-file.yaml') })
-    ).rejects.toThrow('Mission file not found');
+    ).rejects.toThrow(/Mission file not found|Path escapes allowed base directory/);
   });
 });

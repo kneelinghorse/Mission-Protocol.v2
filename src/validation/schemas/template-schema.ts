@@ -30,7 +30,22 @@ export const TemplateDependencySchema = z.object({
   checksum: ChecksumSchema,
 });
 
-export const TemplateSpecSchema = z.record(z.string().min(1), z.unknown());
+export const StructuredPromptingSchema = z
+  .object({
+    enabled: z.boolean().default(true),
+    role: z.string().min(1, 'structured_prompting.role must be non-empty'),
+    context: z.string().min(1, 'structured_prompting.context must be non-empty'),
+    task: z.string().min(1, 'structured_prompting.task must be non-empty'),
+    format: z.string().min(1, 'structured_prompting.format must be non-empty'),
+    constraints: z.string().min(1, 'structured_prompting.constraints must be non-empty'),
+  })
+  .strict();
+
+export const TemplateSpecSchema = z
+  .object({
+    structured_prompting: StructuredPromptingSchema.optional(),
+  })
+  .catchall(z.unknown());
 
 export const MissionTemplateSchema = z.object({
   apiVersion: z

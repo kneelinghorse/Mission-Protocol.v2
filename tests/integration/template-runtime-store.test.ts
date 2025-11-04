@@ -15,6 +15,7 @@ import { SecureYAMLLoader } from '../../src/loaders/yaml-loader';
 import { RegistryParser } from '../../src/registry/registry-parser';
 import { DomainPackLoader } from '../../src/domains/domain-pack-loader';
 import { isGenericMission } from '../../src/schemas/generic-mission';
+import { StructuredPromptingBlock } from '../../src/import-export/types';
 import { resolveTemplatesDir } from '../utils/template-path';
 
 describe('Template Runtime Store - Smoke Test', () => {
@@ -127,6 +128,32 @@ describe('Template Runtime Store - Smoke Test', () => {
 
       expect(pack.manifest.name).toBe('build.implementation');
       expect(pack.template).toHaveProperty('type');
+      expect(pack.template).toHaveProperty('structured_prompting');
+    });
+
+    it('should expose structured prompting blocks on priority packs', async () => {
+      const entries = await registry.loadRegistry('registry.yaml');
+      const priorityPacks = [
+        'build.implementation',
+        'build.technical-research',
+        'build.architecture-mission',
+        'engineering.tdd',
+        'process.code-review',
+      ];
+
+      for (const packName of priorityPacks) {
+        const pack = await packLoader.loadPack(packName, entries);
+        const block = (pack.template as { structured_prompting?: StructuredPromptingBlock })
+          .structured_prompting;
+
+        expect(block).toBeDefined();
+        expect(block).toMatchObject({ enabled: true });
+        expect(typeof block?.role).toBe('string');
+        expect(typeof block?.context).toBe('string');
+        expect(typeof block?.task).toBe('string');
+        expect(typeof block?.format).toBe('string');
+        expect(typeof block?.constraints).toBe('string');
+      }
     });
   });
 
