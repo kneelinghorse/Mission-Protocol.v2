@@ -5,4 +5,7 @@ coverage
 dist
 *.log
 cmos/
+!cmos/runtime/
+cmos/runtime/*
+!cmos/runtime/.gitignore
 artifacts/quality-metrics/

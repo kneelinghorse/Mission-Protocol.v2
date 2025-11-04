@@ -16,6 +16,7 @@ import {
   registerTelemetryHandler,
   setTelemetryLevel,
 } from '../../src/intelligence/telemetry';
+import { pathExists } from '../../src/utils/fs';
 
 const createTempEnvironment = async (): Promise<{
   baseDir: string;
@@ -433,6 +434,75 @@ describe('AgenticController', () => {
       subMissionId: 'B8.4.a',
       status: 'success',
     });
+  });
+
+  it('runs boomerang workflow and records mission metrics', async () => {
+    const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+    tempDirs.push(baseDir);
+
+    const { propagator } = createPropagatorStub();
+    let tick = 0;
+    const controller = new AgenticController({
+      statePath,
+      sessionsPath,
+      propagator,
+      clock: () => new Date(Date.parse('2025-11-04T03:00:00Z') + tick++ * 60000),
+      boomerang: {
+        runtimeRoot: 'cmos/runtime/boomerang-controller-test',
+        retentionDays: 5,
+        maxRetries: 2,
+      },
+    });
+
+    const steps = [
+      {
+        id: 'plan',
+        async run() {
+          return {
+            status: 'success' as const,
+            output: { summary: 'Step planned' },
+          };
+        },
+      },
+      {
+        id: 'execute',
+        async run(payload: unknown, context: { attempt: number }) {
+          if (context.attempt === 1) {
+            return {
+              status: 'retry' as const,
+              diagnostic: 'Re-run build',
+            };
+          }
+          return {
+            status: 'success' as const,
+            output: { artifact: 'delivered', prior: payload },
+          };
+        },
+      },
+    ];
+
+    try {
+      const summary = await controller.runBoomerangWorkflow('B8.5', steps, {
+        initialPayload: { mission: 'B8.5' },
+        telemetrySource: 'test::boomerang::controller',
+      });
+
+      expect(summary.status).toBe('success');
+      expect(summary.completedSteps).toEqual(['plan', 'execute']);
+      expect(summary.diagnostics.retainedCheckpoints).toBe(0);
+
+      const mission = await controller.getMissionState('B8.5');
+      expect(mission?.boomerangMetrics?.runs).toBe(1);
+      expect(mission?.boomerangMetrics?.lastRun?.status).toBe('success');
+      expect(
+        mission?.history.some((event) => event.type === 'boomerang_run_completed')
+      ).toBe(true);
+
+      const missionDir = join('cmos/runtime/boomerang-controller-test', 'B8.5');
+      expect(await pathExists(missionDir)).toBe(false);
+    } finally {
+      await fs.rm('cmos/runtime/boomerang-controller-test', { recursive: true, force: true });
+    }
   });
 
   it('triggers context propagation on phase transitions', async () => {

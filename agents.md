@@ -48,6 +48,12 @@ npm run lint && npm run format:check
 - Use `agents-md-loader` utilities when integrating memory guidance into tools.
 - Escalate blockers with `needs:[]` hints and avoid reordering backlog items without notes.
 
+## Pattern Configuration
+- `boomerang.enabled`: true
+- `boomerang.retention_days`: 7
+- `boomerang.cleanup_cadence`: "daily"
+- `boomerang.fallback_threshold`: 2
+
 ## Telemetry & Validation
 - Record loader metrics (bytes, duration, validation codes) when wiring telemetry hooks.
 - Respect 60-second cache TTL for agents.md loads unless force refreshing.
@@ -56,6 +62,6 @@ npm run lint && npm run format:check
 
 ---
 
-**Last Updated**: 2025-11-03
-**Version**: 1.0.0
+**Last Updated**: 2025-11-04
+**Version**: 1.0.1
 **Maintained by**: Mission Protocol Team

@@ -21,6 +21,11 @@ import {
   emitTelemetryInfo,
   emitTelemetryWarning,
 } from './telemetry';
+import {
+  BoomerangStep,
+  BoomerangWorkflow,
+  BoomerangWorkflowResult,
+} from './boomerang-workflow';
 
 export type MissionStatus = 'queued' | 'current' | 'in_progress' | 'completed' | 'blocked' | 'paused';
 export type MissionPhase = 'idle' | 'planning' | 'execution' | 'review' | 'blocked' | 'completed';
@@ -40,7 +45,9 @@ export interface AgenticMissionEvent {
     | 'sub_mission_recorded'
     | 'query_built'
     | 'workflow_routed'
-    | 'self_improvement_run';
+    | 'self_improvement_run'
+    | 'boomerang_run_completed'
+    | 'boomerang_fallback_triggered';
   payload?: Record<string, unknown>;
 }
 
@@ -85,6 +92,22 @@ export interface MissionRSIPMetrics {
   lastRun?: MissionRSIPRunSnapshot;
 }
 
+export interface MissionBoomerangRunSummary {
+  startedAt: string;
+  completedAt: string;
+  status: 'success' | 'failed' | 'fallback';
+  completedSteps: string[];
+  failedStep?: string;
+  fallbackReason?: string;
+  diagnostics: BoomerangWorkflowResult['diagnostics'];
+  lastOutput?: unknown;
+}
+
+export interface MissionBoomerangMetrics {
+  runs: number;
+  lastRun?: MissionBoomerangRunSummary;
+}
+
 export interface ActiveSubMission {
   id: string;
   startedAt: string;
@@ -112,6 +135,7 @@ export interface MissionState {
   subMissions: StoredSubMissionResult[];
   metadata?: Record<string, unknown>;
   rsipMetrics?: MissionRSIPMetrics;
+  boomerangMetrics?: MissionBoomerangMetrics;
 }
 
 export interface WorkflowState {
@@ -142,6 +166,9 @@ interface PersistedAgenticState {
 
 const DEFAULT_STATE_PATH = 'cmos/context/agentic_state.json';
 const DEFAULT_SESSIONS_PATH = 'cmos/SESSIONS.jsonl';
+const DEFAULT_BOOMERANG_RUNTIME_ROOT = 'cmos/runtime/boomerang';
+const DEFAULT_BOOMERANG_RETENTION_DAYS = 7;
+const DEFAULT_BOOMERANG_MAX_RETRIES = 2;
 
 function createMissionState(missionId: string, now: string): MissionState {
   return {
@@ -229,6 +256,28 @@ function normalizeRSIPMetrics(
   return {
     runs: safeRuns,
     totalIterations: safeIterations,
+    lastRun,
+  };
+}
+
+function normalizeBoomerangMetrics(
+  metrics: Partial<MissionBoomerangMetrics> | undefined
+): MissionBoomerangMetrics | undefined {
+  if (!metrics) {
+    return undefined;
+  }
+
+  const safeRuns =
+    typeof metrics.runs === 'number' && Number.isFinite(metrics.runs) && metrics.runs >= 0
+      ? Math.floor(metrics.runs)
+      : 0;
+
+  const lastRun = metrics.lastRun
+    ? (cloneState(metrics.lastRun) as MissionBoomerangRunSummary)
+    : undefined;
+
+  return {
+    runs: safeRuns,
     lastRun,
   };
 }
@@ -358,6 +407,9 @@ export class MissionStateManager {
           : [],
         metadata: mission.metadata ? { ...mission.metadata } : undefined,
         rsipMetrics: normalizeRSIPMetrics(mission.rsipMetrics, now),
+        boomerangMetrics: normalizeBoomerangMetrics(
+          (mission as { boomerangMetrics?: MissionBoomerangMetrics }).boomerangMetrics
+        ),
       };
     }
 
@@ -409,6 +461,7 @@ export interface AgenticControllerOptions {
   historyLimit?: number;
   autoPropagationPhases?: MissionPhase[];
   delegationGuardrails?: DelegationGuardrailOptions;
+  boomerang?: BoomerangControllerOptions;
 }
 
 export interface WorkflowRegistrationOptions {
@@ -520,11 +573,29 @@ export interface DelegationGuardrailOptions {
   telemetrySource?: string;
 }
 
+export interface BoomerangControllerOptions {
+  runtimeRoot?: string;
+  retentionDays?: number;
+  maxRetries?: number;
+}
+
+export interface RunBoomerangWorkflowOptions {
+  initialPayload?: unknown;
+  runtimeRoot?: string;
+  retentionDays?: number;
+  maxRetries?: number;
+  telemetrySource?: string;
+  clock?: () => Date;
+}
+
 export class AgenticController {
   private readonly stateManager: MissionStateManager;
   private readonly historyAnalyzer: MissionHistoryAnalyzer;
   private readonly propagator: ContextPropagatorV3;
   private readonly clock: () => Date;
+  private readonly boomerangRuntimeRoot: string;
+  private readonly boomerangRetentionDays: number;
+  private readonly boomerangMaxRetries: number;
   private readonly emitter = new EventEmitter();
   private readonly historyLimit: number;
   private readonly autoPropagationPhases: Set<MissionPhase>;
@@ -571,6 +642,21 @@ export class AgenticController {
         : AgenticController.DEFAULT_MAX_ACTIVE_SUBMISSIONS;
     this.delegationTelemetrySource =
       guardrails.telemetrySource ?? AgenticController.DEFAULT_TELEMETRY_SOURCE;
+
+    const boomerang = options.boomerang ?? {};
+    const requestedRetries =
+      typeof boomerang.maxRetries === 'number' && Number.isFinite(boomerang.maxRetries)
+        ? Math.floor(boomerang.maxRetries)
+        : NaN;
+    this.boomerangRuntimeRoot = boomerang.runtimeRoot ?? DEFAULT_BOOMERANG_RUNTIME_ROOT;
+    this.boomerangRetentionDays =
+      typeof boomerang.retentionDays === 'number' && Number.isFinite(boomerang.retentionDays)
+        ? boomerang.retentionDays
+        : DEFAULT_BOOMERANG_RETENTION_DAYS;
+    this.boomerangMaxRetries =
+      Number.isFinite(requestedRetries) && requestedRetries >= 0
+        ? requestedRetries
+        : DEFAULT_BOOMERANG_MAX_RETRIES;
   }
 
   on<K extends keyof AgenticEventMap>(
@@ -1201,6 +1287,73 @@ export class AgenticController {
     this.emit('missionResumed', { missionId, ts: now });
     this.emit('stateChanged', state);
     return state;
+  }
+
+  async runBoomerangWorkflow(
+    missionId: string,
+    steps: readonly BoomerangStep[],
+    options: RunBoomerangWorkflowOptions = {}
+  ): Promise<BoomerangWorkflowResult> {
+    if (!steps || steps.length === 0) {
+      throw new Error('Boomerang workflow requires at least one step');
+    }
+
+    const workflow = new BoomerangWorkflow({
+      missionId,
+      steps,
+      runtimeRoot: options.runtimeRoot ?? this.boomerangRuntimeRoot,
+      retentionDays: options.retentionDays ?? this.boomerangRetentionDays,
+      maxRetries: options.maxRetries ?? this.boomerangMaxRetries,
+      telemetrySource: options.telemetrySource ?? `Boomerang:${missionId}`,
+      clock: options.clock ?? this.clock,
+    });
+
+    const summary = await workflow.execute(options.initialPayload);
+    const state = await this.stateManager.update((snapshot) => {
+      const mission =
+        snapshot.missions[missionId] ?? createMissionState(missionId, summary.startedAt);
+      const previousRuns = mission.boomerangMetrics?.runs ?? 0;
+
+      mission.boomerangMetrics = {
+        runs: previousRuns + 1,
+        lastRun: {
+          startedAt: summary.startedAt,
+          completedAt: summary.completedAt,
+          status: summary.status,
+          completedSteps: [...summary.completedSteps],
+          failedStep: summary.failedStep,
+          fallbackReason: summary.fallbackReason,
+          diagnostics: { ...summary.diagnostics },
+          lastOutput: summary.lastOutput,
+        },
+      };
+
+      mission.history.push(
+        this.buildMissionEvent('boomerang_run_completed', summary.completedAt, {
+          status: summary.status,
+          completedSteps: summary.completedSteps,
+          failedStep: summary.failedStep,
+          fallbackReason: summary.fallbackReason,
+          retainedCheckpoints: summary.diagnostics.retainedCheckpoints,
+        })
+      );
+
+      if (summary.status === 'fallback') {
+        mission.history.push(
+          this.buildMissionEvent('boomerang_fallback_triggered', summary.completedAt, {
+            failedStep: summary.failedStep,
+            fallbackReason: summary.fallbackReason,
+            attempts: summary.diagnostics.attempts,
+          })
+        );
+      }
+
+      mission.updatedAt = summary.completedAt;
+      snapshot.missions[missionId] = mission;
+    });
+
+    this.emit('stateChanged', state);
+    return summary;
   }
 
   async runSelfImprovementLoop<TState>(

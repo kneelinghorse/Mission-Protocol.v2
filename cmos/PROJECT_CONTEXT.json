@@ -13,12 +13,12 @@
   },
   "working_memory": {
     "active_domain": "main",
-    "active_mission": "B8.5",
+    "active_mission": "B8.6",
     "agents_md_path": "./agents.md",
     "agents_md_loaded": true,
     "agents_md_version": "1.0.0",
-    "session_count": 41,
-    "last_session": "2025-11-04T02:55:21Z",
+    "session_count": 42,
+    "last_session": "2025-11-04T03:40:32Z",
     "domains": {
       "main": {
         "status": "active",
@@ -44,7 +44,7 @@
           "cmos/templates/agents.md",
           "src/intelligence/agents-md-loader.ts"
         ],
-        "current_mission": "B8.5",
+        "current_mission": "B8.6",
         "missions": {
           "B8.1": {
             "status": "Completed",
@@ -61,6 +61,10 @@
           "B8.4": {
             "status": "Completed",
             "completed_at": "2025-11-04T02:55:21Z"
+          },
+          "B8.5": {
+            "status": "Completed",
+            "completed_at": "2025-11-04T03:40:32Z"
           }
         },
         "research_completed": [
@@ -103,7 +107,8 @@
           "B8.1 completed: agents.md loader, templates, and PROJECT_CONTEXT alignment delivered for CMOS integration",
           "B8.2 completed: Structured prompting enforced across priority templates with schema and test coverage",
           "B8.3 completed: RSIP loop toggles, iteration controls, convergence detection, telemetry, and controller metrics delivered",
-          "B8.4 completed: Worker manifest loader, delegation guardrails, and telemetry instrumentation delivered across the agentic controller"
+          "B8.4 completed: Worker manifest loader, delegation guardrails, and telemetry instrumentation delivered across the agentic controller",
+          "B8.5 completed: Boomerang workflow shipped with checkpoints, telemetry, retention knobs, and tests"
         ]
       }
     }

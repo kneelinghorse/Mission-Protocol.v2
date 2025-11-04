@@ -43,6 +43,12 @@ npm test
 - Append to `SESSIONS.jsonl`; never rewrite history
 - Escalate blockers with actionable `needs` entries
 
+## Pattern Configuration
+- `boomerang.enabled`: <true|false>
+- `boomerang.retention_days`: <days>
+- `boomerang.cleanup_cadence`: <cadence>
+- `boomerang.fallback_threshold`: <attempts>
+
 ## Telemetry & Validation
 - Log loader metrics (duration, size) when integrating tooling
 - Warn (not block) when sections are missing; block on unreadable files
@@ -50,6 +56,6 @@ npm test
 
 ---
 
-**Last Updated**: 2025-11-03
-**Version**: 1.0.0
+**Last Updated**: 2025-11-04
+**Version**: 1.0.1
 **Maintained by**: <owner or team>
