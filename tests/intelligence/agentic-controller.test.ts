@@ -23,7 +23,9 @@ const createTempEnvironment = async (): Promise<{
   statePath: string;
   sessionsPath: string;
 }> => {
-  const baseDir = await fs.mkdtemp(join(tmpdir(), 'agentic-controller-'));
+  const workspaceTmp = join(process.cwd(), 'tmp');
+  await fs.mkdir(workspaceTmp, { recursive: true });
+  const baseDir = await fs.mkdtemp(join(workspaceTmp, 'agentic-controller-'));
   const statePath = join(baseDir, 'state.json');
   const sessionsPath = join(baseDir, 'sessions.jsonl');
   await fs.writeFile(sessionsPath, '', 'utf-8');
@@ -377,6 +379,57 @@ describe('AgenticController', () => {
     });
   });
 
+  it('blocks mission completion when sub-missions remain active', async () => {
+    const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+    tempDirs.push(baseDir);
+
+    const { propagator } = createPropagatorStub();
+    const telemetryEvents: TelemetryEvent[] = [];
+    registerTelemetryHandler((event) => telemetryEvents.push(event));
+    setTelemetryLevel('info');
+
+    const controller = new AgenticController({
+      statePath,
+      sessionsPath,
+      propagator,
+      clock: () => new Date('2025-11-04T04:05:00Z'),
+      governanceTelemetrySource: 'governance-test',
+    });
+
+    await controller.startMission('B8.6', {
+      objective: 'Governance guardrail verification',
+    });
+    await controller.beginSubMission('B8.6', 'B8.6.a');
+
+    await expect(controller.completeMission('B8.6')).rejects.toThrow(
+      /sub-missions remain active/i
+    );
+
+    const logPath = join(baseDir, 'agentic-events.jsonl');
+    const raw = await fs.readFile(logPath, 'utf-8');
+    const entries = raw
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => JSON.parse(line));
+
+    const qualityEntry = entries.find(
+      (entry) => entry.category === 'quality_gate' && entry.type === 'mission_completion'
+    );
+    expect(qualityEntry).toBeDefined();
+    expect(qualityEntry?.status).toBe('failed');
+    expect(qualityEntry?.data?.activeSubMissions).toEqual(['B8.6.a']);
+
+    const telemetry = telemetryEvents.find(
+      (event) => event.message === 'mission_completion_blocked'
+    );
+    expect(telemetry).toBeDefined();
+    expect(telemetry?.context).toMatchObject({
+      missionId: 'B8.6',
+      activeSubMissions: ['B8.6.a'],
+    });
+  });
+
   it('emits telemetry for sub-mission lifecycle events', async () => {
     const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
     tempDirs.push(baseDir);
@@ -503,6 +556,61 @@ describe('AgenticController', () => {
     } finally {
       await fs.rm('cmos/runtime/boomerang-controller-test', { recursive: true, force: true });
     }
+  });
+
+  it('logs quality gates when boomerang workflow falls back', async () => {
+    const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+    tempDirs.push(baseDir);
+
+    const { propagator } = createPropagatorStub();
+    const controller = new AgenticController({
+      statePath,
+      sessionsPath,
+      propagator,
+      clock: () => new Date('2025-11-04T04:06:00Z'),
+    });
+
+    const steps = [
+      {
+        id: 'retry-step',
+        async run() {
+          return { status: 'retry' as const };
+        },
+      },
+    ];
+
+    const summary = await controller.runBoomerangWorkflow('B8.6', steps, {
+      runtimeRoot: join(baseDir, 'boomerang'),
+      maxRetries: 0,
+      telemetrySource: 'boomerang::fallback',
+    });
+
+    expect(summary.status).toBe('fallback');
+
+    const logPath = join(baseDir, 'agentic-events.jsonl');
+    const raw = await fs.readFile(logPath, 'utf-8');
+    const entries = raw
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => JSON.parse(line));
+
+    const workflowEntry = entries.find(
+      (entry) => entry.category === 'workflow' && entry.type === 'boomerang_run_completed'
+    );
+    expect(workflowEntry).toMatchObject({
+      missionId: 'B8.6',
+      status: 'fallback',
+    });
+
+    const gateEntry = entries.find(
+      (entry) => entry.category === 'quality_gate' && entry.type === 'boomerang_run_status'
+    );
+    expect(gateEntry).toMatchObject({
+      status: 'failed',
+      detail: 'Boomerang workflow fallback triggered.',
+    });
+    expect(gateEntry?.data?.failedStep).toBe('retry-step');
   });
 
   it('triggers context propagation on phase transitions', async () => {

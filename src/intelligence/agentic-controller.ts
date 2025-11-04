@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { promises as fs } from 'fs';
-import { dirname } from 'path';
+import { dirname, join } from 'path';
 
 import {
   ContextPropagatorConfig,
@@ -21,6 +21,11 @@ import {
   emitTelemetryInfo,
   emitTelemetryWarning,
 } from './telemetry';
+import {
+  AgenticObservability,
+  AgenticObservabilityOptions,
+  AgenticQualityGateResult,
+} from './agentic-observability';
 import {
   BoomerangStep,
   BoomerangWorkflow,
@@ -169,6 +174,8 @@ const DEFAULT_SESSIONS_PATH = 'cmos/SESSIONS.jsonl';
 const DEFAULT_BOOMERANG_RUNTIME_ROOT = 'cmos/runtime/boomerang';
 const DEFAULT_BOOMERANG_RETENTION_DAYS = 7;
 const DEFAULT_BOOMERANG_MAX_RETRIES = 2;
+const DEFAULT_OBSERVABILITY_LOG_FILE = 'agentic-events.jsonl';
+const DEFAULT_GOVERNANCE_TELEMETRY_SOURCE = 'AgenticGovernance';
 
 function createMissionState(missionId: string, now: string): MissionState {
   return {
@@ -462,6 +469,8 @@ export interface AgenticControllerOptions {
   autoPropagationPhases?: MissionPhase[];
   delegationGuardrails?: DelegationGuardrailOptions;
   boomerang?: BoomerangControllerOptions;
+  observability?: AgenticObservability | AgenticObservabilityOptions;
+  governanceTelemetrySource?: string;
 }
 
 export interface WorkflowRegistrationOptions {
@@ -601,13 +610,16 @@ export class AgenticController {
   private readonly autoPropagationPhases: Set<MissionPhase>;
   private readonly maxActiveSubMissions: number | null;
   private readonly delegationTelemetrySource: string;
+  private readonly observability: AgenticObservability;
+  private readonly governanceTelemetrySource: string;
   private static readonly DEFAULT_MAX_ACTIVE_SUBMISSIONS = 8;
   private static readonly DEFAULT_TELEMETRY_SOURCE = 'AgenticDelegation';
 
   constructor(options: AgenticControllerOptions = {}) {
     this.clock = options.clock ?? (() => new Date());
+    const resolvedStatePath = options.statePath ?? DEFAULT_STATE_PATH;
     this.stateManager = new MissionStateManager({
-      statePath: options.statePath,
+      statePath: resolvedStatePath,
       clock: this.clock,
     });
 
@@ -657,6 +669,33 @@ export class AgenticController {
       Number.isFinite(requestedRetries) && requestedRetries >= 0
         ? requestedRetries
         : DEFAULT_BOOMERANG_MAX_RETRIES;
+
+    const defaultObservabilityPath = join(
+      dirname(resolvedStatePath),
+      DEFAULT_OBSERVABILITY_LOG_FILE
+    );
+    const observabilityOption = options.observability;
+    if (observabilityOption instanceof AgenticObservability) {
+      this.observability = observabilityOption;
+    } else {
+      const observabilityOptions =
+        observabilityOption && typeof observabilityOption === 'object'
+          ? (observabilityOption as AgenticObservabilityOptions)
+          : {};
+      const logPath =
+        observabilityOptions.logPath !== undefined
+          ? observabilityOptions.logPath
+          : defaultObservabilityPath;
+
+      this.observability = new AgenticObservability({
+        ...observabilityOptions,
+        logPath,
+        clock: observabilityOptions.clock ?? this.clock,
+      });
+    }
+
+    this.governanceTelemetrySource =
+      options.governanceTelemetrySource ?? DEFAULT_GOVERNANCE_TELEMETRY_SOURCE;
   }
 
   on<K extends keyof AgenticEventMap>(
@@ -840,6 +879,21 @@ export class AgenticController {
     }
 
     this.emit('stateChanged', state);
+    const missionState = state.missions[missionId];
+    if (missionState) {
+      await this.observability.recordEvent({
+        missionId,
+        category: 'mission',
+        type: 'mission_started',
+        status: missionState.status,
+        data: {
+          phase: missionState.phase,
+          objective: missionState.objective,
+          tags: missionState.tags,
+          currentSubMission: missionState.currentSubMission,
+        },
+      });
+    }
     return state;
   }
 
@@ -884,6 +938,23 @@ export class AgenticController {
       });
     }
     this.emit('stateChanged', state);
+
+    if (phase !== previousPhase) {
+      const missionState = state.missions[missionId];
+      if (missionState) {
+        await this.observability.recordEvent({
+          missionId,
+          category: 'mission',
+          type: 'phase_transition',
+          status: missionState.status,
+          data: {
+            from: previousPhase,
+            to: missionState.phase,
+            reason: options.reason,
+          },
+        });
+      }
+    }
 
     const shouldPropagate =
       options.autoPropagate ?? this.autoPropagationPhases.has(phase);
@@ -963,6 +1034,20 @@ export class AgenticController {
     this.emit('stateChanged', state);
     if (telemetryContext) {
       emitTelemetryInfo(this.delegationTelemetrySource, 'sub_mission_started', telemetryContext);
+    }
+    const missionState = state.missions[missionId];
+    if (missionState) {
+      await this.observability.recordEvent({
+        missionId,
+        category: 'sub_mission',
+        type: 'sub_mission_started',
+        status: missionState.status,
+        data: {
+          subMissionId,
+          parent: telemetryContext?.parent,
+          activeCount: missionState.activeSubMissions?.length ?? 0,
+        },
+      });
     }
     return state;
   }
@@ -1096,6 +1181,22 @@ export class AgenticController {
       );
     }
 
+    const missionState = state.missions[missionId];
+    if (missionState) {
+      await this.observability.recordEvent({
+        missionId,
+        category: 'sub_mission',
+        type: 'sub_mission_completed',
+        status: options.status,
+        data: {
+          subMissionId,
+          status: options.status,
+          durationMs: completionContext?.durationMs,
+          remainingActive: missionState.activeSubMissions?.length ?? 0,
+        },
+      });
+    }
+
     if (autoPropagate) {
       await this.triggerContextPropagation(missionId);
       return this.stateManager.getState();
@@ -1162,6 +1263,20 @@ export class AgenticController {
         rollbackContext
       );
     }
+    const missionState = state.missions[missionId];
+    if (missionState) {
+      await this.observability.recordEvent({
+        missionId,
+        category: 'sub_mission',
+        type: 'sub_mission_rolled_back',
+        status: missionState.status,
+        data: {
+          subMissionId,
+          reason: options.reason,
+          remainingActive: missionState.activeSubMissions?.length ?? 0,
+        },
+      });
+    }
     return state;
   }
 
@@ -1172,41 +1287,82 @@ export class AgenticController {
     const now = this.nowIso();
     const previous = await this.stateManager.getMission(missionId);
     const previousPhase = previous?.phase ?? 'idle';
+    const previousStatus = previous?.status ?? 'in_progress';
+    const activeSubMissions = previous?.activeSubMissions ?? [];
 
-    const state = await this.stateManager.update((snapshot) => {
-      const mission =
-        snapshot.missions[missionId] ?? createMissionState(missionId, now);
-      const fromPhase = mission.phase;
-
-      mission.phase = 'completed';
-      mission.status = 'completed';
-      mission.completedAt = now;
-      mission.updatedAt = now;
-      mission.notes = options.notes ?? mission.notes;
-      mission.metadata = options.metadata ?? mission.metadata;
-
-      mission.history.push(
-        this.buildMissionEvent('mission_completed', now, {
-          summary: options.summary,
-        })
+    if (activeSubMissions.length > 0) {
+      await this.logMissionCompletionBlocked(
+        missionId,
+        previousStatus,
+        activeSubMissions.map((entry) => entry.id)
       );
+      throw new Error(
+        `Mission ${missionId} cannot be completed while sub-missions remain active.`
+      );
+    }
 
-      if (fromPhase !== 'completed') {
+    let state: AgenticStateSnapshot;
+    try {
+      state = await this.stateManager.update((snapshot) => {
+        const mission =
+          snapshot.missions[missionId] ?? createMissionState(missionId, now);
+        const fromPhase = mission.phase;
+
+        const remainingActive = mission.activeSubMissions ?? [];
+        if (remainingActive.length > 0) {
+          throw new Error(
+            `Mission ${missionId} cannot be completed while sub-missions remain active.`
+          );
+        }
+
+        mission.phase = 'completed';
+        mission.status = 'completed';
+        mission.completedAt = now;
+        mission.updatedAt = now;
+        mission.notes = options.notes ?? mission.notes;
+        mission.metadata = options.metadata ?? mission.metadata;
+        mission.activeSubMissions = [];
+        mission.currentSubMission = undefined;
+
         mission.history.push(
-          this.buildMissionEvent('phase_transition', now, {
-            from: fromPhase,
-            to: 'completed',
-            reason: 'mission_completed',
+          this.buildMissionEvent('mission_completed', now, {
+            summary: options.summary,
           })
         );
-      }
 
-      snapshot.missions[missionId] = mission;
-      if (snapshot.workflow.activeMission === missionId) {
-        snapshot.workflow.activeMission = undefined;
+        if (fromPhase !== 'completed') {
+          mission.history.push(
+            this.buildMissionEvent('phase_transition', now, {
+              from: fromPhase,
+              to: 'completed',
+              reason: 'mission_completed',
+            })
+          );
+        }
+
+        snapshot.missions[missionId] = mission;
+        if (snapshot.workflow.activeMission === missionId) {
+          snapshot.workflow.activeMission = undefined;
+        }
+        snapshot.workflow.completed = ensureUnique(snapshot.workflow.completed, missionId);
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message.includes('sub-missions remain active')
+      ) {
+        const latest = await this.stateManager.getMission(missionId);
+        const latestIds = latest?.activeSubMissions?.map((entry) => entry.id) ?? [];
+        if (latestIds.length > 0) {
+          await this.logMissionCompletionBlocked(
+            missionId,
+            latest?.status ?? previousStatus,
+            latestIds
+          );
+        }
       }
-      snapshot.workflow.completed = ensureUnique(snapshot.workflow.completed, missionId);
-    });
+      throw error;
+    }
 
     const currentPhase = state.missions[missionId]?.phase ?? previousPhase;
     if (currentPhase !== previousPhase) {
@@ -1220,6 +1376,27 @@ export class AgenticController {
     }
 
     this.emit('stateChanged', state);
+    const missionState = state.missions[missionId];
+    if (missionState) {
+      await this.observability.recordEvent({
+        missionId,
+        category: 'mission',
+        type: 'mission_completed',
+        status: missionState.status,
+        data: {
+          summary: options.summary,
+        },
+      });
+      await this.observability.recordQualityGate({
+        missionId,
+        gate: 'mission_completion',
+        status: 'passed',
+        detail: 'Mission completed successfully.',
+        data: {
+          summary: options.summary,
+        },
+      });
+    }
     return state;
   }
 
@@ -1289,6 +1466,35 @@ export class AgenticController {
     return state;
   }
 
+  private async logMissionCompletionBlocked(
+    missionId: string,
+    status: MissionStatus | undefined,
+    activeSubMissions: readonly string[]
+  ): Promise<void> {
+    await this.observability.recordEvent({
+      missionId,
+      category: 'mission',
+      type: 'mission_completion_blocked',
+      status,
+      data: {
+        activeSubMissions: activeSubMissions.slice(),
+      },
+    });
+    await this.observability.recordQualityGate({
+      missionId,
+      gate: 'mission_completion',
+      status: 'failed',
+      detail: 'Active sub-missions must be completed before mission completion.',
+      data: {
+        activeSubMissions: activeSubMissions.slice(),
+      },
+    });
+    emitTelemetryError(this.governanceTelemetrySource, 'mission_completion_blocked', {
+      missionId,
+      activeSubMissions,
+    });
+  }
+
   async runBoomerangWorkflow(
     missionId: string,
     steps: readonly BoomerangStep[],
@@ -1353,6 +1559,38 @@ export class AgenticController {
     });
 
     this.emit('stateChanged', state);
+    await this.observability.recordEvent({
+      missionId,
+      category: 'workflow',
+      type: 'boomerang_run_completed',
+      status: summary.status,
+      data: {
+        completedSteps: summary.completedSteps,
+        failedStep: summary.failedStep,
+        fallbackReason: summary.fallbackReason,
+        retainedCheckpoints: summary.diagnostics.retainedCheckpoints,
+      },
+    });
+
+    const gateStatus: AgenticQualityGateResult['status'] =
+      summary.status === 'success' ? 'passed' : 'failed';
+    const gateDetail =
+      summary.status === 'success'
+        ? 'Boomerang workflow completed successfully.'
+        : summary.status === 'fallback'
+        ? 'Boomerang workflow fallback triggered.'
+        : 'Boomerang workflow failed.';
+    await this.observability.recordQualityGate({
+      missionId,
+      gate: 'boomerang_run_status',
+      status: gateStatus,
+      detail: gateDetail,
+      data: {
+        status: summary.status,
+        failedStep: summary.failedStep,
+        fallbackReason: summary.fallbackReason,
+      },
+    });
     return summary;
   }
 
@@ -1406,6 +1644,30 @@ export class AgenticController {
     }
 
     this.emit('stateChanged', state);
+    await this.observability.recordEvent({
+      missionId,
+      category: 'workflow',
+      type: 'self_improvement_run',
+      status: loopSummary.converged ? 'converged' : loopSummary.reason ?? 'stopped',
+      data: {
+        iterations: loopSummary.iterations.length,
+        converged: loopSummary.converged,
+        reason: loopSummary.reason,
+      },
+    });
+    await this.observability.recordQualityGate({
+      missionId,
+      gate: 'self_improvement_convergence',
+      status: loopSummary.converged ? 'passed' : 'warning',
+      detail: loopSummary.converged
+        ? 'RSIP loop converged successfully.'
+        : `RSIP loop ended without convergence (${loopSummary.reason ?? 'unknown'}).`,
+      data: {
+        iterations: loopSummary.iterations.length,
+        converged: loopSummary.converged,
+        reason: loopSummary.reason,
+      },
+    });
     return loopSummary;
   }
 
