@@ -306,11 +306,13 @@ domainFields:
           notes: "Delivered CMOS ↔ Mission Protocol interoperability test coverage plus QA sample missions."
         - id: "B8.8"
           name: "Documentation & Migration Playbook"
-          status: "Current"
-          notes: "Update docs and author guides covering agents.md adoption and agentic workflow onboarding; promoted after B8.7 QA."
+          status: "Completed"
+          started_at: "2025-11-04T06:07:16Z"
+          completed_at: "2025-11-04T06:09:42Z"
+          notes: "Authored agentic migration playbook and refreshed onboarding docs after B8.7 QA."
         - id: "B8.9"
           name: "Coverage Hardening & Threshold Recovery"
-          status: "Queued"
+          status: "Current"
           notes: "Restore Jest coverage thresholds (91/91/91/86) with targeted tests, artifacts, and documentation."
 
   # Structured representation of the Mermaid diagram from backlog.md

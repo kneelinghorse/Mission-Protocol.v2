@@ -35,6 +35,34 @@ Welcome to Mission Protocol v2. This guide gives mission authors a practical pat
    npm run outcomes
    ```
 
+## Agentic Workspace Checklist
+
+The Sprint 8 upgrades add persistent agent memory and agentic orchestration guardrails. Before creating or updating missions, make sure every workspace satisfies the following:
+
+1. **agents.md present and structured** – Keep the project playbook at `./agents.md` with, at minimum, the `Project Overview`, `Build & Development Commands`, and `AI Agent Specific Instructions` sections from the canonical template.
+2. **PROJECT_CONTEXT tracking** – Ensure `cmos/PROJECT_CONTEXT.json` has `working_memory.agents_md_path`, `working_memory.agents_md_loaded`, and `working_memory.agents_md_version` set after each session. These are patched automatically by the loader.
+3. **Validate the loader handshake** – From the repository root, confirm the loader can resolve and parse the playbook:
+   ```bash
+   node - <<'NODE'
+   const { AgentsMdLoader } = require('./dist/intelligence/agents-md-loader.js');
+
+   (async () => {
+     const loader = new AgentsMdLoader();
+     const result = await loader.load(process.cwd());
+     console.log({
+       path: result.path,
+       version: result.version,
+       loaded: result.loaded,
+       validations: result.validations,
+     });
+   })().catch((error) => {
+     console.error('agents.md load failed', error);
+     process.exitCode = 1;
+   });
+   NODE
+   ```
+4. **Respect cache TTL** – The loader caches successful reads for 60 seconds. Pass `{ forceRefresh: true }` when you need to consume an updated playbook inside automation.
+
 ## Mission Protocol Essentials
 
 - **Generic mission template**: `templates/generic_mission.yaml` implements the ICEV (Intent, Context, Execution, Verification) structure shared by every pack.
