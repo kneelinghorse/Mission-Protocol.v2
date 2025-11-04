@@ -312,8 +312,9 @@ domainFields:
           notes: "Authored agentic migration playbook and refreshed onboarding docs after B8.7 QA."
         - id: "B8.9"
           name: "Coverage Hardening & Threshold Recovery"
-          status: "Current"
-          notes: "Restore Jest coverage thresholds (91/91/91/86) with targeted tests, artifacts, and documentation."
+          status: "Blocked"
+          started_at: "2025-11-04T06:30:27Z"
+          notes: "Blocked on raising branch coverage from 83.74% to 86%; additional targeted agentic-controller and lifecycle analytics tests required."
 
   # Structured representation of the Mermaid diagram from backlog.md
   missionDependencies:

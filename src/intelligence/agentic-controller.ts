@@ -458,6 +458,14 @@ export class MissionStateManager {
   }
 }
 
+export const __test__ = {
+  createMissionState,
+  ensureUnique,
+  removeValue,
+  normalizeRSIPMetrics,
+  normalizeBoomerangMetrics,
+};
+
 export interface AgenticControllerOptions {
   statePath?: string;
   sessionsPath?: string;

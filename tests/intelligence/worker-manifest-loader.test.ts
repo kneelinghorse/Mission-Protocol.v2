@@ -143,4 +143,103 @@ describe('WorkerManifestLoader', () => {
     expect(result.validations).toHaveLength(1);
     expect(result.validations[0].code).toBe('WORKER_MANIFEST_NOT_FOUND');
   });
+
+  it('rejects manifests that attempt to escape the project root', async () => {
+    tempRoot = await createTempRoot();
+    const loader = new WorkerManifestLoader({ manifestPath: '../escape.yaml' });
+
+    const result = await loader.load(tempRoot);
+
+    expect(result.loaded).toBe(false);
+    expect(result.manifest).toBeUndefined();
+    expect(result.validations).toEqual([
+      {
+        level: 'error',
+        code: 'WORKER_MANIFEST_PATH_INVALID',
+        message: expect.stringContaining('escapes project root'),
+      },
+    ]);
+  });
+
+  it('surfaces non-fatal warnings while normalizing recoverable manifest issues', async () => {
+    tempRoot = await createTempRoot();
+    await writeManifest(
+      tempRoot,
+      [
+        'manifest_version: "2.0.0"',
+        'pattern_support:',
+        '  mutually_exclusive: false',
+        '  allowed_patterns:',
+        '    - delegation',
+        '    - sidequest',
+        '  fallback_pattern: " fallback "',
+        'workers:',
+        '  - workerId: "telemetry.worker"',
+        '    name: " Telemetry Worker "',
+        '    template_path: "workers/telemetry.yaml"',
+        '    capabilities: []',
+        '    patterns:',
+        '      supports: [delegation]',
+        '    constraints:',
+        '      required_tools: []',
+        '      max_concurrent: 1',
+        '      timeout_seconds: 0',
+        '    telemetry:',
+        '      emits:',
+        '        - 42',
+        '  - workerId: "analysis.worker"',
+        '    name: "Analysis Worker"',
+        '    template_path: "cmos/workers/analysis.yaml"',
+        '    capabilities:',
+        '      - analysis',
+        '      - "   "',
+        '    patterns:',
+        '      supports:',
+        '        - delegation',
+        '    constraints:',
+        '      required_tools:',
+        '        - plan',
+        '      max_concurrent: 3.7',
+        '      timeout_seconds: 180',
+        '      token_budget: 4096.4',
+        '    telemetry:',
+        '      emits:',
+        '        - " dispatch "',
+      ].join('\n')
+    );
+
+    const loader = new WorkerManifestLoader({ maxWorkers: 1 });
+    const result = await loader.load(tempRoot);
+
+    expect(result.loaded).toBe(true);
+    expect(result.manifest?.patternSupport.allowedPatterns).toEqual([
+      'delegation',
+      'sidequest',
+    ]);
+    expect(result.manifest?.patternSupport.fallbackPattern).toBe('fallback');
+    expect(result.manifest?.workers).toHaveLength(2);
+
+    const [first, second] = result.manifest?.workers ?? [];
+    expect(first.name).toBe('Telemetry Worker');
+    expect(first.telemetry).toBeUndefined();
+    expect(first.constraints.maxConcurrent).toBe(1);
+    expect(first.constraints.timeoutSeconds).toBeUndefined();
+
+    expect(second.capabilities).toEqual(['analysis']);
+    expect(second.telemetry?.emits).toEqual(['dispatch']);
+    expect(second.constraints.maxConcurrent).toBe(3);
+    expect(second.constraints.timeoutSeconds).toBe(180);
+    expect(second.constraints.tokenBudget).toBe(4096);
+
+    const warningCodes = result.validations.filter((v) => v.level === 'warning').map((v) => v.code);
+    expect(warningCodes).toEqual(
+      expect.arrayContaining([
+        'WORKER_MANIFEST_PATTERN_UNRECOGNIZED',
+        'WORKER_TEMPLATE_PATH_NONSTANDARD',
+        'WORKER_CAPABILITIES_EMPTY',
+        'WORKER_TELEMETRY_EMPTY',
+        'WORKER_MANIFEST_MAX_WORKERS_EXCEEDED',
+      ])
+    );
+  });
 });

@@ -430,6 +430,40 @@ describe('AgenticController', () => {
     });
   });
 
+  it('deduplicates completed and paused workflow entries across repeated operations', async () => {
+    const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+    tempDirs.push(baseDir);
+
+    const { propagator } = createPropagatorStub();
+    const controller = new AgenticController({
+      statePath,
+      sessionsPath,
+      propagator,
+      clock: () => new Date('2025-11-04T04:20:00Z'),
+    });
+
+    await controller.registerWorkflow(['B8.9'], { resetQueue: true });
+    await controller.advanceWorkflow();
+    await controller.startMission('B8.9');
+    await controller.pauseMission('B8.9', { note: 'cooldown' });
+    await controller.pauseMission('B8.9', { note: 'duplicate pause' });
+
+    let state = await controller.getState();
+    expect(state.workflow.paused).toEqual(['B8.9']);
+
+    await controller.resumeMission('B8.9');
+    state = await controller.getState();
+    expect(state.workflow.paused).toEqual([]);
+    expect(state.workflow.activeMission).toBe('B8.9');
+
+    await controller.completeMission('B8.9');
+    await controller.completeMission('B8.9');
+
+    state = await controller.getState();
+    expect(state.workflow.completed).toEqual(['B8.9']);
+    expect(state.workflow.activeMission).toBeUndefined();
+  });
+
   it('emits telemetry for sub-mission lifecycle events', async () => {
     const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
     tempDirs.push(baseDir);

@@ -4,6 +4,11 @@ import { join } from 'path';
 import {
   AgenticObservability,
 } from '../../src/intelligence/agentic-observability';
+import {
+  TelemetryEvent,
+  registerTelemetryHandler,
+  setTelemetryLevel,
+} from '../../src/intelligence/telemetry';
 import { pathExists } from '../../src/utils/fs';
 
 const createWorkspaceTempDir = async (): Promise<string> => {
@@ -16,6 +21,8 @@ describe('AgenticObservability', () => {
   let tempDirs: string[] = [];
 
   afterEach(async () => {
+    registerTelemetryHandler(null);
+    setTelemetryLevel('warning');
     await Promise.all(tempDirs.map((dir) => fs.rm(dir, { recursive: true, force: true })));
     tempDirs = [];
   });
@@ -87,5 +94,51 @@ describe('AgenticObservability', () => {
     });
 
     expect(await pathExists(logPath)).toBe(false);
+  });
+
+  it('emits telemetry warnings when writing fails and still attempts remaining entries', async () => {
+    const baseDir = await createWorkspaceTempDir();
+    tempDirs.push(baseDir);
+    const logPath = join(baseDir, 'observability.jsonl');
+
+    const telemetryEvents: TelemetryEvent[] = [];
+    registerTelemetryHandler((event) => telemetryEvents.push(event));
+    setTelemetryLevel('info');
+
+    const appendFileSpy = jest.spyOn(fs, 'appendFile').mockRejectedValueOnce(new Error('disk full'));
+
+    const observability = new AgenticObservability({
+      logPath,
+      clock: () => new Date('2025-11-04T04:06:00Z'),
+      telemetrySource: 'test-observability',
+    });
+
+    await observability.recordQualityGates([
+      {
+        missionId: 'B8.6',
+        gate: 'artifacts_verified',
+        status: 'passed',
+        detail: 'Artifacts validated',
+      },
+      {
+        missionId: 'B8.6',
+        gate: 'telemetry_recorded',
+        status: 'warning',
+        detail: 'Telemetry partially captured',
+      },
+    ]);
+
+    expect(appendFileSpy.mock.calls).toHaveLength(2);
+    expect(telemetryEvents).toContainEqual({
+      source: 'test-observability',
+      level: 'warning',
+      message: 'observability_write_failed',
+      context: expect.objectContaining({
+        error: 'disk full',
+        logPath,
+      }),
+    });
+
+    appendFileSpy.mockRestore();
   });
 });
