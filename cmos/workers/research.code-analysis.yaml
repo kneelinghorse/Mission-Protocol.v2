@@ -1,0 +1,26 @@
+name: "research.code-analysis"
+version: "1.0.0"
+displayName: "Code Analysis Worker"
+objective: "Inspect repository structure and summarize implementation considerations."
+required_inputs:
+  repository_path:
+    type: string
+    description: "Relative path to the repository or subdirectory under review."
+  focus_areas:
+    type: array
+    description: "Key topics or modules to prioritize during analysis."
+analysis_checks:
+  - "Identify core entry points and prevailing patterns."
+  - "Surface dependency hotspots and cross-module coupling."
+  - "Highlight risks, TODOs, or stale scaffolding."
+deliverable:
+  schema:
+    summary:
+      description: "Concise overview of the repository state."
+      type: string
+    hotspots:
+      description: "List of noteworthy files or directories with context."
+      type: array
+    recommendations:
+      description: "Actionable follow-ups for the orchestrator."
+      type: array

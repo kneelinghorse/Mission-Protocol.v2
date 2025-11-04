@@ -1,0 +1,26 @@
+name: "implementation.backend"
+version: "1.0.0"
+displayName: "Backend Implementation Worker"
+objective: "Implement backend features with telemetry-friendly checkpoints."
+required_inputs:
+  feature_brief:
+    type: string
+    description: "Short description of the feature or task to implement."
+  acceptance_criteria:
+    type: array
+    description: "List of success conditions the worker must satisfy."
+guardrails:
+  - "Respect project coding standards and lint rules."
+  - "Surface any migrations or schema updates separately."
+  - "Emit checkpoints after each significant implementation milestone."
+deliverable:
+  schema:
+    changes_summary:
+      description: "Plain-language summary of implemented changes."
+      type: string
+    code_artifacts:
+      description: "Key files touched with short rationale."
+      type: array
+    follow_up_tasks:
+      description: "Outstanding work or verifications required post-handoff."
+      type: array

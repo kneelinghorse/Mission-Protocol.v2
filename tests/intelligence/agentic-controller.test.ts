@@ -4,12 +4,18 @@ import { tmpdir } from 'os';
 
 import {
   AgenticController,
+  MissionContextSnapshot,
   MissionStateManager,
   MissionRSIPRunSnapshot,
 } from '../../src/intelligence/agentic-controller';
 import { SubMissionResult } from '../../src/intelligence/context-propagator';
 import { MissionHistoryEvent } from '../../src/intelligence/mission-history';
 import { ContextPropagatorV3, ContextSummaryV3 } from '../../src/intelligence/context-propagator-v3';
+import {
+  TelemetryEvent,
+  registerTelemetryHandler,
+  setTelemetryLevel,
+} from '../../src/intelligence/telemetry';
 
 const createTempEnvironment = async (): Promise<{
   baseDir: string;
@@ -70,6 +76,8 @@ describe('AgenticController', () => {
     jest.restoreAllMocks();
     await Promise.all(tempDirs.map((dir) => removeTempDir(dir)));
     tempDirs = [];
+    registerTelemetryHandler(null);
+    setTelemetryLevel('warning');
   });
 
   it('orchestrates multi-mission workflow routing', async () => {
@@ -181,6 +189,250 @@ describe('AgenticController', () => {
     await controller.recordSubMissionResult('B6.4', result, { dedupe: false });
     mission = await controller.getMissionState('B6.4');
     expect(mission?.subMissions).toHaveLength(2);
+  });
+
+  it('handles scoped sub-mission lifecycle with propagation', async () => {
+    const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+    tempDirs.push(baseDir);
+
+    const { propagator, propagateContext } = createPropagatorStub();
+    let tick = 0;
+    const controller = new AgenticController({
+      statePath,
+      sessionsPath,
+      propagator,
+      clock: () => new Date(Date.parse('2025-11-04T02:00:00Z') + tick++ * 60000),
+    });
+
+    await controller.startMission('B8.4', {
+      objective: 'Deliver sub-agent delegation framework',
+      currentSubMission: 'B8.4.root',
+    });
+
+    const begunState = await controller.beginSubMission('B8.4', 'B8.4.a', {
+      objective: 'Design delegation orchestrator',
+    });
+
+    let mission = begunState.missions['B8.4'];
+    expect(mission?.activeSubMissions).toHaveLength(1);
+    expect(mission?.currentSubMission).toBe('B8.4.a');
+    expect(mission?.activeSubMissions[0].parent).toBe('B8.4.root');
+
+    const committedState = await controller.completeSubMission('B8.4', 'B8.4.a', {
+      input: 'Draft delegation API',
+      output: 'Delegation API ready',
+      status: 'success',
+      autoPropagate: true,
+    });
+
+    mission = committedState.missions['B8.4'];
+    expect(mission?.activeSubMissions).toHaveLength(0);
+    expect(mission?.subMissions).toHaveLength(1);
+    expect(mission?.currentSubMission).toBe('B8.4.root');
+
+    const committedEvent = mission?.history
+      .filter((event) => event.type === 'sub_mission_committed')
+      .pop();
+    expect(committedEvent?.payload).toMatchObject({
+      subMissionId: 'B8.4.a',
+      status: 'success',
+    });
+    expect(propagateContext).toHaveBeenCalledTimes(1);
+  });
+
+  it('restores context when rolling back active sub-missions', async () => {
+    const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+    tempDirs.push(baseDir);
+
+    const { propagator } = createPropagatorStub();
+    let tick = 0;
+    const controller = new AgenticController({
+      statePath,
+      sessionsPath,
+      propagator,
+      clock: () => new Date(Date.parse('2025-11-04T02:10:00Z') + tick++ * 60000),
+    });
+
+    await controller.startMission('B8.4', {
+      objective: 'Prepare rollback test',
+      currentSubMission: 'B8.4.root',
+    });
+
+    const internals = controller as unknown as { stateManager: MissionStateManager };
+    const baselineContext: MissionContextSnapshot = {
+      generatedAt: '2025-11-04T01:59:00Z',
+      summary: {
+        originalMission: 'B8.4',
+        completedSteps: [],
+        summary: 'Baseline context',
+        tokenCount: 64,
+        strategy: 'map-reduce',
+        historyHighlights: [],
+        retrievedChunks: [],
+        retrievalStats: {
+          totalChunks: 0,
+          topK: 0,
+          sparseWeight: 0.5,
+          denseWeight: 0.5,
+        },
+      },
+    };
+
+    await internals.stateManager.update((snapshot) => {
+      const mission = snapshot.missions['B8.4'];
+      /* istanbul ignore next -- defensive guard for test setup */
+      if (!mission) {
+        return;
+      }
+      mission.lastContext = baselineContext;
+    });
+
+    await controller.beginSubMission('B8.4', 'B8.4.a');
+
+    await internals.stateManager.update((snapshot) => {
+      const mission = snapshot.missions['B8.4'];
+      /* istanbul ignore next -- defensive guard for test setup */
+      if (!mission) {
+        return;
+      }
+      mission.lastContext = {
+        generatedAt: '2025-11-04T02:12:00Z',
+        summary: {
+          originalMission: 'B8.4',
+          completedSteps: [],
+          summary: 'Mutated context',
+          tokenCount: 32,
+          strategy: 'map-reduce',
+          historyHighlights: [],
+          retrievedChunks: [],
+          retrievalStats: {
+            totalChunks: 0,
+            topK: 0,
+            sparseWeight: 0.5,
+            denseWeight: 0.5,
+          },
+        },
+      };
+    });
+
+    const rolledBackState = await controller.rollbackSubMission('B8.4', 'B8.4.a', {
+      reason: 'Rework required',
+    });
+
+    const mission = rolledBackState.missions['B8.4'];
+    expect(mission?.activeSubMissions).toHaveLength(0);
+    expect(mission?.currentSubMission).toBe('B8.4.root');
+    expect(mission?.lastContext?.summary.summary).toBe('Baseline context');
+
+    const rollbackEvent = mission?.history
+      .filter((event) => event.type === 'sub_mission_rolled_back')
+      .pop();
+    expect(rollbackEvent?.payload).toMatchObject({
+      subMissionId: 'B8.4.a',
+      reason: 'Rework required',
+    });
+  });
+
+  it('enforces delegation guardrail on max active sub-missions', async () => {
+    const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+    tempDirs.push(baseDir);
+
+    const { propagator } = createPropagatorStub();
+    const telemetryEvents: TelemetryEvent[] = [];
+    registerTelemetryHandler((event) => telemetryEvents.push(event));
+    setTelemetryLevel('info');
+
+    const controller = new AgenticController({
+      statePath,
+      sessionsPath,
+      propagator,
+      clock: () => new Date('2025-11-04T02:40:00Z'),
+      delegationGuardrails: {
+        maxActiveSubMissions: 1,
+        telemetrySource: 'delegation-test',
+      },
+    });
+
+    await controller.startMission('B8.4', {
+      objective: 'Guardrail test',
+      currentSubMission: 'B8.4.root',
+    });
+
+    await controller.beginSubMission('B8.4', 'B8.4.a');
+
+    await expect(controller.beginSubMission('B8.4', 'B8.4.b')).rejects.toThrow(
+      /active sub-mission limit/i
+    );
+
+    const guardrailEvent = telemetryEvents.find(
+      (event) => event.level === 'warning' && event.message === 'sub_mission_guardrail_triggered'
+    );
+    expect(guardrailEvent).toBeDefined();
+    expect(guardrailEvent?.context).toMatchObject({
+      missionId: 'B8.4',
+      attemptedSubMission: 'B8.4.b',
+      activeCount: 1,
+      limit: 1,
+    });
+  });
+
+  it('emits telemetry for sub-mission lifecycle events', async () => {
+    const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+    tempDirs.push(baseDir);
+
+    const { propagator } = createPropagatorStub();
+    const telemetryEvents: TelemetryEvent[] = [];
+    registerTelemetryHandler((event) => telemetryEvents.push(event));
+    setTelemetryLevel('info');
+
+    const controller = new AgenticController({
+      statePath,
+      sessionsPath,
+      propagator,
+      clock: () => new Date('2025-11-04T02:45:00Z'),
+      delegationGuardrails: {
+        maxActiveSubMissions: 4,
+        telemetrySource: 'delegation-test',
+      },
+    });
+
+    await controller.startMission('B8.4', {
+      objective: 'Telemetry test',
+      currentSubMission: 'B8.4.root',
+    });
+
+    await controller.beginSubMission('B8.4', 'B8.4.a', {
+      objective: 'Phase A',
+    });
+    await controller.completeSubMission('B8.4', 'B8.4.a', {
+      input: 'task',
+      output: 'done',
+      status: 'success',
+      autoPropagate: false,
+    });
+
+    await controller.beginSubMission('B8.4', 'B8.4.b');
+    await controller.rollbackSubMission('B8.4', 'B8.4.b', {
+      reason: 'Needs rework',
+    });
+
+    const messages = telemetryEvents.map((event) => event.message);
+    expect(messages).toEqual(
+      expect.arrayContaining([
+        'sub_mission_started',
+        'sub_mission_completed',
+        'sub_mission_rolled_back',
+      ])
+    );
+
+    const completionEvent = telemetryEvents.find(
+      (event) => event.message === 'sub_mission_completed'
+    );
+    expect(completionEvent?.context).toMatchObject({
+      missionId: 'B8.4',
+      subMissionId: 'B8.4.a',
+      status: 'success',
+    });
   });
 
   it('triggers context propagation on phase transitions', async () => {

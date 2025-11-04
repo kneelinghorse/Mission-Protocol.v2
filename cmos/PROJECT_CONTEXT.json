@@ -13,12 +13,12 @@
   },
   "working_memory": {
     "active_domain": "main",
-    "active_mission": "B8.4",
+    "active_mission": "B8.5",
     "agents_md_path": "./agents.md",
     "agents_md_loaded": true,
     "agents_md_version": "1.0.0",
-    "session_count": 39,
-    "last_session": "2025-11-04T01:05:35Z",
+    "session_count": 41,
+    "last_session": "2025-11-04T02:55:21Z",
     "domains": {
       "main": {
         "status": "active",
@@ -44,7 +44,7 @@
           "cmos/templates/agents.md",
           "src/intelligence/agents-md-loader.ts"
         ],
-        "current_mission": "B8.4",
+        "current_mission": "B8.5",
         "missions": {
           "B8.1": {
             "status": "Completed",
@@ -57,6 +57,10 @@
           "B8.3": {
             "status": "Completed",
             "completed_at": "2025-11-04T01:05:35Z"
+          },
+          "B8.4": {
+            "status": "Completed",
+            "completed_at": "2025-11-04T02:55:21Z"
           }
         },
         "research_completed": [
@@ -98,7 +102,8 @@
           "B7.9 completed: Pack manifest style guide documented and validator gating validate:packs.",
           "B8.1 completed: agents.md loader, templates, and PROJECT_CONTEXT alignment delivered for CMOS integration",
           "B8.2 completed: Structured prompting enforced across priority templates with schema and test coverage",
-          "B8.3 completed: RSIP loop toggles, iteration controls, convergence detection, telemetry, and controller metrics delivered"
+          "B8.3 completed: RSIP loop toggles, iteration controls, convergence detection, telemetry, and controller metrics delivered",
+          "B8.4 completed: Worker manifest loader, delegation guardrails, and telemetry instrumentation delivered across the agentic controller"
         ]
       }
     }

@@ -16,6 +16,11 @@ import {
   RSIPStopReason,
   runRSIPLoop,
 } from './rsip-loop';
+import {
+  emitTelemetryError,
+  emitTelemetryInfo,
+  emitTelemetryWarning,
+} from './telemetry';
 
 export type MissionStatus = 'queued' | 'current' | 'in_progress' | 'completed' | 'blocked' | 'paused';
 export type MissionPhase = 'idle' | 'planning' | 'execution' | 'review' | 'blocked' | 'completed';
@@ -29,6 +34,9 @@ export interface AgenticMissionEvent {
     | 'mission_resumed'
     | 'phase_transition'
     | 'context_propagated'
+    | 'sub_mission_started'
+    | 'sub_mission_committed'
+    | 'sub_mission_rolled_back'
     | 'sub_mission_recorded'
     | 'query_built'
     | 'workflow_routed'
@@ -77,12 +85,22 @@ export interface MissionRSIPMetrics {
   lastRun?: MissionRSIPRunSnapshot;
 }
 
+export interface ActiveSubMission {
+  id: string;
+  startedAt: string;
+  parent?: string;
+  objective?: string;
+  metadata?: Record<string, unknown>;
+  previousContext?: MissionContextSnapshot;
+}
+
 export interface MissionState {
   missionId: string;
   phase: MissionPhase;
   status: MissionStatus;
   objective?: string;
   currentSubMission?: string;
+  activeSubMissions: ActiveSubMission[];
   startedAt?: string;
   updatedAt: string;
   completedAt?: string;
@@ -130,6 +148,7 @@ function createMissionState(missionId: string, now: string): MissionState {
     missionId,
     phase: 'idle',
     status: 'queued',
+    activeSubMissions: [],
     updatedAt: now,
     history: [],
     subMissions: [],
@@ -282,18 +301,54 @@ export class MissionStateManager {
 
     const missions: Record<string, MissionState> = {};
     for (const [missionId, mission] of Object.entries(state.missions ?? {})) {
+      const rawActiveSubMissions = Array.isArray(
+        (mission as { activeSubMissions?: ActiveSubMission[] }).activeSubMissions
+      )
+        ? ((mission as { activeSubMissions?: ActiveSubMission[] }).activeSubMissions ?? [])
+        : [];
+
+      const activeSubMissions: ActiveSubMission[] = [];
+      for (const entry of rawActiveSubMissions) {
+        if (!entry || typeof entry.id !== 'string' || entry.id.length === 0) {
+          continue;
+        }
+
+        activeSubMissions.push({
+          id: entry.id,
+          startedAt:
+            typeof entry.startedAt === 'string' && entry.startedAt.length > 0
+              ? entry.startedAt
+              : now,
+          parent:
+            typeof entry.parent === 'string' && entry.parent.length > 0
+              ? entry.parent
+              : undefined,
+          objective:
+            typeof entry.objective === 'string' && entry.objective.length > 0
+              ? entry.objective
+              : undefined,
+          metadata: entry.metadata ? { ...entry.metadata } : undefined,
+          previousContext: entry.previousContext
+            ? cloneState(entry.previousContext as MissionContextSnapshot)
+            : undefined,
+        });
+      }
+
       missions[missionId] = {
         missionId,
         phase: mission.phase ?? 'idle',
         status: mission.status ?? 'queued',
         objective: mission.objective,
         currentSubMission: mission.currentSubMission,
+        activeSubMissions,
         startedAt: mission.startedAt,
         updatedAt: mission.updatedAt ?? now,
         completedAt: mission.completedAt,
         notes: mission.notes,
         tags: mission.tags ? [...mission.tags] : undefined,
-        lastContext: mission.lastContext as MissionContextSnapshot | undefined,
+        lastContext: mission.lastContext
+          ? cloneState(mission.lastContext as MissionContextSnapshot)
+          : undefined,
         lastDynamicQuery: mission.lastDynamicQuery as DynamicQuerySnapshot | undefined,
         history: Array.isArray(mission.history)
           ? (mission.history as AgenticMissionEvent[]).map((entry) => ({ ...entry }))
@@ -353,6 +408,7 @@ export interface AgenticControllerOptions {
   clock?: () => Date;
   historyLimit?: number;
   autoPropagationPhases?: MissionPhase[];
+  delegationGuardrails?: DelegationGuardrailOptions;
 }
 
 export interface WorkflowRegistrationOptions {
@@ -387,6 +443,25 @@ export interface UpdatePhaseOptions {
 export interface RecordSubMissionOptions {
   dedupe?: boolean;
   autoPropagate?: boolean;
+}
+
+export interface BeginSubMissionOptions {
+  objective?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface CompleteSubMissionOptions {
+  input: string;
+  output: string;
+  status: 'success' | 'failed';
+  metadata?: Record<string, unknown>;
+  timestamp?: Date;
+  autoPropagate?: boolean;
+}
+
+export interface RollbackSubMissionOptions {
+  reason?: string;
+  restoreContext?: boolean;
 }
 
 export interface DynamicQueryOptions {
@@ -440,6 +515,11 @@ type AgenticEventMap = {
   };
 };
 
+export interface DelegationGuardrailOptions {
+  maxActiveSubMissions?: number;
+  telemetrySource?: string;
+}
+
 export class AgenticController {
   private readonly stateManager: MissionStateManager;
   private readonly historyAnalyzer: MissionHistoryAnalyzer;
@@ -448,6 +528,10 @@ export class AgenticController {
   private readonly emitter = new EventEmitter();
   private readonly historyLimit: number;
   private readonly autoPropagationPhases: Set<MissionPhase>;
+  private readonly maxActiveSubMissions: number | null;
+  private readonly delegationTelemetrySource: string;
+  private static readonly DEFAULT_MAX_ACTIVE_SUBMISSIONS = 8;
+  private static readonly DEFAULT_TELEMETRY_SOURCE = 'AgenticDelegation';
 
   constructor(options: AgenticControllerOptions = {}) {
     this.clock = options.clock ?? (() => new Date());
@@ -474,6 +558,19 @@ export class AgenticController {
     this.autoPropagationPhases = new Set(
       options.autoPropagationPhases ?? ['execution', 'review']
     );
+
+    const guardrails = options.delegationGuardrails ?? {};
+    const requestedLimit =
+      typeof guardrails.maxActiveSubMissions === 'number' &&
+      Number.isFinite(guardrails.maxActiveSubMissions)
+        ? Math.floor(guardrails.maxActiveSubMissions)
+        : NaN;
+    this.maxActiveSubMissions =
+      Number.isFinite(requestedLimit) && requestedLimit > 0
+        ? requestedLimit
+        : AgenticController.DEFAULT_MAX_ACTIVE_SUBMISSIONS;
+    this.delegationTelemetrySource =
+      guardrails.telemetrySource ?? AgenticController.DEFAULT_TELEMETRY_SOURCE;
   }
 
   on<K extends keyof AgenticEventMap>(
@@ -711,6 +808,79 @@ export class AgenticController {
     return state;
   }
 
+  async beginSubMission(
+    missionId: string,
+    subMissionId: string,
+    options: BeginSubMissionOptions = {}
+  ): Promise<AgenticStateSnapshot> {
+    const now = this.nowIso();
+    let telemetryContext: Record<string, unknown> | undefined;
+    const guardrailLimit = this.maxActiveSubMissions;
+
+    const state = await this.stateManager.update((snapshot) => {
+      const mission =
+        snapshot.missions[missionId] ?? createMissionState(missionId, now);
+
+      const stack = mission.activeSubMissions ?? (mission.activeSubMissions = []);
+      const alreadyActive = stack.some((entry) => entry.id === subMissionId);
+      if (alreadyActive) {
+        throw new Error(
+          `Sub-mission ${subMissionId} is already active for mission ${missionId}`
+        );
+      }
+
+      if (guardrailLimit !== null && stack.length >= guardrailLimit) {
+        emitTelemetryWarning(this.delegationTelemetrySource, 'sub_mission_guardrail_triggered', {
+          missionId,
+          attemptedSubMission: subMissionId,
+          activeCount: stack.length,
+          limit: guardrailLimit,
+        });
+        throw new Error(
+          `Cannot begin sub-mission ${subMissionId} for mission ${missionId}: active sub-mission limit (${guardrailLimit}) reached.`
+        );
+      }
+
+      const parent = mission.currentSubMission;
+      const contextSnapshot = mission.lastContext
+        ? cloneState(mission.lastContext)
+        : undefined;
+
+      stack.push({
+        id: subMissionId,
+        startedAt: now,
+        parent: parent ?? undefined,
+        objective: options.objective,
+        metadata: options.metadata ? { ...options.metadata } : undefined,
+        previousContext: contextSnapshot,
+      });
+
+      mission.currentSubMission = subMissionId;
+      mission.updatedAt = now;
+      mission.history.push(
+        this.buildMissionEvent('sub_mission_started', now, {
+          subMissionId,
+          parent,
+        })
+      );
+      telemetryContext = {
+        missionId,
+        subMissionId,
+        parent,
+        activeCount: stack.length,
+        guardrailLimit,
+      };
+
+      snapshot.missions[missionId] = mission;
+    });
+
+    this.emit('stateChanged', state);
+    if (telemetryContext) {
+      emitTelemetryInfo(this.delegationTelemetrySource, 'sub_mission_started', telemetryContext);
+    }
+    return state;
+  }
+
   async recordSubMissionResult(
     missionId: string,
     result: SubMissionResult,
@@ -760,6 +930,152 @@ export class AgenticController {
       await this.triggerContextPropagation(missionId);
     }
 
+    return state;
+  }
+
+  async completeSubMission(
+    missionId: string,
+    subMissionId: string,
+    options: CompleteSubMissionOptions
+  ): Promise<AgenticStateSnapshot> {
+    const timestampDate = options.timestamp ?? this.clock();
+    const timestamp = timestampDate.toISOString();
+    const autoPropagate = options.autoPropagate !== false;
+    let completionContext: Record<string, unknown> | undefined;
+
+    const state = await this.stateManager.update((snapshot) => {
+      const mission =
+        snapshot.missions[missionId] ?? createMissionState(missionId, timestamp);
+
+      const stack = mission.activeSubMissions ?? (mission.activeSubMissions = []);
+      const active = stack[stack.length - 1];
+      if (!active || active.id !== subMissionId) {
+        emitTelemetryError(this.delegationTelemetrySource, 'sub_mission_mismatch', {
+          missionId,
+          subMissionId,
+          activeSubMission: active?.id,
+        });
+        throw new Error(
+          `Sub-mission ${subMissionId} is not active for mission ${missionId}`
+        );
+      }
+
+      const stored: StoredSubMissionResult = {
+        missionId: subMissionId,
+        input: options.input,
+        output: options.output,
+        status: options.status,
+        timestamp,
+        metadata: options.metadata ? { ...options.metadata } : undefined,
+      };
+
+      mission.subMissions.push(stored);
+      stack.pop();
+      mission.currentSubMission = active.parent;
+      mission.updatedAt = timestamp;
+      mission.history.push(
+        this.buildMissionEvent('sub_mission_recorded', timestamp, {
+          subMissionId,
+          status: options.status,
+        })
+      );
+      mission.history.push(
+        this.buildMissionEvent('sub_mission_committed', timestamp, {
+          subMissionId,
+          status: options.status,
+        })
+      );
+      const startedMs = Date.parse(active.startedAt);
+      const durationMs = Number.isNaN(startedMs)
+        ? undefined
+        : Math.max(0, Date.parse(timestamp) - startedMs);
+      completionContext = {
+        missionId,
+        subMissionId,
+        status: options.status,
+        recordedAt: timestamp,
+        durationMs,
+        remainingActive: stack.length,
+      };
+
+      snapshot.missions[missionId] = mission;
+    });
+
+    this.emit('stateChanged', state);
+    if (completionContext) {
+      emitTelemetryInfo(
+        this.delegationTelemetrySource,
+        'sub_mission_completed',
+        completionContext
+      );
+    }
+
+    if (autoPropagate) {
+      await this.triggerContextPropagation(missionId);
+      return this.stateManager.getState();
+    }
+
+    return state;
+  }
+
+  async rollbackSubMission(
+    missionId: string,
+    subMissionId: string,
+    options: RollbackSubMissionOptions = {}
+  ): Promise<AgenticStateSnapshot> {
+    const now = this.nowIso();
+    const restoreContext = options.restoreContext !== false;
+    let rollbackContext: Record<string, unknown> | undefined;
+
+    const state = await this.stateManager.update((snapshot) => {
+      const mission =
+        snapshot.missions[missionId] ?? createMissionState(missionId, now);
+
+      const stack = mission.activeSubMissions ?? (mission.activeSubMissions = []);
+      const active = stack[stack.length - 1];
+      if (!active || active.id !== subMissionId) {
+        emitTelemetryError(this.delegationTelemetrySource, 'sub_mission_mismatch', {
+          missionId,
+          subMissionId,
+          activeSubMission: active?.id,
+          phase: 'rollback',
+        });
+        throw new Error(
+          `Sub-mission ${subMissionId} is not active for mission ${missionId}`
+        );
+      }
+
+      stack.pop();
+      mission.currentSubMission = active.parent;
+      if (restoreContext && active.previousContext) {
+        mission.lastContext = cloneState(active.previousContext);
+      }
+      mission.updatedAt = now;
+      mission.history.push(
+        this.buildMissionEvent('sub_mission_rolled_back', now, {
+          subMissionId,
+          reason: options.reason,
+        })
+      );
+      rollbackContext = {
+        missionId,
+        subMissionId,
+        reason: options.reason,
+        restoredContext: restoreContext && Boolean(active.previousContext),
+        remainingActive: stack.length,
+      };
+
+      snapshot.missions[missionId] = mission;
+    });
+
+    this.emit('stateChanged', state);
+    if (rollbackContext) {
+      emitTelemetryWarning(
+        this.delegationTelemetrySource,
+        'sub_mission_rolled_back',
+        rollbackContext
+      );
+    }
     return state;
   }
 

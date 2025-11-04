@@ -1,0 +1,27 @@
+name: "research.web-search"
+version: "1.0.0"
+displayName: "Web Research Worker"
+objective: "Conduct focused web research and surface vetted findings."
+required_inputs:
+  research_topic:
+    type: string
+    description: "Primary topic to investigate."
+  search_terms:
+    type: array
+    description: "Optional additional keywords to refine queries."
+workflow:
+  steps:
+    - "Expand search terms with synonyms and adjacent concepts."
+    - "Query trusted sources and capture concise summaries."
+    - "Collect structured citations with URLs and confidence notes."
+deliverable:
+  schema:
+    findings:
+      description: "Key findings surfaced during research."
+      type: array
+    sources:
+      description: "Source URLs referenced in the findings."
+      type: array
+    confidence:
+      description: "Confidence score between 0.0 and 1.0."
+      type: number
