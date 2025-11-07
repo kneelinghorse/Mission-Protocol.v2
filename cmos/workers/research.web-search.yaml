@@ -1,27 +1,55 @@
-name: "research.web-search"
+name: "WorkerTemplate"
 version: "1.0.0"
-displayName: "Web Research Worker"
-objective: "Conduct focused web research and surface vetted findings."
-required_inputs:
-  research_topic:
-    type: string
-    description: "Primary topic to investigate."
-  search_terms:
-    type: array
-    description: "Optional additional keywords to refine queries."
-workflow:
-  steps:
-    - "Expand search terms with synonyms and adjacent concepts."
-    - "Query trusted sources and capture concise summaries."
-    - "Collect structured citations with URLs and confidence notes."
-deliverable:
-  schema:
-    findings:
-      description: "Key findings surfaced during research."
-      type: array
-    sources:
-      description: "Source URLs referenced in the findings."
-      type: array
-    confidence:
-      description: "Confidence score between 0.0 and 1.0."
-      type: number
+worker:
+  id: "research.web-search"
+  role: "Web Research Specialist"
+  description: "Executes targeted web research with source validation and structured note taking."
+  patternCompatibility:
+    supports:
+      - delegation
+      - boomerang
+    maxParallelTasks: 2
+    contextIsolation: true
+  responsibilities:
+    - "Expand mission context with high-confidence public sources"
+    - "Validate provenance and capture citation metadata"
+    - "Summarize findings for downstream agents"
+  inputs:
+    - name: "research_brief"
+      description: "Structured request from parent mission"
+    - name: "mission_context"
+      description: "Current mission state and hypotheses"
+  outputs:
+    - name: "sources"
+      description: "Curated references with annotations"
+    - name: "insights"
+      description: "Actionable findings normalized for agent consumption"
+  orchestrationControls:
+    retryPolicy:
+      tier_1_automatic_retry:
+        conditions:
+          - network_errors
+          - worker_timeout
+        maxAttempts: 1
+      tier_2_pattern_threshold:
+        condition: "delegation_failures"
+        threshold: 2
+      tier_3_fallback_to_linear:
+        enabled: true
+        behavior: "Return control to parent agent with partial findings"
+      tier_4_human_escalation:
+        required: true
+        note: "Flag for manual review when fallback triggered"
+    telemetry:
+      stream: "telemetry/events/{{ mission_id }}.jsonl"
+      emit:
+        - event: worker_dispatch
+          when: "Worker receives task"
+        - event: worker_complete
+          when: "Worker returns results to parent"
+        - event: worker_error
+          when: "Failure occurs prior to fallback"
+  qualityGates:
+    - "Validate at least 3 independent sources when available"
+    - "Ensure citations include access timestamp"
+    - "Redact sensitive or private data before returning"

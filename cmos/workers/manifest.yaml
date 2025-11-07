@@ -2,19 +2,18 @@ manifest_version: "1.0.0"
 pattern_support:
   mutually_exclusive: true
   allowed_patterns:
-    - delegation
     - rsip
+    - delegation
     - boomerang
   fallback_pattern: none
 workers:
   - workerId: "research.web-search"
     name: "Web Research Worker"
-    description: "Conducts focused web research with scoped context sharing."
-    template_path: "cmos/workers/research.web-search.yaml"
+    description: "Conducts focused web research on specific topics"
+    template_path: "workers/research.web-search.yaml"
     capabilities:
       - web_search
       - source_validation
-      - summarization
     patterns:
       supports:
         - delegation
@@ -22,47 +21,57 @@ workers:
     constraints:
       required_tools:
         - web_fetch
-        - search_files
       max_concurrent: 2
-      timeout_seconds: 300
-      token_budget: 12000
     telemetry:
       emits:
         - worker_dispatch
         - worker_complete
-        - worker_retry
   - workerId: "research.code-analysis"
     name: "Code Analysis Worker"
-    description: "Analyzes repository structure and surfaces implementation notes."
-    template_path: "cmos/workers/research.code-analysis.yaml"
+    description: "Analyzes code structure and patterns"
+    template_path: "workers/research.code-analysis.yaml"
     capabilities:
       - code_analysis
       - pattern_detection
-      - dependency_mapping
     patterns:
       supports:
         - delegation
         - rsip
     constraints:
-      required_tools:
-        - read_file
-        - list_code_definition_names
-        - search_files
+      required_tools: []
       max_concurrent: 1
-      timeout_seconds: 420
-      token_budget: 15000
     telemetry:
       emits:
         - worker_dispatch
         - evaluation_complete
+  - workerId: "implementation.frontend"
+    name: "Frontend Implementation Worker"
+    description: "Implements frontend components"
+    template_path: "workers/implementation.frontend.yaml"
+    capabilities:
+      - react
+      - typescript
+      - ui_components
+    patterns:
+      supports:
+        - delegation
+        - boomerang
+    constraints:
+      required_tools:
+        - node
+      max_concurrent: 1
+    telemetry:
+      emits:
+        - worker_dispatch
+        - step_complete
   - workerId: "implementation.backend"
     name: "Backend Implementation Worker"
-    description: "Implements backend services with mission-aligned guardrails."
-    template_path: "cmos/workers/implementation.backend.yaml"
+    description: "Implements backend services"
+    template_path: "workers/implementation.backend.yaml"
     capabilities:
-      - api_design
+      - api
       - database
-      - service_integration
+      - services
     patterns:
       supports:
         - delegation
@@ -72,8 +81,6 @@ workers:
         - node
         - docker
       max_concurrent: 1
-      timeout_seconds: 900
-      token_budget: 20000
     telemetry:
       emits:
         - worker_dispatch

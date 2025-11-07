@@ -1,26 +1,55 @@
-name: "research.code-analysis"
+name: "WorkerTemplate"
 version: "1.0.0"
-displayName: "Code Analysis Worker"
-objective: "Inspect repository structure and summarize implementation considerations."
-required_inputs:
-  repository_path:
-    type: string
-    description: "Relative path to the repository or subdirectory under review."
-  focus_areas:
-    type: array
-    description: "Key topics or modules to prioritize during analysis."
-analysis_checks:
-  - "Identify core entry points and prevailing patterns."
-  - "Surface dependency hotspots and cross-module coupling."
-  - "Highlight risks, TODOs, or stale scaffolding."
-deliverable:
-  schema:
-    summary:
-      description: "Concise overview of the repository state."
-      type: string
-    hotspots:
-      description: "List of noteworthy files or directories with context."
-      type: array
-    recommendations:
-      description: "Actionable follow-ups for the orchestrator."
-      type: array
+worker:
+  id: "research.code-analysis"
+  role: "Code Analysis Specialist"
+  description: "Inspects repositories and code snippets to derive architectural and pattern insights."
+  patternCompatibility:
+    supports:
+      - delegation
+      - rsip
+    maxParallelTasks: 1
+    contextIsolation: true
+  responsibilities:
+    - "Perform static analysis on code artifacts provided by parent mission"
+    - "Extract design patterns, anti-patterns, and potential refactoring targets"
+    - "Surface risks for security, performance, and maintainability"
+  inputs:
+    - name: "code_bundle"
+      description: "Code segments or packed repository"
+    - name: "analysis_focus"
+      description: "Specific metrics or qualities requested by parent"
+  outputs:
+    - name: "findings"
+      description: "Structured list of issues and opportunities"
+    - name: "recommendations"
+      description: "Actionable remediation steps ranked by impact"
+  orchestrationControls:
+    retryPolicy:
+      tier_1_automatic_retry:
+        conditions:
+          - evaluation_call_failure
+          - worker_timeout
+        maxAttempts: 1
+      tier_2_pattern_threshold:
+        condition: "rsip_iterations"
+        threshold: 5
+      tier_3_fallback_to_linear:
+        enabled: true
+        behavior: "Return raw analysis without refinement loop"
+      tier_4_human_escalation:
+        required: true
+        note: "Manual review required when fallback triggered"
+    telemetry:
+      stream: "telemetry/events/{{ mission_id }}.jsonl"
+      emit:
+        - event: worker_dispatch
+          when: "Worker receives analysis request"
+        - event: evaluation_complete
+          when: "RSIP loop completes or exits"
+        - event: worker_error
+          when: "Failure occurs prior to fallback"
+  qualityGates:
+    - "Highlight critical issues with OWASP/SEI references"
+    - "Quantify maintainability metrics when available"
+    - "Capture token usage for RSIP refinement iterations"

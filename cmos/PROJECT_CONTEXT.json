@@ -1,155 +1,56 @@
 {
   "project": {
-    "name": "CMOS v1.0",
-    "version": "1.0.0",
-    "description": "Context + Mission Orchestration System - Simple, powerful context management for AI-assisted development",
-    "status": "template",
+    "name": "CMOS Starter",
+    "version": "2.0.0",
+    "description": "Mission orchestration starter kit with SQLite runtime helpers, security guardrails, and Mission Protocol templates.",
+    "status": "starter-template",
     "start_date": "",
     "deployment": {
       "platform": "Local/Node.js",
-      "integration_target": "Any project",
+      "integration_target": "Mission Protocol v2 projects",
       "environment": "development"
     }
   },
   "working_memory": {
-    "active_domain": "main",
-    "active_mission": "B8.9",
+    "active_domain": "starter",
+    "session_count": 0,
+    "last_session": null,
     "agents_md_path": "./agents.md",
-    "agents_md_loaded": true,
-    "agents_md_version": "1.0.1",
-    "session_count": 46,
-    "last_session": "2025-11-04T06:50:31Z",
+    "agents_md_loaded": false,
+    "active_mission": null,
     "domains": {
-      "main": {
-        "status": "active",
+      "starter": {
+        "status": "planning",
         "priority": 1,
+        "current_mission": null,
+        "missions": {},
         "critical_facts": [
-          "CMOS provides context management through domain compartmentalization",
-          "Smart compression achieves 4x-10x reduction based on state",
-          "Health monitoring uses statistical metrics for real-time assessment"
+          "Populate this list with the most important truths about your project before starting missions.",
+          "foundational-docs/roadmap_template.md and foundational-docs/tech_arch_template.md are the default templates for roadmap and architecture hand-offs."
         ],
         "constraints": [
-          "Zero external dependencies",
-          "File-based storage only",
-          "Single-project focus"
+          "Keep the distributed starter free of seeded mission or sprint data.",
+          "Maintain parity between the SQLite database and whichever file mirrors your team elects to manage.",
+          "Document updates to foundational references or runtime helpers in MASTER_CONTEXT.json."
         ],
-        "decisions_made": [
-          "Removed protocol suite dependency for v1.0 simplicity",
-          "Self-contained statistical metrics for health monitoring",
-          "Graceful degradation for all advanced features",
-          "Hybrid offline token counting: gpt-tokenizer for GPT, Transformers.js for Claude, heuristic for Gemini"
-        ],
-        "files_created": [
-          "agents.md",
-          "cmos/templates/agents.md",
-          "src/intelligence/agents-md-loader.ts"
-        ],
-        "current_mission": "B8.9",
-        "missions": {
-          "B8.1": {
-            "status": "Completed",
-            "completed_at": "2025-11-03T23:13:39Z"
-          },
-          "B8.2": {
-            "status": "Completed",
-            "completed_at": "2025-11-03T23:41:59Z"
-          },
-          "B8.3": {
-            "status": "Completed",
-            "completed_at": "2025-11-04T01:05:35Z"
-          },
-          "B8.4": {
-            "status": "Completed",
-            "completed_at": "2025-11-04T02:55:21Z"
-          },
-          "B8.5": {
-            "status": "Completed",
-            "completed_at": "2025-11-04T03:40:32Z"
-          },
-          "B8.6": {
-            "status": "Completed",
-            "completed_at": "2025-11-04T04:30:02Z"
-          },
-          "B8.7": {
-            "status": "Completed",
-            "completed_at": "2025-11-04T05:41:33Z"
-          },
-          "B8.8": {
-            "status": "Completed",
-            "completed_at": "2025-11-04T06:09:42Z"
-          },
-          "B8.9": {
-            "status": "Blocked",
-            "notes": "Branch coverage stalled at 83.74%; needs additional targeted agentic-controller and analytics tests."
-          }
-        },
-        "research_completed": [
-          "R8.1",
-          "R8.2"
-        ],
-        "achievements": [
-          "Sprint 1 completed: Template recovery successful",
-          "Sprint 2 completed: MCP surface hardening successful",
-          "803/803 tests passing with 94%+ coverage",
-          "Phase 2 integration tests fully operational",
-          "Documentation refreshed to reflect current state",
-          "Master context exported to JSON for automation consumers",
-          "B2.1 completed: Hybrid offline token counter implemented per R2.1 strategy",
-          "B2.2 completed: Intelligence tools (optimize_tokens, split_mission, suggest_splits) registered in MCP server",
-          "B2.3 completed: Token validation & telemetry pipeline operational with CI workflow and comprehensive documentation",
-          "B3.4 completed: Aligned migration result typing with dependency analysis flows; tests fully passing",
-          "B4.1 completed: Token telemetry hardened with preload bootstrap, configurable verbosity, and health metrics",
-          "B4.2 completed: Quality tooling baseline added with lint/format enforcement, tool snapshots, and metrics reporting",
-          "B4.3 completed: Discovery domain packs integrated with workflow samples, smoke tests, and validation guardrail",
-          "B4.5 completed: Engineering + process packs now wired with workflow samples, smoke tests, and validation scripting",
-          "B4.6 completed: README and documentation refreshed with Sprint 4 status and quality scoring architecture updates",
-          "B4.7 completed: Product workflow packs integrated with samples, smoke coverage, validation guardrails, and guide",
-          "B5.1 completed: Mission outcome analytics engine with npm outcomes script and artifact baseline",
-          "B5.2 completed: Dependency intelligence enhanced with mission history analytics and context propagation updates",
-          "B5.3 completed: Author onboarding refreshed with 24-pack catalog and intelligence quick starts",
-          "B6.1 completed: Hybrid XML/JSON template spec, parser, migration scaffold, and validation tests shipped",
-          "B6.2 completed: Lifecycle-aware dependency analyzer adds PDLC/SDLC heuristics, artifact inference, and sequencing linting",
-          "B6.3 completed: Hybrid RAG context propagation v3 with sparse+dense retrieval fusion and adaptive chunking delivered",
-          "B6.4 completed: Agentic controller orchestrates workflows with persistent state, proactive context triggers, and dynamic mission queries",
-          "B6.5 completed: Research.general domain pack adds pattern-driven PRD/SRD alignment and interactive handoff checklists",
-          "B7.1 completed: Hybrid component src validation now blocks traversal, symlinks, and missing files with dedicated tests",
-          "B7.2 completed: OutputSchema validation hardened with Draft-07, size, and complexity guardrails",
-          "B7.3 completed: Context window registry centralized and adopted by mission splitting tools",
-          "B7.4 completed: CI now enforces registry + schema validation in quality workflow",
-          "B7.5 completed: Versioning contract documented with cross-validator and migration workflow",
-          "B7.6 completed: Template placeholders standardized with validator coverage and CI gating",
-          "B7.7 completed: Domain pack loader caches Ajv validators and lazily reuses frozen pack data",
-          "B7.9 completed: Pack manifest style guide documented and validator gating validate:packs.",
-          "B8.1 completed: agents.md loader, templates, and PROJECT_CONTEXT alignment delivered for CMOS integration",
-          "B8.2 completed: Structured prompting enforced across priority templates with schema and test coverage",
-          "B8.3 completed: RSIP loop toggles, iteration controls, convergence detection, telemetry, and controller metrics delivered",
-          "B8.4 completed: Worker manifest loader, delegation guardrails, and telemetry instrumentation delivered across the agentic controller",
-          "B8.5 completed: Boomerang workflow shipped with checkpoints, telemetry, retention knobs, and tests",
-          "B8.6 completed: Observability and governance layer now logs mission workflows with guardrails and quality gates",
-          "B8.7 completed: Delivered CMOS ↔ Mission Protocol interoperability QA coverage with integration tests and sample missions",
-          "B8.8 completed: Documentation and migration playbook refreshed to guide agents.md adoption and agentic onboarding"
-        ]
+        "decisions_made": [],
+        "files_created": []
       }
     }
   },
   "technical_context": {
     "dependencies": [
-      "Python 3.x (required)",
-      "Node.js (optional for advanced features)"
+      "Python 3.11+",
+      "Node.js 20+ (for optional tooling and tests)"
     ],
-    "cmos_features": {
-      "compression": "4x-10x context reduction",
-      "state_monitoring": "4D vector tracking (Form, Function, Behavior, Context)",
-      "domain_management": "Intelligent compartmentalization",
-      "health_assessment": "Real-time statistical metrics",
-      "anti_patterns": "Automated detection and recovery",
-      "agents_md_integration": "Project-specific AI agent guidance and configuration"
+    "tooling": {
+      "seed_database": "python scripts/seed_sqlite.py --data-root <path-to-planning-repo>",
+      "validate_parity": "python scripts/validate_parity.py --data-root <path-to-planning-repo>",
+      "mission_runtime": "python scripts/mission_runtime.py --help"
     },
-    "integration_points": [
-      "project_context.py - main Python interface",
-      "context/cmos/ - JavaScript modules for advanced features",
-      "smart_migrate.js - migration tool for existing projects",
-      "agents.md - AI agent configuration and project guidance"
+    "reference_docs": [
+      "foundational-docs/roadmap_template.md",
+      "foundational-docs/tech_arch_template.md"
     ]
   },
   "context_health": {
@@ -157,25 +58,10 @@
     "size_limit_kb": 100,
     "sessions_since_reset": 0,
     "last_reset": "",
-    "compression_enabled": true,
-    "anti_pattern_detection": true
+    "compression_enabled": false
   },
-  "ai_instructions": {
-    "preferred_language": "javascript",
-    "code_style": "modular_zero_dependency",
-    "testing_required": true,
-    "documentation_level": "concise",
-    "context_priority": [
-      "agents.md",
-      "PROJECT_CONTEXT.json",
-      "MASTER_CONTEXT.json",
-      "SESSIONS.jsonl"
-    ],
-    "special_instructions": [
-      "Always read agents.md before starting any mission",
-      "Validate agents.md exists and is accessible",
-      "Parse agents.md content into working memory",
-      "Update agents_md_loaded flag after successful parsing"
-    ]
+  "metadata": {
+    "migrated_at": "2025-11-06T05:09:02.869744+00:00",
+    "source_version": "cmos-v1"
   }
 }
