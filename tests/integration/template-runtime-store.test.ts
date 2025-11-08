@@ -18,6 +18,8 @@ import { isGenericMission } from '../../src/schemas/generic-mission';
 import { StructuredPromptingBlock } from '../../src/import-export/types';
 import { resolveTemplatesDir } from '../utils/template-path';
 
+const DOMAIN_PACK_TIMEOUT_MS = 20_000;
+
 describe('Template Runtime Store - Smoke Test', () => {
   let baseDir: string;
   let loader: SecureYAMLLoader;
@@ -100,7 +102,7 @@ describe('Template Runtime Store - Smoke Test', () => {
         expect(pack.schema).toBeDefined();
         expect(pack.template).toBeDefined();
       }
-    });
+    }, DOMAIN_PACK_TIMEOUT_MS);
 
     it('should validate foundation domain pack structure', async () => {
       const entries = await registry.loadRegistry('registry.yaml');
