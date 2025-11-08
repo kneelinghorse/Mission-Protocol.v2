@@ -7,6 +7,11 @@ import {
   ContextStrategy,
   SubMissionResult,
 } from './context-propagator';
+import {
+  CmosDetector,
+  CmosDetectionOptions,
+  CmosDetectionResult,
+} from './cmos-detector';
 import { ContextPropagatorV3, ContextSummaryV3 } from './context-propagator-v3';
 import { MissionHistoryAnalyzer, MissionHistoryEvent } from './mission-history';
 import {
@@ -54,6 +59,21 @@ export interface AgenticMissionEvent {
     | 'boomerang_run_completed'
     | 'boomerang_fallback_triggered';
   payload?: Record<string, unknown>;
+}
+
+export interface CmosDetectionProvider {
+  detect(
+    projectRoot?: string,
+    options?: CmosDetectionOptions
+  ): Promise<CmosDetectionResult>;
+}
+
+export interface AgenticCmosIntegrationOptions {
+  detector?: CmosDetectionProvider;
+  enabled?: boolean;
+  projectRoot?: string;
+  detectionOptions?: CmosDetectionOptions;
+  telemetrySource?: string;
 }
 
 export interface StoredSubMissionResult {
@@ -176,6 +196,7 @@ const DEFAULT_BOOMERANG_RETENTION_DAYS = 7;
 const DEFAULT_BOOMERANG_MAX_RETRIES = 2;
 const DEFAULT_OBSERVABILITY_LOG_FILE = 'agentic-events.jsonl';
 const DEFAULT_GOVERNANCE_TELEMETRY_SOURCE = 'AgenticGovernance';
+const DEFAULT_CMOS_TELEMETRY_SOURCE = 'AgenticCMOS';
 
 function createMissionState(missionId: string, now: string): MissionState {
   return {
@@ -483,6 +504,7 @@ export interface AgenticControllerOptions {
   boomerang?: BoomerangControllerOptions;
   observability?: AgenticObservability | AgenticObservabilityOptions;
   governanceTelemetrySource?: string;
+  cmos?: AgenticCmosIntegrationOptions;
 }
 
 export interface WorkflowRegistrationOptions {
@@ -624,6 +646,13 @@ export class AgenticController {
   private readonly delegationTelemetrySource: string;
   private readonly observability: AgenticObservability;
   private readonly governanceTelemetrySource: string;
+  private readonly cmosDetector?: CmosDetectionProvider;
+  private readonly cmosIntegrationEnabled: boolean;
+  private readonly cmosProjectRoot: string;
+  private readonly cmosDetectionOptions?: CmosDetectionOptions;
+  private readonly cmosTelemetrySource: string;
+  private cmosDetectionPromise: Promise<CmosDetectionResult | null> | null = null;
+  private cmosDetectionResult: CmosDetectionResult | null = null;
   private static readonly DEFAULT_MAX_ACTIVE_SUBMISSIONS = 8;
   private static readonly DEFAULT_TELEMETRY_SOURCE = 'AgenticDelegation';
 
@@ -708,6 +737,20 @@ export class AgenticController {
 
     this.governanceTelemetrySource =
       options.governanceTelemetrySource ?? DEFAULT_GOVERNANCE_TELEMETRY_SOURCE;
+
+    const cmosOptions = options.cmos ?? {};
+    this.cmosIntegrationEnabled = cmosOptions.enabled !== false;
+    this.cmosProjectRoot = cmosOptions.projectRoot ?? process.cwd();
+    this.cmosDetector = cmosOptions.detector;
+    this.cmosDetectionOptions = cmosOptions.detectionOptions
+      ? { ...cmosOptions.detectionOptions }
+      : undefined;
+    this.cmosTelemetrySource =
+      cmosOptions.telemetrySource ?? DEFAULT_CMOS_TELEMETRY_SOURCE;
+
+    if (this.cmosIntegrationEnabled) {
+      this.runCmosDetection(cmosOptions.detectionOptions?.forceRefresh === true);
+    }
   }
 
   on<K extends keyof AgenticEventMap>(
@@ -736,6 +779,28 @@ export class AgenticController {
 
   async getState(): Promise<AgenticStateSnapshot> {
     return this.stateManager.getState();
+  }
+
+  async getCmosDetection(
+    options: CmosDetectionOptions = {}
+  ): Promise<CmosDetectionResult | null> {
+    if (!this.cmosIntegrationEnabled) {
+      return null;
+    }
+
+    if (options.forceRefresh) {
+      return this.runCmosDetection(true);
+    }
+
+    if (this.cmosDetectionResult) {
+      return this.cmosDetectionResult;
+    }
+
+    if (!this.cmosDetectionPromise) {
+      return this.runCmosDetection(false);
+    }
+
+    return this.cmosDetectionPromise;
   }
 
   async getMissionState(missionId: string): Promise<MissionState | undefined> {
@@ -1846,6 +1911,60 @@ export class AgenticController {
 
   private emit<K extends keyof AgenticEventMap>(event: K, payload: AgenticEventMap[K]): void {
     this.emitter.emit(event, payload);
+  }
+
+  private runCmosDetection(forceRefresh: boolean): Promise<CmosDetectionResult | null> {
+    if (!this.cmosIntegrationEnabled) {
+      return Promise.resolve(null);
+    }
+
+    const execution = this.executeCmosDetection(forceRefresh);
+    const trackedPromise = execution.finally(() => {
+      if (this.cmosDetectionPromise === trackedPromise) {
+        this.cmosDetectionPromise = null;
+      }
+    });
+    this.cmosDetectionPromise = trackedPromise;
+    return trackedPromise;
+  }
+
+  private async executeCmosDetection(
+    forceRefresh: boolean
+  ): Promise<CmosDetectionResult | null> {
+    try {
+      const detector = this.cmosDetector ?? CmosDetector.getInstance();
+      const detectionOptions = this.buildCmosDetectionOptions(forceRefresh);
+      const result = await detector.detect(this.cmosProjectRoot, detectionOptions);
+      this.cmosDetectionResult = result;
+      emitTelemetryInfo(this.cmosTelemetrySource, 'cmos_detection_status', {
+        projectRoot: result.projectRoot,
+        cmosDirectory: result.cmosDirectory,
+        hasCmosDirectory: result.hasCmosDirectory,
+        hasDatabase: result.hasDatabase,
+        databasePath: result.databasePath,
+        checkedAt: result.checkedAt,
+      });
+      return result;
+    } catch (error) {
+      this.cmosDetectionResult = null;
+      emitTelemetryWarning(this.cmosTelemetrySource, 'cmos_detection_failed', {
+        error: error instanceof Error ? error.message : String(error),
+      });
+      return null;
+    }
+  }
+
+  private buildCmosDetectionOptions(
+    forceRefresh: boolean
+  ): CmosDetectionOptions | undefined {
+    const baseOptions = this.cmosDetectionOptions;
+    if (forceRefresh || baseOptions?.forceRefresh) {
+      return {
+        ...(baseOptions ?? {}),
+        forceRefresh: true,
+      };
+    }
+    return baseOptions;
   }
 
   private nowIso(): string {

@@ -4,7 +4,7 @@ displayName: CMOS Backlog Export
 description: Backlog export generated from the CMOS SQLite database.
 author: CMOS
 schema: ./schemas/SprintPlan.v1.json
-generatedAt: '2025-11-08T17:55:41.889838+00:00'
+generatedAt: '2025-11-08T19:40:42.308932+00:00'
 ---
 domainFields:
   type: Planning.SprintPlan.v1
@@ -31,35 +31,43 @@ domainFields:
         completed_at: '2025-11-07T23:19:23Z'
     - id: s09-m02
       name: 'Phase 2: Test Standalone Operation Without cmos/'
-      status: In Progress
-      notes: 'Hide cmos/ directory and verify all tests pass. Ensure Mission State
-        Manager creates default files when they don''t exist. Test mission execution
-        workflow. Verify graceful handling of missing cmos/ directory. Document any
-        remaining hard dependencies.
-
-
-        Progress 2025-11-08: Standalone Jest suite passes without cmos/. MissionStateManager
-        and MissionHistory now auto-create state + sessions files, and telemetry/boomerang
-        outputs live under runtime/ for graceful fallbacks.'
+      status: Completed
+      completed_at: '2025-11-08T17:56:16Z'
+      notes: Implemented automatic creation for agentic_state.json and sessions logs,
+        rerouted observability + boomerang outputs to runtime/, updated mission history
+        defaults, restored fixtures, and reran npx jest --runInBand with cmos/ hidden.
       metadata:
         started_at: '2025-11-08T16:31:10Z'
+        completed_at: '2025-11-08T17:56:16Z'
     - id: s09-m03
       name: 'Phase 3: Create CMOS Detector Utility'
-      status: Queued
-      notes: Create src/intelligence/cmos-detector.ts. Implement runtime detection
-        of cmos/ directory presence. Add detection of SQLite database availability.
-        Create singleton pattern for detector. Add caching to avoid repeated file
-        system checks. Write unit tests for detection logic.
+      status: Completed
+      completed_at: '2025-11-08T18:27:18Z'
+      notes: Created src/intelligence/cmos-detector.ts with singleton + TTL-cached
+        detection for the cmos directory and SQLite database. Added Jest coverage
+        in tests/intelligence/cmos-detector.test.ts covering presence checks, caching,
+        and force refresh. Full npm test run triggered an existing timeout in tests/integration/template-runtime-store.test.ts.
+      metadata:
+        started_at: '2025-11-08T18:21:52Z'
+        completed_at: '2025-11-08T18:27:18Z'
     - id: s09-m04
       name: 'Phase 4: Integrate CMOS Detection into Agentic Controller'
-      status: Queued
-      notes: Add CMOS detector to AgenticController constructor. Log detection status
+      status: Completed
+      completed_at: '2025-11-08T19:38:39Z'
+      notes: 'Add CMOS detector to AgenticController constructor. Log detection status
         on initialization. Add configuration options for CMOS integration. Update
         constructor options to accept detector instance. Write integration tests with
-        and without cmos/.
+        and without cmos/. Update 2025-11-08: AgenticController now runs CMOS detection
+        with configurable telemetry + project root options and exposes getCmosDetection();
+        integration tests cover CMOS present, absent, and disabled flows. Completion:
+        integration adds configurable CMOS detection + telemetry plus tests for CMOS
+        present/absent/disabled and a full npx jest --runInBand run passed.'
+      metadata:
+        started_at: '2025-11-08T19:29:01Z'
+        completed_at: '2025-11-08T19:38:39Z'
     - id: s09-m05
       name: 'Phase 5: Create SQLite Client for CMOS (Optional)'
-      status: Queued
+      status: Current
       notes: Create src/intelligence/sqlite-client.ts. Implement basic CRUD operations
         for missions table. Add session event logging methods. Create TypeScript types
         for SQLite schema. Add connection pooling and error handling. Make this an
