@@ -118,6 +118,112 @@ describe('AgenticController', () => {
     expect(promotedMission?.status).toBe('current');
   });
 
+  describe('CMOS detection', () => {
+    it('detects CMOS assets and logs telemetry when present', async () => {
+      const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+      tempDirs.push(baseDir);
+
+      const cmosDbDir = join(baseDir, 'cmos', 'db');
+      await fs.mkdir(cmosDbDir, { recursive: true });
+      const sqlitePath = join(cmosDbDir, 'cmos.sqlite');
+      await fs.writeFile(sqlitePath, 'pragma user_version = 1;\n', 'utf-8');
+
+      const telemetryEvents: TelemetryEvent[] = [];
+      registerTelemetryHandler((event) => telemetryEvents.push(event));
+      setTelemetryLevel('info');
+
+      const { propagator } = createPropagatorStub();
+      const controller = new AgenticController({
+        statePath,
+        sessionsPath,
+        propagator,
+        cmos: {
+          projectRoot: baseDir,
+          telemetrySource: 'TestCmosTelemetry',
+        },
+      });
+
+      const detection = await controller.getCmosDetection();
+      expect(detection?.hasCmosDirectory).toBe(true);
+      expect(detection?.hasDatabase).toBe(true);
+      expect(detection?.databasePath).toBe(sqlitePath);
+
+      const telemetry = telemetryEvents.find(
+        (event) =>
+          event.source === 'TestCmosTelemetry' && event.message === 'cmos_detection_status'
+      );
+      expect(telemetry).toBeDefined();
+      expect(telemetry?.context).toMatchObject({
+        hasCmosDirectory: true,
+        hasDatabase: true,
+        databasePath: sqlitePath,
+      });
+    });
+
+    it('reports missing CMOS assets when directory is absent', async () => {
+      const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+      tempDirs.push(baseDir);
+
+      const telemetryEvents: TelemetryEvent[] = [];
+      registerTelemetryHandler((event) => telemetryEvents.push(event));
+      setTelemetryLevel('info');
+
+      const { propagator } = createPropagatorStub();
+      const controller = new AgenticController({
+        statePath,
+        sessionsPath,
+        propagator,
+        cmos: {
+          projectRoot: baseDir,
+          telemetrySource: 'MissingCmosTelemetry',
+        },
+      });
+
+      const detection = await controller.getCmosDetection();
+      expect(detection?.hasCmosDirectory).toBe(false);
+      expect(detection?.hasDatabase).toBe(false);
+      expect(detection?.databasePath).toBeUndefined();
+
+      const telemetry = telemetryEvents.find(
+        (event) =>
+          event.source === 'MissingCmosTelemetry' &&
+          event.message === 'cmos_detection_status'
+      );
+      expect(telemetry).toBeDefined();
+      expect(telemetry?.context).toMatchObject({
+        hasCmosDirectory: false,
+        hasDatabase: false,
+      });
+    });
+
+    it('can disable CMOS detection entirely', async () => {
+      const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+      tempDirs.push(baseDir);
+
+      const telemetryEvents: TelemetryEvent[] = [];
+      registerTelemetryHandler((event) => telemetryEvents.push(event));
+      setTelemetryLevel('info');
+
+      const { propagator } = createPropagatorStub();
+      const controller = new AgenticController({
+        statePath,
+        sessionsPath,
+        propagator,
+        cmos: {
+          enabled: false,
+          telemetrySource: 'DisabledCmosTelemetry',
+        },
+      });
+
+      const detection = await controller.getCmosDetection();
+      expect(detection).toBeNull();
+      const telemetry = telemetryEvents.find(
+        (event) => event.source === 'DisabledCmosTelemetry'
+      );
+      expect(telemetry).toBeUndefined();
+    });
+  });
+
   it('appends workflow missions without reset and skips duplicates', async () => {
     const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
     tempDirs.push(baseDir);
