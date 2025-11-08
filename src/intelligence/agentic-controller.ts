@@ -14,6 +14,7 @@ import {
 } from './cmos-detector';
 import { ContextPropagatorV3, ContextSummaryV3 } from './context-propagator-v3';
 import { MissionHistoryAnalyzer, MissionHistoryEvent } from './mission-history';
+import { CmosSyncOptions, CmosSyncService, CmosSyncResult, SyncRequestOptions } from './cmos-sync';
 import {
   RSIPLoopHandlers,
   RSIPLoopOptions,
@@ -36,6 +37,8 @@ import {
   BoomerangWorkflow,
   BoomerangWorkflowResult,
 } from './boomerang-workflow';
+import { ensureDir } from '../utils/fs';
+import { resolveWorkspacePath } from '../utils/workspace-io';
 
 export type MissionStatus = 'queued' | 'current' | 'in_progress' | 'completed' | 'blocked' | 'paused';
 export type MissionPhase = 'idle' | 'planning' | 'execution' | 'review' | 'blocked' | 'completed';
@@ -68,12 +71,25 @@ export interface CmosDetectionProvider {
   ): Promise<CmosDetectionResult>;
 }
 
+export type AgenticMissionSyncTrigger = 'mission_start' | 'mission_complete';
+
+export interface AgenticCmosSyncAutomationOptions extends SyncRequestOptions {
+  readonly triggers?: readonly AgenticMissionSyncTrigger[];
+}
+
+export interface AgenticCmosSyncOptions extends CmosSyncOptions {
+  readonly telemetrySource?: string;
+  readonly automation?: AgenticCmosSyncAutomationOptions;
+  readonly service?: CmosSyncService;
+}
+
 export interface AgenticCmosIntegrationOptions {
   detector?: CmosDetectionProvider;
   enabled?: boolean;
   projectRoot?: string;
   detectionOptions?: CmosDetectionOptions;
   telemetrySource?: string;
+  sync?: AgenticCmosSyncOptions;
 }
 
 export interface StoredSubMissionResult {
@@ -197,6 +213,11 @@ const DEFAULT_BOOMERANG_MAX_RETRIES = 2;
 const DEFAULT_OBSERVABILITY_LOG_FILE = 'agentic-events.jsonl';
 const DEFAULT_GOVERNANCE_TELEMETRY_SOURCE = 'AgenticGovernance';
 const DEFAULT_CMOS_TELEMETRY_SOURCE = 'AgenticCMOS';
+const DEFAULT_CMOS_SYNC_TELEMETRY_SOURCE = 'AgenticCMOSSync';
+const DEFAULT_CMOS_SYNC_TRIGGERS: readonly AgenticMissionSyncTrigger[] = [
+  'mission_start',
+  'mission_complete',
+];
 
 function createMissionState(missionId: string, now: string): MissionState {
   return {
@@ -518,12 +539,16 @@ export interface StartMissionOptions {
   tags?: string[];
   metadata?: Record<string, unknown>;
   phase?: MissionPhase;
+  summary?: string;
+  agent?: string;
 }
 
 export interface CompleteMissionOptions {
   summary?: string;
   notes?: string;
   metadata?: Record<string, unknown>;
+  agent?: string;
+  nextHint?: string;
 }
 
 export interface PauseMissionOptions {
@@ -636,6 +661,7 @@ export class AgenticController {
   private readonly historyAnalyzer: MissionHistoryAnalyzer;
   private readonly propagator: ContextPropagatorV3;
   private readonly clock: () => Date;
+  private readonly sessionsPath: string;
   private readonly boomerangRuntimeRoot: string;
   private readonly boomerangRetentionDays: number;
   private readonly boomerangMaxRetries: number;
@@ -651,6 +677,9 @@ export class AgenticController {
   private readonly cmosProjectRoot: string;
   private readonly cmosDetectionOptions?: CmosDetectionOptions;
   private readonly cmosTelemetrySource: string;
+  private readonly cmosSyncTelemetrySource: string;
+  private readonly cmosSyncService?: CmosSyncService;
+  private readonly cmosSyncAutomation?: AgenticCmosSyncAutomationOptions;
   private cmosDetectionPromise: Promise<CmosDetectionResult | null> | null = null;
   private cmosDetectionResult: CmosDetectionResult | null = null;
   private static readonly DEFAULT_MAX_ACTIVE_SUBMISSIONS = 8;
@@ -665,6 +694,7 @@ export class AgenticController {
     });
 
     const sessionsPath = options.sessionsPath ?? DEFAULT_SESSIONS_PATH;
+    this.sessionsPath = sessionsPath;
     this.historyAnalyzer =
       options.historyAnalyzer ??
       new MissionHistoryAnalyzer({
@@ -747,6 +777,25 @@ export class AgenticController {
       : undefined;
     this.cmosTelemetrySource =
       cmosOptions.telemetrySource ?? DEFAULT_CMOS_TELEMETRY_SOURCE;
+    const syncOptions = this.cmosIntegrationEnabled ? cmosOptions.sync : undefined;
+    this.cmosSyncTelemetrySource =
+      syncOptions?.telemetrySource ?? DEFAULT_CMOS_SYNC_TELEMETRY_SOURCE;
+
+    if (
+      this.cmosIntegrationEnabled &&
+      syncOptions &&
+      syncOptions.enabled === true
+    ) {
+      const { service, automation, telemetrySource: _ignored, ...serviceOptions } = syncOptions;
+      const resolvedOptions: CmosSyncOptions = {
+        ...serviceOptions,
+        projectRoot: serviceOptions.projectRoot ?? this.cmosProjectRoot,
+        sessionsPath: serviceOptions.sessionsPath ?? sessionsPath,
+        detector: serviceOptions.detector ?? CmosDetector.getInstance(),
+      };
+      this.cmosSyncService = service ?? new CmosSyncService(resolvedOptions);
+      this.cmosSyncAutomation = this.normalizeSyncAutomationOptions(automation);
+    }
 
     if (this.cmosIntegrationEnabled) {
       this.runCmosDetection(cmosOptions.detectionOptions?.forceRefresh === true);
@@ -971,6 +1020,14 @@ export class AgenticController {
         },
       });
     }
+    await this.recordMissionSessionEvent('mission_start', {
+      ts: now,
+      mission: missionId,
+      action: 'start',
+      status: missionState?.status ?? 'in_progress',
+      agent: options.agent,
+      summary: options.summary ?? missionState?.objective,
+    });
     return state;
   }
 
@@ -1474,6 +1531,15 @@ export class AgenticController {
         },
       });
     }
+    await this.recordMissionSessionEvent('mission_complete', {
+      ts: now,
+      mission: missionId,
+      action: 'complete',
+      status: missionState?.status ?? 'completed',
+      agent: options.agent,
+      summary: options.summary,
+      next_hint: options.nextHint,
+    });
     return state;
   }
 
@@ -1897,6 +1963,23 @@ export class AgenticController {
     return Array.from(new Set(related));
   }
 
+  private normalizeSyncAutomationOptions(
+    automation?: AgenticCmosSyncAutomationOptions
+  ): AgenticCmosSyncAutomationOptions {
+    const triggers =
+      automation?.triggers && automation.triggers.length > 0
+        ? Array.from(new Set(automation.triggers))
+        : [...DEFAULT_CMOS_SYNC_TRIGGERS];
+
+    return {
+      includeContexts: automation?.includeContexts ?? false,
+      includeSessionEvents: automation?.includeSessionEvents ?? true,
+      direction: automation?.direction,
+      force: automation?.force,
+      triggers,
+    };
+  }
+
   private buildMissionEvent(
     type: AgenticMissionEvent['type'],
     ts: string,
@@ -1907,6 +1990,80 @@ export class AgenticController {
       type,
       payload,
     };
+  }
+
+  private async recordMissionSessionEvent(
+    trigger: AgenticMissionSyncTrigger,
+    event: MissionHistoryEvent
+  ): Promise<void> {
+    await this.appendSessionEvent(event);
+    await this.runCmosAutoSync(trigger);
+  }
+
+  private async appendSessionEvent(event: MissionHistoryEvent): Promise<void> {
+    const targetPath = await resolveWorkspacePath(this.sessionsPath, {
+      allowRelative: true,
+      baseDir: this.cmosProjectRoot,
+    });
+    await ensureDir(dirname(targetPath));
+    await fs.appendFile(targetPath, `${JSON.stringify(event)}\n`, 'utf-8');
+  }
+
+  private async runCmosAutoSync(trigger: AgenticMissionSyncTrigger): Promise<void> {
+    if (!this.cmosSyncService || !this.cmosSyncAutomation) {
+      return;
+    }
+
+    const triggers = this.cmosSyncAutomation.triggers ?? DEFAULT_CMOS_SYNC_TRIGGERS;
+    if (triggers.length > 0 && !triggers.includes(trigger)) {
+      return;
+    }
+
+    const includeContexts = this.cmosSyncAutomation.includeContexts ?? false;
+    const includeSessionEvents = this.cmosSyncAutomation.includeSessionEvents ?? true;
+    if (!includeContexts && !includeSessionEvents) {
+      return;
+    }
+
+    const request: SyncRequestOptions = {
+      direction: this.cmosSyncAutomation.direction,
+      force: this.cmosSyncAutomation.force,
+      includeContexts,
+      includeSessionEvents,
+    };
+
+    try {
+      const result = await this.cmosSyncService.syncAll(request);
+      this.reportCmosSyncResult(trigger, result);
+    } catch (error) {
+      emitTelemetryWarning(this.cmosSyncTelemetrySource, 'cmos_sync_failed', {
+        trigger,
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
+  }
+
+  private reportCmosSyncResult(
+    trigger: AgenticMissionSyncTrigger,
+    result: CmosSyncResult
+  ): void {
+    const context = {
+      trigger,
+      status: result.status,
+      ok: result.ok,
+      direction: result.direction,
+      durationMs: result.durationMs,
+      sessionEventsInserted: result.sessionEvents.inserted,
+      sessionEventsSkipped: result.sessionEvents.skipped,
+      warnings: result.warnings,
+      errors: result.errors,
+    };
+
+    if (result.ok) {
+      emitTelemetryInfo(this.cmosSyncTelemetrySource, 'cmos_sync_completed', context);
+    } else {
+      emitTelemetryWarning(this.cmosSyncTelemetrySource, 'cmos_sync_partial', context);
+    }
   }
 
   private emit<K extends keyof AgenticEventMap>(event: K, payload: AgenticEventMap[K]): void {

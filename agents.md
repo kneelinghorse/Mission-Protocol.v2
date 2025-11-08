@@ -54,6 +54,14 @@ npm run lint && npm run format:check
 - `boomerang.cleanup_cadence`: "daily"
 - `boomerang.fallback_threshold`: 2
 
+## CMOS Sync Configuration
+- `cmos.sync.enabled`: false (opt-in). When true, the Agentic Controller runs CMOS sync after mission `start`/`complete` events while keeping failures non-blocking.
+- `cmos.sync.direction`: `bidirectional` unless telemetry or compliance requires forcing `files_to_db`/`db_to_files`.
+- `cmos.sync.frequency`: defaults to `manual`; switch to `interval` to throttle high-volume automation.
+- `cmos.sync.triggers`: `["mission_start", "mission_complete"]` by default; use `per_mission` overrides when sync must only follow completions.
+- `cmos.sync.includeSessionEvents`: true to push `SESSIONS.jsonl` entries into SQLite after every lifecycle event.
+- `cmos.sync.includeContexts`: false unless you specifically need context mirrors refreshed on each sync (can be toggled per mission family).
+
 ## Telemetry & Validation
 - Record loader metrics (bytes, duration, validation codes) when wiring telemetry hooks.
 - Respect 60-second cache TTL for agents.md loads unless force refreshing.

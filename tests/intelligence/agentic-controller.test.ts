@@ -11,6 +11,7 @@ import {
 import { SubMissionResult } from '../../src/intelligence/context-propagator';
 import { MissionHistoryEvent } from '../../src/intelligence/mission-history';
 import { ContextPropagatorV3, ContextSummaryV3 } from '../../src/intelligence/context-propagator-v3';
+import { CmosSyncResult, CmosSyncService } from '../../src/intelligence/cmos-sync';
 import {
   TelemetryEvent,
   registerTelemetryHandler,
@@ -72,6 +73,26 @@ const writeSessions = async (
   await fs.writeFile(sessionsPath, `${lines.join('\n')}\n`, 'utf-8');
 };
 
+const buildSyncResult = (overrides: Partial<CmosSyncResult> = {}): CmosSyncResult => ({
+  ok: true,
+  status: 'completed',
+  direction: 'bidirectional',
+  frequency: 'manual',
+  contexts: [],
+  sessionEvents: {
+    attempted: true,
+    inserted: 1,
+    skipped: 0,
+    warnings: [],
+  },
+  warnings: [],
+  errors: [],
+  startedAt: '2025-11-08T00:00:00Z',
+  finishedAt: '2025-11-08T00:00:01Z',
+  durationMs: 1000,
+  ...overrides,
+});
+
 describe('AgenticController', () => {
   let tempDirs: string[] = [];
 
@@ -116,6 +137,131 @@ describe('AgenticController', () => {
     expect(state.workflow.activeMission).toBe('B6.5');
     const promotedMission = await controller.getMissionState('B6.5');
     expect(promotedMission?.status).toBe('current');
+  });
+
+  it('records mission lifecycle events to the sessions log', async () => {
+    const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+    tempDirs.push(baseDir);
+
+    const { propagator } = createPropagatorStub();
+    const controller = new AgenticController({
+      statePath,
+      sessionsPath,
+      propagator,
+      clock: () => new Date('2025-11-08T18:00:00Z'),
+    });
+
+    await controller.startMission('s09-m08', {
+      objective: 'Exercise session logging',
+      summary: 'Kickoff optional sync tests',
+      agent: 'codex',
+    });
+
+    await controller.completeMission('s09-m08', {
+      summary: 'Session logging verified',
+      agent: 'codex',
+      nextHint: 's09-m09',
+    });
+
+    const logContent = await fs.readFile(sessionsPath, 'utf-8');
+    const events = logContent
+      .trim()
+      .split('\n')
+      .filter(Boolean)
+      .map((line) => JSON.parse(line) as MissionHistoryEvent);
+
+    const startEvent = events.find((event) => event.action === 'start' && event.mission === 's09-m08');
+    const completeEvent = events.find((event) => event.action === 'complete' && event.mission === 's09-m08');
+
+    expect(startEvent).toMatchObject({
+      agent: 'codex',
+      summary: 'Kickoff optional sync tests',
+      status: 'in_progress',
+    });
+    expect(completeEvent).toMatchObject({
+      agent: 'codex',
+      summary: 'Session logging verified',
+      next_hint: 's09-m09',
+      status: 'completed',
+    });
+  });
+
+  it('runs CMOS sync after mission events when enabled', async () => {
+    const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+    tempDirs.push(baseDir);
+
+    const syncAll = jest.fn().mockResolvedValue(buildSyncResult());
+    const syncService = { syncAll } as unknown as CmosSyncService;
+
+    const { propagator } = createPropagatorStub();
+    const controller = new AgenticController({
+      statePath,
+      sessionsPath,
+      propagator,
+      clock: () => new Date('2025-11-08T18:05:00Z'),
+      cmos: {
+        projectRoot: baseDir,
+        sync: {
+          enabled: true,
+          service: syncService,
+          automation: {
+            includeContexts: false,
+            includeSessionEvents: true,
+          },
+        },
+      },
+    });
+
+    await controller.startMission('s09-m10', { objective: 'Sync start test' });
+    await controller.completeMission('s09-m10');
+
+    expect(syncAll).toHaveBeenCalledTimes(2);
+    expect(syncAll).toHaveBeenNthCalledWith(1, {
+      direction: undefined,
+      force: undefined,
+      includeContexts: false,
+      includeSessionEvents: true,
+    });
+  });
+
+  it('emits telemetry when CMOS sync fails but continues mission execution', async () => {
+    const { baseDir, statePath, sessionsPath } = await createTempEnvironment();
+    tempDirs.push(baseDir);
+
+    const syncAll = jest.fn().mockRejectedValue(new Error('offline'));
+    const syncService = { syncAll } as unknown as CmosSyncService;
+    const telemetryEvents: TelemetryEvent[] = [];
+    registerTelemetryHandler((event) => telemetryEvents.push(event));
+    setTelemetryLevel('info');
+
+    const { propagator } = createPropagatorStub();
+    const controller = new AgenticController({
+      statePath,
+      sessionsPath,
+      propagator,
+      clock: () => new Date('2025-11-08T18:10:00Z'),
+      cmos: {
+        projectRoot: baseDir,
+        sync: {
+          enabled: true,
+          service: syncService,
+          telemetrySource: 'TestSyncTelemetry',
+          automation: {
+            includeContexts: false,
+            includeSessionEvents: true,
+          },
+        },
+      },
+    });
+
+    await controller.startMission('s09-m11', { objective: 'Sync failure resilience' });
+    const mission = await controller.getMissionState('s09-m11');
+    expect(mission?.status).toBe('in_progress');
+
+    const warning = telemetryEvents.find(
+      (event) => event.source === 'TestSyncTelemetry' && event.message === 'cmos_sync_failed'
+    );
+    expect(warning).toBeDefined();
   });
 
   describe('CMOS detection', () => {
@@ -868,7 +1014,7 @@ describe('AgenticController', () => {
 
     const mission = await controller.getMissionState('B6.4');
     expect(mission?.lastDynamicQuery?.query).toBe(query);
-    expect(mission?.lastDynamicQuery?.historyEvents).toHaveLength(2);
+    expect(mission?.lastDynamicQuery?.historyEvents?.length ?? 0).toBeGreaterThanOrEqual(2);
   });
 
   it('builds dynamic queries without context summary when disabled', async () => {

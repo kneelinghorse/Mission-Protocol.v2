@@ -4,7 +4,7 @@ displayName: CMOS Backlog Export
 description: Backlog export generated from the CMOS SQLite database.
 author: CMOS
 schema: ./schemas/SprintPlan.v1.json
-generatedAt: '2025-11-08T20:10:17.424051+00:00'
+generatedAt: '2025-11-08T21:38:16.918740+00:00'
 ---
 domainFields:
   type: Planning.SprintPlan.v1
@@ -67,28 +67,35 @@ domainFields:
         completed_at: '2025-11-08T19:38:39Z'
     - id: s09-m05
       name: 'Phase 5: Create SQLite Client for CMOS (Optional)'
-      status: In Progress
-      notes: Implemented optional better-sqlite3 SQLiteClient with CRUD methods, session
-        event logging, and connection pooling plus comprehensive Jest coverage.
+      status: Completed
+      completed_at: '2025-11-08T20:10:34Z'
+      notes: Added src/intelligence/sqlite-client.ts with pooled optional better-sqlite3
+        driver, mission CRUD + session logging APIs, and thorough tests in tests/intelligence/sqlite-client.test.ts
+        covering error handling + telemetry serialization.
       metadata:
         started_at: '2025-11-08T19:50:55Z'
+        completed_at: '2025-11-08T20:10:34Z'
     - id: s09-m06
       name: 'Phase 6: Create CMOS Sync Service (Optional)'
-      status: Queued
-      notes: Create src/intelligence/cmos-sync.ts. Implement bidirectional sync between
-        files and SQLite. Add session event sync from Mission Protocol to CMOS. Create
-        context sync methods. Add configuration for sync direction and frequency.
-        Implement graceful degradation if sync fails.
+      status: Completed
+      completed_at: '2025-11-08T20:54:52Z'
+      notes: Added cmos-sync service with SQLite context helpers, session-event syncing,
+        and Jest coverage.
+      metadata:
+        started_at: '2025-11-08T20:31:18Z'
+        completed_at: '2025-11-08T20:54:52Z'
     - id: s09-m07
       name: 'Phase 7: Integrate Optional Sync into Mission Lifecycle'
-      status: Queued
-      notes: Add sync calls to mission start/complete methods. Sync session events
-        after each mission event. Add sync configuration to agents.md playbook. Make
-        sync failures non-blocking. Add telemetry for sync operations. Test with sync
-        enabled and disabled.
+      status: Completed
+      completed_at: '2025-11-08T21:27:00Z'
+      notes: Agentic controller now logs mission lifecycle events, triggers optional
+        CMOS sync with telemetry, and ships updated docs/tests.
+      metadata:
+        started_at: '2025-11-08T21:13:16Z'
+        completed_at: '2025-11-08T21:27:00Z'
     - id: s09-m08
       name: 'Phase 8: Documentation and Final Validation'
-      status: Queued
+      status: Current
       notes: 'Update agents.md with CMOS integration configuration. Document standalone
         vs CMOS-integrated modes. Create migration guide for existing projects. Update
         README.md with architecture explanation. Final validation: remove cmos/ and
