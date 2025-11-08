@@ -51,15 +51,19 @@ const SAMPLE_SESSIONS = [
   },
 ];
 
-const AGENTIC_MISSION_PATH = path.resolve(
-  __dirname,
-  '../fixtures/agentic-qa/QA-AGENTIC_agentic-handshake.yaml'
-);
+const AGENTIC_MISSION_YAML = YAML.stringify({
+  missionId: 'QA-AGENTIC',
+  objective: 'Validate CMOS ↔ Mission Protocol handshake',
+  status: 'Completed',
+  notes: 'Telemetry handshake validated across CMOS and Mission Protocol.',
+});
 
-const TELEMETRY_MISSION_PATH = path.resolve(
-  __dirname,
-  '../fixtures/agentic-qa/QA-TELEMETRY_telemetry-contract.yaml'
-);
+const TELEMETRY_MISSION_YAML = YAML.stringify({
+  missionId: 'QA-TELEMETRY',
+  objective: 'Capture telemetry contract evidence for interoperability',
+  status: 'In Progress',
+  notes: 'QA harness collecting live telemetry samples.',
+});
 
 describe('CMOS ↔ Mission Protocol interoperability', () => {
   const loader = new AgentsMdLoader({ cacheTtlMs: 0 });
@@ -69,13 +73,10 @@ describe('CMOS ↔ Mission Protocol interoperability', () => {
   });
 
   test('agents.md guidance stays aligned with mission analytics', async () => {
-    const [agenticMissionRaw, telemetryMissionRaw] = await Promise.all([
-      fs.readFile(AGENTIC_MISSION_PATH, 'utf-8'),
-      fs.readFile(TELEMETRY_MISSION_PATH, 'utf-8'),
-    ]);
-
-    const agenticMission = YAML.parse(agenticMissionRaw) as { missionId: string; objective: string };
-    const telemetryMission = YAML.parse(telemetryMissionRaw) as { missionId: string; objective: string };
+    const [agenticMission, telemetryMission] = [
+      YAML.parse(AGENTIC_MISSION_YAML) as { missionId: string; objective: string },
+      YAML.parse(TELEMETRY_MISSION_YAML) as { missionId: string; objective: string },
+    ];
 
     const workspace = await ensureTempDir('cmos-mission-interop-');
 
