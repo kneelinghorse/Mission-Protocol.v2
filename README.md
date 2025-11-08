@@ -24,6 +24,17 @@ Mission Protocol v2 is an end-to-end mission automation toolkit. It helps teams 
 - Context propagators maintain alignment as missions split or move between agents.
 - Token validation helpers report model-specific usage and warn whenever heuristic paths are used.
 
+## Architecture Overview
+
+Mission Protocol now ships with a **standalone default mode** and an **optional CMOS-integrated mode**:
+
+- **Standalone** – Uses root-level `agentic_state.json`, `SESSIONS.jsonl`, and `PROJECT_CONTEXT.json`, requires no CMOS assets, and is the mode you ship to downstream consumers.
+- **CMOS-Integrated** – Automatically detected when a `cmos/` directory (and `cmos/db/cmos.sqlite`) exists. Enables backlog management, sync automation, and telemetry streaming with the same AgenticController instance.
+
+The `CmosDetector` caches detection results for 60 seconds and exposes `forceRefresh` hooks so tests can toggle modes without restarting the process. The `cmos.sync` automation wiring is opt-in and supports per-mission triggers (`mission_start`, `mission_complete`) plus telemetry source overrides.
+
+See **docs/CMOS_Migration_Guide.md** for the migration checklist, validation matrix (with and without `cmos/`), and troubleshooting steps.
+
 ## Quick Start
 
 1. Install dependencies:
@@ -91,6 +102,7 @@ Mission Protocol v2 is an end-to-end mission automation toolkit. It helps teams 
 - **[Domain Pack Authoring](docs/domain-pack-authoring.md)** – Standards for creating and publishing new packs.
 - **[API References](docs/API_Documentation.md, docs/API_Documentation_Phase4.md)** – Full CLI and MCP tool specifications.
 - **[Token Validation Setup](docs/Token_Validation_Setup.md)** – Credential, validation, and CI guidance for token counting services.
+- **[CMOS Migration Guide](docs/CMOS_Migration_Guide.md)** – Step-by-step plan for upgrading existing repositories to the optional CMOS architecture and validating both modes.
 
 ## Integrating with MCP Clients
 

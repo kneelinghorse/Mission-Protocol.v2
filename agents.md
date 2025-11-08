@@ -42,6 +42,46 @@ npm run lint && npm run format:check
 - Intelligence tooling (tokenizers, analyzers) resides in `src/intelligence/` with focused Jest coverage.
 - Mission outputs surface through artifacts under `artifacts/` for downstream automation.
 
+## Integration Modes & CMOS Configuration
+
+- **Standalone (default)** – Ship `agentic_state.json`, `SESSIONS.jsonl`, and `PROJECT_CONTEXT.json` in the repo root. No `cmos/` assets required. Run `npm run build && npm run test:performance` and `./cmos/cli.py db show current` before publishing starter templates.
+- **CMOS-Integrated (optional)** – When a `cmos/` directory and `cmos/db/cmos.sqlite` are present, the `CmosDetector` advertises the integration to `AgenticController`. Detection caches for 60 seconds; call `controller.getCmosDetection({ forceRefresh: true })` to re-check after filesystem changes.
+
+| Option | Description | Default |
+| --- | --- | --- |
+| `cmos.enabled` | Toggles optional CMOS features without deleting `cmos/`. | `true` |
+| `cmos.projectRoot` | Root folder scanned for `cmos/`. | `process.cwd()` |
+| `cmos.detectionOptions.cacheTtlMs` | TTL for detector cache. Use `0` in tests that rename `cmos/`. | `60_000` |
+| `cmos.sync.enabled` | Runs CMOS sync automation (contexts + sessions) when the DB is present. | `false` |
+| `cmos.sync.triggers` | Lifecycle hooks that fire sync (`mission_start`, `mission_complete`). | `['mission_start','mission_complete']` |
+| `cmos.sync.includeSessionEvents` | Pushes `SESSIONS.jsonl` entries into SQLite after each lifecycle event. | `true` |
+| `cmos.sync.includeContexts` | Adds PROJECT/MASTER context mirrors to each sync pass. | `false` |
+
+**Controller wiring example**:
+```ts
+const controller = new AgenticController({
+  statePath: resolve('agentic_state.json'),
+  sessionsPath: resolve('SESSIONS.jsonl'),
+  cmos: {
+    enabled: process.env.CMOS_ENABLED !== 'false',
+    projectRoot: process.cwd(),
+    detectionOptions: { cacheTtlMs: 60_000 },
+    sync: {
+      enabled: process.env.CMOS_SYNC === '1',
+      triggers: ['mission_start', 'mission_complete'],
+      includeSessionEvents: true,
+      includeContexts: false,
+    },
+  },
+});
+```
+
+**Validation Runbooks**:
+- *With CMOS*: run `npm run build`, `npm run test:performance`, and `./cmos/cli.py db show current`.
+- *Without CMOS*: temporarily rename `cmos/` (e.g., `mv cmos cmos.hidden`), run `npm run test:performance`, then restore the directory and re-check DB health.
+
+Reference `docs/CMOS_Migration_Guide.md` for the complete migration checklist and troubleshooting tips.
+
 ## AI Agent Specific Instructions
 - Read this playbook plus `PROJECT_CONTEXT.json` before selecting missions.
 - Promote the first available mission (In Progress → Current → Queued) and log start/completion events.
