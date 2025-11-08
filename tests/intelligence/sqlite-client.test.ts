@@ -24,6 +24,21 @@ CREATE TABLE IF NOT EXISTS missions (
   notes TEXT,
   metadata TEXT
 );
+CREATE TABLE IF NOT EXISTS contexts (
+  id TEXT PRIMARY KEY,
+  source_path TEXT NOT NULL,
+  content TEXT NOT NULL,
+  updated_at TEXT
+);
+CREATE TABLE IF NOT EXISTS context_snapshots (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  context_id TEXT NOT NULL,
+  session_id TEXT,
+  source TEXT,
+  content_hash TEXT NOT NULL,
+  content TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS session_events (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   ts TEXT,
@@ -181,6 +196,53 @@ describe('SQLiteClient', () => {
       expect(events).toHaveLength(1);
       expect(events[0].mission).toBe('S1');
       expect(events[0].rawEvent).toEqual({ decision: 'green' });
+    } finally {
+      await context.cleanup();
+    }
+  });
+
+  test('sets and retrieves contexts with snapshot handling', async () => {
+    const context = await createClient();
+    try {
+      const payload = { working_memory: { agents_md_loaded: true } };
+      const result = context.client.setContext('project_context', payload, {
+        sourcePath: 'PROJECT_CONTEXT.json',
+        sessionId: 's09-m06',
+        snapshotSource: 'jest',
+      });
+
+      expect(result.id).toBe('project_context');
+      expect(result.sourcePath).toBe('PROJECT_CONTEXT.json');
+      expect(result.content).toEqual(payload);
+
+      const updated = context.client.setContext('project_context', { ...payload, version: 2 }, { snapshot: false });
+      expect(updated.sourcePath).toBe('PROJECT_CONTEXT.json');
+      expect(updated.content.version).toBe(2);
+
+      const db = new Database(context.dbPath);
+      const snapshotCount = db
+        .prepare('SELECT COUNT(*) AS count FROM context_snapshots WHERE context_id = ?')
+        .get('project_context') as { count: number };
+      db.close();
+      expect(snapshotCount.count).toBe(1);
+    } finally {
+      await context.cleanup();
+    }
+  });
+
+  test('addContextSnapshot deduplicates identical payloads', async () => {
+    const context = await createClient();
+    try {
+      const payload = { test: true };
+      context.client.setContext('master_context', payload, { snapshot: false });
+
+      const first = context.client.addContextSnapshot('master_context', payload, {
+        source: 'sync-service',
+      });
+      const second = context.client.addContextSnapshot('master_context', { ...payload });
+
+      expect(first).toBe(true);
+      expect(second).toBe(false);
     } finally {
       await context.cleanup();
     }

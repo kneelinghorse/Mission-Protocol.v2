@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
 
@@ -64,6 +65,27 @@ export interface SessionEventRecord {
   readonly rawEvent?: Record<string, unknown> | string;
 }
 
+export interface ContextRecord {
+  readonly id: string;
+  readonly sourcePath: string;
+  readonly content: Record<string, unknown>;
+  readonly updatedAt?: string | null;
+}
+
+export interface ContextSetOptions {
+  readonly sourcePath?: string | null;
+  readonly sessionId?: string | null;
+  readonly snapshot?: boolean;
+  readonly snapshotSource?: string | null;
+  readonly updatedAt?: string | Date;
+}
+
+export interface ContextSnapshotOptions {
+  readonly sessionId?: string | null;
+  readonly source?: string | null;
+  readonly createdAt?: string | Date;
+}
+
 export type SQLiteClientErrorCode =
   | 'DEPENDENCY_UNAVAILABLE'
   | 'INVALID_OPERATION'
@@ -123,6 +145,17 @@ interface SessionEventRow {
   summary?: string | null;
   next_hint?: string | null;
   raw_event?: string | null;
+}
+
+interface ContextRow {
+  id: string;
+  source_path: string;
+  content: string;
+  updated_at?: string | null;
+}
+
+interface ContextSnapshotHashRow {
+  content_hash?: string | null;
 }
 
 interface NormalizedConnectionOptions {
@@ -201,6 +234,52 @@ function parseJsonObject(payload?: string | null): Record<string, unknown> | nul
   }
 }
 
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function parseContextPayload(content: string, contextId: string): Record<string, unknown> {
+  try {
+    const parsed = JSON.parse(content);
+    if (!isPlainObject(parsed)) {
+      throw new Error('Context content must be a JSON object.');
+    }
+    return parsed;
+  } catch (error) {
+    throw new SQLiteClientError(`Context ${contextId} contains invalid JSON.`, 'SQLITE_ERROR', {
+      cause: error instanceof Error ? error : undefined,
+    });
+  }
+}
+
+function stringifyContextPayload(payload: Record<string, unknown>): string {
+  return JSON.stringify(payload, null, 2);
+}
+
+function canonicalize(value: unknown): unknown {
+  if (Array.isArray(value)) {
+    return value.map((entry) => canonicalize(entry));
+  }
+  if (isPlainObject(value)) {
+    return Object.keys(value)
+      .sort()
+      .reduce<Record<string, unknown>>((acc, key) => {
+        acc[key] = canonicalize((value as Record<string, unknown>)[key]);
+        return acc;
+      }, {});
+  }
+  return value;
+}
+
+function canonicalizeContextPayload(payload: Record<string, unknown>): string {
+  return JSON.stringify(canonicalize(payload));
+}
+
+function computeContextHash(payload: Record<string, unknown>): string {
+  const canonical = canonicalizeContextPayload(payload);
+  return crypto.createHash('sha256').update(canonical).digest('hex');
+}
+
 function mapMissionRow(row: MissionRow): MissionRecord {
   return {
     id: row.id,
@@ -229,6 +308,15 @@ function mapSessionEventRow(row: SessionEventRow): SessionEventRecord {
   }
   const parsed = parseJsonObject(row.raw_event);
   return parsed ? { ...base, rawEvent: parsed } : { ...base, rawEvent: row.raw_event };
+}
+
+function mapContextRow(row: ContextRow): ContextRecord {
+  return {
+    id: row.id,
+    sourcePath: row.source_path ?? '',
+    content: parseContextPayload(row.content, row.id),
+    updatedAt: row.updated_at ?? null,
+  };
 }
 
 let cachedDriver: BetterSqlite3Constructor | undefined;
@@ -513,6 +601,80 @@ export class SQLiteClient {
     }
   }
 
+  getContext(id: string): ContextRecord | undefined {
+    this.ensureActive();
+    const statement = this.prepare('SELECT id, source_path, content, updated_at FROM contexts WHERE id = :id');
+    const row = statement.get({ id }) as ContextRow | undefined;
+    return row ? mapContextRow(row) : undefined;
+  }
+
+  setContext(id: string, payload: Record<string, unknown>, options: ContextSetOptions = {}): ContextRecord {
+    this.ensureActive();
+    const existing = options.sourcePath === undefined ? this.getContext(id) : undefined;
+    const resolvedSourcePath =
+      options.sourcePath === undefined
+        ? existing?.sourcePath ?? ''
+        : (options.sourcePath ?? '');
+    const timestamp = this.normalizeTimestamp(options.updatedAt);
+    const statement = this.prepare(
+      'INSERT OR REPLACE INTO contexts (id, source_path, content, updated_at) VALUES (:id, :source_path, :content, :updated_at)'
+    );
+    try {
+      statement.run({
+        id,
+        source_path: resolvedSourcePath,
+        content: stringifyContextPayload(payload),
+        updated_at: timestamp,
+      });
+    } catch (error) {
+      throw this.wrapSqliteError('Failed to upsert context record.', error);
+    }
+
+    if (options.snapshot ?? true) {
+      this.addContextSnapshot(id, payload, {
+        sessionId: options.sessionId ?? null,
+        source: options.snapshotSource ?? resolvedSourcePath,
+        createdAt: timestamp,
+      });
+    }
+
+    const record = this.getContext(id);
+    if (!record) {
+      throw new SQLiteClientError(`Context ${id} could not be reloaded after upsert.`, 'SQLITE_ERROR');
+    }
+    return record;
+  }
+
+  addContextSnapshot(id: string, payload: Record<string, unknown>, options: ContextSnapshotOptions = {}): boolean {
+    this.ensureActive();
+    const hash = computeContextHash(payload);
+    const existing = this.prepare(
+      'SELECT content_hash FROM context_snapshots WHERE context_id = :context_id ORDER BY created_at DESC LIMIT 1'
+    );
+    const last = existing.get({ context_id: id }) as ContextSnapshotHashRow | undefined;
+    if (last?.content_hash === hash) {
+      return false;
+    }
+
+    const createdAt = this.normalizeTimestamp(options.createdAt);
+    const insert = this.prepare(
+      'INSERT INTO context_snapshots (context_id, session_id, source, content_hash, content, created_at) VALUES (:context_id, :session_id, :source, :content_hash, :content, :created_at)'
+    );
+    try {
+      insert.run({
+        context_id: id,
+        session_id: options.sessionId ?? null,
+        source: options.source ?? null,
+        content_hash: hash,
+        content: stringifyContextPayload(payload),
+        created_at: createdAt,
+      });
+      return true;
+    } catch (error) {
+      throw this.wrapSqliteError('Failed to insert context snapshot.', error);
+    }
+  }
+
   logSessionEvent(event: SessionEventInput): SessionEventRecord {
     this.ensureActive();
     const payload: SessionEventInput = {
@@ -547,6 +709,15 @@ export class SQLiteClient {
     );
     const rows = statement.all({ limit }) as SessionEventRow[];
     return rows.map(mapSessionEventRow);
+  }
+
+  getLatestSessionEvent(): SessionEventRecord | undefined {
+    this.ensureActive();
+    const statement = this.prepare(
+      'SELECT id, ts, agent, mission, action, status, summary, next_hint, raw_event FROM session_events ORDER BY ts DESC, id DESC LIMIT 1'
+    );
+    const row = statement.get() as SessionEventRow | undefined;
+    return row ? mapSessionEventRow(row) : undefined;
   }
 
   withTransaction<T>(handler: (client: this) => T): T {
