@@ -1,67 +1,45 @@
 {
-  "project": {
-    "name": "CMOS Starter",
-    "version": "2.0.0",
-    "description": "Mission orchestration starter kit with SQLite runtime helpers, security guardrails, and Mission Protocol templates.",
-    "status": "starter-template",
-    "start_date": "",
-    "deployment": {
-      "platform": "Local/Node.js",
-      "integration_target": "Mission Protocol v2 projects",
-      "environment": "development"
-    }
-  },
   "working_memory": {
-    "active_domain": "starter",
-    "session_count": 0,
-    "last_session": null,
-    "agents_md_path": "./agents.md",
-    "agents_md_loaded": false,
-    "active_mission": null,
-    "domains": {
-      "starter": {
-        "status": "planning",
-        "priority": 1,
-        "current_mission": null,
-        "missions": {},
-        "critical_facts": [
-          "Populate this list with the most important truths about your project before starting missions.",
-          "foundational-docs/roadmap_template.md and foundational-docs/tech_arch_template.md are the default templates for roadmap and architecture hand-offs."
-        ],
-        "constraints": [
-          "Keep the distributed starter free of seeded mission or sprint data.",
-          "Maintain parity between the SQLite database and whichever file mirrors your team elects to manage.",
-          "Document updates to foundational references or runtime helpers in MASTER_CONTEXT.json."
-        ],
-        "decisions_made": [],
-        "files_created": []
+    "session_history": [
+      {
+        "mission": "s09-m01",
+        "agent": "ai-agent",
+        "summary": "Starting Phase 1: Update default paths from cmos/ to project root",
+        "action": "start",
+        "ts": "2025-11-07T23:16:21Z"
+      },
+      {
+        "mission": "s09-m01",
+        "agent": "ai-agent",
+        "summary": "Completed Phase 1: Updated default paths from cmos/ to project root",
+        "action": "complete",
+        "ts": "2025-11-07T23:19:23Z"
+      },
+      {
+        "mission": "s09-m02",
+        "agent": "Claude",
+        "summary": "Starting Protocol Engine",
+        "action": "start",
+        "ts": "2025-11-08T16:30:00Z"
+      },
+      {
+        "mission": "s09-m02",
+        "agent": "Claude",
+        "summary": "Standalone mode validated without cmos/",
+        "action": "complete",
+        "ts": "2025-11-08T17:56:16Z"
       }
-    }
-  },
-  "technical_context": {
-    "dependencies": [
-      "Python 3.11+",
-      "Node.js 20+ (for optional tooling and tests)"
     ],
-    "tooling": {
-      "seed_database": "python scripts/seed_sqlite.py --data-root <path-to-planning-repo>",
-      "validate_parity": "python scripts/validate_parity.py --data-root <path-to-planning-repo>",
-      "mission_runtime": "python scripts/mission_runtime.py --help"
-    },
-    "reference_docs": [
-      "foundational-docs/roadmap_template.md",
-      "foundational-docs/tech_arch_template.md"
-    ]
+    "last_session": "2025-11-08T17:56:16Z",
+    "session_count": 4,
+    "active_mission": null,
+    "blocked_missions": [],
+    "last_completed_mission": "s09-m02"
   },
   "context_health": {
-    "size_kb": 0,
-    "size_limit_kb": 100,
-    "sessions_since_reset": 0,
-    "last_reset": "",
-    "compression_enabled": false
-  },
-  "metadata": {
-    "migrated_at": "2025-11-06T05:09:02.869744+00:00",
-    "source_version": "cmos-v1"
+    "sessions_since_reset": 4,
+    "last_update": "2025-11-08T17:56:16Z",
+    "size_kb": 0.92,
+    "size_limit_kb": 100
   }
 }

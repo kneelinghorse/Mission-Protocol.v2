@@ -535,7 +535,7 @@ describe('AgenticController', () => {
       propagator,
       clock: () => new Date(Date.parse('2025-11-04T03:00:00Z') + tick++ * 60000),
       boomerang: {
-        runtimeRoot: 'cmos/runtime/boomerang-controller-test',
+        runtimeRoot: 'runtime/boomerang-controller-test',
         retentionDays: 5,
         maxRetries: 2,
       },
@@ -585,10 +585,10 @@ describe('AgenticController', () => {
         mission?.history.some((event) => event.type === 'boomerang_run_completed')
       ).toBe(true);
 
-      const missionDir = join('cmos/runtime/boomerang-controller-test', 'B8.5');
+      const missionDir = join('runtime/boomerang-controller-test', 'B8.5');
       expect(await pathExists(missionDir)).toBe(false);
     } finally {
-      await fs.rm('cmos/runtime/boomerang-controller-test', { recursive: true, force: true });
+      await fs.rm('runtime/boomerang-controller-test', { recursive: true, force: true });
     }
   });
 

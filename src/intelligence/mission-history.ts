@@ -1,4 +1,5 @@
 import { promises as fs } from 'fs';
+import { dirname } from 'path';
 
 const MISSION_ID_PATTERN = /\b[A-Z]\d+\.\d+\b/g;
 
@@ -44,14 +45,14 @@ export class MissionHistoryAnalyzer {
   private readonly sessionsPath: string;
 
   constructor(options: MissionHistoryOptions = {}) {
-    this.sessionsPath = options.sessionsPath ?? 'cmos/SESSIONS.jsonl';
+    this.sessionsPath = options.sessionsPath ?? 'SESSIONS.jsonl';
   }
 
   /**
    * Load and parse mission events from the JSONL sessions log.
    */
   async loadEvents(): Promise<MissionHistoryEvent[]> {
-    const raw = await fs.readFile(this.sessionsPath, 'utf-8');
+    const raw = await this.readSessionsLog();
     const events: MissionHistoryEvent[] = [];
 
     for (const line of raw.split('\n')) {
@@ -179,5 +180,19 @@ export class MissionHistoryAnalyzer {
   private extractMissionIds(value: string): string[] {
     return Array.from(value.match(MISSION_ID_PATTERN) ?? []);
   }
-}
 
+  private async readSessionsLog(): Promise<string> {
+    try {
+      return await fs.readFile(this.sessionsPath, 'utf-8');
+    } catch (error) {
+      const err = error as NodeJS.ErrnoException;
+      if (!err || err.code !== 'ENOENT') {
+        throw error;
+      }
+    }
+
+    await fs.mkdir(dirname(this.sessionsPath), { recursive: true });
+    await fs.writeFile(this.sessionsPath, '', 'utf-8');
+    return '';
+  }
+}

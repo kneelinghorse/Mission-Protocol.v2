@@ -13,7 +13,7 @@ import {
 import { pathExists } from '../../src/utils/fs';
 
 describe('BoomerangWorkflow', () => {
-  const runtimeRoot = 'cmos/runtime/boomerang-test';
+  const runtimeRoot = 'runtime/boomerang-test';
   let telemetryEvents: TelemetryEvent[] = [];
 
   beforeEach(() => {

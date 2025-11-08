@@ -5,7 +5,7 @@ import { ensureDir, writeFileAtomic } from '../src/utils/fs';
 async function main(): Promise<void> {
   const repoRoot = process.cwd();
   const backlogPath = path.join(repoRoot, 'cmos', 'missions', 'backlog.yaml');
-  const sessionsPath = path.join(repoRoot, 'cmos', 'SESSIONS.jsonl');
+  const sessionsPath = path.join(repoRoot, 'SESSIONS.jsonl');
   const outputDir = path.join(repoRoot, 'artifacts', 'mission-outcomes');
   const outputPath = path.join(outputDir, 'latest.json');
 
