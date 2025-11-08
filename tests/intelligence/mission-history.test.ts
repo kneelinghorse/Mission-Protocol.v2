@@ -121,7 +121,21 @@ describe('MissionHistoryAnalyzer', () => {
     const analyzer = new MissionHistoryAnalyzer();
     await analyzer.loadEvents();
 
-    expect(fs.readFile).toHaveBeenCalledWith('cmos/SESSIONS.jsonl', 'utf-8');
+    expect(fs.readFile).toHaveBeenCalledWith('SESSIONS.jsonl', 'utf-8');
+  });
+
+  it('creates a sessions log when the file is missing', async () => {
+    const workspaceTmp = join(process.cwd(), 'tmp');
+    await fs.mkdir(workspaceTmp, { recursive: true });
+    sessionsPath = join(workspaceTmp, `mission-history-${Date.now()}.jsonl`);
+    await fs.rm(sessionsPath, { force: true });
+
+    const analyzer = new MissionHistoryAnalyzer({ sessionsPath });
+    const events = await analyzer.loadEvents();
+
+    expect(events).toEqual([]);
+    const stats = await fs.stat(sessionsPath);
+    expect(stats.isFile()).toBe(true);
   });
 
   it('skips self-references and duplicate transitions when deriving history edges', async () => {

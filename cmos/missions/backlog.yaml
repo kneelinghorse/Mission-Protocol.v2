@@ -4,11 +4,87 @@ displayName: CMOS Backlog Export
 description: Backlog export generated from the CMOS SQLite database.
 author: CMOS
 schema: ./schemas/SprintPlan.v1.json
-generatedAt: '2025-11-06T05:09:43.617391+00:00'
+generatedAt: '2025-11-08T17:55:41.889838+00:00'
 ---
 domainFields:
   type: Planning.SprintPlan.v1
-  sprints: []
+  sprints:
+  - sprintId: sprint-09
+    title: CMOS Integration & Self-Containment
+    focus: Make Mission Protocol work standalone with optional CMOS integration
+    status: planning
+    startDate: '2025-11-08'
+    endDate: '2025-11-29'
+    totalMissions: 8
+    completedMissions: 0
+    missions:
+    - id: s09-m01
+      name: 'Phase 1: Update Default Paths to Project Root'
+      status: Completed
+      completed_at: '2025-11-07T23:19:23Z'
+      notes: Changed DEFAULT_STATE_PATH from cmos/context/agentic_state.json to agentic_state.json.
+        Changed DEFAULT_SESSIONS_PATH from cmos/SESSIONS.jsonl to SESSIONS.jsonl.
+        Updated DEFAULT_BOOMERANG_RUNTIME_ROOT from cmos/runtime/boomerang to runtime/boomerang.
+        Moved SESSIONS.jsonl from cmos/ to project root. All tests pass.
+      metadata:
+        started_at: '2025-11-07T23:16:21Z'
+        completed_at: '2025-11-07T23:19:23Z'
+    - id: s09-m02
+      name: 'Phase 2: Test Standalone Operation Without cmos/'
+      status: In Progress
+      notes: 'Hide cmos/ directory and verify all tests pass. Ensure Mission State
+        Manager creates default files when they don''t exist. Test mission execution
+        workflow. Verify graceful handling of missing cmos/ directory. Document any
+        remaining hard dependencies.
+
+
+        Progress 2025-11-08: Standalone Jest suite passes without cmos/. MissionStateManager
+        and MissionHistory now auto-create state + sessions files, and telemetry/boomerang
+        outputs live under runtime/ for graceful fallbacks.'
+      metadata:
+        started_at: '2025-11-08T16:31:10Z'
+    - id: s09-m03
+      name: 'Phase 3: Create CMOS Detector Utility'
+      status: Queued
+      notes: Create src/intelligence/cmos-detector.ts. Implement runtime detection
+        of cmos/ directory presence. Add detection of SQLite database availability.
+        Create singleton pattern for detector. Add caching to avoid repeated file
+        system checks. Write unit tests for detection logic.
+    - id: s09-m04
+      name: 'Phase 4: Integrate CMOS Detection into Agentic Controller'
+      status: Queued
+      notes: Add CMOS detector to AgenticController constructor. Log detection status
+        on initialization. Add configuration options for CMOS integration. Update
+        constructor options to accept detector instance. Write integration tests with
+        and without cmos/.
+    - id: s09-m05
+      name: 'Phase 5: Create SQLite Client for CMOS (Optional)'
+      status: Queued
+      notes: Create src/intelligence/sqlite-client.ts. Implement basic CRUD operations
+        for missions table. Add session event logging methods. Create TypeScript types
+        for SQLite schema. Add connection pooling and error handling. Make this an
+        optional dependency.
+    - id: s09-m06
+      name: 'Phase 6: Create CMOS Sync Service (Optional)'
+      status: Queued
+      notes: Create src/intelligence/cmos-sync.ts. Implement bidirectional sync between
+        files and SQLite. Add session event sync from Mission Protocol to CMOS. Create
+        context sync methods. Add configuration for sync direction and frequency.
+        Implement graceful degradation if sync fails.
+    - id: s09-m07
+      name: 'Phase 7: Integrate Optional Sync into Mission Lifecycle'
+      status: Queued
+      notes: Add sync calls to mission start/complete methods. Sync session events
+        after each mission event. Add sync configuration to agents.md playbook. Make
+        sync failures non-blocking. Add telemetry for sync operations. Test with sync
+        enabled and disabled.
+    - id: s09-m08
+      name: 'Phase 8: Documentation and Final Validation'
+      status: Queued
+      notes: 'Update agents.md with CMOS integration configuration. Document standalone
+        vs CMOS-integrated modes. Create migration guide for existing projects. Update
+        README.md with architecture explanation. Final validation: remove cmos/ and
+        verify everything works. Performance testing with and without CMOS.'
   missionDependencies: []
   promptMapping:
     prompts: []

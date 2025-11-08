@@ -9,7 +9,7 @@ import {
   emitTelemetryWarning,
 } from './telemetry';
 
-const DEFAULT_RUNTIME_ROOT = 'cmos/runtime/boomerang';
+const DEFAULT_RUNTIME_ROOT = 'runtime/boomerang';
 const DEFAULT_RETENTION_DAYS = 7;
 const DEFAULT_MAX_RETRIES = 2;
 

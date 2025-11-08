@@ -177,6 +177,8 @@ describe('MissionStateManager normalization', () => {
     const initial = await manager.getState();
     expect(initial.missions).toEqual({});
     expect(initial.workflow.queue).toEqual([]);
+    const stats = await fs.stat(statePath);
+    expect(stats.isFile()).toBe(true);
 
     await manager.update((snapshot) => {
       snapshot.missions['B8.9'] = {
@@ -197,5 +199,31 @@ describe('MissionStateManager normalization', () => {
 
     const cached = await manager.getMission('B8.9');
     expect(cached?.status).toBe('in_progress');
+  });
+
+  it('repairs empty state files by rewriting the default snapshot', async () => {
+    const { directory, statePath } = await createTempStatePath();
+    tempDirs.push(directory);
+
+    await fs.writeFile(statePath, '   ', 'utf-8');
+
+    const manager = new MissionStateManager({
+      statePath,
+      clock: () => new Date('2025-11-04T07:00:00Z'),
+    });
+
+    const state = await manager.getState();
+    expect(state.missions).toEqual({});
+    expect(state.workflow.queue).toEqual([]);
+
+    const persisted = JSON.parse(await fs.readFile(statePath, 'utf-8'));
+    expect(persisted).toMatchObject({
+      version: 1,
+      workflow: {
+        queue: [],
+        completed: [],
+        paused: [],
+      },
+    });
   });
 });

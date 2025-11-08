@@ -169,9 +169,9 @@ interface PersistedAgenticState {
   workflow?: Partial<WorkflowState>;
 }
 
-const DEFAULT_STATE_PATH = 'cmos/context/agentic_state.json';
-const DEFAULT_SESSIONS_PATH = 'cmos/SESSIONS.jsonl';
-const DEFAULT_BOOMERANG_RUNTIME_ROOT = 'cmos/runtime/boomerang';
+const DEFAULT_STATE_PATH = 'agentic_state.json';
+const DEFAULT_SESSIONS_PATH = 'SESSIONS.jsonl';
+const DEFAULT_BOOMERANG_RUNTIME_ROOT = 'runtime/boomerang';
 const DEFAULT_BOOMERANG_RETENTION_DAYS = 7;
 const DEFAULT_BOOMERANG_MAX_RETRIES = 2;
 const DEFAULT_OBSERVABILITY_LOG_FILE = 'agentic-events.jsonl';
@@ -254,7 +254,7 @@ function normalizeRSIPMetrics(
         typeof persisted.completedAt === 'string' && persisted.completedAt.length > 0
           ? persisted.completedAt
           : fallbackTimestamp,
-      converged: Boolean(persisted.converged),
+      converged: typeof persisted.converged === 'boolean' ? persisted.converged : false,
       reason: normalizeReason(persisted.reason),
       iterations,
     };
@@ -331,7 +331,9 @@ export class MissionStateManager {
     try {
       const raw = await fs.readFile(this.statePath, 'utf-8');
       if (raw.trim().length === 0) {
-        return this.createEmptyState();
+        const emptyState = this.createEmptyState();
+        await this.persist(emptyState);
+        return emptyState;
       }
 
       const parsed = JSON.parse(raw) as PersistedAgenticState;
@@ -341,7 +343,9 @@ export class MissionStateManager {
       if (err && err.code !== 'ENOENT') {
         throw error;
       }
-      return this.createEmptyState();
+      const emptyState = this.createEmptyState();
+      await this.persist(emptyState);
+      return emptyState;
     }
   }
 

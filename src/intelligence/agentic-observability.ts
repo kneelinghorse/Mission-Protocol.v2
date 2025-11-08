@@ -45,7 +45,7 @@ export interface AgenticObservabilityOptions {
   readonly clock?: () => Date;
 }
 
-const DEFAULT_LOG_PATH = 'cmos/runtime/agentic/events.jsonl';
+const DEFAULT_LOG_PATH = 'runtime/agentic/events.jsonl';
 const DEFAULT_TELEMETRY_SOURCE = 'AgenticObservability';
 
 interface AgenticLogEntry {

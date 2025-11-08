@@ -8,4 +8,5 @@ cmos/
 !cmos/runtime/
 cmos/runtime/*
 !cmos/runtime/.gitignore
+runtime/
 artifacts/quality-metrics/
