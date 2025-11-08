@@ -4,7 +4,7 @@ displayName: CMOS Backlog Export
 description: Backlog export generated from the CMOS SQLite database.
 author: CMOS
 schema: ./schemas/SprintPlan.v1.json
-generatedAt: '2025-11-08T21:38:16.918740+00:00'
+generatedAt: '2025-11-08T22:50:11.055537+00:00'
 ---
 domainFields:
   type: Planning.SprintPlan.v1
@@ -95,11 +95,23 @@ domainFields:
         completed_at: '2025-11-08T21:27:00Z'
     - id: s09-m08
       name: 'Phase 8: Documentation and Final Validation'
-      status: Current
-      notes: 'Update agents.md with CMOS integration configuration. Document standalone
-        vs CMOS-integrated modes. Create migration guide for existing projects. Update
-        README.md with architecture explanation. Final validation: remove cmos/ and
-        verify everything works. Performance testing with and without CMOS.'
+      status: Completed
+      completed_at: '2025-11-08T22:47:25Z'
+      notes: 'Delivered CMOS integration documentation: agents.md now lists integration
+        modes/config, README describes standalone vs CMOS architecture, and docs/CMOS_Migration_Guide.md
+        captures the migration checklist + validation matrix. Ran npm run build &&
+        npm run test:performance with CMOS assets present, executed ./cmos/cli.py
+        validate docs, temporarily removed cmos/ to confirm npm run build and npm
+        run test:performance still pass, then restored the directory and re-ran ./cmos/cli.py
+        validate health plus telemetry review.'
+      metadata:
+        started_at: '2025-11-08T22:41:44Z'
+        blocked_at: '2025-11-08T22:12:54Z'
+        blocked_reason: Session scoped to database-backed CLI commands only, so documentation
+          updates and validation steps that require file edits cannot proceed.
+        blocked_needs:
+        - Allow file editing or automate doc updates via database
+        completed_at: '2025-11-08T22:47:25Z'
   missionDependencies: []
   promptMapping:
     prompts: []

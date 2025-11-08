@@ -1,0 +1,276 @@
+{
+  "project": {
+    "name": "CMOS Starter Template",
+    "version": "0.0.0",
+    "description": "Updated with Mission Protocol CMOS integration analysis - Nov 2025",
+    "status": "active_development",
+    "start_date": "2025-11-07",
+    "deployment": {
+      "platform": "Local/Node.js",
+      "integration_target": "Mission Protocol v2 with optional CMOS support",
+      "environment": "development"
+    }
+  },
+  "working_memory": {
+    "active_domain": "cmos_integration",
+    "session_count": 19,
+    "last_session": "2025-11-08T22:47:25Z",
+    "agents_md_path": "./agents.md",
+    "agents_md_loaded": true,
+    "active_mission": null,
+    "domains": {
+      "cmos_integration": {
+        "status": "analysis_complete",
+        "priority": 1,
+        "current_mission": "sprint-09-planning",
+        "missions": {
+          "sprint-09": {
+            "id": "sprint-09",
+            "title": "CMOS Integration & Self-Containment",
+            "status": "planned",
+            "total_missions": 8,
+            "focus": "Make Mission Protocol work standalone with optional CMOS integration"
+          }
+        },
+        "critical_facts": [
+          "Mission Protocol must work standalone without cmos/ directory",
+          "CMOS is internal project management and will be removed before publishing",
+          "Integration must be optional and non-breaking",
+          "Default paths must move from cmos/ subdirectory to project root",
+          "CMOS detection must be runtime-based with graceful degradation"
+        ],
+        "constraints": [
+          "Cannot assume cmos/ directory exists",
+          "All hardcoded cmos/ paths must be removed",
+          "Sync operations must be non-blocking",
+          "Must maintain backward compatibility",
+          "Performance impact must be < 2%"
+        ],
+        "decisions_made": [
+          "Mission Protocol will use file-based storage by default (project root)",
+          "CMOS SQLite integration will be optional enhancement",
+          "Created 8-mission sprint to implement changes incrementally",
+          "Phased approach: self-containment → detection → optional sync",
+          "Dual-write strategy for migration period"
+        ],
+        "files_created": [
+          "analysis/cmos-integration-gap-analysis.md",
+          "analysis/integration-architecture-plan.md",
+          "analysis/migration-path.md",
+          "scripts/seed-sprint-09.py"
+        ],
+        "key_insights": [
+          "Original analysis incorrectly assumed tight coupling",
+          "Revised approach focuses on loose, optional integration",
+          "CMOS detection must not impact performance when absent",
+          "Sync service must be completely optional"
+        ]
+      }
+    },
+    "session_history": [
+      {
+        "mission": "s09-m01",
+        "agent": "ai-agent",
+        "summary": "Starting Phase 1: Update default paths from cmos/ to project root",
+        "action": "start",
+        "ts": "2025-11-07T23:16:21Z"
+      },
+      {
+        "mission": "s09-m01",
+        "agent": "ai-agent",
+        "summary": "Completed Phase 1: Updated default paths from cmos/ to project root",
+        "action": "complete",
+        "ts": "2025-11-07T23:19:23Z"
+      },
+      {
+        "mission": "s09-m02",
+        "agent": "Claude",
+        "summary": "Starting Protocol Engine",
+        "action": "start",
+        "ts": "2025-11-08T16:31:10Z"
+      },
+      {
+        "mission": "s09-m02",
+        "agent": "Claude",
+        "summary": "Standalone mode validated without cmos/",
+        "action": "complete",
+        "ts": "2025-11-08T17:56:16Z"
+      },
+      {
+        "mission": "s09-m03",
+        "agent": "codex",
+        "summary": "Starting CMOS detector utility implementation",
+        "action": "start",
+        "ts": "2025-11-08T18:21:52Z"
+      },
+      {
+        "mission": "s09-m03",
+        "agent": "codex",
+        "summary": "CMOS detector utility implemented",
+        "action": "complete",
+        "ts": "2025-11-08T18:27:18Z"
+      },
+      {
+        "mission": "s09-m04",
+        "agent": "codex",
+        "summary": "Starting Protocol Engine",
+        "action": "start",
+        "ts": "2025-11-08T19:29:01Z"
+      },
+      {
+        "mission": "s09-m04",
+        "agent": "codex",
+        "summary": "AgenticController now CMOS-aware",
+        "action": "complete",
+        "ts": "2025-11-08T19:38:39Z"
+      },
+      {
+        "mission": "s09-m05",
+        "agent": "codex",
+        "summary": "Starting Protocol Engine",
+        "action": "start",
+        "ts": "2025-11-08T19:50:55Z"
+      },
+      {
+        "mission": "s09-m05",
+        "agent": "codex",
+        "summary": "Delivered SQLite intelligence client",
+        "action": "complete",
+        "ts": "2025-11-08T20:10:34Z"
+      },
+      {
+        "mission": "s09-m06",
+        "agent": "",
+        "summary": "Starting Protocol Engine",
+        "action": "start",
+        "ts": "2025-11-08T20:31:18Z"
+      },
+      {
+        "mission": "s09-m06",
+        "agent": "codex",
+        "summary": "CMOS sync layer shipped",
+        "action": "complete",
+        "ts": "2025-11-08T20:54:52Z"
+      },
+      {
+        "mission": "s09-m07",
+        "agent": "codex",
+        "summary": "Starting Phase 7: Integrate optional sync into mission lifecycle",
+        "action": "start",
+        "ts": "2025-11-08T21:13:16Z"
+      },
+      {
+        "mission": "s09-m07",
+        "agent": "codex",
+        "summary": "Optional CMOS sync integrated",
+        "action": "complete",
+        "ts": "2025-11-08T21:27:00Z"
+      },
+      {
+        "mission": "s09-m08",
+        "agent": "",
+        "summary": "Starting Protocol Engine",
+        "action": "start",
+        "ts": "2025-11-08T22:08:56Z"
+      },
+      {
+        "mission": "s09-m08",
+        "agent": "codex",
+        "summary": "Doc work blocked by CLI-only session",
+        "action": "blocked",
+        "ts": "2025-11-08T22:12:54Z"
+      },
+      {
+        "mission": "s09-m08",
+        "agent": "codex",
+        "summary": "Docs + validation session",
+        "action": "start",
+        "ts": "2025-11-08T22:41:44Z"
+      },
+      {
+        "mission": "s09-m08",
+        "agent": "codex",
+        "summary": "Documentation + final validation",
+        "action": "complete",
+        "ts": "2025-11-08T22:47:25Z"
+      }
+    ],
+    "blocked_missions": [],
+    "last_completed_mission": "s09-m08",
+    "last_blocked_mission": "s09-m08"
+  },
+  "technical_context": {
+    "dependencies": [
+      "Node.js 18+",
+      "TypeScript 5+",
+      "Python 3.11+ (for CMOS only)",
+      "SQLite 3+ (optional)"
+    ],
+    "tooling": {
+      "seed_database": "python scripts/seed_sqlite.py --data-root <path>",
+      "validate_parity": "python scripts/validate_parity.py",
+      "update_context": "python scripts/update-master-context.py"
+    },
+    "reference_docs": [
+      "analysis/cmos-integration-gap-analysis.md",
+      "analysis/integration-architecture-plan.md",
+      "analysis/migration-path.md",
+      "foundational-docs/roadmap_template.md",
+      "foundational-docs/tech_arch_template.md"
+    ],
+    "integration_points": [
+      "Optional CMOS detection in Mission Protocol",
+      "Optional sync service for data sharing",
+      "File-based storage with SQLite as secondary"
+    ]
+  },
+  "sprint_tracking": {
+    "current_sprint": "sprint-09",
+    "sprint_start": "2025-11-08",
+    "sprint_end": "2025-11-29",
+    "sprint_status": "planning"
+  },
+  "context_health": {
+    "anti_pattern_detection": true,
+    "compression_enabled": false,
+    "last_reset": "2025-11-07T22:30:00Z",
+    "sessions_since_reset": 19,
+    "size_kb": 7.03,
+    "size_limit_kb": 100,
+    "last_update": "2025-11-08T22:48:24.548037Z"
+  },
+  "ai_instructions": {
+    "preferred_language": "yaml",
+    "code_style": "mission_protocol_v2",
+    "testing_required": true,
+    "documentation_level": "comprehensive",
+    "special_instructions": [
+      "Always check for cmos/ directory existence before assuming it's present",
+      "Use configurable paths instead of hardcoded cmos/ paths",
+      "Implement graceful degradation for all CMOS-dependent features",
+      "Maintain backward compatibility at all times",
+      "Document optional vs required features clearly"
+    ]
+  },
+  "next_session_context": {
+    "important_reminders": [
+      "Verify all tests pass without cmos/ before proceeding to detection phase",
+      "Keep sync service completely optional and non-blocking",
+      "Update documentation after each phase"
+    ],
+    "key_reference_documents": [
+      "analysis/cmos-integration-gap-analysis.md",
+      "analysis/integration-architecture-plan.md",
+      "analysis/migration-path.md"
+    ],
+    "when_we_resume": [
+      "Test standalone operation after each change"
+    ]
+  },
+  "metadata": {
+    "migrated_at": "2025-11-06T05:09:02.870476+00:00",
+    "source_version": "cmos-v1",
+    "last_updated": "2025-11-07T22:30:00Z",
+    "session_summary": "Completed comprehensive analysis of Mission Protocol and CMOS integration. Created 3 analysis documents, 8-mission sprint plan, and seeded database. Established correct architecture: Mission Protocol standalone with optional CMOS integration."
+  }
+}
