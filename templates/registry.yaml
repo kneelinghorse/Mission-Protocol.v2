@@ -160,6 +160,20 @@ domains:
     path: packs/research.general
     schema_version: 1.1.0
 
+  - name: research.deep-research-general
+    description: "Gemini Deep Research-optimized general research scaffold with parameter control for depth, breadth, and source selection. Incorporates google_search, File Search, URL Context tools, and gemini-cli guidance."
+    version: 1.0.0
+    author: Mission Protocol Team
+    path: packs/research.deep-research-general
+    schema_version: 1.0.0
+
+  - name: research.deep-research-technical
+    description: "Gemini Deep Research-optimized technical research template for architectural investigation, technology evaluation, and implementation research. Incorporates code analysis, API documentation research, and technical deep dives."
+    version: 1.0.0
+    author: Mission Protocol Team
+    path: packs/research.deep-research-technical
+    schema_version: 1.0.0
+
   - name: software.technical-task
     description: "Missions for designing and implementing software features"
     version: 1.0.0

@@ -1,0 +1,246 @@
+type: "research.deep-research-general"
+
+# Gemini Deep Research Configuration
+geminiDeepResearch:
+  # Tool Selection & Configuration
+  tools:
+    # Google Search Grounding - Real-time web research with citations
+    googleSearch:
+      enabled: true
+      description: "Enable Google Search tool for real-time, grounded answers with citations. The model autonomously decides when and what to search."
+      notes: "No user-configurable parameters. Model decides search queries based on prompt analysis."
+    
+    # File Search (Managed RAG) - Personal document archive
+    fileSearch:
+      enabled: false
+      storeName: ""
+      description: "Fully managed RAG system for grounding in personal corpus (PDFs, DOCX, code files)."
+      config:
+        displayName: ""
+        customMetadata: []
+        chunkingConfig: null
+      notes: "Configure customMetadata and chunkingConfig during file upload for advanced filtering and chunking control."
+    
+    # URL Context - Deep analysis of specific URLs
+    urlContext:
+      enabled: false
+      urls: []
+      description: "Deep analysis and reasoning over full content of specific URLs, PDFs, and images."
+      notes: "Pass URLs directly in contents array. Supports HTML, PDF, JSON, XML, CSV, TXT, code files, and images."
+  
+  # gemini-cli Configuration
+  geminiCli:
+    # Custom .toml Command Strategy
+    useCustomCommands: false
+    customCommandPath: ""
+    commandDescription: ""
+    # Shell execution blocks (!{...}) for dynamic context injection
+    shellContextBlocks: []
+    
+    # MCP Server Integration
+    mcpServers: []
+    
+    # Research Workflow Parameters
+    workflow:
+      # Research Depth Control
+      depth:
+        level: "comprehensive"  # Options: "quick", "standard", "comprehensive", "exhaustive"
+        maxSearchIterations: 5
+        requireMultipleSources: true
+        crossValidationRequired: true
+      
+      # Research Breadth Control
+      breadth:
+        scope: "focused"  # Options: "narrow", "focused", "broad", "expansive"
+        maxTopicsPerQuery: 3
+        allowTopicExpansion: true
+        relatedTopicsThreshold: 0.7
+      
+      # Source Selection & Quality
+      sources:
+        preferredDomains: []
+        excludedDomains: []
+        requireRecentSources: false  # For time-sensitive topics
+        minSourceCount: 3
+        maxSourceCount: 20
+        sourceTypes: []  # Options: "academic", "industry", "news", "documentation", "all"
+      
+      # Citation & Evidence Standards
+      citations:
+        requireCitations: true
+        citationFormat: "markdown"  # Options: "markdown", "apa", "mla", "ieee"
+        includeGroundingMetadata: true
+        trackSearchQueries: true
+
+researchPatterns:
+  primaryPattern: ""
+  supportingPatterns: []
+
+researchStatement:
+  topic: ""
+  scope: ""
+  centralHypothesis: ""
+
+keyQuestions:
+  - ""
+
+# Gemini-Enhanced Research Execution
+geminiResearchPlan:
+  # Initial Research Strategy
+  strategy:
+    approach: ""  # Options: "exploratory", "hypothesis-driven", "comparative", "synthesis"
+    primaryTool: "google_search"  # Options: "google_search", "file_search", "url_context", "hybrid"
+    toolSequence: []  # Ordered list of tools to use in sequence
+  
+  # Query Formulation
+  queries:
+    initialQueries: []
+    followUpQueries: []
+    refinementStrategy: ""  # How to refine queries based on initial results
+  
+  # Research Execution Log
+  execution:
+    searchQueriesExecuted: []
+    sourcesAnalyzed: []
+    toolsUsed: []
+    iterations: []
+
+synthesis:
+  keyInsights:
+    - ""
+  surprisingFindings: []
+  contradictoryInformation: []
+  # Gemini-specific synthesis metadata
+  groundingMetadata:
+    webSearchQueries: []
+    sourceCitations: []
+    confidenceScores: {}
+
+evidenceCollection: []
+  # Enhanced with Gemini grounding metadata
+  # Each evidence item should include:
+  # - source: URL or file reference
+  # - groundingChunk: Citation from Gemini API
+  # - searchQuery: Query that discovered this source
+  # - confidence: Model confidence score if available
+
+prdAlignment:
+  productInitiative: ""
+  keyDecisions:
+    - ""
+  requirementsTraceability:
+    - requirementId: ""
+      insightReference: ""
+      decisionStatus: "Proposed"
+
+srdAlignment:
+  solutionContext: ""
+  affectedSystems:
+    - ""
+  technicalRisks: []
+  openQuestions: []
+
+conclusion:
+  executiveSummary: ""
+  nextSteps:
+    - ""
+
+handoffContext:
+  dependencies: []
+  blockers: []
+  checklists:
+    - name: "Product Handoff"
+      owner: ""
+      status: "Pending"
+      items:
+        - label: "Review PRD updates with product lead"
+          owner: ""
+          status: "Pending"
+          notes: ""
+        - label: "Align KPIs with research findings"
+          owner: ""
+          status: "Pending"
+          notes: ""
+    - name: "Engineering Handoff"
+      owner: ""
+      status: "Pending"
+      items:
+        - label: "Translate insights into SRD updates"
+          owner: ""
+          status: "Pending"
+          notes: ""
+        - label: "Schedule implementation feasibility review"
+          owner: ""
+          status: "Pending"
+          notes: ""
+
+# Gemini Deep Research Best Practices & Guidance
+researchGuidance:
+  promptTemplates:
+    initialResearch: |
+      You are conducting deep research on: {{topic}}
+      Scope: {{scope}}
+      Central Hypothesis: {{centralHypothesis}}
+      
+      Research Parameters:
+      - Depth: {{depth.level}}
+      - Breadth: {{breadth.scope}}
+      - Required Sources: {{sources.minSourceCount}}-{{sources.maxSourceCount}}
+      - Citation Format: {{citations.citationFormat}}
+      
+      Use Google Search to find recent, authoritative sources. For each key finding:
+      1. Verify with multiple sources
+      2. Note any contradictory information
+      3. Provide citations with URLs
+      4. Assess confidence in findings
+    
+    followUpResearch: |
+      Based on initial findings, conduct follow-up research:
+      - Address contradictory information
+      - Deep dive into surprising findings
+      - Validate key insights with additional sources
+      - Expand on areas requiring more depth
+  
+  toolUsageGuidance:
+    googleSearch: |
+      Use Google Search for:
+      - Real-time information and recent events
+      - Industry reports and market analysis
+      - Academic papers and research publications
+      - Official documentation and specifications
+      
+      The model will autonomously generate search queries. Review the grounding_metadata
+      to see what queries were executed and which sources were cited.
+    
+    fileSearch: |
+      Use File Search for:
+      - Personal document archives (PDFs, DOCX, code)
+      - Internal research notes and prior findings
+      - Proprietary documentation
+      
+      Configure customMetadata during upload for filtering:
+      - Year, project, topic, confidence level
+      - Use chunkingConfig for custom chunking strategies
+    
+    urlContext: |
+      Use URL Context for:
+      - Deep analysis of specific competitor pages
+      - Detailed review of technical documentation
+      - Comprehensive PDF analysis
+      - Image and multimodal content analysis
+  
+  workflowOptimization:
+    iterativeRefinement: |
+      1. Start with broad exploratory queries
+      2. Refine based on initial findings
+      3. Use follow-up queries to address gaps
+      4. Cross-validate key insights
+      5. Synthesize with multiple source perspectives
+    
+    qualityAssurance: |
+      - Require minimum 3 sources per key insight
+      - Flag contradictory information for resolution
+      - Track confidence scores when available
+      - Document search queries for reproducibility
+      - Include grounding metadata in final report
+

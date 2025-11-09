@@ -1,0 +1,7 @@
+name: "research.deep-research-technical"
+version: "1.0.0"
+displayName: "Deep Research Technical (Gemini-Optimized)"
+description: "Gemini Deep Research-optimized technical research template for architectural investigation, technology evaluation, and implementation research. Incorporates code analysis, API documentation research, and technical deep dives."
+author: "Mission Protocol Team"
+schema: "schema.json"
+
