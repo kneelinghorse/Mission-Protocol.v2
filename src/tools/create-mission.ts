@@ -28,6 +28,7 @@ import { ValidationError } from '../errors/validation-error';
 import { ErrorHandler } from '../errors/handler';
 import { DomainError } from '../errors/domain-error';
 import type { JsonValue } from '../errors/types';
+import { MissionProtocolJsonFormatter, type JsonFormatterParams } from './formatters/mission-protocol-json';
 
 /**
  * Parameters for create_mission tool
@@ -44,6 +45,18 @@ export interface CreateMissionParams {
 
   /** Optional constraints list */
   constraints?: string[];
+
+  /** Output format: yaml (default) or json */
+  outputFormat?: 'yaml' | 'json';
+
+  /** Optional mission ID (used as suggested_id in JSON format) */
+  missionId?: string;
+
+  /** Optional sprint ID (included in JSON output if provided) */
+  sprintId?: string;
+
+  /** Optional context description (included in JSON output if provided) */
+  context?: string;
 }
 
 /**
@@ -52,7 +65,7 @@ export interface CreateMissionParams {
 export const createMissionToolDefinition = {
   name: 'create_mission',
   description:
-    "Use this tool to create a new mission based on a user's request. You must provide a clear and concise objective. You can optionally specify a domain from the list provided by get_available_domains (formerly list_available_domains). If no domain is specified, a generic mission will be created.",
+    "Use this tool to create a new mission based on a user's request. You must provide a clear and concise objective. You can optionally specify a domain from the list provided by get_available_domains (formerly list_available_domains). If no domain is specified, a generic mission will be created.\n\nOutput formats:\n- yaml (default): Rich YAML template for human editing\n- json: Structured JSON for database ingestion (e.g., CMOS)\n\nWhen using json format, Mission Protocol provides a suggested_id and clean structure. The consuming system handles ID assignment, defaults, and storage validation.",
   inputSchema: {
     type: 'object',
     required: ['objective'],
@@ -75,6 +88,23 @@ export const createMissionToolDefinition = {
         type: 'array',
         items: { type: 'string' },
         description: 'Optional array of limitations or boundaries',
+      },
+      outputFormat: {
+        type: 'string',
+        enum: ['yaml', 'json'],
+        description: 'Output format: yaml (default) for templates, json for database ingestion',
+      },
+      missionId: {
+        type: 'string',
+        description: 'Optional mission ID (used as suggested_id in JSON format)',
+      },
+      sprintId: {
+        type: 'string',
+        description: 'Optional sprint ID (included in JSON output if provided)',
+      },
+      context: {
+        type: 'string',
+        description: 'Optional context description (included in JSON output if provided)',
       },
     },
   },
@@ -110,7 +140,7 @@ export class CreateMissionToolImpl {
    *
    * @param params - Mission creation parameters
    * @param registryEntries - Available domain pack entries
-   * @returns YAML string of the created mission
+   * @returns Formatted mission (YAML or JSON) depending on outputFormat
    * @throws Error if validation fails or domain not found
    */
   async execute(params: CreateMissionParams, registryEntries: DomainPackEntry[]): Promise<string> {
@@ -137,7 +167,14 @@ export class CreateMissionToolImpl {
       // 5. Validate final mission
       this.validateMission(mission);
 
-      // 6. Return YAML string
+      // 6. Format output based on requested format
+      const format = params.outputFormat || 'yaml';
+      
+      if (format === 'json') {
+        return this.toJSON(mission, params);
+      }
+      
+      // Default: YAML (backwards compatible)
       return this.toYAML(mission);
     } catch (error) {
       throw ErrorHandler.wrap(error, 'tools.create_mission.execute', {
@@ -186,6 +223,10 @@ export class CreateMissionToolImpl {
       domain: params.domain ?? null,
       successCriteriaCount: params.successCriteria?.length ?? 0,
       constraintsCount: params.constraints?.length ?? 0,
+      outputFormat: params.outputFormat ?? 'yaml',
+      hasMissionId: Boolean(params.missionId),
+      hasSprintId: Boolean(params.sprintId),
+      hasContext: Boolean(params.context),
     };
   }
 
@@ -411,6 +452,47 @@ export class CreateMissionToolImpl {
         },
         {
           userMessage: 'Unable to serialize mission to YAML.',
+        }
+      );
+    }
+  }
+
+  /**
+   * Convert mission object to JSON format
+   *
+   * @param mission - Mission object to format
+   * @param params - Original parameters (for optional fields)
+   * @returns Formatted JSON string
+   */
+  private toJSON(mission: GenericMission, params: CreateMissionParams): string {
+    try {
+      const formatter = new MissionProtocolJsonFormatter();
+      
+      // Build formatter params from create_mission params
+      const formatterParams: JsonFormatterParams = {
+        missionId: params.missionId,
+        sprintId: params.sprintId,
+        context: params.context,
+        domain: params.domain,
+      };
+      
+      // Format to JSON envelope
+      const jsonOutput = formatter.format(mission, formatterParams);
+      
+      // Return pretty-printed JSON
+      return JSON.stringify(jsonOutput, null, 2);
+    } catch (error) {
+      throw ErrorHandler.wrap(
+        error,
+        'tools.create_mission.to_json',
+        {
+          module: 'tools/create-mission',
+          data: {
+            missionId: mission.missionId,
+          },
+        },
+        {
+          userMessage: 'Unable to serialize mission to JSON.',
         }
       );
     }

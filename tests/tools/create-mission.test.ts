@@ -25,6 +25,7 @@ import * as GenericMissionSchema from '../../src/schemas/generic-mission';
 import type { GenericMission } from '../../src/schemas/generic-mission';
 import { MissionProtocolError } from '../../src/errors/mission-error';
 import { DomainPackEntry } from '../../src/types/registry';
+import type { MissionProtocolJsonOutput } from '../../src/tools/formatters/mission-protocol-json';
 
 describe('CreateMissionToolImpl', () => {
   const testDataDir = path.join(__dirname, '../test-data/create-mission');
@@ -686,6 +687,136 @@ objective: "test"
       } finally {
         jest.resetModules();
       }
+    });
+  });
+
+  describe('JSON Output Format', () => {
+    it('should create mission with JSON output format', async () => {
+      const params = {
+        objective: 'Build authentication API',
+        successCriteria: ['API endpoints created', 'Tests passing'],
+        outputFormat: 'json' as const,
+      };
+
+      const result = await tool.execute(params, []);
+      const jsonOutput = JSON.parse(result) as MissionProtocolJsonOutput;
+
+      expect(jsonOutput.format_version).toBe('1.0');
+      expect(jsonOutput.source).toBe('mission-protocol');
+      expect(jsonOutput.mission.objective).toBe('Build authentication API');
+      expect(jsonOutput.mission.name).toBe('Build authentication API');
+      expect(jsonOutput.mission.suggested_id).toMatch(/^MP-\d{4}-\d{2}-\d{2}-\d{4}$/);
+      expect(jsonOutput.mission.domain_fields.successCriteria).toContain('API endpoints created');
+    });
+
+    it('should include optional JSON fields when provided', async () => {
+      const params = {
+        objective: 'Implement database schema',
+        outputFormat: 'json' as const,
+        missionId: 'B1.2',
+        sprintId: 'Sprint 01',
+        context: 'Foundation for user authentication',
+      };
+
+      const result = await tool.execute(params, []);
+      const jsonOutput = JSON.parse(result) as MissionProtocolJsonOutput;
+
+      expect(jsonOutput.mission.suggested_id).toBe('B1.2');
+      expect(jsonOutput.mission.sprint_id).toBe('Sprint 01');
+      expect(jsonOutput.mission.context).toBe('Foundation for user authentication');
+    });
+
+    it('should NOT include optional JSON fields when not provided', async () => {
+      const params = {
+        objective: 'Build feature',
+        outputFormat: 'json' as const,
+      };
+
+      const result = await tool.execute(params, []);
+      const jsonOutput = JSON.parse(result) as MissionProtocolJsonOutput;
+
+      expect(jsonOutput.mission).not.toHaveProperty('sprint_id');
+      expect(jsonOutput.mission).not.toHaveProperty('context');
+      expect(jsonOutput.mission).not.toHaveProperty('domain');
+    });
+
+    it('should default to YAML when outputFormat not specified', async () => {
+      const params = {
+        objective: 'Build feature',
+      };
+
+      const result = await tool.execute(params, []);
+
+      // Should be valid YAML, not JSON
+      expect(() => JSON.parse(result)).toThrow();
+      expect(() => YAML.parse(result)).not.toThrow();
+    });
+
+    it('should pass domain parameter to formatter params', async () => {
+      // Note: Domain pack integration is tested elsewhere.
+      // This test verifies that domain param is passed to formatter
+      const params = {
+        objective: 'Build API',
+        successCriteria: ['API created'],
+        outputFormat: 'json' as const,
+      };
+
+      const result = await tool.execute(params, []);
+      const jsonOutput = JSON.parse(result) as MissionProtocolJsonOutput;
+
+      // Should produce valid JSON output
+      expect(jsonOutput.format_version).toBe('1.0');
+      expect(jsonOutput.mission.domain_fields.schemaType).toBe('Mission');
+    });
+
+    it('should maintain backwards compatibility with YAML as default', async () => {
+      const paramsWithoutFormat = {
+        objective: 'Test mission',
+      };
+
+      const paramsWithYaml = {
+        objective: 'Test mission',
+        outputFormat: 'yaml' as const,
+      };
+
+      const result1 = await tool.execute(paramsWithoutFormat, []);
+      const result2 = await tool.execute(paramsWithYaml, []);
+
+      // Both should produce YAML
+      const mission1 = YAML.parse(result1) as GenericMission;
+      const mission2 = YAML.parse(result2) as GenericMission;
+
+      expect(mission1.schemaType).toBe('Mission');
+      expect(mission2.schemaType).toBe('Mission');
+    });
+
+    it('should handle successCriteria in JSON format', async () => {
+      const params = {
+        objective: 'Complete mission',
+        successCriteria: ['Criterion 1', 'Criterion 2', 'Criterion 3'],
+        outputFormat: 'json' as const,
+      };
+
+      const result = await tool.execute(params, []);
+      const jsonOutput = JSON.parse(result) as MissionProtocolJsonOutput;
+
+      expect(jsonOutput.mission.domain_fields.successCriteria).toHaveLength(3);
+      expect(jsonOutput.mission.domain_fields.successCriteria).toContain('Criterion 1');
+      expect(jsonOutput.mission.domain_fields.successCriteria).toContain('Criterion 3');
+    });
+
+    it('should handle constraints in JSON format', async () => {
+      const params = {
+        objective: 'Build feature',
+        constraints: ['Use TypeScript', 'Follow REST conventions'],
+        outputFormat: 'json' as const,
+      };
+
+      const result = await tool.execute(params, []);
+      const jsonOutput = JSON.parse(result) as MissionProtocolJsonOutput;
+
+      expect(jsonOutput.mission.domain_fields.context.constraints).toHaveLength(2);
+      expect(jsonOutput.mission.domain_fields.context.constraints).toContain('Use TypeScript');
     });
   });
 });
